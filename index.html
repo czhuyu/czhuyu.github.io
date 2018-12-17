@@ -369,6 +369,158 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/12/17/Sphinx安装/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Czhuyu">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="https://avatars2.githubusercontent.com/u/26237984">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="开始了">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                
+                <a href="/2018/12/17/Sphinx安装/" class="post-title-link" itemprop="http://yoursite.com/index.html">Sphinx安装</a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2018-12-17 22:23:09 / 修改时间：22:31:27" itemprop="dateCreated datePublished" datetime="2018-12-17T22:23:09+08:00">2018-12-17</time>
+            
+
+            
+              
+
+              
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>坑<br>1.安装Sphinx报错</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">libsphinx.a(sphinx.o)：在函数‘xmlUnknownEncoding(void*, char const*, XML_Encoding*)’中：</span><br><span class="line">/mnt/Project/src/sphinx/src/sphinx.cpp:29116：对‘libiconv_open’未定义的引用</span><br><span class="line">libsphinx.a(sphinx.o)：在函数‘xmlUnknownEncoding(void*, char const*, XML_Encoding*)’中：</span><br><span class="line">sphinx.cpp:(.text+0x11ce)：对‘libiconv’未定义的引用</span><br><span class="line">sphinx.cpp:(.text+0x11ff)：对‘libiconv_close’未定义的引用</span><br><span class="line">collect2: 错误：ld 返回 1</span><br><span class="line">make[2]: *** [indexer] 错误 1</span><br><span class="line">make[2]: 离开目录“/mnt/Project/src/sphinx/src”</span><br><span class="line">make[1]: *** [all] 错误 2</span><br><span class="line">make[1]: 离开目录“/mnt/Project/src/sphinx/src”</span><br><span class="line">make: *** [all-recursive] 错误 1</span><br></pre></td></tr></table></figure>
+<p>以为是没有安装libiconv，yum安装还是报错 yum -y install libevent libevent-devel</p>
+<p>百度 </p>
+<p>1.编译新增参数（注意这个改的是sphinx的解压包的src下的MakeFile）(推荐)</p>
+<p>​    LIBS = -lm -lexpat -liconv -L/usr/local/lib</p>
+<ol start="2">
+<li>修改configure文件，找到“#define USE_LIBICONV 1”，将注释去掉，并将1改成0。</li>
+</ol>
+<p>两个命令 </p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">/usr/local/sphinx/bin/indexer --all  //根据sphinx.conf的配置生成索引</span><br><span class="line">/usr/local/sphinx/bin/searchd  //启动搜索引擎</span><br></pre></td></tr></table></figure>
+
+          
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+       
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/12/07/hello-world/">
 
     <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
@@ -843,12 +995,24 @@
                 
               
 
-              <time title="创建时间：2018-12-07 15:14:37 / 修改时间：15:25:31" itemprop="dateCreated datePublished" datetime="2018-12-07T15:14:37+08:00">2018-12-07</time>
+              <time title="创建时间：2018-12-07 15:14:37" itemprop="dateCreated datePublished" datetime="2018-12-07T15:14:37+08:00">2018-12-07</time>
             
 
             
               
 
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2018-12-17 22:31:31" itemprop="dateModified" datetime="2018-12-17T22:31:31+08:00">2018-12-17</time>
               
             
           </span>
@@ -891,8 +1055,31 @@
 <p>从技术上讲，Sphinx是一个独立的软件包提供快速的全文搜索功能的客户端软件。它特意被设计为跟SQL 数据库一体的去存储数据，并且可以简单地通过脚本语言连接。总之，Sphinx不依赖于任何特殊的数据库功能。</p>
 <p>应用程序可以通过Sphinx的搜索守护进程searchd用以下三种连接方式：a)通过Sphinx自己实现的Mysql的网络协议(使用的一个小的SQL的子集叫做SphinxQL，这是推荐的方式)，b)通过自带的search API(SphinxAPI)或者c)通过Mysql服务的可插拔的存储引擎(SphinxSE)。</p>
 <p>官方的原生SphinxAPI实现了PHP,Perl,Python,Ruby和Java在贡献的包里。API是非常轻量级的所以实现一个新的语言的API只需要几个小时就行。</p>
-<p>截个图</p>
-<p><img src="https://www.baidu.com/img/bd_logo1.png" alt="1544167244350"></p>
+<p>从1.10的beta版本开始，Sphinx支持两种不同的后台索引：磁盘后台索引和实时后台索引。磁盘索引支持在线的全文索引重建，但是在线更新只支持非text的(属性)数据。实时索引支持在线的全文索引更新。上个版本只在磁盘索引中支持。</p>
+<p>数据可以加载进磁盘索引用一个所以叫数据源。建立源可以直接从MySQL，PostgreSQL，MSSQL，ODBC compliant 数据库(Oracle等等)或者一个管道在TSV或者一个格式化的XML。新增一个数据源驱动被设计得经可能简单。实时索引，直到1.10beta版本为止，只能用SphinxQL。</p>
+<p>就像名字一样，Sphinx是SQL Phrase Index译解缩写。是的，我知道关于CMU的Sphinx项目。</p>
+<h5 id="1-2-Sphinx特性"><a href="#1-2-Sphinx特性" class="headerlink" title="1.2. Sphinx特性"></a>1.2. Sphinx特性</h5><p>Sphinx特性的关键是</p>
+<ul>
+<li>索引和搜索的高性能</li>
+<li>先进的索引和查询工具(灵活的并且富有特性的文本分词器,查询语言，几个不同的排名模式，等等);</li>
+<li>先进的结果集后处理（SELECT表达式，WHERE,ORDER BY,GROUP BY,HAVING等在文本搜索中）</li>
+<li>可扩展的久经考验地用于数十亿的文档，万亿字节的数据，每秒成千上万的请求。</li>
+<li>方便的集合SQL和XML的数据源，和SphinxQL，SphinxAPI,和SphinxSE搜索接口；</li>
+<li>简单的可伸缩分布式搜索。</li>
+</ul>
+<p>扩大一点，Sphinx：</p>
+<ul>
+<li>拥有很高的索引速度(达到 10-15MB/每秒每个核心在内部基准上)；</li>
+<li>拥有很高的搜索速度（达到150-250/每秒每个核心对阵1,000,000文档，1.2G的数据在内部基准上）</li>
+<li>拥有很高的扩展性(最大的已知的聚集索引超过了3,000,000,000文档，并且最繁忙的巅峰达到了500万次查询每天)</li>
+</ul>
+<h4 id="2-2-编译安装Sphinx"><a href="#2-2-编译安装Sphinx" class="headerlink" title="2.2. 编译安装Sphinx"></a>2.2. 编译安装Sphinx</h4><h5 id="2-2-1-需要的工具"><a href="#2-2-1-需要的工具" class="headerlink" title="2.2.1 需要的工具"></a>2.2.1 需要的工具</h5><p>在unix上，你需要下面的工具来建立和安装Sphinx</p>
+<ul>
+<li>一个用来工作的c++的编译器，GNU gcc和clang是知名的用来工作。</li>
+<li>一个好的make工具，GNU很出名用来工作</li>
+</ul>
+<p>在windows上面，你会需要Microsoft Visual C/C++ Studio .Net 2005 或者以上。其他的编译器/环境也是一样的工作，但目前，你需要手动建立make文件(或者其他环境的特定项目文件)</p>
+<p>2.2.2. 在Linux上编译安装</p>
 
           
         
@@ -1123,7 +1310,7 @@
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">5</span>
+                    <span class="site-state-item-count">6</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>

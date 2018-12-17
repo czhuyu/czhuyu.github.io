@@ -115,12 +115,10 @@
 <meta property="og:site_name" content="开始了">
 <meta property="og:description" content="Sphinx 2.2.6-release 参考手册免费的开源SQL全文搜索引擎 Copyright © 2001-2014 Andrew Aksyonoff Copyright © 2008-2014 Sphinx Technologies Inc, http://sphinxsearch.com 翻译校对 Czhuyu 1.介绍1.1. 关于sphinx 是一个全文搜索引擎，公开发行于GPL 2">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:image" content="https://www.baidu.com/img/bd_logo1.png">
-<meta property="og:updated_time" content="2018-12-07T07:25:31.870Z">
+<meta property="og:updated_time" content="2018-12-17T14:31:31.744Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Sphinx 2.2.6-release 参考手册">
 <meta name="twitter:description" content="Sphinx 2.2.6-release 参考手册免费的开源SQL全文搜索引擎 Copyright © 2001-2014 Andrew Aksyonoff Copyright © 2008-2014 Sphinx Technologies Inc, http://sphinxsearch.com 翻译校对 Czhuyu 1.介绍1.1. 关于sphinx 是一个全文搜索引擎，公开发行于GPL 2">
-<meta name="twitter:image" content="https://www.baidu.com/img/bd_logo1.png">
 
 
 
@@ -416,12 +414,24 @@
                 
               
 
-              <time title="创建时间：2018-12-07 15:14:37 / 修改时间：15:25:31" itemprop="dateCreated datePublished" datetime="2018-12-07T15:14:37+08:00">2018-12-07</time>
+              <time title="创建时间：2018-12-07 15:14:37" itemprop="dateCreated datePublished" datetime="2018-12-07T15:14:37+08:00">2018-12-07</time>
             
 
             
               
 
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2018-12-17 22:31:31" itemprop="dateModified" datetime="2018-12-17T22:31:31+08:00">2018-12-17</time>
               
             
           </span>
@@ -462,8 +472,31 @@
 <p>从技术上讲，Sphinx是一个独立的软件包提供快速的全文搜索功能的客户端软件。它特意被设计为跟SQL 数据库一体的去存储数据，并且可以简单地通过脚本语言连接。总之，Sphinx不依赖于任何特殊的数据库功能。</p>
 <p>应用程序可以通过Sphinx的搜索守护进程searchd用以下三种连接方式：a)通过Sphinx自己实现的Mysql的网络协议(使用的一个小的SQL的子集叫做SphinxQL，这是推荐的方式)，b)通过自带的search API(SphinxAPI)或者c)通过Mysql服务的可插拔的存储引擎(SphinxSE)。</p>
 <p>官方的原生SphinxAPI实现了PHP,Perl,Python,Ruby和Java在贡献的包里。API是非常轻量级的所以实现一个新的语言的API只需要几个小时就行。</p>
-<p>截个图</p>
-<p><img src="https://www.baidu.com/img/bd_logo1.png" alt="1544167244350"></p>
+<p>从1.10的beta版本开始，Sphinx支持两种不同的后台索引：磁盘后台索引和实时后台索引。磁盘索引支持在线的全文索引重建，但是在线更新只支持非text的(属性)数据。实时索引支持在线的全文索引更新。上个版本只在磁盘索引中支持。</p>
+<p>数据可以加载进磁盘索引用一个所以叫数据源。建立源可以直接从MySQL，PostgreSQL，MSSQL，ODBC compliant 数据库(Oracle等等)或者一个管道在TSV或者一个格式化的XML。新增一个数据源驱动被设计得经可能简单。实时索引，直到1.10beta版本为止，只能用SphinxQL。</p>
+<p>就像名字一样，Sphinx是SQL Phrase Index译解缩写。是的，我知道关于CMU的Sphinx项目。</p>
+<h5 id="1-2-Sphinx特性"><a href="#1-2-Sphinx特性" class="headerlink" title="1.2. Sphinx特性"></a>1.2. Sphinx特性</h5><p>Sphinx特性的关键是</p>
+<ul>
+<li>索引和搜索的高性能</li>
+<li>先进的索引和查询工具(灵活的并且富有特性的文本分词器,查询语言，几个不同的排名模式，等等);</li>
+<li>先进的结果集后处理（SELECT表达式，WHERE,ORDER BY,GROUP BY,HAVING等在文本搜索中）</li>
+<li>可扩展的久经考验地用于数十亿的文档，万亿字节的数据，每秒成千上万的请求。</li>
+<li>方便的集合SQL和XML的数据源，和SphinxQL，SphinxAPI,和SphinxSE搜索接口；</li>
+<li>简单的可伸缩分布式搜索。</li>
+</ul>
+<p>扩大一点，Sphinx：</p>
+<ul>
+<li>拥有很高的索引速度(达到 10-15MB/每秒每个核心在内部基准上)；</li>
+<li>拥有很高的搜索速度（达到150-250/每秒每个核心对阵1,000,000文档，1.2G的数据在内部基准上）</li>
+<li>拥有很高的扩展性(最大的已知的聚集索引超过了3,000,000,000文档，并且最繁忙的巅峰达到了500万次查询每天)</li>
+</ul>
+<h4 id="2-2-编译安装Sphinx"><a href="#2-2-编译安装Sphinx" class="headerlink" title="2.2. 编译安装Sphinx"></a>2.2. 编译安装Sphinx</h4><h5 id="2-2-1-需要的工具"><a href="#2-2-1-需要的工具" class="headerlink" title="2.2.1 需要的工具"></a>2.2.1 需要的工具</h5><p>在unix上，你需要下面的工具来建立和安装Sphinx</p>
+<ul>
+<li>一个用来工作的c++的编译器，GNU gcc和clang是知名的用来工作。</li>
+<li>一个好的make工具，GNU很出名用来工作</li>
+</ul>
+<p>在windows上面，你会需要Microsoft Visual C/C++ Studio .Net 2005 或者以上。其他的编译器/环境也是一样的工作，但目前，你需要手动建立make文件(或者其他环境的特定项目文件)</p>
+<p>2.2.2. 在Linux上编译安装</p>
 
       
     </div>
@@ -578,7 +611,7 @@
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">5</span>
+                    <span class="site-state-item-count">6</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>
@@ -617,7 +650,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Sphinx-2-2-6-release-参考手册"><span class="nav-number">1.</span> <span class="nav-text">Sphinx 2.2.6-release 参考手册</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-介绍"><span class="nav-number">1.0.0.1.</span> <span class="nav-text">1.介绍</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#1-1-关于"><span class="nav-number">1.0.0.1.1.</span> <span class="nav-text">1.1. 关于</span></a></li></ol></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Sphinx-2-2-6-release-参考手册"><span class="nav-number">1.</span> <span class="nav-text">Sphinx 2.2.6-release 参考手册</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-介绍"><span class="nav-number">1.0.0.1.</span> <span class="nav-text">1.介绍</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#1-1-关于"><span class="nav-number">1.0.0.1.1.</span> <span class="nav-text">1.1. 关于</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#1-2-Sphinx特性"><span class="nav-number">1.0.0.1.2.</span> <span class="nav-text">1.2. Sphinx特性</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-2-编译安装Sphinx"><span class="nav-number">1.0.0.2.</span> <span class="nav-text">2.2. 编译安装Sphinx</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#2-2-1-需要的工具"><span class="nav-number">1.0.0.2.1.</span> <span class="nav-text">2.2.1 需要的工具</span></a></li></ol></li></ol></li></ol></div>
             
 
           </div>
