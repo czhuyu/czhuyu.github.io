@@ -1,0 +1,816 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-CN">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=6.6.0" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=6.6.0">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=6.6.0">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=6.6.0">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=6.6.0" color="#222">
+
+
+
+
+
+
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '6.6.0',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="使用四种基本的排序方法对生成的1000个随机数进行排序，比较执行时间一、冒泡排序123456789101112131415161718192021222324$s=microtime();//记录开始时间for($i=0;$i=1000;$i++)&amp;#123;  	$a[$i] = mt_rand(0,1000);&amp;#125;//冒泡排序for($j=0;$j&amp;lt;999;$j++)&amp;#123;">
+<meta property="og:type" content="article">
+<meta property="og:title" content="开始了">
+<meta property="og:url" content="http://yoursite.com/2019/04/15/排序算法/index.html">
+<meta property="og:site_name" content="开始了">
+<meta property="og:description" content="使用四种基本的排序方法对生成的1000个随机数进行排序，比较执行时间一、冒泡排序123456789101112131415161718192021222324$s=microtime();//记录开始时间for($i=0;$i=1000;$i++)&amp;#123;  	$a[$i] = mt_rand(0,1000);&amp;#125;//冒泡排序for($j=0;$j&amp;lt;999;$j++)&amp;#123;">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2019-04-15T02:21:10.144Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="开始了">
+<meta name="twitter:description" content="使用四种基本的排序方法对生成的1000个随机数进行排序，比较执行时间一、冒泡排序123456789101112131415161718192021222324$s=microtime();//记录开始时间for($i=0;$i=1000;$i++)&amp;#123;  	$a[$i] = mt_rand(0,1000);&amp;#125;//冒泡排序for($j=0;$j&amp;lt;999;$j++)&amp;#123;">
+
+
+
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2019/04/15/排序算法/">
+
+
+
+<script type="text/javascript" id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title> | 开始了</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style type="text/css">
+    .use-motion .motion-element,
+    .use-motion .brand,
+    .use-motion .menu-item,
+    .sidebar-inner,
+    .use-motion .post-block,
+    .use-motion .pagination,
+    .use-motion .comments,
+    .use-motion .post-header,
+    .use-motion .post-body,
+    .use-motion .collection-title { opacity: initial; }
+
+    .use-motion .logo,
+    .use-motion .site-title,
+    .use-motion .site-subtitle {
+      opacity: initial;
+      top: initial;
+    }
+
+    .use-motion {
+      .logo-line-before i { left: initial; }
+      .logo-line-after i { right: initial; }
+    }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope="" itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope="" itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">开始了</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+      
+        <p class="site-subtitle">结束了</p>
+      
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>首页</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-about">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/about/" rel="section"><i class="menu-item-icon fa fa-fw fa-user"></i> <br>关于</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-tags">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br>标签</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-categories">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/categories/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>分类</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-sitemap">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/sitemap.xml" rel="section"><i class="menu-item-icon fa fa-fw fa-sitemap"></i> <br>站点地图</a>
+
+  </li>
+
+      
+      
+    </ul>
+  
+
+  
+
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+            
+
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/04/15/排序算法/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Czhuyu">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="https://avatars2.githubusercontent.com/u/26237984">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="开始了">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2019-04-15 20:12:27 / 修改时间：10:21:10" itemprop="dateCreated datePublished" datetime="2019-04-15T20:12:27+08:00">2019-04-15</time>
+            
+
+            
+              
+
+              
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h4 id="使用四种基本的排序方法对生成的1000个随机数进行排序，比较执行时间"><a href="#使用四种基本的排序方法对生成的1000个随机数进行排序，比较执行时间" class="headerlink" title="使用四种基本的排序方法对生成的1000个随机数进行排序，比较执行时间"></a>使用四种基本的排序方法对生成的1000个随机数进行排序，比较执行时间</h4><h3 id="一、冒泡排序"><a href="#一、冒泡排序" class="headerlink" title="一、冒泡排序"></a>一、冒泡排序</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">$s=microtime();//记录开始时间</span><br><span class="line"></span><br><span class="line">for($i=0;$i=1000;$i++)&#123;</span><br><span class="line">  	$a[$i] = mt_rand(0,1000);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">//冒泡排序</span><br><span class="line">for($j=0;$j&lt;999;$j++)&#123;</span><br><span class="line">  	for($k=0;$k&lt;999-$j;$k++)&#123;</span><br><span class="line">  		if($a[$k]&gt;$a[$k+1])&#123;</span><br><span class="line">  			$temp = $a[$k];</span><br><span class="line">  			$a[$k] = $a[$k+1];</span><br><span class="line">  			$a[$k+1] = $temp;</span><br><span class="line">  		&#125;</span><br><span class="line">  	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">for($i=0;$i&lt;1000;$i++)&#123;</span><br><span class="line">  	echo $a[$i].&apos;&apos;;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">$e = microtime();//记录结束时间</span><br><span class="line">echo &apos;&lt;br/&gt;&apos;;</span><br><span class="line">echo $e-$s;</span><br></pre></td></tr></table></figure>
+<h3 id="二、简单选择排序"><a href="#二、简单选择排序" class="headerlink" title="二、简单选择排序"></a>二、简单选择排序</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">for($i=0;$i&lt;999;$i++)&#123;</span><br><span class="line">  	for($j=$i+1;$j&lt;1000;$j++)&#123;</span><br><span class="line">  		if($a[$j]&lt;$a[$i])&#123;</span><br><span class="line">  			$temp = $a[$j];</span><br><span class="line">  			$a[$j] = $a[$i];</span><br><span class="line">  			$a[$i] = $temp;</span><br><span class="line">  		&#125;</span><br><span class="line">  	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="三、直接插入排序"><a href="#三、直接插入排序" class="headerlink" title="三、直接插入排序"></a>三、直接插入排序</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">for($i=1;$i&lt;1000;$i++)&#123;</span><br><span class="line">  	if($a[$i]&lt;$a[$i-1])&#123;</span><br><span class="line">  		$j = $i-1;</span><br><span class="line">  		$temp = $a[$i];</span><br><span class="line">  		for($j;$j&gt;=0&amp;amp;&amp;amp;$a[$j]&gt;$temp;$j--)&#123;</span><br><span class="line">  			$a[$j+1] = $a[$j];</span><br><span class="line">  		&#125;</span><br><span class="line">  		$a[$j+1] = $temp;</span><br><span class="line">  	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="四、快速排序"><a href="#四、快速排序" class="headerlink" title="四、快速排序"></a>四、快速排序</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">function qsort($left,$right)&#123;</span><br><span class="line">    if($left&gt;$right)&#123;</span><br><span class="line">        return;</span><br><span class="line">    &#125;</span><br><span class="line">    global $a;</span><br><span class="line"></span><br><span class="line">    $i=$left;</span><br><span class="line">    $j=$right;</span><br><span class="line">    $key = $i;</span><br><span class="line">    while($i&lt;$j)&#123;</span><br><span class="line">        //从右往左找到第一个小于标记的值，交换</span><br><span class="line">	while($a[$j]&gt;=$a[$key]&amp;amp;&amp;amp;$j&gt;$i)$j--;</span><br><span class="line">	$temp = $a[$i];</span><br><span class="line">	$a[$i] = $a[$j];</span><br><span class="line">	$a[$j] = $temp;</span><br><span class="line">	$key = $j;</span><br><span class="line">	//从左往右找到第一个大于标记的值，交换</span><br><span class="line">	while($a[$i]&lt;=$a[$key]&amp;amp;&amp;amp;$i&lt;$j)$i++;</span><br><span class="line">	$temp = $a[$i];</span><br><span class="line">	$a[$i] = $a[$j];</span><br><span class="line">	$a[$j] = $temp;</span><br><span class="line">	$key = $i;</span><br><span class="line">&#125;</span><br><span class="line">//递归调用</span><br><span class="line">qsort($left,$i-1);</span><br><span class="line">qsort($i+1,$right);</span><br><span class="line">qsort(0,999);</span><br></pre></td></tr></table></figure>
+<h3 id="多次测试结果"><a href="#多次测试结果" class="headerlink" title="多次测试结果"></a>多次测试结果</h3><p>冒泡排序0.05~0.07</p>
+<p>简单选择0.03~0.06</p>
+<p>直接插入0.02~0.04</p>
+<p>快速排序0.002~0.007</p>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+       
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/04/15/面试算法题/" rel="next" title="">
+                <i class="fa fa-chevron-left"></i> 
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/04/15/写时复制和引用计数/" rel="prev" title="">
+                 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+
+
+          </div>
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="https://avatars2.githubusercontent.com/u/26237984" alt="Czhuyu">
+            
+              <p class="site-author-name" itemprop="name">Czhuyu</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">32</span>
+                    <span class="site-state-item-name">日志</span>
+                  </a>
+                </div>
+              
+
+              
+
+              
+            </nav>
+          
+
+          
+
+          
+
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#使用四种基本的排序方法对生成的1000个随机数进行排序，比较执行时间"><span class="nav-number">1.</span> <span class="nav-text">使用四种基本的排序方法对生成的1000个随机数进行排序，比较执行时间</span></a></li></ol><li class="nav-item nav-level-3"><a class="nav-link" href="#一、冒泡排序"><span class="nav-number"></span> <span class="nav-text">一、冒泡排序</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#二、简单选择排序"><span class="nav-number"></span> <span class="nav-text">二、简单选择排序</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#三、直接插入排序"><span class="nav-number"></span> <span class="nav-text">三、直接插入排序</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#四、快速排序"><span class="nav-number"></span> <span class="nav-text">四、快速排序</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#多次测试结果"><span class="nav-number"></span> <span class="nav-text">多次测试结果</span></a></li></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Czhuyu</span>
+
+  
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v3.8.0</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 – <a href="https://theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> v6.6.0</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+	
+    
+
+    
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=6.6.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=6.6.0"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=6.6.0"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=6.6.0"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=6.6.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=6.6.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=6.6.0"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
