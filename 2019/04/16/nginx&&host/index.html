@@ -108,24 +108,24 @@
 
 
 
-  <meta name="description" content="幂等和非幂等 执行一次和执行很多次同样的操作是否是一样的 GET/PUT/DELETE 幂等 POST 非幂等">
+  <meta name="description" content="记录一次奇怪的响应在本地调预发布的一个接口    search.xxx.bz的时候，总是出现一次响应正常一次不正常的现象/搜索无果 上服务器查找nginx配置 到conf目录 find -type f -name ‘*.conf’|xargs grep ‘search.xxx.bz’ 发现一个反向代理配置 server {  listen  80;  server_name  search.tff">
 <meta property="og:type" content="article">
-<meta property="og:title" content="开始了">
-<meta property="og:url" content="http://yoursite.com/2019/04/15/HTTP OPTIONS/index.html">
+<meta property="og:title" content="nginx&amp;&amp;host">
+<meta property="og:url" content="http://yoursite.com/2019/04/16/nginx&&host/index.html">
 <meta property="og:site_name" content="开始了">
-<meta property="og:description" content="幂等和非幂等 执行一次和执行很多次同样的操作是否是一样的 GET/PUT/DELETE 幂等 POST 非幂等">
+<meta property="og:description" content="记录一次奇怪的响应在本地调预发布的一个接口    search.xxx.bz的时候，总是出现一次响应正常一次不正常的现象/搜索无果 上服务器查找nginx配置 到conf目录 find -type f -name ‘*.conf’|xargs grep ‘search.xxx.bz’ 发现一个反向代理配置 server {  listen  80;  server_name  search.tff">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2019-04-15T08:17:19.002Z">
+<meta property="og:updated_time" content="2019-04-16T14:26:02.700Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="开始了">
-<meta name="twitter:description" content="幂等和非幂等 执行一次和执行很多次同样的操作是否是一样的 GET/PUT/DELETE 幂等 POST 非幂等">
+<meta name="twitter:title" content="nginx&amp;&amp;host">
+<meta name="twitter:description" content="记录一次奇怪的响应在本地调预发布的一个接口    search.xxx.bz的时候，总是出现一次响应正常一次不正常的现象/搜索无果 上服务器查找nginx配置 到conf目录 find -type f -name ‘*.conf’|xargs grep ‘search.xxx.bz’ 发现一个反向代理配置 server {  listen  80;  server_name  search.tff">
 
 
 
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2019/04/15/HTTP OPTIONS/">
+  <link rel="canonical" href="http://yoursite.com/2019/04/16/nginx&&host/">
 
 
 
@@ -135,7 +135,7 @@
   };
 </script>
 
-  <title> | 开始了</title>
+  <title>nginx&&host | 开始了</title>
   
 
 
@@ -401,7 +401,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/04/15/HTTP OPTIONS/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/04/16/nginx&&host/">
 
     <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Czhuyu">
@@ -418,7 +418,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">
+          <h1 class="post-title" itemprop="name headline">nginx&&host
               
             
           </h1>
@@ -443,7 +443,7 @@
                 
               
 
-              <time title="创建时间：2019-04-15 20:12:27 / 修改时间：16:17:19" itemprop="dateCreated datePublished" datetime="2019-04-15T20:12:27+08:00">2019-04-15</time>
+              <time title="创建时间：2019-04-16 22:22:56 / 修改时间：22:26:02" itemprop="dateCreated datePublished" datetime="2019-04-16T22:22:56+08:00">2019-04-16</time>
             
 
             
@@ -481,10 +481,25 @@
       
 
       
-        <p>幂等和非幂等</p>
-<p>执行一次和执行很多次同样的操作是否是一样的</p>
-<p>GET/PUT/DELETE 幂等</p>
-<p>POST 非幂等</p>
+        <h5 id="记录一次奇怪的响应"><a href="#记录一次奇怪的响应" class="headerlink" title="记录一次奇怪的响应"></a>记录一次奇怪的响应</h5><p>在本地调预发布的一个接口    search.xxx.bz的时候，总是出现一次响应正常一次不正常的现象/搜索无果</p>
+<p>上服务器查找nginx配置</p>
+<p>到conf目录</p>
+<p>find -type f -name ‘*.conf’|xargs grep ‘search.xxx.bz’</p>
+<p>发现一个反向代理配置</p>
+<p>server {<br>  listen  80;<br>  server_name  search.tff.bz;</p>
+<p>  location / {<br>​      proxy_set_header Host $proxy_host;<br>​      proxy_pass <a href="http://search.sss.com" target="_blank" rel="noopener">http://search.sss.com</a>;<br>  }<br>}</p>
+<p><a href="http://tff_frontend_group" target="_blank" rel="noopener">http://tff_frontend_group</a></p>
+<p>find -type f -name ‘*.conf’|xargs grep ‘search.sss.com’</p>
+<p>正常nginx server 配置</p>
+<p>server {<br>​    listen 80;<br>​    server_name search.services.tff.com;<br>​    root  /xxxx/public;<br>​    access_log logs/search.sss.com.access.log  main;<br>​    error_log logs/search.sss.com.error.log;<br>​    include laravel;<br>}</p>
+<p>无异样</p>
+<p>之前尝试过在本地ping search.sss.com 结果为127.0.0.1无异样</p>
+<p>在机器上curl调接口也没问题</p>
+<p>仔细检查host</p>
+<p>发现有两个配置</p>
+<p>search.sss.com 188.8.8.8</p>
+<p>search.sss.com 127.0.0.1</p>
+<p>nginx 在反向代理解析host 的时候一次拿的上一个一次拿下一个，屏蔽第一个，问题解决。</p>
 
       
     </div>
@@ -515,7 +530,7 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2019/04/15/Github/" rel="next" title="">
+              <a href="/2019/04/15/正则&amp;&amp;mb_substr/" rel="next" title="">
                 <i class="fa fa-chevron-left"></i> 
               </a>
             
@@ -524,10 +539,6 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2019/04/15/leetcode_day1/" rel="prev" title="">
-                 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -572,8 +583,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
 
-      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+      <section class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
             
@@ -632,6 +652,22 @@
         </div>
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-5"><a class="nav-link" href="#记录一次奇怪的响应"><span class="nav-number">1.</span> <span class="nav-text">记录一次奇怪的响应</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       
