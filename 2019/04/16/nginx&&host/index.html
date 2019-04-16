@@ -108,18 +108,18 @@
 
 
 
-  <meta name="description" content="记录一次奇怪的响应在本地调预发布的一个接口    search.xxx.bz的时候，总是出现一次响应正常一次不正常的现象/搜索无果 上服务器查找nginx配置 到conf目录 find -type f -name ‘*.conf’|xargs grep ‘search.xxx.bz’ 发现一个反向代理配置 server {  listen  80;  server_name  search.tff">
+  <meta name="description" content="记录一次奇怪的响应在本地调预发布的一个接口    search.xxx.bz的时候，总是出现一次响应正常一次不正常的现象/搜索无果 上服务器查找nginx配置 到conf目录 1find -type f -name &amp;apos;*.conf&amp;apos;|xargs grep &amp;apos;search.xxx.bz&amp;apos; 发现一个反向代理配置 123456789server &amp;#123;  l">
 <meta name="keywords" content="nginx,host">
 <meta property="og:type" content="article">
 <meta property="og:title" content="nginx&amp;&amp;host">
 <meta property="og:url" content="http://yoursite.com/2019/04/16/nginx&&host/index.html">
 <meta property="og:site_name" content="开始了">
-<meta property="og:description" content="记录一次奇怪的响应在本地调预发布的一个接口    search.xxx.bz的时候，总是出现一次响应正常一次不正常的现象/搜索无果 上服务器查找nginx配置 到conf目录 find -type f -name ‘*.conf’|xargs grep ‘search.xxx.bz’ 发现一个反向代理配置 server {  listen  80;  server_name  search.tff">
+<meta property="og:description" content="记录一次奇怪的响应在本地调预发布的一个接口    search.xxx.bz的时候，总是出现一次响应正常一次不正常的现象/搜索无果 上服务器查找nginx配置 到conf目录 1find -type f -name &amp;apos;*.conf&amp;apos;|xargs grep &amp;apos;search.xxx.bz&amp;apos; 发现一个反向代理配置 123456789server &amp;#123;  l">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2019-04-16T14:52:26.972Z">
+<meta property="og:updated_time" content="2019-04-16T15:11:34.110Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="nginx&amp;&amp;host">
-<meta name="twitter:description" content="记录一次奇怪的响应在本地调预发布的一个接口    search.xxx.bz的时候，总是出现一次响应正常一次不正常的现象/搜索无果 上服务器查找nginx配置 到conf目录 find -type f -name ‘*.conf’|xargs grep ‘search.xxx.bz’ 发现一个反向代理配置 server {  listen  80;  server_name  search.tff">
+<meta name="twitter:description" content="记录一次奇怪的响应在本地调预发布的一个接口    search.xxx.bz的时候，总是出现一次响应正常一次不正常的现象/搜索无果 上服务器查找nginx配置 到conf目录 1find -type f -name &amp;apos;*.conf&amp;apos;|xargs grep &amp;apos;search.xxx.bz&amp;apos; 发现一个反向代理配置 123456789server &amp;#123;  l">
 
 
 
@@ -410,7 +410,7 @@
                 
               
 
-              <time title="创建时间：2019-04-16 22:22:56 / 修改时间：22:52:26" itemprop="dateCreated datePublished" datetime="2019-04-16T22:22:56+08:00">2019-04-16</time>
+              <time title="创建时间：2019-04-16 22:22:56 / 修改时间：23:11:34" itemprop="dateCreated datePublished" datetime="2019-04-16T22:22:56+08:00">2019-04-16</time>
             
 
             
@@ -451,14 +451,12 @@
         <h5 id="记录一次奇怪的响应"><a href="#记录一次奇怪的响应" class="headerlink" title="记录一次奇怪的响应"></a>记录一次奇怪的响应</h5><p>在本地调预发布的一个接口    search.xxx.bz的时候，总是出现一次响应正常一次不正常的现象/搜索无果</p>
 <p>上服务器查找nginx配置</p>
 <p>到conf目录</p>
-<p>find -type f -name ‘*.conf’|xargs grep ‘search.xxx.bz’</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">find -type f -name &apos;*.conf&apos;|xargs grep &apos;search.xxx.bz&apos;</span><br></pre></td></tr></table></figure>
 <p>发现一个反向代理配置</p>
-<p>server {<br>  listen  80;<br>  server_name  search.tff.bz;</p>
-<p>  location / {<br>​      proxy_set_header Host $proxy_host;<br>​      proxy_pass <a href="http://search.sss.com" target="_blank" rel="noopener">http://search.sss.com</a>;<br>  }<br>}</p>
-<p><a href="http://tff_frontend_group" target="_blank" rel="noopener">http://tff_frontend_group</a></p>
-<p>find -type f -name ‘*.conf’|xargs grep ‘search.sss.com’</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">server &#123;</span><br><span class="line">  listen  80;</span><br><span class="line">  server_name  search.tff.bz;</span><br><span class="line"></span><br><span class="line">  location / &#123;</span><br><span class="line">      proxy_set_header Host $proxy_host;</span><br><span class="line">      proxy_pass http://search.sss.com;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">find -type f -name &apos;*.conf&apos;|xargs grep &apos;search.sss.com&apos;</span><br></pre></td></tr></table></figure>
 <p>正常nginx server 配置</p>
-<p>server {<br>​    listen 80;<br>​    server_name search.services.tff.com;<br>​    root  /xxxx/public;<br>​    access_log logs/search.sss.com.access.log  main;<br>​    error_log logs/search.sss.com.error.log;<br>​    include laravel;<br>}</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">server &#123;</span><br><span class="line">    listen 80;</span><br><span class="line">    server_name search.services.tff.com;</span><br><span class="line">    root  /xxxx/public;</span><br><span class="line">    access_log logs/search.sss.com.access.log  main;</span><br><span class="line">    error_log logs/search.sss.com.error.log;</span><br><span class="line">    include laravel;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>无异样</p>
 <p>之前尝试过在本地ping search.sss.com 结果为127.0.0.1无异样</p>
 <p>在机器上curl调接口也没问题</p>
