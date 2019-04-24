@@ -109,12 +109,12 @@
 
 
   <meta property="og:type" content="website">
-<meta property="og:title" content="开始了">
+<meta property="og:title" content="故">
 <meta property="og:url" content="http://yoursite.com/page/2/index.html">
-<meta property="og:site_name" content="开始了">
+<meta property="og:site_name" content="故">
 <meta property="og:locale" content="zh-CN">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="开始了">
+<meta name="twitter:title" content="故">
 
 
 
@@ -131,7 +131,7 @@
   };
 </script>
 
-  <title>开始了</title>
+  <title>故</title>
   
 
 
@@ -192,13 +192,13 @@
     <div class="custom-logo-site-title">
       <a href="/" class="brand" rel="start">
         <span class="logo-line-before"><i></i></span>
-        <span class="site-title">开始了</span>
+        <span class="site-title">故</span>
         <span class="logo-line-after"><i></i></span>
       </a>
     </div>
     
       
-        <p class="site-subtitle">结束了</p>
+        <p class="site-subtitle">世间万难，无非一拖二懒三不读书</p>
       
     
   </div>
@@ -364,169 +364,16 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/03/16/NginxPHPMysql 重启等命令/">
-
-    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Czhuyu">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="https://avatars2.githubusercontent.com/u/26237984">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="开始了">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                
-                <a href="/2017/03/16/NginxPHPMysql 重启等命令/" class="post-title-link" itemprop="http://yoursite.com/page/2/index.html">lnmp重启</a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-
-            
-            
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-
-              
-                
-              
-
-              <time title="创建时间：2017-03-16 22:22:56" itemprop="dateCreated datePublished" datetime="2017-03-16T22:22:56+08:00">2017-03-16</time>
-            
-
-            
-              
-
-              
-                
-                <span class="post-meta-divider">|</span>
-                
-
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">更新于</span>
-                
-                <time title="修改时间：2019-04-16 22:41:44" itemprop="dateModified" datetime="2019-04-16T22:41:44+08:00">2019-04-16</time>
-              
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>nginx&nbsp;<br></p><p>&nbsp;&nbsp;</p><p>start：&nbsp;</p><p>/usr/local/nginx/sbin/nginx&nbsp;</p><p>&nbsp;</p><p>stop：&nbsp;</p><p>/usr/local/nginx/sbin/nginx&nbsp;-s&nbsp;stop&nbsp;</p><p>&nbsp;</p><p>reload：&nbsp;</p><p>/usr/local/nginx/sbin/nginx&nbsp;-s&nbsp;reload&nbsp;</p><p>&nbsp;</p><p>#<strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><em>**</em></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong>&nbsp;</p><p>&nbsp;</p><p>#php-fpm(fast-cgi)命令&nbsp;</p><p>&nbsp;&nbsp;</p><p>start：&nbsp;</p><p>/usr/local/php/sbin/php-fpm&nbsp;</p><p>&nbsp;</p><p>stop：&nbsp;</p><p>/bin/ps&nbsp;-ef&nbsp;|&nbsp;grep&nbsp;&#39;php-fpm&#39;&nbsp;|&nbsp;grep&nbsp;-v&nbsp;grep&nbsp;|&nbsp;cut&nbsp;-c&nbsp;9-15&nbsp;|&nbsp;xargs&nbsp;kill&nbsp;-9&nbsp;</p><p>&nbsp;</p><p>&nbsp;</p><p>Linux：PHP&nbsp;5.3.3&nbsp;以上版本的php-fpm的重启</p><p>&nbsp;</p><p>INT,&nbsp;TERM：立刻终止</p><p>QUIT：平滑终止</p><p>USR1：重新打开日志文件</p><p>USR2：平滑重载所有worker进程并重新载入配置和二进制模块</p><p>&nbsp;</p><p>示例：</p><p>1）php-fpm&nbsp;关闭：</p><p>kill&nbsp;-INT&nbsp;<code>cat&amp;nbsp;/usr/local/php/var/run/php-fpm.pid</code></p><p>&nbsp;</p><p>2）php-fpm&nbsp;重启：</p><p>kill&nbsp;-USR2&nbsp;<code>cat&amp;nbsp;/usr/local/php/var/run/php-fpm.pid</code></p><p>&nbsp;</p><p>查看php-fpm进程数：</p><p>ps&nbsp;aux&nbsp;|&nbsp;grep&nbsp;-c&nbsp;php-fpm</p><p>&nbsp;</p><p>#<strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><em>**</em></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong>&nbsp;</p><p>&nbsp;</p><p>#mysql命令&nbsp;</p><p>&nbsp;</p><p>start：&nbsp;</p><p>/etc/init.d/mysqld&nbsp;start&nbsp;</p><p>&nbsp;</p><p>stop：&nbsp;</p><p>/etc/init.d/mysqld&nbsp;stop&nbsp;</p><p>&nbsp;</p><p>restart：&nbsp;</p><p>/etc/init.d/mysqld&nbsp;restart&nbsp;</p><p>&nbsp;</p><p>#<strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><em>**</em></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong>&nbsp;</p><p><br></p>
-          
-        
-      
-    </div>
-
-    
-
-    
-    
-    
-
-    
-
-    
-       
-    
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/03/16/PHP内置数组排序方法/">
 
     <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Czhuyu">
+      <meta itemprop="name" content="czhuyu">
       <meta itemprop="description" content="">
       <meta itemprop="image" content="https://avatars2.githubusercontent.com/u/26237984">
     </span>
 
     <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="开始了">
+      <meta itemprop="name" content="故">
     </span>
 
     
@@ -670,16 +517,628 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/03/16/2017.3/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/03/16/NginxPHPMysql 重启等命令/">
 
     <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Czhuyu">
+      <meta itemprop="name" content="czhuyu">
       <meta itemprop="description" content="">
       <meta itemprop="image" content="https://avatars2.githubusercontent.com/u/26237984">
     </span>
 
     <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="开始了">
+      <meta itemprop="name" content="故">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                
+                <a href="/2017/03/16/NginxPHPMysql 重启等命令/" class="post-title-link" itemprop="http://yoursite.com/page/2/index.html">lnmp重启</a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2017-03-16 22:22:56" itemprop="dateCreated datePublished" datetime="2017-03-16T22:22:56+08:00">2017-03-16</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2019-04-16 22:41:44" itemprop="dateModified" datetime="2019-04-16T22:41:44+08:00">2019-04-16</time>
+              
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>nginx&nbsp;<br></p><p>&nbsp;&nbsp;</p><p>start：&nbsp;</p><p>/usr/local/nginx/sbin/nginx&nbsp;</p><p>&nbsp;</p><p>stop：&nbsp;</p><p>/usr/local/nginx/sbin/nginx&nbsp;-s&nbsp;stop&nbsp;</p><p>&nbsp;</p><p>reload：&nbsp;</p><p>/usr/local/nginx/sbin/nginx&nbsp;-s&nbsp;reload&nbsp;</p><p>&nbsp;</p><p>#<strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><em>**</em></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong>&nbsp;</p><p>&nbsp;</p><p>#php-fpm(fast-cgi)命令&nbsp;</p><p>&nbsp;&nbsp;</p><p>start：&nbsp;</p><p>/usr/local/php/sbin/php-fpm&nbsp;</p><p>&nbsp;</p><p>stop：&nbsp;</p><p>/bin/ps&nbsp;-ef&nbsp;|&nbsp;grep&nbsp;&#39;php-fpm&#39;&nbsp;|&nbsp;grep&nbsp;-v&nbsp;grep&nbsp;|&nbsp;cut&nbsp;-c&nbsp;9-15&nbsp;|&nbsp;xargs&nbsp;kill&nbsp;-9&nbsp;</p><p>&nbsp;</p><p>&nbsp;</p><p>Linux：PHP&nbsp;5.3.3&nbsp;以上版本的php-fpm的重启</p><p>&nbsp;</p><p>INT,&nbsp;TERM：立刻终止</p><p>QUIT：平滑终止</p><p>USR1：重新打开日志文件</p><p>USR2：平滑重载所有worker进程并重新载入配置和二进制模块</p><p>&nbsp;</p><p>示例：</p><p>1）php-fpm&nbsp;关闭：</p><p>kill&nbsp;-INT&nbsp;<code>cat&amp;nbsp;/usr/local/php/var/run/php-fpm.pid</code></p><p>&nbsp;</p><p>2）php-fpm&nbsp;重启：</p><p>kill&nbsp;-USR2&nbsp;<code>cat&amp;nbsp;/usr/local/php/var/run/php-fpm.pid</code></p><p>&nbsp;</p><p>查看php-fpm进程数：</p><p>ps&nbsp;aux&nbsp;|&nbsp;grep&nbsp;-c&nbsp;php-fpm</p><p>&nbsp;</p><p>#<strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><em>**</em></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong>&nbsp;</p><p>&nbsp;</p><p>#mysql命令&nbsp;</p><p>&nbsp;</p><p>start：&nbsp;</p><p>/etc/init.d/mysqld&nbsp;start&nbsp;</p><p>&nbsp;</p><p>stop：&nbsp;</p><p>/etc/init.d/mysqld&nbsp;stop&nbsp;</p><p>&nbsp;</p><p>restart：&nbsp;</p><p>/etc/init.d/mysqld&nbsp;restart&nbsp;</p><p>&nbsp;</p><p>#<strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><em>**</em></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong>&nbsp;</p><p><br></p>
+          
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+       
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/03/16/Linux下安装jdk tomcat .war发布项目/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="czhuyu">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="https://avatars2.githubusercontent.com/u/26237984">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="故">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                
+                <a href="/2017/03/16/Linux下安装jdk tomcat .war发布项目/" class="post-title-link" itemprop="http://yoursite.com/page/2/index.html">tomcat war</a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2017-03-16 22:22:56" itemprop="dateCreated datePublished" datetime="2017-03-16T22:22:56+08:00">2017-03-16</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2019-04-16 22:43:24" itemprop="dateModified" datetime="2019-04-16T22:43:24+08:00">2019-04-16</time>
+              
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p style="margin: 10px auto; font-family: verdana, Arial, Helvetica, sans-serif; font-size: 14px; line-height: 21px; white-space: normal;">一、安装JDK　　</p><p style="margin: 10px auto; font-family: verdana, Arial, Helvetica, sans-serif; font-size: 14px; line-height: 21px; white-space: normal;">1.下载jdk，注意下载的时候不要下载成html了，这是个坑。。。</p><p style="margin: 10px auto; font-family: verdana, Arial, Helvetica, sans-serif; font-size: 14px; line-height: 21px; white-space: normal;">2.</p><p style="margin: 10px auto; font-family: verdana, Arial, Helvetica, sans-serif; font-size: 14px; line-height: 21px; white-space: normal;">vim /etc/profile</p><p style="margin: 10px auto; font-family: verdana, Arial, Helvetica, sans-serif; font-size: 14px; line-height: 21px; white-space: normal;">JAVA_HOME=/usr/…/jdk解压后的路径<br>PATH=$PATH:$JAVA_HOME/bin<br>CLASSPATH=.:$JAVA_HOME/lib/jt.jar:$JAVA_HOME/lib/tools.jar<br>export JAVA_HOME PATH CLASSPATH</p><p style="margin: 10px auto; font-family: verdana, Arial, Helvetica, sans-serif; font-size: 14px; line-height: 21px; white-space: normal;">:wq</p><p style="margin: 10px auto; font-family: verdana, Arial, Helvetica, sans-serif; font-size: 14px; line-height: 21px; white-space: normal;">source /etc/profile</p><p style="margin: 10px auto; font-family: verdana, Arial, Helvetica, sans-serif; font-size: 14px; line-height: 21px; white-space: normal;">最后java -version</p><p style="margin: 10px auto; font-family: verdana, Arial, Helvetica, sans-serif; font-size: 14px; line-height: 21px; white-space: normal;">3.下载tomcat，解压进入目录/bin &nbsp; ./startup.sh</p><p style="margin: 10px auto; font-family: verdana, Arial, Helvetica, sans-serif; font-size: 14px; line-height: 21px; white-space: normal;">4.eclipse export 项目为.war格式 选择导出路径 上传到服务器webapps目录下</p><p><br></p>
+          
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+       
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/03/16/leetcode_day2/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="czhuyu">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="https://avatars2.githubusercontent.com/u/26237984">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="故">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                
+                <a href="/2017/03/16/leetcode_day2/" class="post-title-link" itemprop="http://yoursite.com/page/2/index.html">day2</a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2017-03-16 22:22:56" itemprop="dateCreated datePublished" datetime="2017-03-16T22:22:56+08:00">2017-03-16</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2019-04-16 22:44:30" itemprop="dateModified" datetime="2019-04-16T22:44:30+08:00">2019-04-16</time>
+              
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p></p><p style="box-sizing: border-box; font-family: inherit; font-weight: 500; line-height: 1.1; color: inherit; margin-top: 0px; margin-bottom: 10px; font-size: 24px; display: inline-block; margin-right: 0.5em;">7.&nbsp;Reverse Integer</p><p><br></p><pre class="brush:cpp;toolbar:false">func&nbsp;reverse(x&nbsp;int)&nbsp;int&nbsp;{<br>    s&nbsp;:=&nbsp;strconv.Itoa(x)<br>    rs&nbsp;:=&nbsp;&quot;&quot;<br>    j&nbsp;:=&nbsp;0<br>    if&nbsp;x&nbsp;&lt;&nbsp;0&nbsp;{<br>        j&nbsp;=&nbsp;1<br>        rs&nbsp;+=&nbsp;&quot;-&quot;<br>    }<br>    for&nbsp;i&nbsp;:=&nbsp;len(s)&nbsp;-&nbsp;1;&nbsp;i&nbsp;&gt;=&nbsp;j;&nbsp;i–&nbsp;{<br>        rs&nbsp;+=&nbsp;string(s[i])<br>    }<br>    rsi,&nbsp;_&nbsp;:=&nbsp;strconv.Atoi(rs)<br>    if&nbsp;rsi&nbsp;&gt;&nbsp;(1&lt;&lt;31)&nbsp;||&nbsp;rsi&nbsp;&lt;&nbsp;-(1&nbsp;&lt;&lt;&nbsp;31)&nbsp;{<br>        rsi&nbsp;=&nbsp;0<br>    }<br>    return&nbsp;rsi<br><br>}</pre><p><br></p>
+          
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+       
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/03/16/dependency-injection/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="czhuyu">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="https://avatars2.githubusercontent.com/u/26237984">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="故">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                
+                <a href="/2017/03/16/dependency-injection/" class="post-title-link" itemprop="http://yoursite.com/page/2/index.html">依赖注入</a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2017-03-16 22:22:56" itemprop="dateCreated datePublished" datetime="2017-03-16T22:22:56+08:00">2017-03-16</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2019-04-16 22:45:33" itemprop="dateModified" datetime="2019-04-16T22:45:33+08:00">2019-04-16</time>
+              
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>依赖注入(DI)指的就是当你需要实例化的类依赖于其他类的实现的时候；</p><p>不需要在本类中实例化所依赖的类，而是将所依赖的类通过参数的形式传入 即构造注入(构造函数)和设值注入(set方法);</p><p>高耦合的反例<br></p><pre class="brush:php;toolbar:false">//高耦合<br><br>class Apple<br>{<br>    protected $name =  ‘ ‘;<br><br>    public function <strong>construct()<br>    {<br>        $this- &gt;name =  ‘Apple ‘;<br>    }<br><br>    public function getName()<br>    {<br>        return $this- &gt;name;<br>    }<br>}<br><br>class Orange<br>{<br>    protected $name =  ‘ ‘;<br><br>    public function </strong>construct()<br>    {<br>        $this- &gt;name =  ‘Orange ‘;<br>    }<br><br>    public function getName()<br>    {<br>        return $this- &gt;name;<br>    }<br>}<br><br>class Person<br>{<br>    protected $likeFood =  ‘ ‘;<br><br>    public function <strong>construct()<br>    {<br>        $this- &gt;likeFood = new Orange();<br>        echo  ‘这个人喜欢吃 ‘ . $this- &gt;likeFood- &gt;getName();<br>    }<br>}<br><br>new Person();</strong></pre><p>低耦合注入</p><pre class="brush:php;toolbar:false">//低耦合实现<br>interface Fruit<br>{<br>    public function getName();<br><br>}<br><br>class Apple implements Fruit<br>{<br>    protected $name =  ‘ ‘;<br><br>    public function construct()<br>    {<br>        $this- &gt;name =  ‘Apple ‘;<br>    }<br><br>    public function getName()<br>    {<br>        return $this- &gt;name;<br>    }<br>}<br><br>class Orange implements Fruit<br>{<br>    protected $name =  ‘ ‘;<br><br>    public function <strong>construct()<br>    {<br>        $this- &gt;name =  ‘Orange ‘;<br>    }<br><br>    public function getName()<br>    {<br>        return $this- &gt;name;<br>    }<br>}<br><br>class Person<br>{<br>    public $likeFood;<br><br>    public function </strong>construct(Fruit $fruit)<br>    {<br>        echo  ‘这个人喜欢吃 ‘ . $fruit- &gt;getName();<br>    }<br>}<br><br>$apple = new Apple();<br>new Person($apple);</pre><p><br></p>
+          
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+       
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/03/16/2017.3/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="czhuyu">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="https://avatars2.githubusercontent.com/u/26237984">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="故">
     </span>
 
     
@@ -824,16 +1283,170 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/03/16/HTTP OPTIONS/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/03/16/Linux下编译安装Mysql/">
 
     <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Czhuyu">
+      <meta itemprop="name" content="czhuyu">
       <meta itemprop="description" content="">
       <meta itemprop="image" content="https://avatars2.githubusercontent.com/u/26237984">
     </span>
 
     <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="开始了">
+      <meta itemprop="name" content="故">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                
+                <a href="/2017/03/16/Linux下编译安装Mysql/" class="post-title-link" itemprop="http://yoursite.com/page/2/index.html">linux安装mysql</a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2017-03-16 22:22:56" itemprop="dateCreated datePublished" datetime="2017-03-16T22:22:56+08:00">2017-03-16</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2019-04-16 22:43:07" itemprop="dateModified" datetime="2019-04-16T22:43:07+08:00">2019-04-16</time>
+              
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>1、mysql   官网下载适合的压缩包，格式为mysql-x.x.xx-linuxxxx.tar.gz<br>2、解压后配置<br>配置帮助  ./configure –help<br>3、groupadd mysql<br>useradd –g mysql mysql<br>cd到mysql的解压目录<br>chown –R mysql .<br>chgrp –R mysql .<br>4、./scripts/mysql_install_db –user=mysql<br>如果提示laibaio.1的相关错误<br>yum install libaioso.1 libaio<br>5、把目录权限还给root<br>chown –R root .<br>chown –R mysql data<br>mkdir /var/run/mysqld<br>chown mysql /var/run/mysqld<br>chgrp mysql /var/run/mysqld<br>6、启动mysql<br>./bin/mysqld_safe –user=mysql &amp;<br>7、连接mysql ./bin/mysql –uroot -p<br>如果报错   建立软连接或者直接将sock文件复制过去<br>建立软连接方法<br>ln /var/lib/mysql/mysql.sock /tmp/mysql.sock<br>8、修改密码<br>update user set Password=password(你想要的密码) where Host=’localhost’ and User=  ‘root  ‘;<br>delete from user where Password=  ‘’;<br>flush privileges;</p>
+
+          
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+       
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/03/16/HTTP OPTIONS/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="czhuyu">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="https://avatars2.githubusercontent.com/u/26237984">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="故">
     </span>
 
     
@@ -981,322 +1594,16 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/03/16/Linux下安装jdk tomcat .war发布项目/">
-
-    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Czhuyu">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="https://avatars2.githubusercontent.com/u/26237984">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="开始了">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                
-                <a href="/2017/03/16/Linux下安装jdk tomcat .war发布项目/" class="post-title-link" itemprop="http://yoursite.com/page/2/index.html">tomcat war</a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-
-            
-            
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-
-              
-                
-              
-
-              <time title="创建时间：2017-03-16 22:22:56" itemprop="dateCreated datePublished" datetime="2017-03-16T22:22:56+08:00">2017-03-16</time>
-            
-
-            
-              
-
-              
-                
-                <span class="post-meta-divider">|</span>
-                
-
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">更新于</span>
-                
-                <time title="修改时间：2019-04-16 22:43:24" itemprop="dateModified" datetime="2019-04-16T22:43:24+08:00">2019-04-16</time>
-              
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p style="margin: 10px auto; font-family: verdana, Arial, Helvetica, sans-serif; font-size: 14px; line-height: 21px; white-space: normal;">一、安装JDK　　</p><p style="margin: 10px auto; font-family: verdana, Arial, Helvetica, sans-serif; font-size: 14px; line-height: 21px; white-space: normal;">1.下载jdk，注意下载的时候不要下载成html了，这是个坑。。。</p><p style="margin: 10px auto; font-family: verdana, Arial, Helvetica, sans-serif; font-size: 14px; line-height: 21px; white-space: normal;">2.</p><p style="margin: 10px auto; font-family: verdana, Arial, Helvetica, sans-serif; font-size: 14px; line-height: 21px; white-space: normal;">vim /etc/profile</p><p style="margin: 10px auto; font-family: verdana, Arial, Helvetica, sans-serif; font-size: 14px; line-height: 21px; white-space: normal;">JAVA_HOME=/usr/…/jdk解压后的路径<br>PATH=$PATH:$JAVA_HOME/bin<br>CLASSPATH=.:$JAVA_HOME/lib/jt.jar:$JAVA_HOME/lib/tools.jar<br>export JAVA_HOME PATH CLASSPATH</p><p style="margin: 10px auto; font-family: verdana, Arial, Helvetica, sans-serif; font-size: 14px; line-height: 21px; white-space: normal;">:wq</p><p style="margin: 10px auto; font-family: verdana, Arial, Helvetica, sans-serif; font-size: 14px; line-height: 21px; white-space: normal;">source /etc/profile</p><p style="margin: 10px auto; font-family: verdana, Arial, Helvetica, sans-serif; font-size: 14px; line-height: 21px; white-space: normal;">最后java -version</p><p style="margin: 10px auto; font-family: verdana, Arial, Helvetica, sans-serif; font-size: 14px; line-height: 21px; white-space: normal;">3.下载tomcat，解压进入目录/bin &nbsp; ./startup.sh</p><p style="margin: 10px auto; font-family: verdana, Arial, Helvetica, sans-serif; font-size: 14px; line-height: 21px; white-space: normal;">4.eclipse export 项目为.war格式 选择导出路径 上传到服务器webapps目录下</p><p><br></p>
-          
-        
-      
-    </div>
-
-    
-
-    
-    
-    
-
-    
-
-    
-       
-    
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/03/16/dependency-injection/">
-
-    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Czhuyu">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="https://avatars2.githubusercontent.com/u/26237984">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="开始了">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                
-                <a href="/2017/03/16/dependency-injection/" class="post-title-link" itemprop="http://yoursite.com/page/2/index.html">依赖注入</a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-
-            
-            
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-
-              
-                
-              
-
-              <time title="创建时间：2017-03-16 22:22:56" itemprop="dateCreated datePublished" datetime="2017-03-16T22:22:56+08:00">2017-03-16</time>
-            
-
-            
-              
-
-              
-                
-                <span class="post-meta-divider">|</span>
-                
-
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">更新于</span>
-                
-                <time title="修改时间：2019-04-16 22:45:33" itemprop="dateModified" datetime="2019-04-16T22:45:33+08:00">2019-04-16</time>
-              
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>依赖注入(DI)指的就是当你需要实例化的类依赖于其他类的实现的时候；</p><p>不需要在本类中实例化所依赖的类，而是将所依赖的类通过参数的形式传入 即构造注入(构造函数)和设值注入(set方法);</p><p>高耦合的反例<br></p><pre class="brush:php;toolbar:false">//高耦合<br><br>class Apple<br>{<br>    protected $name =  ‘ ‘;<br><br>    public function <strong>construct()<br>    {<br>        $this- &gt;name =  ‘Apple ‘;<br>    }<br><br>    public function getName()<br>    {<br>        return $this- &gt;name;<br>    }<br>}<br><br>class Orange<br>{<br>    protected $name =  ‘ ‘;<br><br>    public function </strong>construct()<br>    {<br>        $this- &gt;name =  ‘Orange ‘;<br>    }<br><br>    public function getName()<br>    {<br>        return $this- &gt;name;<br>    }<br>}<br><br>class Person<br>{<br>    protected $likeFood =  ‘ ‘;<br><br>    public function <strong>construct()<br>    {<br>        $this- &gt;likeFood = new Orange();<br>        echo  ‘这个人喜欢吃 ‘ . $this- &gt;likeFood- &gt;getName();<br>    }<br>}<br><br>new Person();</strong></pre><p>低耦合注入</p><pre class="brush:php;toolbar:false">//低耦合实现<br>interface Fruit<br>{<br>    public function getName();<br><br>}<br><br>class Apple implements Fruit<br>{<br>    protected $name =  ‘ ‘;<br><br>    public function construct()<br>    {<br>        $this- &gt;name =  ‘Apple ‘;<br>    }<br><br>    public function getName()<br>    {<br>        return $this- &gt;name;<br>    }<br>}<br><br>class Orange implements Fruit<br>{<br>    protected $name =  ‘ ‘;<br><br>    public function <strong>construct()<br>    {<br>        $this- &gt;name =  ‘Orange ‘;<br>    }<br><br>    public function getName()<br>    {<br>        return $this- &gt;name;<br>    }<br>}<br><br>class Person<br>{<br>    public $likeFood;<br><br>    public function </strong>construct(Fruit $fruit)<br>    {<br>        echo  ‘这个人喜欢吃 ‘ . $fruit- &gt;getName();<br>    }<br>}<br><br>$apple = new Apple();<br>new Person($apple);</pre><p><br></p>
-          
-        
-      
-    </div>
-
-    
-
-    
-    
-    
-
-    
-
-    
-       
-    
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/03/16/leetcode_day1/">
 
     <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Czhuyu">
+      <meta itemprop="name" content="czhuyu">
       <meta itemprop="description" content="">
       <meta itemprop="image" content="https://avatars2.githubusercontent.com/u/26237984">
     </span>
 
     <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="开始了">
+      <meta itemprop="name" content="故">
     </span>
 
     
@@ -1440,323 +1747,16 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/03/16/Github/">
-
-    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Czhuyu">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="https://avatars2.githubusercontent.com/u/26237984">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="开始了">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                
-                <a href="/2017/03/16/Github/" class="post-title-link" itemprop="http://yoursite.com/page/2/index.html">git</a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-
-            
-            
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-
-              
-                
-              
-
-              <time title="创建时间：2017-03-16 22:22:56" itemprop="dateCreated datePublished" datetime="2017-03-16T22:22:56+08:00">2017-03-16</time>
-            
-
-            
-              
-
-              
-                
-                <span class="post-meta-divider">|</span>
-                
-
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">更新于</span>
-                
-                <time title="修改时间：2019-04-16 22:45:22" itemprop="dateModified" datetime="2019-04-16T22:45:22+08:00">2019-04-16</time>
-              
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>首先有两种使用方式 1.先在git官网上建立一个git仓库，然后git clone到本地<br></p><p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 2.直接在本地cd进一个文件夹 git init<br></p><p>配置用户名和email</p><p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;git config –global user.name &#39;&#39;</p><p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;git config –global user.email <a href="mailto:xxx@xxx.com" target="_blank" rel="noopener">xxx@xxx.com</a></p><p>简单使用命令 &nbsp;git add .</p><p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; git status</p><p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; git commit -m &quot;The First Upload&quot;<br></p><p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;git push -u origin master</p><p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp;</p><p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br></p><p><br></p>
-          
-        
-      
-    </div>
-
-    
-
-    
-    
-    
-
-    
-
-    
-       
-    
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/03/16/Linux下编译安装Mysql/">
-
-    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Czhuyu">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="https://avatars2.githubusercontent.com/u/26237984">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="开始了">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                
-                <a href="/2017/03/16/Linux下编译安装Mysql/" class="post-title-link" itemprop="http://yoursite.com/page/2/index.html">linux安装mysql</a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-
-            
-            
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-
-              
-                
-              
-
-              <time title="创建时间：2017-03-16 22:22:56" itemprop="dateCreated datePublished" datetime="2017-03-16T22:22:56+08:00">2017-03-16</time>
-            
-
-            
-              
-
-              
-                
-                <span class="post-meta-divider">|</span>
-                
-
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">更新于</span>
-                
-                <time title="修改时间：2019-04-16 22:43:07" itemprop="dateModified" datetime="2019-04-16T22:43:07+08:00">2019-04-16</time>
-              
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>1、mysql   官网下载适合的压缩包，格式为mysql-x.x.xx-linuxxxx.tar.gz<br>2、解压后配置<br>配置帮助  ./configure –help<br>3、groupadd mysql<br>useradd –g mysql mysql<br>cd到mysql的解压目录<br>chown –R mysql .<br>chgrp –R mysql .<br>4、./scripts/mysql_install_db –user=mysql<br>如果提示laibaio.1的相关错误<br>yum install libaioso.1 libaio<br>5、把目录权限还给root<br>chown –R root .<br>chown –R mysql data<br>mkdir /var/run/mysqld<br>chown mysql /var/run/mysqld<br>chgrp mysql /var/run/mysqld<br>6、启动mysql<br>./bin/mysqld_safe –user=mysql &amp;<br>7、连接mysql ./bin/mysql –uroot -p<br>如果报错   建立软连接或者直接将sock文件复制过去<br>建立软连接方法<br>ln /var/lib/mysql/mysql.sock /tmp/mysql.sock<br>8、修改密码<br>update user set Password=password(你想要的密码) where Host=’localhost’ and User=  ‘root  ‘;<br>delete from user where Password=  ‘’;<br>flush privileges;</p>
-
-          
-        
-      
-    </div>
-
-    
-
-    
-    
-    
-
-    
-
-    
-       
-    
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/03/16/leetcode_day3/">
 
     <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Czhuyu">
+      <meta itemprop="name" content="czhuyu">
       <meta itemprop="description" content="">
       <meta itemprop="image" content="https://avatars2.githubusercontent.com/u/26237984">
     </span>
 
     <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="开始了">
+      <meta itemprop="name" content="故">
     </span>
 
     
@@ -1921,9 +1921,9 @@
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
             
-              <img class="site-author-image" itemprop="image" src="https://avatars2.githubusercontent.com/u/26237984" alt="Czhuyu">
+              <img class="site-author-image" itemprop="image" src="https://avatars2.githubusercontent.com/u/26237984" alt="czhuyu">
             
-              <p class="site-author-name" itemprop="name">Czhuyu</p>
+              <p class="site-author-name" itemprop="name">czhuyu</p>
               <p class="site-description motion-element" itemprop="description"></p>
           </div>
 
@@ -1953,7 +1953,13 @@
                     
                       
                     
-                    <span class="site-state-item-count">2</span>
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">5</span>
                     <span class="site-state-item-name">标签</span>
                   </a>
                 </div>
@@ -1996,7 +2002,7 @@
   <span class="with-love" id="animate">
     <i class="fa fa-user"></i>
   </span>
-  <span class="author" itemprop="copyrightHolder">Czhuyu</span>
+  <span class="author" itemprop="copyrightHolder">czhuyu</span>
 
   
 
