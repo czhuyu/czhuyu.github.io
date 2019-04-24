@@ -364,7 +364,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/03/16/Linux下编译安装Nginx/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/03/16/面试算法题/">
 
     <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Czhuyu">
@@ -384,7 +384,7 @@
           <h1 class="post-title" itemprop="name headline">
                 
                 
-                <a href="/2017/03/16/Linux下编译安装Nginx/" class="post-title-link" itemprop="http://yoursite.com/page/4/index.html">linux安装nginx</a>
+                <a href="/2017/03/16/面试算法题/" class="post-title-link" itemprop="http://yoursite.com/page/4/index.html">面试算法题</a>
               
             
           </h1>
@@ -426,7 +426,7 @@
                 
                   <span class="post-meta-item-text">更新于</span>
                 
-                <time title="修改时间：2019-04-16 22:42:50" itemprop="dateModified" datetime="2019-04-16T22:42:50+08:00">2019-04-16</time>
+                <time title="修改时间：2019-04-16 22:40:08" itemprop="dateModified" datetime="2019-04-16T22:40:08+08:00">2019-04-16</time>
               
             
           </span>
@@ -461,7 +461,15 @@
       
         
           
-            <p>到nginx.org下载<br>wget <a href="http://nginx.org/download/nginx-1.10.0.tar.gz" target="_blank" rel="noopener">http://nginx.org/download/nginx-1.10.0.tar.gz</a><br>解压压缩包<br>环境配置<br>Cd到解压出来的nginx目录中有configure目录的地方进行环境配置<br>./configure –prefix=/usr/local/nginx<br>Ⅰ.如果遇到提示缺少pcre库<br>到<a href="http://www.pcre.org下载pcre库，if解压到/usr/local/src/pcre-source" target="_blank" rel="noopener">www.pcre.org下载pcre库，if解压到/usr/local/src/pcre-source</a><br>Ⅱ.1.6版本以后的版本制定pcre源码目录./configure –prefix=/usr/local/nginx<br>–with-pcre=/usr/local/src/pcre-source<br>之前的版本制定安装目录./configure –prefix=/usr/local/nginx<br>–with-pcre=/usr/pcre<br>4.编译安装 make &amp;&amp; make install<br>5.启动nginx ./sbin/nginx<br>重启<br>./sbin/nginx –s reload<br>Exception:如果遇到80端口被httpd(Apache)占了<br>Pkill -9 httpd<br>如果无法访问<br>检查防火墙设置</p>
+            <p><pre class="brush:cpp;toolbar:false">package&nbsp;main</pre></p>
+<p>import&nbsp;(<br>&nbsp;&nbsp;&nbsp;&quot;fmt&quot;<br>&nbsp;&nbsp;&nbsp;&quot;strconv&quot;<br>&nbsp;&nbsp;&nbsp;&quot;sort&quot;<br>)</p>
+<p>func&nbsp;filter(str&nbsp;string)&nbsp;string{<br>&nbsp;&nbsp;&nbsp;//过滤aabbbbbccc&nbsp;为abc<br>&nbsp;&nbsp;&nbsp;var&nbsp;newArr&nbsp;=&nbsp;make(map[rune]int)<br>&nbsp;&nbsp;&nbsp;s&nbsp;:=&nbsp;&quot;&quot;</p>
+<p>&nbsp;&nbsp;&nbsp;for&nbsp;_,v&nbsp;:=&nbsp;range&nbsp;[]rune(str){<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if&nbsp;newArr[v]&nbsp;==&nbsp;0{<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;newArr[v]&nbsp;=&nbsp;1<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;s&nbsp;+=&nbsp;string(v)<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>&nbsp;&nbsp;&nbsp;}<br>&nbsp;&nbsp;&nbsp;return&nbsp;s<br>}</p>
+<p>func&nbsp;filter2(str&nbsp;string)&nbsp;string{<br>&nbsp;&nbsp;&nbsp;//过滤aaabbbcssss为3a3bc4s<br>&nbsp;&nbsp;&nbsp;var&nbsp;newArr&nbsp;=&nbsp;make(map[rune]int)<br>&nbsp;&nbsp;&nbsp;var&nbsp;sortArr&nbsp;[]string<br>&nbsp;&nbsp;&nbsp;s&nbsp;:=&nbsp;&quot;&quot;</p>
+<p>&nbsp;&nbsp;&nbsp;for&nbsp;_,v&nbsp;:=&nbsp;range&nbsp;[]rune(str){<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;sortArr&nbsp;=&nbsp;append(sortArr,&nbsp;string(v))<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if&nbsp;newArr[v]&nbsp;==&nbsp;0{<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;newArr[v]&nbsp;=&nbsp;1<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}else{<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;newArr[v]&nbsp;+=&nbsp;1<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>&nbsp;&nbsp;&nbsp;}</p>
+<p>&nbsp;&nbsp;&nbsp;sort.Strings(sortArr)</p>
+<p>&nbsp;&nbsp;&nbsp;for&nbsp;i,v&nbsp;:=&nbsp;range&nbsp;newArr{<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if&nbsp;v&nbsp;==&nbsp;1&nbsp;{<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;s&nbsp;+=&nbsp;string(i)<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}else{<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;s&nbsp;+=&nbsp;strconv.Itoa(v)<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;s&nbsp;+=&nbsp;string(i)<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>&nbsp;&nbsp;&nbsp;}<br>&nbsp;&nbsp;&nbsp;return&nbsp;s<br>}</p>
+<p>func&nbsp;main()&nbsp;{<br>&nbsp;&nbsp;&nbsp;fmt.Println(filter2(&quot;aabccddee&quot;))<br>}</p><p>go语言的map用for range遍历是随机的key<br></p><p>所以如果需要顺序遍历则需要先将key排序</p><p></p>
 
           
         
@@ -518,7 +526,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/03/16/计算一个字符串中最大不重复子串长度/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/03/16/Linux下编译安装PHP/">
 
     <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Czhuyu">
@@ -538,7 +546,7 @@
           <h1 class="post-title" itemprop="name headline">
                 
                 
-                <a href="/2017/03/16/计算一个字符串中最大不重复子串长度/" class="post-title-link" itemprop="http://yoursite.com/page/4/index.html">最长不重复子串</a>
+                <a href="/2017/03/16/Linux下编译安装PHP/" class="post-title-link" itemprop="http://yoursite.com/page/4/index.html">linux安装php</a>
               
             
           </h1>
@@ -580,7 +588,7 @@
                 
                   <span class="post-meta-item-text">更新于</span>
                 
-                <time title="修改时间：2019-04-16 22:40:36" itemprop="dateModified" datetime="2019-04-16T22:40:36+08:00">2019-04-16</time>
+                <time title="修改时间：2019-04-16 22:42:34" itemprop="dateModified" datetime="2019-04-16T22:42:34+08:00">2019-04-16</time>
               
             
           </span>
@@ -615,7 +623,167 @@
       
         
           
-            <figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> main</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> (</span><br><span class="line">   <span class="string">"fmt "</span></span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">maxLen</span><span class="params">(str <span class="keyword">string</span>)</span> <span class="title">int</span></span> &#123;</span><br><span class="line">  start := <span class="number">0</span></span><br><span class="line">  maxlen := <span class="number">0</span></span><br><span class="line">  lastO := <span class="built_in">make</span>(<span class="keyword">map</span>[<span class="keyword">rune</span>]<span class="keyword">int</span>)</span><br><span class="line">  <span class="keyword">for</span> i, v := <span class="keyword">range</span> []<span class="keyword">rune</span>(str) &#123;</span><br><span class="line">      <span class="keyword">if</span> lastI, ok := lastO[v]; ok &#123;</span><br><span class="line">         start = lastI + <span class="number">1</span></span><br><span class="line">      &#125;</span><br><span class="line">      <span class="keyword">if</span> (i-start+<span class="number">1</span> &amp;gt; maxlen) &#123;</span><br><span class="line">         maxlen = i - start + <span class="number">1</span></span><br><span class="line">      &#125;</span><br><span class="line">      lastO[v] = i</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">return</span> maxlen</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">  <span class="comment">//求字符串最大不重复子串长度</span></span><br><span class="line">  <span class="comment">//s:=  "Yes哈哈哈! "</span></span><br><span class="line">  fmt.Println(maxLen( <span class="string">"abcbcdef "</span>))</span><br><span class="line">  fmt.Println(maxLen( <span class="string">"abcdef "</span>))</span><br><span class="line">  fmt.Println(maxLen( <span class="string">"aaaaaaa "</span>))</span><br><span class="line">  fmt.Println(maxLen( <span class="string">"你说什么 "</span>))</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+            <p>1、&nbsp;&nbsp;安装依赖库<br></p><p>2、&nbsp;&nbsp;yum install gd zlib libxml2 libxml2-devel libjpeg libjpeg-devel libpng libpng-devel</p><p>3、&nbsp;&nbsp;下载php-5.6.23.tar.bz2，解压</p><p>4、&nbsp;&nbsp;cd到php解压的目录里</p><p>5、&nbsp;&nbsp;配置安装的一些参数</p><p>./configure –prefix=/usr/local/php \</p><p>–with-gd \</p><p>–enable-gd-native-ttf \</p><p>–enable-gd-jis-conv \</p><p>–with-mysql=mysqlnd \</p><p>–enable-mysqlnd \</p><p>–with-pdo-mysql=mysqlnd \</p><p>–enable-fpm\</p><p>–with-openssl</p><p>&nbsp;</p><p>&nbsp;</p><p>Curl &nbsp;&nbsp;&nbsp;</p><p>&nbsp;</p><p>&nbsp;</p><p>./configure –prefix=/usr/local/php7 –with-gd –enable-gd-native-ttf –enable-gd-jis-conv –with-mysql=mysqlnd –enable-mysqlnd –with-pdo-mysql=mysqlnd –enable-fpm –with-openssl –enable-mbstring –enable-tokenizer –enable-zip –with-curl</p><p>&nbsp;</p><p>&nbsp;</p><p>enable-fpm是让php作为独立的进程来运行，占用9000端口</p><p>配置注意</p><p>&nbsp;</p><p>可能会报openssl的错误</p><p>yum install openssl openssl-devel</p><p>&nbsp;</p><p>每个参数后的斜杠前是有空格的，斜杠所起的作用是连接上下两行，没有空格两个参数会连到一起就会报错了</p><p>6、&nbsp;&nbsp;make &amp;&amp;make install</p><p>这个过程中如果使用小内存的服务器可能出现php error，解决办法:</p><p>在配置的最后一行加上–disable-fileinfo</p><p>7、cd /usr/local/php</p><p>cp etc/php-fpm.conf.default etc/php-fpm.conf</p><p>cp /usr/local/src/php-5.5.13/php.ini-development ./lib/php.ini</p><p>7、&nbsp;&nbsp;启动php</p><p>./sbin/php-fpm</p><p>&nbsp;</p><p>&nbsp;</p><p>/usr/local/php7/lib/php/extensions/no-debug-non-zts-20151012</p><p><br></p>
+          
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+       
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/03/16/排序算法/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Czhuyu">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="https://avatars2.githubusercontent.com/u/26237984">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="开始了">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                
+                <a href="/2017/03/16/排序算法/" class="post-title-link" itemprop="http://yoursite.com/page/4/index.html">基本排序算法</a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2017-03-16 22:22:56" itemprop="dateCreated datePublished" datetime="2017-03-16T22:22:56+08:00">2017-03-16</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2019-04-16 22:39:52" itemprop="dateModified" datetime="2019-04-16T22:39:52+08:00">2019-04-16</time>
+              
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h4 id="使用四种基本的排序方法对生成的1000个随机数进行排序，比较执行时间"><a href="#使用四种基本的排序方法对生成的1000个随机数进行排序，比较执行时间" class="headerlink" title="使用四种基本的排序方法对生成的1000个随机数进行排序，比较执行时间"></a>使用四种基本的排序方法对生成的1000个随机数进行排序，比较执行时间</h4><h3 id="一、冒泡排序"><a href="#一、冒泡排序" class="headerlink" title="一、冒泡排序"></a>一、冒泡排序</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">$s=microtime();//记录开始时间</span><br><span class="line"></span><br><span class="line">for($i=0;$i=1000;$i++)&#123;</span><br><span class="line">  	$a[$i] = mt_rand(0,1000);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">//冒泡排序</span><br><span class="line">for($j=0;$j&lt;999;$j++)&#123;</span><br><span class="line">  	for($k=0;$k&lt;999-$j;$k++)&#123;</span><br><span class="line">  		if($a[$k]&gt;$a[$k+1])&#123;</span><br><span class="line">  			$temp = $a[$k];</span><br><span class="line">  			$a[$k] = $a[$k+1];</span><br><span class="line">  			$a[$k+1] = $temp;</span><br><span class="line">  		&#125;</span><br><span class="line">  	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">for($i=0;$i&lt;1000;$i++)&#123;</span><br><span class="line">  	echo $a[$i].&apos;&apos;;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">$e = microtime();//记录结束时间</span><br><span class="line">echo &apos;&lt;br/&gt;&apos;;</span><br><span class="line">echo $e-$s;</span><br></pre></td></tr></table></figure>
+<h3 id="二、简单选择排序"><a href="#二、简单选择排序" class="headerlink" title="二、简单选择排序"></a>二、简单选择排序</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">for($i=0;$i&lt;999;$i++)&#123;</span><br><span class="line">  	for($j=$i+1;$j&lt;1000;$j++)&#123;</span><br><span class="line">  		if($a[$j]&lt;$a[$i])&#123;</span><br><span class="line">  			$temp = $a[$j];</span><br><span class="line">  			$a[$j] = $a[$i];</span><br><span class="line">  			$a[$i] = $temp;</span><br><span class="line">  		&#125;</span><br><span class="line">  	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="三、直接插入排序"><a href="#三、直接插入排序" class="headerlink" title="三、直接插入排序"></a>三、直接插入排序</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">for($i=1;$i&lt;1000;$i++)&#123;</span><br><span class="line">  	if($a[$i]&lt;$a[$i-1])&#123;</span><br><span class="line">  		$j = $i-1;</span><br><span class="line">  		$temp = $a[$i];</span><br><span class="line">  		for($j;$j&gt;=0&amp;amp;&amp;amp;$a[$j]&gt;$temp;$j--)&#123;</span><br><span class="line">  			$a[$j+1] = $a[$j];</span><br><span class="line">  		&#125;</span><br><span class="line">  		$a[$j+1] = $temp;</span><br><span class="line">  	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="四、快速排序"><a href="#四、快速排序" class="headerlink" title="四、快速排序"></a>四、快速排序</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">function qsort($left,$right)&#123;</span><br><span class="line">    if($left&gt;$right)&#123;</span><br><span class="line">        return;</span><br><span class="line">    &#125;</span><br><span class="line">    global $a;</span><br><span class="line"></span><br><span class="line">    $i=$left;</span><br><span class="line">    $j=$right;</span><br><span class="line">    $key = $i;</span><br><span class="line">    while($i&lt;$j)&#123;</span><br><span class="line">        //从右往左找到第一个小于标记的值，交换</span><br><span class="line">	while($a[$j]&gt;=$a[$key]&amp;amp;&amp;amp;$j&gt;$i)$j--;</span><br><span class="line">	$temp = $a[$i];</span><br><span class="line">	$a[$i] = $a[$j];</span><br><span class="line">	$a[$j] = $temp;</span><br><span class="line">	$key = $j;</span><br><span class="line">	//从左往右找到第一个大于标记的值，交换</span><br><span class="line">	while($a[$i]&lt;=$a[$key]&amp;amp;&amp;amp;$i&lt;$j)$i++;</span><br><span class="line">	$temp = $a[$i];</span><br><span class="line">	$a[$i] = $a[$j];</span><br><span class="line">	$a[$j] = $temp;</span><br><span class="line">	$key = $i;</span><br><span class="line">&#125;</span><br><span class="line">//递归调用</span><br><span class="line">qsort($left,$i-1);</span><br><span class="line">qsort($i+1,$right);</span><br><span class="line">qsort(0,999);</span><br></pre></td></tr></table></figure>
+<h3 id="多次测试结果"><a href="#多次测试结果" class="headerlink" title="多次测试结果"></a>多次测试结果</h3><p>冒泡排序0.05~0.07</p>
+<p>简单选择0.03~0.06</p>
+<p>直接插入0.02~0.04</p>
+<p>快速排序0.002~0.007</p>
 
           
         
@@ -672,7 +840,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/03/16/leetcode_day3/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/03/16/leetcode_day2/">
 
     <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Czhuyu">
@@ -692,7 +860,7 @@
           <h1 class="post-title" itemprop="name headline">
                 
                 
-                <a href="/2017/03/16/leetcode_day3/" class="post-title-link" itemprop="http://yoursite.com/page/4/index.html">day3</a>
+                <a href="/2017/03/16/leetcode_day2/" class="post-title-link" itemprop="http://yoursite.com/page/4/index.html">day2</a>
               
             
           </h1>
@@ -734,7 +902,7 @@
                 
                   <span class="post-meta-item-text">更新于</span>
                 
-                <time title="修改时间：2019-04-16 22:44:15" itemprop="dateModified" datetime="2019-04-16T22:44:15+08:00">2019-04-16</time>
+                <time title="修改时间：2019-04-16 22:44:30" itemprop="dateModified" datetime="2019-04-16T22:44:30+08:00">2019-04-16</time>
               
             
           </span>
@@ -769,7 +937,7 @@
       
         
           
-            <p><strong>Binary Tree (Traverse A Tree)</strong><br></p><p><br></p><p>Binary Tree Preorder Traversal</p><pre class="brush:cpp;toolbar:false">/*<em><br>&nbsp;</em>&nbsp;Definition&nbsp;for&nbsp;a&nbsp;binary&nbsp;tree&nbsp;node.<br>&nbsp;<em>&nbsp;type&nbsp;TreeNode&nbsp;struct&nbsp;{<br>&nbsp;</em>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Val&nbsp;int<br>&nbsp;<em>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Left&nbsp;</em>TreeNode<br>&nbsp;<em>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Right&nbsp;</em>TreeNode<br>&nbsp;<em>&nbsp;}<br>&nbsp;</em>/<br>func&nbsp;preorderTraversal(root&nbsp;<em>TreeNode)&nbsp;[]int&nbsp;{<br>    var&nbsp;arr&nbsp;[]int<br>    if&nbsp;root&nbsp;==&nbsp;nil&nbsp;{<br>        return&nbsp;arr<br>    }<br>    arr&nbsp;=&nbsp;append(arr,&nbsp;root.Val)<br>    arr1&nbsp;:=&nbsp;preorderTraversal(root.Left)<br>    arr&nbsp;=&nbsp;arrmerge(arr,&nbsp;arr1)<br>    arr2&nbsp;:=&nbsp;preorderTraversal(root.Right)<br>    arr&nbsp;=&nbsp;arrmerge(arr,&nbsp;arr2)<br>    return&nbsp;arr<br>}<br><br>func&nbsp;arrmerge(arr&nbsp;[]int,&nbsp;arr1&nbsp;[]int)&nbsp;[]int&nbsp;{<br>​    for&nbsp;_,&nbsp;v&nbsp;:=&nbsp;range&nbsp;arr1&nbsp;{<br>​        arr&nbsp;=&nbsp;append(arr,&nbsp;v)<br>​    }<br>​    return&nbsp;arr<br>}</em></pre><p>Binary Tree Inorder Traversal</p><pre class="brush:cpp;toolbar:false">func&nbsp;inorderTraversal(root&nbsp;TreeNode)&nbsp;[]int&nbsp;{<br>​    var&nbsp;arr&nbsp;[]int<br>​    if&nbsp;root&nbsp;==&nbsp;nil&nbsp;{<br>​        return&nbsp;arr<br>​    }<br>​    arr1&nbsp;:=&nbsp;inorderTraversal(root.Left)<br>​    arr&nbsp;=&nbsp;arrmerge(arr,&nbsp;arr1)<br>​    arr&nbsp;=&nbsp;append(arr,&nbsp;root.Val)<br>​    arr2&nbsp;:=&nbsp;inorderTraversal(root.Right)<br>​    arr&nbsp;=&nbsp;arrmerge(arr,&nbsp;arr2)<br>​    return&nbsp;arr<br>}</pre><p>Binary Tree Postorder Traversal</p><pre class="brush:cpp;toolbar:false">func&nbsp;postorderTraversal(root&nbsp;*TreeNode)&nbsp;[]int&nbsp;{<br>&nbsp;&nbsp;&nbsp;&nbsp;var&nbsp;arr&nbsp;[]int<br>​    if&nbsp;root&nbsp;==&nbsp;nil&nbsp;{<br>​        return&nbsp;arr<br>​    }<br>​    arr1&nbsp;:=&nbsp;postorderTraversal(root.Left)<br>​    arr&nbsp;=&nbsp;arrmerge(arr,&nbsp;arr1)<br>​    arr2&nbsp;:=&nbsp;postorderTraversal(root.Right)<br>​    arr&nbsp;=&nbsp;arrmerge(arr,&nbsp;arr2)<br>&nbsp;&nbsp;&nbsp;&nbsp;arr&nbsp;=&nbsp;append(arr,&nbsp;root.Val)<br>​    return&nbsp;arr<br>}</pre><p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;</p>
+            <p></p><p style="box-sizing: border-box; font-family: inherit; font-weight: 500; line-height: 1.1; color: inherit; margin-top: 0px; margin-bottom: 10px; font-size: 24px; display: inline-block; margin-right: 0.5em;">7.&nbsp;Reverse Integer</p><p><br></p><pre class="brush:cpp;toolbar:false">func&nbsp;reverse(x&nbsp;int)&nbsp;int&nbsp;{<br>    s&nbsp;:=&nbsp;strconv.Itoa(x)<br>    rs&nbsp;:=&nbsp;&quot;&quot;<br>    j&nbsp;:=&nbsp;0<br>    if&nbsp;x&nbsp;&lt;&nbsp;0&nbsp;{<br>        j&nbsp;=&nbsp;1<br>        rs&nbsp;+=&nbsp;&quot;-&quot;<br>    }<br>    for&nbsp;i&nbsp;:=&nbsp;len(s)&nbsp;-&nbsp;1;&nbsp;i&nbsp;&gt;=&nbsp;j;&nbsp;i–&nbsp;{<br>        rs&nbsp;+=&nbsp;string(s[i])<br>    }<br>    rsi,&nbsp;_&nbsp;:=&nbsp;strconv.Atoi(rs)<br>    if&nbsp;rsi&nbsp;&gt;&nbsp;(1&lt;&lt;31)&nbsp;||&nbsp;rsi&nbsp;&lt;&nbsp;-(1&nbsp;&lt;&lt;&nbsp;31)&nbsp;{<br>        rsi&nbsp;=&nbsp;0<br>    }<br>    return&nbsp;rsi<br><br>}</pre><p><br></p>
           
         
       
@@ -859,7 +1027,7 @@
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">33</span>
+                    <span class="site-state-item-count">34</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>
@@ -878,13 +1046,7 @@
                     
                       
                     
-                      
-                    
-                      
-                    
-                      
-                    
-                    <span class="site-state-item-count">5</span>
+                    <span class="site-state-item-count">2</span>
                     <span class="site-state-item-name">标签</span>
                   </a>
                 </div>

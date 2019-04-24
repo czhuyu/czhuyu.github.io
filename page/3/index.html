@@ -364,6 +364,159 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/03/16/leetcode_day4/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Czhuyu">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="https://avatars2.githubusercontent.com/u/26237984">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="开始了">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                
+                <a href="/2017/03/16/leetcode_day4/" class="post-title-link" itemprop="http://yoursite.com/page/3/index.html">day4</a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2017-03-16 22:22:56" itemprop="dateCreated datePublished" datetime="2017-03-16T22:22:56+08:00">2017-03-16</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2019-04-16 22:43:55" itemprop="dateModified" datetime="2019-04-16T22:43:55+08:00">2019-04-16</time>
+              
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p><br></p><p style="box-sizing: border-box; font-family: inherit; font-weight: 500; line-height: 1.1; color: inherit; margin-top: 0px; margin-bottom: 10px; font-size: 24px; display: inline-block; margin-right: 0.5em;">2.&nbsp;Add Two Numbers</p><p style="box-sizing: border-box; margin-top: 0px; margin-bottom: 10px; color: rgb(51, 51, 51); font-family: &quot;Helvetica Neue&quot;, Helvetica, Arial, sans-serif; font-size: 14px; white-space: normal; background-color: rgb(255, 255, 255);">You are given two&nbsp;<span style="box-sizing: border-box; font-weight: 700;">non-empty</span>&nbsp;linked lists representing two non-negative integers. The digits are stored in&nbsp;<span style="box-sizing: border-box; font-weight: 700;">reverse order</span>&nbsp;and each of their nodes contain a single digit. Add the two numbers and return it as a linked list.</p><p style="box-sizing: border-box; margin-top: 0px; margin-bottom: 10px; color: rgb(51, 51, 51); font-family: &quot;Helvetica Neue&quot;, Helvetica, Arial, sans-serif; font-size: 14px; white-space: normal; background-color: rgb(255, 255, 255);">You may assume the two numbers do not contain any leading zero, except the number 0 itself.</p><p style="box-sizing: border-box; margin-top: 0px; margin-bottom: 10px; color: rgb(51, 51, 51); font-family: &quot;Helvetica Neue&quot;, Helvetica, Arial, sans-serif; font-size: 14px; white-space: normal; background-color: rgb(255, 255, 255);"><span style="box-sizing: border-box; font-weight: 700;">Example</span></p><pre style="box-sizing: border-box; overflow: auto; font-family: Menlo, Monaco, Consolas, &quot;Courier New&quot;, monospace; font-size: 13px; padding: 9.5px; margin-top: 0px; margin-bottom: 10px; line-height: 1.42857; color: rgb(51, 51, 51); word-break: break-all; word-wrap: break-word; background-color: rgb(245, 245, 245); border: 1px solid rgb(204, 204, 204); border-radius: 4px;">Input:&nbsp;(2&nbsp;-&gt;&nbsp;4&nbsp;-&gt;&nbsp;3)&nbsp;+&nbsp;(5&nbsp;-&gt;&nbsp;6&nbsp;-&gt;&nbsp;4)Output:&nbsp;7&nbsp;-&gt;&nbsp;0&nbsp;-&gt;&nbsp;8Explanation:&nbsp;342&nbsp;+&nbsp;465&nbsp;=&nbsp;807.</pre><p><br></p><pre class="brush:cpp;toolbar:false">/*<em><br>&nbsp;</em>&nbsp;Definition&nbsp;for&nbsp;singly-linked&nbsp;list.<br>&nbsp;<em>&nbsp;type&nbsp;ListNode&nbsp;struct&nbsp;{<br>&nbsp;</em>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Val&nbsp;int<br>&nbsp;<em>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Next&nbsp;</em>ListNode<br>&nbsp;<em>&nbsp;}<br>&nbsp;</em>/<br>func&nbsp;addTwoNumbers(l1&nbsp;<em>ListNode,&nbsp;l2&nbsp;</em>ListNode)&nbsp;<em>ListNode&nbsp;{<br>&nbsp;&nbsp;&nbsp;&nbsp;i1&nbsp;:=&nbsp;0<br>    i2&nbsp;:=&nbsp;0<br>    p&nbsp;:=&nbsp;l1<br>    j&nbsp;:=&nbsp;0<br>    for&nbsp;{<br>        if&nbsp;p&nbsp;!=&nbsp;nil&nbsp;{<br>            i1&nbsp;+=&nbsp;p.Val&nbsp;</em>&nbsp;int(math.Pow(float64(10),&nbsp;float64(j)))<br>            j++<br>            p&nbsp;=&nbsp;p.Next<br>        }&nbsp;else&nbsp;{<br>            break<br>        }<br>    }<br>    j&nbsp;=&nbsp;0<br>    p&nbsp;=&nbsp;l2<br>    for&nbsp;{<br>        if&nbsp;p&nbsp;!=&nbsp;nil&nbsp;{<br>            i2&nbsp;+=&nbsp;p.Val&nbsp;<em>&nbsp;int(math.Pow(float64(10),&nbsp;float64(j)))<br>            j++<br>            p&nbsp;=&nbsp;p.Next<br>        }&nbsp;else&nbsp;{<br>            break<br>        }<br>    }<br>    revres&nbsp;:=&nbsp;i1&nbsp;+&nbsp;i2<br>&nbsp;&nbsp;&nbsp;&nbsp;<br>&nbsp;&nbsp;&nbsp;&nbsp;fmt.Println(revres)<br>    head&nbsp;:=&nbsp;new(ListNode)<br>    p&nbsp;=&nbsp;head<br>    for&nbsp;{<br>        if&nbsp;revres&nbsp;==&nbsp;0&nbsp;{<br>            break<br>        }&nbsp;else&nbsp;{<br>            p.Val&nbsp;=&nbsp;revres&nbsp;%&nbsp;10&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>            revres&nbsp;=&nbsp;revres&nbsp;/&nbsp;10<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if&nbsp;revres&nbsp;!=&nbsp;0{<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;    &nbsp;&nbsp;&nbsp;&nbsp;node&nbsp;:=&nbsp;new(ListNode)<br>            &nbsp;&nbsp;&nbsp;&nbsp;p.Next&nbsp;=&nbsp;node<br>            &nbsp;&nbsp;&nbsp;&nbsp;p&nbsp;=&nbsp;p.Next&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>        }<br>    }<br>&nbsp;&nbsp;&nbsp;&nbsp;<br>&nbsp;&nbsp;&nbsp;&nbsp;<br>&nbsp;&nbsp;&nbsp;&nbsp;p&nbsp;=&nbsp;l1<br>    for&nbsp;{<br>        if&nbsp;p.Next&nbsp;==&nbsp;nil&nbsp;{<br>            break<br>        }<br>        fmt.Printf(&quot;%d\t&quot;,&nbsp;p.Val)<br>        p&nbsp;=&nbsp;p.Next<br>    }<br>&nbsp;&nbsp;&nbsp;&nbsp;<br>&nbsp;&nbsp;&nbsp;&nbsp;<br>    return&nbsp;head<br>&nbsp;&nbsp;&nbsp;&nbsp;<br>&nbsp;&nbsp;&nbsp;&nbsp;<br>}</em></pre><p>&nbsp; 后面出现了位数很长的用例，所以换成采用数组来暂存单链表</p><pre class="brush:cpp;toolbar:false">func&nbsp;addTwoNumbers(l1&nbsp;ListNode,&nbsp;l2&nbsp;<em>ListNode)&nbsp;</em>ListNode&nbsp;{<br>    var&nbsp;i1&nbsp;[]int<br>    var&nbsp;i2&nbsp;[]int<br>    p&nbsp;:=&nbsp;l1<br>    for&nbsp;{<br>        if&nbsp;p&nbsp;!=&nbsp;nil&nbsp;{<br>            i1&nbsp;=&nbsp;append(i1,&nbsp;p.Val)<br>            p&nbsp;=&nbsp;p.Next<br>        }&nbsp;else&nbsp;{<br>            break<br>        }<br>    }<br>    p&nbsp;=&nbsp;l2<br>    for&nbsp;{<br>        if&nbsp;p&nbsp;!=&nbsp;nil&nbsp;{<br>            i2&nbsp;=&nbsp;append(i2,&nbsp;p.Val)<br>            p&nbsp;=&nbsp;p.Next<br>        }&nbsp;else&nbsp;{<br>            break<br>        }<br>    }<br>    head&nbsp;:=&nbsp;new(ListNode)<br>    p&nbsp;=&nbsp;head<br>    lenthi1&nbsp;:=&nbsp;len(i1)<br>    lenthi2&nbsp;:=&nbsp;len(i2)<br>    if&nbsp;lenthi1&nbsp;!=&nbsp;lenthi2&nbsp;{<br>        if&nbsp;lenthi1&nbsp;&lt;&nbsp;lenthi2&nbsp;{<br>            for&nbsp;i&nbsp;:=&nbsp;0;&nbsp;i&nbsp;&lt;&nbsp;lenthi2-lenthi1;&nbsp;i++&nbsp;{<br>                i1&nbsp;=&nbsp;append(i1,&nbsp;0)<br>            }<br>        }&nbsp;else&nbsp;{<br>            for&nbsp;i&nbsp;:=&nbsp;0;&nbsp;i&nbsp;&lt;&nbsp;lenthi1-lenthi2;&nbsp;i++&nbsp;{<br>                i2&nbsp;=&nbsp;append(i2,&nbsp;0)<br>            }<br>        }<br>    }<br>    lenthi1&nbsp;=&nbsp;len(i1)<br>    lenthi2&nbsp;=&nbsp;len(i2)<br>    flag&nbsp;:=&nbsp;0<br>    for&nbsp;i,&nbsp;_&nbsp;:=&nbsp;range&nbsp;i1&nbsp;{<br>        sum&nbsp;:=&nbsp;i1[i]&nbsp;+&nbsp;i2[i]<br>        if&nbsp;i&nbsp;&lt;&nbsp;lenthi1-1&nbsp;{<br>            if&nbsp;(sum)/10&nbsp;&gt;&nbsp;0&nbsp;{<br>                i1[i+1]&nbsp;+=&nbsp;1<br>            }<br>        }&nbsp;else&nbsp;{<br>            if&nbsp;(sum)/10&nbsp;&gt;&nbsp;0&nbsp;{<br>                flag&nbsp;=&nbsp;1<br>            }<br>        }<br>        p.Val&nbsp;=&nbsp;sum&nbsp;%&nbsp;10<br>        if&nbsp;i&nbsp;&lt;&nbsp;lenthi1-1&nbsp;{<br>            node&nbsp;:=&nbsp;new(ListNode)<br>            p.Next&nbsp;=&nbsp;node<br>            p&nbsp;=&nbsp;p.Next<br>        }<br>    }<br>    if&nbsp;flag&nbsp;==&nbsp;1&nbsp;{<br>        node&nbsp;:=&nbsp;new(ListNode)<br>        node.Val&nbsp;=&nbsp;1<br>        p.Next&nbsp;=&nbsp;node<br>    }<br>    return&nbsp;head<br>}</pre><p><br></p>
+          
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+       
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/03/16/leetcode_day5/">
 
     <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
@@ -462,6 +615,160 @@
         
           
             <p></p><p style="box-sizing: border-box; font-family: inherit; font-weight: 500; line-height: 1.1; color: inherit; margin-top: 0px; margin-bottom: 10px; font-size: 24px; display: inline-block; margin-right: 0.5em;">3.&nbsp;Longest Substring Without Repeating Characters</p><p style="box-sizing: border-box; margin-top: 0px; margin-bottom: 10px; color: rgb(51, 51, 51); font-family: &quot;Helvetica Neue&quot;, Helvetica, Arial, sans-serif; font-size: 14px; white-space: normal; background-color: rgb(255, 255, 255);">Given a string, find the length of the&nbsp;<span style="box-sizing: border-box; font-weight: 700;">longest substring</span>&nbsp;without repeating characters.<br></p><p style="box-sizing: border-box; margin-top: 0px; margin-bottom: 10px; color: rgb(51, 51, 51); font-family: &quot;Helvetica Neue&quot;, Helvetica, Arial, sans-serif; font-size: 14px; white-space: normal; background-color: rgb(255, 255, 255);"><span style="box-sizing: border-box; font-weight: 700;">Examples:</span></p><p style="box-sizing: border-box; margin-top: 0px; margin-bottom: 10px; color: rgb(51, 51, 51); font-family: &quot;Helvetica Neue&quot;, Helvetica, Arial, sans-serif; font-size: 14px; white-space: normal; background-color: rgb(255, 255, 255);">Given&nbsp;<code style="box-sizing: border-box; font-family: Menlo, Monaco, Consolas, &quot;Courier New&quot;, monospace; font-size: 12.6px; padding: 2px 4px; color: rgb(199, 37, 78); background-color: rgb(249, 242, 244); border-radius: 4px;">&quot;abcabcbb&quot;</code>, the answer is&nbsp;<code style="box-sizing: border-box; font-family: Menlo, Monaco, Consolas, &quot;Courier New&quot;, monospace; font-size: 12.6px; padding: 2px 4px; color: rgb(199, 37, 78); background-color: rgb(249, 242, 244); border-radius: 4px;">&quot;abc&quot;</code>, which the length is 3.</p><p style="box-sizing: border-box; margin-top: 0px; margin-bottom: 10px; color: rgb(51, 51, 51); font-family: &quot;Helvetica Neue&quot;, Helvetica, Arial, sans-serif; font-size: 14px; white-space: normal; background-color: rgb(255, 255, 255);">Given&nbsp;<code style="box-sizing: border-box; font-family: Menlo, Monaco, Consolas, &quot;Courier New&quot;, monospace; font-size: 12.6px; padding: 2px 4px; color: rgb(199, 37, 78); background-color: rgb(249, 242, 244); border-radius: 4px;">&quot;bbbbb&quot;</code>, the answer is&nbsp;<code style="box-sizing: border-box; font-family: Menlo, Monaco, Consolas, &quot;Courier New&quot;, monospace; font-size: 12.6px; padding: 2px 4px; color: rgb(199, 37, 78); background-color: rgb(249, 242, 244); border-radius: 4px;">&quot;b&quot;</code>, with the length of 1.</p><p style="box-sizing: border-box; margin-top: 0px; margin-bottom: 10px; color: rgb(51, 51, 51); font-family: &quot;Helvetica Neue&quot;, Helvetica, Arial, sans-serif; font-size: 14px; white-space: normal; background-color: rgb(255, 255, 255);">Given&nbsp;<code style="box-sizing: border-box; font-family: Menlo, Monaco, Consolas, &quot;Courier New&quot;, monospace; font-size: 12.6px; padding: 2px 4px; color: rgb(199, 37, 78); background-color: rgb(249, 242, 244); border-radius: 4px;">&quot;pwwkew&quot;</code>, the answer is&nbsp;<code style="box-sizing: border-box; font-family: Menlo, Monaco, Consolas, &quot;Courier New&quot;, monospace; font-size: 12.6px; padding: 2px 4px; color: rgb(199, 37, 78); background-color: rgb(249, 242, 244); border-radius: 4px;">&quot;wke&quot;</code>, with the length of 3. Note that the answer must be a&nbsp;<span style="box-sizing: border-box; font-weight: 700;">substring</span>,&nbsp;<code style="box-sizing: border-box; font-family: Menlo, Monaco, Consolas, &quot;Courier New&quot;, monospace; font-size: 12.6px; padding: 2px 4px; color: rgb(199, 37, 78); background-color: rgb(249, 242, 244); border-radius: 4px;">&quot;pwke&quot;</code>&nbsp;is a&nbsp;<em style="box-sizing: border-box;">subsequence</em>&nbsp;and not a substring.</p><pre class="brush:cpp;toolbar:false">func&nbsp;lengthOfLongestSubstring(s&nbsp;string)&nbsp;int&nbsp;{<br>    arr&nbsp;:=&nbsp;make(map[rune]int)<br>    start&nbsp;:=&nbsp;0<br>    maxlen&nbsp;:=&nbsp;0<br>    for&nbsp;i,&nbsp;v&nbsp;:=&nbsp;range&nbsp;[]rune(s)&nbsp;{<br>        if&nbsp;pre,&nbsp;ok&nbsp;:=&nbsp;arr[v];&nbsp;ok&nbsp;&amp;&amp;&nbsp;pre&nbsp;&gt;=&nbsp;start&nbsp;{<br>            start&nbsp;=&nbsp;pre&nbsp;+&nbsp;1<br>        }<br>        if&nbsp;i-start+1&nbsp;&gt;&nbsp;maxlen&nbsp;{<br>            maxlen&nbsp;=&nbsp;i&nbsp;-&nbsp;start&nbsp;+&nbsp;1<br>        }<br>        arr[v]&nbsp;=&nbsp;i<br>    }<br>    return&nbsp;maxlen<br>}</pre><p><br></p>
+          
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+       
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/03/16/Linux下编译安装Nginx/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Czhuyu">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="https://avatars2.githubusercontent.com/u/26237984">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="开始了">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                
+                <a href="/2017/03/16/Linux下编译安装Nginx/" class="post-title-link" itemprop="http://yoursite.com/page/3/index.html">linux安装nginx</a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2017-03-16 22:22:56" itemprop="dateCreated datePublished" datetime="2017-03-16T22:22:56+08:00">2017-03-16</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2019-04-16 22:42:50" itemprop="dateModified" datetime="2019-04-16T22:42:50+08:00">2019-04-16</time>
+              
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>到nginx.org下载<br>wget <a href="http://nginx.org/download/nginx-1.10.0.tar.gz" target="_blank" rel="noopener">http://nginx.org/download/nginx-1.10.0.tar.gz</a><br>解压压缩包<br>环境配置<br>Cd到解压出来的nginx目录中有configure目录的地方进行环境配置<br>./configure –prefix=/usr/local/nginx<br>Ⅰ.如果遇到提示缺少pcre库<br>到<a href="http://www.pcre.org下载pcre库，if解压到/usr/local/src/pcre-source" target="_blank" rel="noopener">www.pcre.org下载pcre库，if解压到/usr/local/src/pcre-source</a><br>Ⅱ.1.6版本以后的版本制定pcre源码目录./configure –prefix=/usr/local/nginx<br>–with-pcre=/usr/local/src/pcre-source<br>之前的版本制定安装目录./configure –prefix=/usr/local/nginx<br>–with-pcre=/usr/pcre<br>4.编译安装 make &amp;&amp; make install<br>5.启动nginx ./sbin/nginx<br>重启<br>./sbin/nginx –s reload<br>Exception:如果遇到80端口被httpd(Apache)占了<br>Pkill -9 httpd<br>如果无法访问<br>检查防火墙设置</p>
+
           
         
       
@@ -825,7 +1132,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/03/16/Linux下编译安装Mysql/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/03/16/安装Laravel/">
 
     <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Czhuyu">
@@ -845,7 +1152,7 @@
           <h1 class="post-title" itemprop="name headline">
                 
                 
-                <a href="/2017/03/16/Linux下编译安装Mysql/" class="post-title-link" itemprop="http://yoursite.com/page/3/index.html">linux安装mysql</a>
+                <a href="/2017/03/16/安装Laravel/" class="post-title-link" itemprop="http://yoursite.com/page/3/index.html">安装laravel</a>
               
             
           </h1>
@@ -887,7 +1194,7 @@
                 
                   <span class="post-meta-item-text">更新于</span>
                 
-                <time title="修改时间：2019-04-16 22:43:07" itemprop="dateModified" datetime="2019-04-16T22:43:07+08:00">2019-04-16</time>
+                <time title="修改时间：2019-04-16 22:41:07" itemprop="dateModified" datetime="2019-04-16T22:41:07+08:00">2019-04-16</time>
               
             
           </span>
@@ -922,8 +1229,7 @@
       
         
           
-            <p>1、mysql   官网下载适合的压缩包，格式为mysql-x.x.xx-linuxxxx.tar.gz<br>2、解压后配置<br>配置帮助  ./configure –help<br>3、groupadd mysql<br>useradd –g mysql mysql<br>cd到mysql的解压目录<br>chown –R mysql .<br>chgrp –R mysql .<br>4、./scripts/mysql_install_db –user=mysql<br>如果提示laibaio.1的相关错误<br>yum install libaioso.1 libaio<br>5、把目录权限还给root<br>chown –R root .<br>chown –R mysql data<br>mkdir /var/run/mysqld<br>chown mysql /var/run/mysqld<br>chgrp mysql /var/run/mysqld<br>6、启动mysql<br>./bin/mysqld_safe –user=mysql &amp;<br>7、连接mysql ./bin/mysql –uroot -p<br>如果报错   建立软连接或者直接将sock文件复制过去<br>建立软连接方法<br>ln /var/lib/mysql/mysql.sock /tmp/mysql.sock<br>8、修改密码<br>update user set Password=password(你想要的密码) where Host=’localhost’ and User=  ‘root  ‘;<br>delete from user where Password=  ‘’;<br>flush privileges;</p>
-
+            <p>一、根据官方文档需要安装几个php的扩展 Openssl/PDO/Mbstring/Tokenizer/XML<br></p><p>二、Linux下可以使用Composer来安装Laravel</p><p>&nbsp; 1.全局安装Composer&nbsp;<br></p><p>&nbsp;&nbsp;&nbsp;&nbsp;curl -sS <a href="https://getcomposer.org/installer" target="_blank" rel="noopener">https://getcomposer.org/installer</a> | php<br>&nbsp;&nbsp;&nbsp;&nbsp;mv composer.phar /usr/local/bin/composer<br></p><p>&nbsp; &nbsp; &nbsp;解决更新慢的问题<br></p><p>&nbsp;&nbsp;&nbsp;&nbsp;composer config repo.packagist composer <a href="https://packagist.phpcomposer.com" target="_blank" rel="noopener">https://packagist.phpcomposer.com</a></p><p>&nbsp;&nbsp;&nbsp;&nbsp;composer –version查看是否安装成功</p><p>&nbsp; 2.利用Composer安装Laravel<br></p><p>&nbsp;&nbsp;&nbsp;&nbsp;composer global require &quot;laravel/installer&quot;<br></p><p>&nbsp;&nbsp;&nbsp;&nbsp;cd到$Home/.composer/vendor/bin目录下<br></p><p>&nbsp;&nbsp;&nbsp;&nbsp;执行 Laravel new Blog<br></p><p>&nbsp; 3.最后利用php的内置服务器<br></p><p>&nbsp;&nbsp;&nbsp;&nbsp;php artisan serve<br></p><p><br></p><p>一些收获</p><p>&nbsp; &nbsp;1.Linux方面 .tar.gz通过的是源码安装 ./configure –prefix=/usr/local/php 即指定安装路径 卸载的时候只需要删除这个目录下的东西即可</p><p>　　开机自启动</p><p>　　增加环境变量</p><p>&nbsp; &nbsp;2.php 的两种运行方式的php.ini有可能是不同的,也就是会出现你的web上面的phpinfo()和你直接用CLI执行的php -m发现扩展的开启情况是不相同的，这个时候就需要你运行CLI和web的时候所用的php.ini是同一个文件</p><p>&nbsp; &nbsp;3.Laravel</p><p>　　从laraval知道了php有一个内置的服务器。</p><p><br></p>
           
         
       
@@ -1133,159 +1439,6 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/03/16/安装Laravel/">
-
-    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Czhuyu">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="https://avatars2.githubusercontent.com/u/26237984">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="开始了">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                
-                <a href="/2017/03/16/安装Laravel/" class="post-title-link" itemprop="http://yoursite.com/page/3/index.html">安装laravel</a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-
-            
-            
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-
-              
-                
-              
-
-              <time title="创建时间：2017-03-16 22:22:56" itemprop="dateCreated datePublished" datetime="2017-03-16T22:22:56+08:00">2017-03-16</time>
-            
-
-            
-              
-
-              
-                
-                <span class="post-meta-divider">|</span>
-                
-
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">更新于</span>
-                
-                <time title="修改时间：2019-04-16 22:41:07" itemprop="dateModified" datetime="2019-04-16T22:41:07+08:00">2019-04-16</time>
-              
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>一、根据官方文档需要安装几个php的扩展 Openssl/PDO/Mbstring/Tokenizer/XML<br></p><p>二、Linux下可以使用Composer来安装Laravel</p><p>&nbsp; 1.全局安装Composer&nbsp;<br></p><p>&nbsp;&nbsp;&nbsp;&nbsp;curl -sS <a href="https://getcomposer.org/installer" target="_blank" rel="noopener">https://getcomposer.org/installer</a> | php<br>&nbsp;&nbsp;&nbsp;&nbsp;mv composer.phar /usr/local/bin/composer<br></p><p>&nbsp; &nbsp; &nbsp;解决更新慢的问题<br></p><p>&nbsp;&nbsp;&nbsp;&nbsp;composer config repo.packagist composer <a href="https://packagist.phpcomposer.com" target="_blank" rel="noopener">https://packagist.phpcomposer.com</a></p><p>&nbsp;&nbsp;&nbsp;&nbsp;composer –version查看是否安装成功</p><p>&nbsp; 2.利用Composer安装Laravel<br></p><p>&nbsp;&nbsp;&nbsp;&nbsp;composer global require &quot;laravel/installer&quot;<br></p><p>&nbsp;&nbsp;&nbsp;&nbsp;cd到$Home/.composer/vendor/bin目录下<br></p><p>&nbsp;&nbsp;&nbsp;&nbsp;执行 Laravel new Blog<br></p><p>&nbsp; 3.最后利用php的内置服务器<br></p><p>&nbsp;&nbsp;&nbsp;&nbsp;php artisan serve<br></p><p><br></p><p>一些收获</p><p>&nbsp; &nbsp;1.Linux方面 .tar.gz通过的是源码安装 ./configure –prefix=/usr/local/php 即指定安装路径 卸载的时候只需要删除这个目录下的东西即可</p><p>　　开机自启动</p><p>　　增加环境变量</p><p>&nbsp; &nbsp;2.php 的两种运行方式的php.ini有可能是不同的,也就是会出现你的web上面的phpinfo()和你直接用CLI执行的php -m发现扩展的开启情况是不相同的，这个时候就需要你运行CLI和web的时候所用的php.ini是同一个文件</p><p>&nbsp; &nbsp;3.Laravel</p><p>　　从laraval知道了php有一个内置的服务器。</p><p><br></p>
-          
-        
-      
-    </div>
-
-    
-
-    
-    
-    
-
-    
-
-    
-       
-    
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/03/16/正则&amp;&amp;mb_substr/">
 
     <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
@@ -1384,167 +1537,6 @@
         
           
             <p><strong>0x1</strong> 爬虫过程遇到需要截取到&lt;span id=&quot;xhxm&quot;&gt;张三同学&lt;/span&gt;里面同学的名称<br></p><p>&nbsp; 1.正则解决<br></p><p>&nbsp; 2.通过字符串解决<br></p><p><strong>0x2</strong> 通过正则解决</p><p>&nbsp; 1.简单解决</p><p>&nbsp; &lt;span id=&quot;xhxm&quot;&gt;(.<em>)\u540c\u5b66&lt;/span&gt;</em></p><p>&nbsp;<img src="/ueditor/php/upload/image/20170515/1494855697445556.png" title="1494855697445556.png" alt="blob.png"></p><p>&nbsp; 2.零宽断言解决</p><p>&nbsp; &nbsp;&gt;(.)(?=\u540c\u5b66)</p><p>&nbsp;&nbsp;<img src="/ueditor/php/upload/image/20170515/1494856468363010.png" title="1494856468363010.png" alt="blob.png"></p><p>&nbsp; 这里使用零宽度正预测先行断言(?=exp)</p><p>&nbsp; 就是找到匹配之前的内容&nbsp;</p><p>&nbsp; (?&lt;=exp)用来找到匹配之后的东西，称为零宽度正回顾后发断言</p><p><strong>0x3</strong> 通过mb_substr解决 先匹配张三同学,然后截取字符串</p><p>&nbsp; 因为这里的header是gb2312，所以指定mb_substr的编码为gb2312<br></p><p>&nbsp; substr直接处理汉字会造成乱码的问题，可以使用mb_substr指定汉字编码方式gb2312</p><p>&nbsp;<img src="/ueditor/php/upload/image/20170515/1494853756143314.png" title="1494853756143314.png" alt="blob.png"></p><p>&nbsp; 这样就可以截取到到张三<br></p><p><strong>0x4</strong> 这不算完</p><p>&nbsp;<br></p>
-          
-        
-      
-    </div>
-
-    
-
-    
-    
-    
-
-    
-
-    
-       
-    
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/03/16/排序算法/">
-
-    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Czhuyu">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="https://avatars2.githubusercontent.com/u/26237984">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="开始了">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                
-                <a href="/2017/03/16/排序算法/" class="post-title-link" itemprop="http://yoursite.com/page/3/index.html">基本排序算法</a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-
-            
-            
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-
-              
-                
-              
-
-              <time title="创建时间：2017-03-16 22:22:56" itemprop="dateCreated datePublished" datetime="2017-03-16T22:22:56+08:00">2017-03-16</time>
-            
-
-            
-              
-
-              
-                
-                <span class="post-meta-divider">|</span>
-                
-
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">更新于</span>
-                
-                <time title="修改时间：2019-04-16 22:39:52" itemprop="dateModified" datetime="2019-04-16T22:39:52+08:00">2019-04-16</time>
-              
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h4 id="使用四种基本的排序方法对生成的1000个随机数进行排序，比较执行时间"><a href="#使用四种基本的排序方法对生成的1000个随机数进行排序，比较执行时间" class="headerlink" title="使用四种基本的排序方法对生成的1000个随机数进行排序，比较执行时间"></a>使用四种基本的排序方法对生成的1000个随机数进行排序，比较执行时间</h4><h3 id="一、冒泡排序"><a href="#一、冒泡排序" class="headerlink" title="一、冒泡排序"></a>一、冒泡排序</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">$s=microtime();//记录开始时间</span><br><span class="line"></span><br><span class="line">for($i=0;$i=1000;$i++)&#123;</span><br><span class="line">  	$a[$i] = mt_rand(0,1000);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">//冒泡排序</span><br><span class="line">for($j=0;$j&lt;999;$j++)&#123;</span><br><span class="line">  	for($k=0;$k&lt;999-$j;$k++)&#123;</span><br><span class="line">  		if($a[$k]&gt;$a[$k+1])&#123;</span><br><span class="line">  			$temp = $a[$k];</span><br><span class="line">  			$a[$k] = $a[$k+1];</span><br><span class="line">  			$a[$k+1] = $temp;</span><br><span class="line">  		&#125;</span><br><span class="line">  	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">for($i=0;$i&lt;1000;$i++)&#123;</span><br><span class="line">  	echo $a[$i].&apos;&apos;;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">$e = microtime();//记录结束时间</span><br><span class="line">echo &apos;&lt;br/&gt;&apos;;</span><br><span class="line">echo $e-$s;</span><br></pre></td></tr></table></figure>
-<h3 id="二、简单选择排序"><a href="#二、简单选择排序" class="headerlink" title="二、简单选择排序"></a>二、简单选择排序</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">for($i=0;$i&lt;999;$i++)&#123;</span><br><span class="line">  	for($j=$i+1;$j&lt;1000;$j++)&#123;</span><br><span class="line">  		if($a[$j]&lt;$a[$i])&#123;</span><br><span class="line">  			$temp = $a[$j];</span><br><span class="line">  			$a[$j] = $a[$i];</span><br><span class="line">  			$a[$i] = $temp;</span><br><span class="line">  		&#125;</span><br><span class="line">  	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h3 id="三、直接插入排序"><a href="#三、直接插入排序" class="headerlink" title="三、直接插入排序"></a>三、直接插入排序</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">for($i=1;$i&lt;1000;$i++)&#123;</span><br><span class="line">  	if($a[$i]&lt;$a[$i-1])&#123;</span><br><span class="line">  		$j = $i-1;</span><br><span class="line">  		$temp = $a[$i];</span><br><span class="line">  		for($j;$j&gt;=0&amp;amp;&amp;amp;$a[$j]&gt;$temp;$j--)&#123;</span><br><span class="line">  			$a[$j+1] = $a[$j];</span><br><span class="line">  		&#125;</span><br><span class="line">  		$a[$j+1] = $temp;</span><br><span class="line">  	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h3 id="四、快速排序"><a href="#四、快速排序" class="headerlink" title="四、快速排序"></a>四、快速排序</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">function qsort($left,$right)&#123;</span><br><span class="line">    if($left&gt;$right)&#123;</span><br><span class="line">        return;</span><br><span class="line">    &#125;</span><br><span class="line">    global $a;</span><br><span class="line"></span><br><span class="line">    $i=$left;</span><br><span class="line">    $j=$right;</span><br><span class="line">    $key = $i;</span><br><span class="line">    while($i&lt;$j)&#123;</span><br><span class="line">        //从右往左找到第一个小于标记的值，交换</span><br><span class="line">	while($a[$j]&gt;=$a[$key]&amp;amp;&amp;amp;$j&gt;$i)$j--;</span><br><span class="line">	$temp = $a[$i];</span><br><span class="line">	$a[$i] = $a[$j];</span><br><span class="line">	$a[$j] = $temp;</span><br><span class="line">	$key = $j;</span><br><span class="line">	//从左往右找到第一个大于标记的值，交换</span><br><span class="line">	while($a[$i]&lt;=$a[$key]&amp;amp;&amp;amp;$i&lt;$j)$i++;</span><br><span class="line">	$temp = $a[$i];</span><br><span class="line">	$a[$i] = $a[$j];</span><br><span class="line">	$a[$j] = $temp;</span><br><span class="line">	$key = $i;</span><br><span class="line">&#125;</span><br><span class="line">//递归调用</span><br><span class="line">qsort($left,$i-1);</span><br><span class="line">qsort($i+1,$right);</span><br><span class="line">qsort(0,999);</span><br></pre></td></tr></table></figure>
-<h3 id="多次测试结果"><a href="#多次测试结果" class="headerlink" title="多次测试结果"></a>多次测试结果</h3><p>冒泡排序0.05~0.07</p>
-<p>简单选择0.03~0.06</p>
-<p>直接插入0.02~0.04</p>
-<p>快速排序0.002~0.007</p>
-
           
         
       
@@ -1753,7 +1745,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/03/16/面试算法题/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/03/16/计算一个字符串中最大不重复子串长度/">
 
     <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Czhuyu">
@@ -1773,7 +1765,7 @@
           <h1 class="post-title" itemprop="name headline">
                 
                 
-                <a href="/2017/03/16/面试算法题/" class="post-title-link" itemprop="http://yoursite.com/page/3/index.html">面试算法题</a>
+                <a href="/2017/03/16/计算一个字符串中最大不重复子串长度/" class="post-title-link" itemprop="http://yoursite.com/page/3/index.html">最长不重复子串</a>
               
             
           </h1>
@@ -1815,7 +1807,7 @@
                 
                   <span class="post-meta-item-text">更新于</span>
                 
-                <time title="修改时间：2019-04-16 22:40:08" itemprop="dateModified" datetime="2019-04-16T22:40:08+08:00">2019-04-16</time>
+                <time title="修改时间：2019-04-16 22:40:36" itemprop="dateModified" datetime="2019-04-16T22:40:36+08:00">2019-04-16</time>
               
             
           </span>
@@ -1850,15 +1842,7 @@
       
         
           
-            <p><pre class="brush:cpp;toolbar:false">package&nbsp;main</pre></p>
-<p>import&nbsp;(<br>&nbsp;&nbsp;&nbsp;&quot;fmt&quot;<br>&nbsp;&nbsp;&nbsp;&quot;strconv&quot;<br>&nbsp;&nbsp;&nbsp;&quot;sort&quot;<br>)</p>
-<p>func&nbsp;filter(str&nbsp;string)&nbsp;string{<br>&nbsp;&nbsp;&nbsp;//过滤aabbbbbccc&nbsp;为abc<br>&nbsp;&nbsp;&nbsp;var&nbsp;newArr&nbsp;=&nbsp;make(map[rune]int)<br>&nbsp;&nbsp;&nbsp;s&nbsp;:=&nbsp;&quot;&quot;</p>
-<p>&nbsp;&nbsp;&nbsp;for&nbsp;_,v&nbsp;:=&nbsp;range&nbsp;[]rune(str){<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if&nbsp;newArr[v]&nbsp;==&nbsp;0{<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;newArr[v]&nbsp;=&nbsp;1<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;s&nbsp;+=&nbsp;string(v)<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>&nbsp;&nbsp;&nbsp;}<br>&nbsp;&nbsp;&nbsp;return&nbsp;s<br>}</p>
-<p>func&nbsp;filter2(str&nbsp;string)&nbsp;string{<br>&nbsp;&nbsp;&nbsp;//过滤aaabbbcssss为3a3bc4s<br>&nbsp;&nbsp;&nbsp;var&nbsp;newArr&nbsp;=&nbsp;make(map[rune]int)<br>&nbsp;&nbsp;&nbsp;var&nbsp;sortArr&nbsp;[]string<br>&nbsp;&nbsp;&nbsp;s&nbsp;:=&nbsp;&quot;&quot;</p>
-<p>&nbsp;&nbsp;&nbsp;for&nbsp;_,v&nbsp;:=&nbsp;range&nbsp;[]rune(str){<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;sortArr&nbsp;=&nbsp;append(sortArr,&nbsp;string(v))<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if&nbsp;newArr[v]&nbsp;==&nbsp;0{<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;newArr[v]&nbsp;=&nbsp;1<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}else{<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;newArr[v]&nbsp;+=&nbsp;1<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>&nbsp;&nbsp;&nbsp;}</p>
-<p>&nbsp;&nbsp;&nbsp;sort.Strings(sortArr)</p>
-<p>&nbsp;&nbsp;&nbsp;for&nbsp;i,v&nbsp;:=&nbsp;range&nbsp;newArr{<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if&nbsp;v&nbsp;==&nbsp;1&nbsp;{<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;s&nbsp;+=&nbsp;string(i)<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}else{<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;s&nbsp;+=&nbsp;strconv.Itoa(v)<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;s&nbsp;+=&nbsp;string(i)<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>&nbsp;&nbsp;&nbsp;}<br>&nbsp;&nbsp;&nbsp;return&nbsp;s<br>}</p>
-<p>func&nbsp;main()&nbsp;{<br>&nbsp;&nbsp;&nbsp;fmt.Println(filter2(&quot;aabccddee&quot;))<br>}</p><p>go语言的map用for range遍历是随机的key<br></p><p>所以如果需要顺序遍历则需要先将key排序</p><p></p>
+            <figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> main</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> (</span><br><span class="line">   <span class="string">"fmt "</span></span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">maxLen</span><span class="params">(str <span class="keyword">string</span>)</span> <span class="title">int</span></span> &#123;</span><br><span class="line">  start := <span class="number">0</span></span><br><span class="line">  maxlen := <span class="number">0</span></span><br><span class="line">  lastO := <span class="built_in">make</span>(<span class="keyword">map</span>[<span class="keyword">rune</span>]<span class="keyword">int</span>)</span><br><span class="line">  <span class="keyword">for</span> i, v := <span class="keyword">range</span> []<span class="keyword">rune</span>(str) &#123;</span><br><span class="line">      <span class="keyword">if</span> lastI, ok := lastO[v]; ok &#123;</span><br><span class="line">         start = lastI + <span class="number">1</span></span><br><span class="line">      &#125;</span><br><span class="line">      <span class="keyword">if</span> (i-start+<span class="number">1</span> &amp;gt; maxlen) &#123;</span><br><span class="line">         maxlen = i - start + <span class="number">1</span></span><br><span class="line">      &#125;</span><br><span class="line">      lastO[v] = i</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">return</span> maxlen</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">  <span class="comment">//求字符串最大不重复子串长度</span></span><br><span class="line">  <span class="comment">//s:=  "Yes哈哈哈! "</span></span><br><span class="line">  fmt.Println(maxLen( <span class="string">"abcbcdef "</span>))</span><br><span class="line">  fmt.Println(maxLen( <span class="string">"abcdef "</span>))</span><br><span class="line">  fmt.Println(maxLen( <span class="string">"aaaaaaa "</span>))</span><br><span class="line">  fmt.Println(maxLen( <span class="string">"你说什么 "</span>))</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
           
         
@@ -1949,7 +1933,7 @@
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">33</span>
+                    <span class="site-state-item-count">34</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>
@@ -1968,13 +1952,7 @@
                     
                       
                     
-                      
-                    
-                      
-                    
-                      
-                    
-                    <span class="site-state-item-count">5</span>
+                    <span class="site-state-item-count">2</span>
                     <span class="site-state-item-name">标签</span>
                   </a>
                 </div>

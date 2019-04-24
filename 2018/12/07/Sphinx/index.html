@@ -108,24 +108,24 @@
 
 
 
-  <meta name="description" content="开始了吗，并没有">
+  <meta name="description" content="server {    server_name admin.qa1.rez.com;    root /opt/app/nginx/html/qa1/rezb2b/rezb2b_admin/public;    error_log logs/admin.qa1.rez.com.error.log;    access_log logs/admin.qa1.rez.com.access.log; l">
 <meta property="og:type" content="article">
-<meta property="og:title" content="试试标签">
-<meta property="og:url" content="http://yoursite.com/2018/12/07/试试标签/index.html">
+<meta property="og:title" content="开始了">
+<meta property="og:url" content="http://yoursite.com/2018/12/07/Sphinx/index.html">
 <meta property="og:site_name" content="开始了">
-<meta property="og:description" content="开始了吗，并没有">
+<meta property="og:description" content="server {    server_name admin.qa1.rez.com;    root /opt/app/nginx/html/qa1/rezb2b/rezb2b_admin/public;    error_log logs/admin.qa1.rez.com.error.log;    access_log logs/admin.qa1.rez.com.access.log; l">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2018-12-07T08:21:34.659Z">
+<meta property="og:updated_time" content="2019-04-20T02:19:01.911Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="试试标签">
-<meta name="twitter:description" content="开始了吗，并没有">
+<meta name="twitter:title" content="开始了">
+<meta name="twitter:description" content="server {    server_name admin.qa1.rez.com;    root /opt/app/nginx/html/qa1/rezb2b/rezb2b_admin/public;    error_log logs/admin.qa1.rez.com.error.log;    access_log logs/admin.qa1.rez.com.access.log; l">
 
 
 
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2018/12/07/试试标签/">
+  <link rel="canonical" href="http://yoursite.com/2018/12/07/Sphinx/">
 
 
 
@@ -135,7 +135,7 @@
   };
 </script>
 
-  <title>试试标签 | 开始了</title>
+  <title> | 开始了</title>
   
 
 
@@ -367,7 +367,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/12/07/试试标签/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/12/07/Sphinx/">
 
     <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Czhuyu">
@@ -384,7 +384,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">试试标签
+          <h1 class="post-title" itemprop="name headline">
               
             
           </h1>
@@ -409,12 +409,24 @@
                 
               
 
-              <time title="创建时间：2018-12-07 16:20:45 / 修改时间：16:21:34" itemprop="dateCreated datePublished" datetime="2018-12-07T16:20:45+08:00">2018-12-07</time>
+              <time title="创建时间：2018-12-07 15:14:37" itemprop="dateCreated datePublished" datetime="2018-12-07T15:14:37+08:00">2018-12-07</time>
             
 
             
               
 
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2019-04-20 10:19:01" itemprop="dateModified" datetime="2019-04-20T10:19:01+08:00">2019-04-20</time>
               
             
           </span>
@@ -447,7 +459,89 @@
       
 
       
-        <p>开始了吗，并没有</p>
+        <p>server {<br>    server_name admin.qa1.rez.com;<br>    root /opt/app/nginx/html/qa1/rezb2b/rezb2b_admin/public;<br>    error_log logs/admin.qa1.rez.com.error.log;<br>    access_log logs/admin.qa1.rez.com.access.log;</p>
+<pre><code>location / {
+    index index.php;
+    autoindex on;
+    try_files $uri $uri/ /index.php?$query_string;
+}
+
+location ~ index\.php$ {
+    include fastcgi.conf;
+    fastcgi_param  SERVER_NAME $host;
+    fastcgi_pass   127.0.0.1:9000;
+    fastcgi_param  FILE_STORAGE_PATH /opt/data;
+    fastcgi_param  FILE_STORAGE_PREFIX f1;
+    include fastcgi_params;
+    fastcgi_index  index.php;
+}
+</code></pre><p>}</p>
+<hr>
+<p>title: Sphinx 2.2.6-release 参考手册<br>date: 2018-12-16 22:23:09<br>tags:</p>
+<ul>
+<li>sphinx</li>
+<li>搜索引擎</li>
+<li>翻译</li>
+</ul>
+<hr>
+<h1 id="Sphinx-2-2-11-release-参考手册"><a href="#Sphinx-2-2-11-release-参考手册" class="headerlink" title="Sphinx 2.2.11-release 参考手册"></a>Sphinx 2.2.11-release 参考手册</h1><p>免费的开源SQL全文搜索引擎</p>
+<p>Copyright © 2001-2014 Andrew Aksyonoff</p>
+<p>Copyright © 2008-2014 Sphinx Technologies Inc, <a href="http://sphinxsearch.com/" target="_blank" rel="noopener">http://sphinxsearch.com</a></p>
+<p>翻译校对 Czhuyu</p>
+<h3 id="第一章-介绍"><a href="#第一章-介绍" class="headerlink" title="第一章. 介绍"></a>第一章. 介绍</h3><h4 id="1-1-关于"><a href="#1-1-关于" class="headerlink" title="1.1. 关于"></a>1.1. 关于</h4><p>sphinx 是一个全文搜索引擎，公开发行于GPL 2.0，商业许可(例如 用于嵌入式)通过需要许可。</p>
+<p>从技术上讲，Sphinx是一个独立的软件包提供快速的全文搜索功能的客户端软件。它特意被设计为跟SQL 数据库一体的去存储数据，并且可以简单地通过脚本语言连接。总之，Sphinx不依赖于任何特殊的数据库功能。</p>
+<p>应用程序可以通过Sphinx的搜索守护进程searchd用以下三种连接方式：a)通过Sphinx自己实现的Mysql的网络协议(使用的一个小的SQL的子集叫做SphinxQL，这是推荐的方式)，b)通过自带的search API(SphinxAPI)或者c)通过Mysql服务的可插拔的存储引擎(SphinxSE)。</p>
+<p>官方的原生SphinxAPI实现了PHP,Perl,Python,Ruby和Java在贡献的包里。API是非常轻量级的所以实现一个新的语言的API只需要几个小时就行。</p>
+<p>从1.10的beta版本开始，Sphinx支持两种不同的后台索引：磁盘后台索引和实时后台索引。磁盘索引支持在线的全文索引重建，但是在线更新只支持非text的(属性)数据。实时索引支持在线的全文索引更新。上个版本只在磁盘索引中支持。</p>
+<p>数据可以加载进磁盘索引用一个所以叫数据源。建立源可以直接从MySQL，PostgreSQL，MSSQL，ODBC compliant 数据库(Oracle等等)或者一个管道在TSV或者一个格式化的XML。新增一个数据源驱动被设计得经可能简单。实时索引，直到1.10beta版本为止，只能用SphinxQL。</p>
+<p>就像名字一样，Sphinx是SQL Phrase Index译解缩写。是的，我知道关于CMU的Sphinx项目。</p>
+<h5 id="1-2-Sphinx特性"><a href="#1-2-Sphinx特性" class="headerlink" title="1.2. Sphinx特性"></a>1.2. Sphinx特性</h5><p>Sphinx特性的关键是</p>
+<ul>
+<li>索引和搜索的高性能</li>
+<li>先进的索引和查询工具(灵活的并且富有特性的文本分词器,查询语言，几个不同的排名模式，等等);</li>
+<li>先进的结果集后处理（SELECT表达式，WHERE,ORDER BY,GROUP BY,HAVING等在文本搜索中）</li>
+<li>可扩展的久经考验地用于数十亿的文档，万亿字节的数据，每秒成千上万的请求。</li>
+<li>方便的集合SQL和XML的数据源，和SphinxQL，SphinxAPI,和SphinxSE搜索接口；</li>
+<li>简单的可伸缩分布式搜索。</li>
+</ul>
+<p>扩大一点，Sphinx：</p>
+<ul>
+<li>拥有很高的索引速度(达到 10-15MB/每秒每个核心在内部基准上)；</li>
+<li>拥有很高的搜索速度（达到150-250/每秒每个核心对阵1,000,000文档，1.2G的数据在内部基准上）</li>
+<li>拥有很高的扩展性(最大的已知的聚集索引超过了3,000,000,000文档，并且最繁忙的巅峰达到了500万次查询每天)</li>
+</ul>
+<h4 id="2-2-编译安装Sphinx"><a href="#2-2-编译安装Sphinx" class="headerlink" title="2.2. 编译安装Sphinx"></a>2.2. 编译安装Sphinx</h4><h5 id="2-2-1-需要的工具"><a href="#2-2-1-需要的工具" class="headerlink" title="2.2.1 需要的工具"></a>2.2.1 需要的工具</h5><p>在unix上，你需要下面的工具来建立和安装Sphinx</p>
+<ul>
+<li>一个用来工作的c++的编译器，GNU gcc和clang是知名的用来工作。</li>
+<li>一个好的make工具，GNU很出名用来工作</li>
+</ul>
+<p>在windows上面，你会需要Microsoft Visual C/C++ Studio .Net 2005 或者以上。其他的编译器/环境也是一样的工作，但目前，你需要手动建立make文件(或者其他环境的特定项目文件)</p>
+<h5 id="2-2-2-在Linux上编译安装"><a href="#2-2-2-在Linux上编译安装" class="headerlink" title="2.2.2. 在Linux上编译安装"></a>2.2.2. 在Linux上编译安装</h5><h4 id="2-6-Sphinx-废弃项目和更改默认的配置"><a href="#2-6-Sphinx-废弃项目和更改默认的配置" class="headerlink" title="2.6. Sphinx 废弃项目和更改默认的配置"></a>2.6. Sphinx 废弃项目和更改默认的配置</h4><p>在2.2.1-beta版本我们决定开始去除一些老的功能，所有的非官方的弃用一段时间。现在我们正式通知你们关于它们。</p>
+<p>修改如下：</p>
+<ul>
+<li>32位的文档id已经被废弃了。我们的二进制发行版本现在默认都在64位的documentid的基础上建立。需要注意的是它们仍然可以用32位ID索引，但是这个支持最后会被移除。事实上，它前一阵子已经被废弃了，但是现在我们只想清除它。我们没有看到用这种方式来节省服务器RAM的任何意义。</li>
+<li>dict=crc现在已经被废弃了。它是一大串约束。最重要的一个是关键词碰撞，并且没有通配符匹配支持。你可以获取更多的有关这些约束从我们的文档。2.7</li>
+</ul>
+<h3 id="第三章-索引"><a href="#第三章-索引" class="headerlink" title="第三章.索引"></a>第三章.索引</h3><h4 id="3-1-数据源"><a href="#3-1-数据源" class="headerlink" title="3.1. 数据源"></a>3.1. 数据源</h4><p>需要被索引的数据可以来自非常不同的源：数据库，简单的文本数据，HTMl文件，邮箱等等。从Sphinx的视角看来，数据的索引是一个结构化文档的合集，每一个合集都会有相同的字段和属性。这一点和SQL相似的地方是每一个SQL的行对应一个文档，每一个列对应文档的字段或者属性。</p>
+<p>由于Sphinx获得的不同的数据来源，需要不同的代码去取得数据然后准备索引。这些代码被称为数据源驱动（简单的说叫驱动或者叫数据源）.</p>
+<p>在写这个文档的时候，现有的驱动有MySQL，PostgreSQL,MS SQL(on Windows),和ODBC.也有一类驱动叫做xmlpipe2，特殊的运行在命令行并且获取数据从它的标准输出中。看3.9 “xmlpipe2 数据源” 章节获取更多信息。在2.2.1的beta版本中tsvpipe和csvpipe数据源也搅入了进来。你可以获取更多信息从3.10”tsvpipe\csvpipe(Tab\Comma Separated Values)数据源”</p>
+<p>索引有很多的数据来源。他们会有序地依照索引的定义规定通过非常相同的流程。所有的文档从这些源产生的灰合并起来就行他们来自单一的数据源。</p>
+<h4 id="3-2-全文本字段"><a href="#3-2-全文本字段" class="headerlink" title="3.2.全文本字段"></a>3.2.全文本字段</h4><p>全文本字段（或者简单说是字段）是文本的内容被Sphinx索引，并且可以（快速地）被关键字搜索。</p>
+<p>字段可以被命名，并且你可以限制你的搜索为一个字段（例如. 只通过”title”） 或者字段的子集（例如”title”和”abstract”）.Sphinx索引支持最大256个字段。但是，在2.0.1-beta版本索引被限制到了32个字段，因为并发在匹配引擎。完全的支持到256个字段在2.0.2-beta版本。</p>
+<p>需要注意的是字段的源内容不会存储到sphinx中。你给Sphinx的文本，全文本索引（一个特殊的数据结构能够快速地被关键字搜索）建立来自于此文本。但是源文本会被丢弃掉。Sphinx假定你已经把这些内容保存到了其他的任何地方。</p>
+<p>还有要说的是，不可能对源文本进行完全的结构重建，因为一些特殊的空格，大小写，标点符号会被丢失在索引的时候。理论上来说只有部分的被结构重建在文本里面，但是这将是一个十分缓慢的过程（尤其是如果CRC字典被使用，甚至不是保存关键字而是它们的hash）</p>
+<h4 id="3-3-属性"><a href="#3-3-属性" class="headerlink" title="3.3. 属性"></a>3.3. 属性</h4><p>属性是每个文档关联的额外的值用来完成额外的过滤和排序在搜索过程中。</p>
+<p>它经常被用于额外的全文索引结果基础不仅是匹配文档ID，rank，而且是其他的每个文档的值。举个例子，有可能需要用日期排序，然后是相关性，或者你需要用指定的价格区间搜索产品，或者筛选出某个作者的文章在你的博客里，或者按月分组。为了有效地做上面的这些事情，Sphinx允许附加一定数量的额外属性为每个文档，并且存储它们的值在全文本中，然后使用存储的值去过滤，排序，分组全文本匹配到的结果就变成了可能。</p>
+<p>属性，不同于字段，不是全文索引。它们存储在索引中，但是他们不能当作全文本进行搜索，企图这样做会导致错误。</p>
+<p>例如，不可能使用匹配表达式@column 1去匹配column为1的文档。如果column是一个熟悉，并且忽略搜索关联性工具。此外，属性返回的结果来自search daemon,而不是索引文本。</p>
+<p>一个比较好的例子就是论坛讨论帖子的表。假定只需要标题和内容去搜索-但是有时候也需要搜索通过作者个子讨论（例如xxxxx）；或者给匹配到的结果按照post_date排序；或者用post_date按月份分组并计算每个组匹配的条数。</p>
+<p>这个可以获得说明所有的提及的列（除了标题和内容，它们是全文本字段）作为属性，索引它们，然后用API调用设置过滤器，排序和分组。这里是一个例子。</p>
+<p><strong>Example sphinx.conf part:</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">...</span><br><span class="line">sql_query = SELECT id, title, content, \</span><br><span class="line">    author_id, forum_id, post_date FROM my_forum_posts</span><br><span class="line">sql_attr_uint = author_id</span><br><span class="line">sql_attr_uint = forum_id</span><br><span class="line">sql_attr_timestamp = post_date</span><br><span class="line">...</span><br></pre></td></tr></table></figure>
+<p><strong>Example application code (in PHP)</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">// only search posts by author whose ID is 123</span><br><span class="line">$cl-&gt;SetFilter ( &quot;author_id&quot;, array ( 123 ) );</span><br><span class="line"></span><br><span class="line">// only search posts in sub-forums 1, 3 and 7</span><br><span class="line">$cl-&gt;SetFilter ( &quot;forum_id&quot;, array ( 1,3,7 ) );</span><br><span class="line"></span><br><span class="line">// sort found posts by posting date in descending order</span><br><span class="line">$cl-&gt;SetSortMode ( SPH_SORT_ATTR_DESC, &quot;post_date&quot; );</span><br></pre></td></tr></table></figure>
+<h3 id="第四章-实时索引"><a href="#第四章-实时索引" class="headerlink" title="第四章. 实时索引"></a>第四章. 实时索引</h3><p>实时索引是一个新的后台让你新增，更新，或者删除文档在飞速中。实时索引在1.10-beta中加入。当你需要查询实时索引的时候你可以使用SphinxAPI,SphinxQL,或者SphinxSE，更新他们只可能通过SphinxQL在现在。完整的SphinxQL参考在第八张章节。</p>
+<h4 id="4-1-实时索引概览"><a href="#4-1-实时索引概览" class="headerlink" title="4.1. 实时索引概览"></a>4.1. 实时索引概览</h4><p>实时索引应该声明在sphinx.conf，就像所有的其他索引类型一样。</p>
 
       
     </div>
@@ -478,8 +572,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2018/12/07/Sphinx/" rel="next" title="">
-                <i class="fa fa-chevron-left"></i> 
+              <a href="/2018/12/07/kaoshi/" rel="next" title="开始了吗？表演开始了">
+                <i class="fa fa-chevron-left"></i> 开始了吗？表演开始了
               </a>
             
           </div>
@@ -488,8 +582,8 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2018/12/07/hello-world/" rel="prev" title="Hello World">
-                Hello World <i class="fa fa-chevron-right"></i>
+              <a href="/2018/12/07/试试标签/" rel="prev" title="试试标签">
+                试试标签 <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -535,8 +629,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
 
-      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+      <section class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
             
@@ -597,6 +700,22 @@
         </div>
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Sphinx-2-2-11-release-参考手册"><span class="nav-number">1.</span> <span class="nav-text">Sphinx 2.2.11-release 参考手册</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#第一章-介绍"><span class="nav-number">1.0.1.</span> <span class="nav-text">第一章. 介绍</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-1-关于"><span class="nav-number">1.0.1.1.</span> <span class="nav-text">1.1. 关于</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#1-2-Sphinx特性"><span class="nav-number">1.0.1.1.1.</span> <span class="nav-text">1.2. Sphinx特性</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-2-编译安装Sphinx"><span class="nav-number">1.0.1.2.</span> <span class="nav-text">2.2. 编译安装Sphinx</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#2-2-1-需要的工具"><span class="nav-number">1.0.1.2.1.</span> <span class="nav-text">2.2.1 需要的工具</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#2-2-2-在Linux上编译安装"><span class="nav-number">1.0.1.2.2.</span> <span class="nav-text">2.2.2. 在Linux上编译安装</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-6-Sphinx-废弃项目和更改默认的配置"><span class="nav-number">1.0.1.3.</span> <span class="nav-text">2.6. Sphinx 废弃项目和更改默认的配置</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#第三章-索引"><span class="nav-number">1.0.2.</span> <span class="nav-text">第三章.索引</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#3-1-数据源"><span class="nav-number">1.0.2.1.</span> <span class="nav-text">3.1. 数据源</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-2-全文本字段"><span class="nav-number">1.0.2.2.</span> <span class="nav-text">3.2.全文本字段</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-3-属性"><span class="nav-number">1.0.2.3.</span> <span class="nav-text">3.3. 属性</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#第四章-实时索引"><span class="nav-number">1.0.3.</span> <span class="nav-text">第四章. 实时索引</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#4-1-实时索引概览"><span class="nav-number">1.0.3.1.</span> <span class="nav-text">4.1. 实时索引概览</span></a></li></ol></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       
