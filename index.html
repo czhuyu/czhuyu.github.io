@@ -829,6 +829,158 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/12/17/Sphinx安装1111/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="czhuyu">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="https://avatars2.githubusercontent.com/u/26237984">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Beginning">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                
+                <a href="/2018/12/17/Sphinx安装1111/" class="post-title-link" itemprop="http://yoursite.com/index.html">Sphinx安装</a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2018-12-17 22:23:09 / 修改时间：22:31:27" itemprop="dateCreated datePublished" datetime="2018-12-17T22:23:09+08:00">2018-12-17</time>
+            
+
+            
+              
+
+              
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>坑<br>1.安装Sphinx报错</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">libsphinx.a(sphinx.o)：在函数‘xmlUnknownEncoding(void*, char const*, XML_Encoding*)’中：</span><br><span class="line">/mnt/Project/src/sphinx/src/sphinx.cpp:29116：对‘libiconv_open’未定义的引用</span><br><span class="line">libsphinx.a(sphinx.o)：在函数‘xmlUnknownEncoding(void*, char const*, XML_Encoding*)’中：</span><br><span class="line">sphinx.cpp:(.text+0x11ce)：对‘libiconv’未定义的引用</span><br><span class="line">sphinx.cpp:(.text+0x11ff)：对‘libiconv_close’未定义的引用</span><br><span class="line">collect2: 错误：ld 返回 1</span><br><span class="line">make[2]: *** [indexer] 错误 1</span><br><span class="line">make[2]: 离开目录“/mnt/Project/src/sphinx/src”</span><br><span class="line">make[1]: *** [all] 错误 2</span><br><span class="line">make[1]: 离开目录“/mnt/Project/src/sphinx/src”</span><br><span class="line">make: *** [all-recursive] 错误 1</span><br></pre></td></tr></table></figure>
+<p>以为是没有安装libiconv，yum安装还是报错 yum -y install libevent libevent-devel</p>
+<p>百度 </p>
+<p>1.编译新增参数（注意这个改的是sphinx的解压包的src下的MakeFile）(推荐)</p>
+<p>​    LIBS = -lm -lexpat -liconv -L/usr/local/lib</p>
+<ol start="2">
+<li>修改configure文件，找到“#define USE_LIBICONV 1”，将注释去掉，并将1改成0。</li>
+</ol>
+<p>两个命令 </p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">/usr/local/sphinx/bin/indexer --all  //根据sphinx.conf的配置生成索引</span><br><span class="line">/usr/local/sphinx/bin/searchd  //启动搜索引擎</span><br></pre></td></tr></table></figure>
+
+          
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+       
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/12/16/Sphinx/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1652,7 +1804,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/03/16/PHP内置数组排序方法/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/03/16/leetcode_day5/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="czhuyu">
@@ -1672,7 +1824,7 @@
           <h1 class="post-title" itemprop="name headline">
                 
                 
-                <a href="/2017/03/16/PHP内置数组排序方法/" class="post-title-link" itemprop="http://yoursite.com/index.html">php内置数组排序</a>
+                <a href="/2017/03/16/leetcode_day5/" class="post-title-link" itemprop="http://yoursite.com/index.html">day5</a>
               
             
           </h1>
@@ -1714,7 +1866,7 @@
                 
                   <span class="post-meta-item-text">更新于</span>
                 
-                <time title="修改时间：2019-04-16 22:41:30" itemprop="dateModified" datetime="2019-04-16T22:41:30+08:00">2019-04-16</time>
+                <time title="修改时间：2019-04-16 22:43:39" itemprop="dateModified" datetime="2019-04-16T22:43:39+08:00">2019-04-16</time>
               
             
           </span>
@@ -1749,161 +1901,7 @@
       
         
           
-            
-          
-        
-      
-    </div>
-
-    
-
-    
-    
-    
-
-    
-
-    
-       
-    
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/03/16/2017.3/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="czhuyu">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="https://avatars2.githubusercontent.com/u/26237984">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Beginning">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                
-                <a href="/2017/03/16/2017.3/" class="post-title-link" itemprop="http://yoursite.com/index.html">2017.3</a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-
-            
-            
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-
-              
-                
-              
-
-              <time title="创建时间：2017-03-16 22:22:56" itemprop="dateCreated datePublished" datetime="2017-03-16T22:22:56+08:00">2017-03-16</time>
-            
-
-            
-              
-
-              
-                
-                <span class="post-meta-divider">|</span>
-                
-
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">更新于</span>
-                
-                <time title="修改时间：2019-04-16 22:35:29" itemprop="dateModified" datetime="2019-04-16T22:35:29+08:00">2019-04-16</time>
-              
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>git <a href="http://www.runoob.com/w3cnote/git-guide.html" target="_blank" rel="noopener">http://www.runoob.com/w3cnote/git-guide.html</a><br>js编辑器 <a href="http://www.cnblogs.com/lhb25/p/html5-wysisyg-inline-editor.html" target="_blank" rel="noopener">http://www.cnblogs.com/lhb25/p/html5-wysisyg-inline-editor.html</a><br>JavaEE 注解和XML<a href="http://blog.csdn.net/qmw19910301/article/details/52712893" target="_blank" rel="noopener">http://blog.csdn.net/qmw19910301/article/details/52712893</a></p>
-
+            <p></p><p style="box-sizing: border-box; font-family: inherit; font-weight: 500; line-height: 1.1; color: inherit; margin-top: 0px; margin-bottom: 10px; font-size: 24px; display: inline-block; margin-right: 0.5em;">3.&nbsp;Longest Substring Without Repeating Characters</p><p style="box-sizing: border-box; margin-top: 0px; margin-bottom: 10px; color: rgb(51, 51, 51); font-family: &quot;Helvetica Neue&quot;, Helvetica, Arial, sans-serif; font-size: 14px; white-space: normal; background-color: rgb(255, 255, 255);">Given a string, find the length of the&nbsp;<span style="box-sizing: border-box; font-weight: 700;">longest substring</span>&nbsp;without repeating characters.<br></p><p style="box-sizing: border-box; margin-top: 0px; margin-bottom: 10px; color: rgb(51, 51, 51); font-family: &quot;Helvetica Neue&quot;, Helvetica, Arial, sans-serif; font-size: 14px; white-space: normal; background-color: rgb(255, 255, 255);"><span style="box-sizing: border-box; font-weight: 700;">Examples:</span></p><p style="box-sizing: border-box; margin-top: 0px; margin-bottom: 10px; color: rgb(51, 51, 51); font-family: &quot;Helvetica Neue&quot;, Helvetica, Arial, sans-serif; font-size: 14px; white-space: normal; background-color: rgb(255, 255, 255);">Given&nbsp;<code style="box-sizing: border-box; font-family: Menlo, Monaco, Consolas, &quot;Courier New&quot;, monospace; font-size: 12.6px; padding: 2px 4px; color: rgb(199, 37, 78); background-color: rgb(249, 242, 244); border-radius: 4px;">&quot;abcabcbb&quot;</code>, the answer is&nbsp;<code style="box-sizing: border-box; font-family: Menlo, Monaco, Consolas, &quot;Courier New&quot;, monospace; font-size: 12.6px; padding: 2px 4px; color: rgb(199, 37, 78); background-color: rgb(249, 242, 244); border-radius: 4px;">&quot;abc&quot;</code>, which the length is 3.</p><p style="box-sizing: border-box; margin-top: 0px; margin-bottom: 10px; color: rgb(51, 51, 51); font-family: &quot;Helvetica Neue&quot;, Helvetica, Arial, sans-serif; font-size: 14px; white-space: normal; background-color: rgb(255, 255, 255);">Given&nbsp;<code style="box-sizing: border-box; font-family: Menlo, Monaco, Consolas, &quot;Courier New&quot;, monospace; font-size: 12.6px; padding: 2px 4px; color: rgb(199, 37, 78); background-color: rgb(249, 242, 244); border-radius: 4px;">&quot;bbbbb&quot;</code>, the answer is&nbsp;<code style="box-sizing: border-box; font-family: Menlo, Monaco, Consolas, &quot;Courier New&quot;, monospace; font-size: 12.6px; padding: 2px 4px; color: rgb(199, 37, 78); background-color: rgb(249, 242, 244); border-radius: 4px;">&quot;b&quot;</code>, with the length of 1.</p><p style="box-sizing: border-box; margin-top: 0px; margin-bottom: 10px; color: rgb(51, 51, 51); font-family: &quot;Helvetica Neue&quot;, Helvetica, Arial, sans-serif; font-size: 14px; white-space: normal; background-color: rgb(255, 255, 255);">Given&nbsp;<code style="box-sizing: border-box; font-family: Menlo, Monaco, Consolas, &quot;Courier New&quot;, monospace; font-size: 12.6px; padding: 2px 4px; color: rgb(199, 37, 78); background-color: rgb(249, 242, 244); border-radius: 4px;">&quot;pwwkew&quot;</code>, the answer is&nbsp;<code style="box-sizing: border-box; font-family: Menlo, Monaco, Consolas, &quot;Courier New&quot;, monospace; font-size: 12.6px; padding: 2px 4px; color: rgb(199, 37, 78); background-color: rgb(249, 242, 244); border-radius: 4px;">&quot;wke&quot;</code>, with the length of 3. Note that the answer must be a&nbsp;<span style="box-sizing: border-box; font-weight: 700;">substring</span>,&nbsp;<code style="box-sizing: border-box; font-family: Menlo, Monaco, Consolas, &quot;Courier New&quot;, monospace; font-size: 12.6px; padding: 2px 4px; color: rgb(199, 37, 78); background-color: rgb(249, 242, 244); border-radius: 4px;">&quot;pwke&quot;</code>&nbsp;is a&nbsp;<em style="box-sizing: border-box;">subsequence</em>&nbsp;and not a substring.</p><pre class="brush:cpp;toolbar:false">func&nbsp;lengthOfLongestSubstring(s&nbsp;string)&nbsp;int&nbsp;{<br>    arr&nbsp;:=&nbsp;make(map[rune]int)<br>    start&nbsp;:=&nbsp;0<br>    maxlen&nbsp;:=&nbsp;0<br>    for&nbsp;i,&nbsp;v&nbsp;:=&nbsp;range&nbsp;[]rune(s)&nbsp;{<br>        if&nbsp;pre,&nbsp;ok&nbsp;:=&nbsp;arr[v];&nbsp;ok&nbsp;&amp;&amp;&nbsp;pre&nbsp;&gt;=&nbsp;start&nbsp;{<br>            start&nbsp;=&nbsp;pre&nbsp;+&nbsp;1<br>        }<br>        if&nbsp;i-start+1&nbsp;&gt;&nbsp;maxlen&nbsp;{<br>            maxlen&nbsp;=&nbsp;i&nbsp;-&nbsp;start&nbsp;+&nbsp;1<br>        }<br>        arr[v]&nbsp;=&nbsp;i<br>    }<br>    return&nbsp;maxlen<br>}</pre><p><br></p>
           
         
       
@@ -1995,7 +1993,7 @@
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">34</span>
+                    <span class="site-state-item-count">35</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>
