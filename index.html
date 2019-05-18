@@ -409,7 +409,7 @@
                 
               
 
-              <time title="创建时间：2019-05-18 17:34:16 / 修改时间：17:35:12" itemprop="dateCreated datePublished" datetime="2019-05-18T17:34:16+08:00">2019-05-18</time>
+              <time title="创建时间：2019-05-18 17:34:16 / 修改时间：17:39:56" itemprop="dateCreated datePublished" datetime="2019-05-18T17:34:16+08:00">2019-05-18</time>
             
 
             
@@ -467,9 +467,9 @@
 </li>
 <li><p>那Log最终new的实例是什么呢</p>
 </li>
-<li><p>D:\Project\administration\vendor\laravel\framework\src\Illuminate\Foundation\Bootstrap\ConfigureLogging.php</p>
+<li><p>vendor/laravel/framework/src/Illuminate/Log/LogServiceProvider.php</p>
 </li>
-<li><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">protected function registerLogger(Application $app)</span><br><span class="line">&#123;</span><br><span class="line">    $app-&gt;instance(&apos;log&apos;, $log = new Writer(</span><br><span class="line">        new Monolog($app-&gt;environment()), $app[&apos;events&apos;])</span><br><span class="line">    );</span><br><span class="line">   </span><br><span class="line">    return $log;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<li><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line">/**</span><br><span class="line"> * Register the service provider.</span><br><span class="line"> *</span><br><span class="line"> * @return void</span><br><span class="line"> */</span><br><span class="line">public function register()</span><br><span class="line">&#123;</span><br><span class="line">    $this-&gt;app-&gt;singleton(&apos;log&apos;, function () &#123;</span><br><span class="line">        return $this-&gt;createLogger();</span><br><span class="line">    &#125;);</span><br><span class="line">&#125;</span><br><span class="line">   </span><br><span class="line">/**</span><br><span class="line"> * Create the logger.</span><br><span class="line"> *</span><br><span class="line"> * @return \Illuminate\Log\Writer</span><br><span class="line"> */</span><br><span class="line">public function createLogger()</span><br><span class="line">&#123;</span><br><span class="line">    $log = new Writer(</span><br><span class="line">        new Monolog($this-&gt;channel()), $this-&gt;app[&apos;events&apos;]</span><br><span class="line">    );</span><br><span class="line">   </span><br><span class="line">    if ($this-&gt;app-&gt;hasMonologConfigurator()) &#123;</span><br><span class="line">        call_user_func($this-&gt;app-&gt;getMonologConfigurator(), $log-&gt;getMonolog());</span><br><span class="line">    &#125; else &#123;</span><br><span class="line">        $this-&gt;configureHandler($log);</span><br><span class="line">    &#125;</span><br><span class="line">   </span><br><span class="line">    return $log;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 </li>
 <li><p>最终调用到的就是</p>
 <p>vendor/laravel/framework/src/Illuminate/Log/Writer.php</p>
@@ -1608,7 +1608,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/12/17/Sphinx安装/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/12/17/Sphinx安装1111/">
 
     <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
       <meta itemprop="name" content="czhuyu">
@@ -1628,7 +1628,7 @@
           <h1 class="post-title" itemprop="name headline">
                 
                 
-                <a href="/2018/12/17/Sphinx安装/" class="post-title-link" itemprop="http://yoursite.com/index.html">Sphinx安装</a>
+                <a href="/2018/12/17/Sphinx安装1111/" class="post-title-link" itemprop="http://yoursite.com/index.html">Sphinx安装</a>
               
             
           </h1>
@@ -1760,7 +1760,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/12/17/Sphinx安装1111/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/12/17/Sphinx安装/">
 
     <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
       <meta itemprop="name" content="czhuyu">
@@ -1780,7 +1780,7 @@
           <h1 class="post-title" itemprop="name headline">
                 
                 
-                <a href="/2018/12/17/Sphinx安装1111/" class="post-title-link" itemprop="http://yoursite.com/index.html">Sphinx安装</a>
+                <a href="/2018/12/17/Sphinx安装/" class="post-title-link" itemprop="http://yoursite.com/index.html">Sphinx安装</a>
               
             
           </h1>
