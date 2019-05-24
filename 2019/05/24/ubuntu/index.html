@@ -108,25 +108,25 @@
 
 
 
-  <meta name="description" content="一、数据结构 ​    MySQL的索引方法  B-tree 快速查找使用等于不等于条件或者范围（&amp;gt;/&amp;lt;/BETWEEN）条件的情形。   hash 只适用于MySQL的MEMORY存储引擎    二、MySQL （5.6为例）不同存储引擎的索引结构差别 ​    这里讨论MySQL两种主要的存储引擎InnoDB 和 MyISAM  InnoDB 每一个InnoDB都会有一个索引叫做聚">
-<meta name="keywords" content="mysql,数据结构">
+  <meta name="description" content="淘汰笔记本的利用之前用的笔记本是dell5547，由于性能等各方面原因闲置下来了，当时还给它换了块固态硬盘，买的时候还是比较贵的，感觉扔了又比较可惜，于是打算安装个linux发行版在上面做服务器。 第一个问题是安装什么发行版本，centos还是ubuntu ​        之前用过最多的还是centos这类的发行版，因为考虑到可以体验下gnome的桌面环境可以使用浏览器/phpstorm啥的再加">
+<meta name="keywords" content="ubuntu">
 <meta property="og:type" content="article">
-<meta property="og:title" content="MySQL存储引擎和索引结构">
-<meta property="og:url" content="http://yoursite.com/2019/04/25/MySQL存储引擎和索引结构/index.html">
+<meta property="og:title" content="ubuntu">
+<meta property="og:url" content="http://yoursite.com/2019/05/24/ubuntu/index.html">
 <meta property="og:site_name" content="Beginning">
-<meta property="og:description" content="一、数据结构 ​    MySQL的索引方法  B-tree 快速查找使用等于不等于条件或者范围（&amp;gt;/&amp;lt;/BETWEEN）条件的情形。   hash 只适用于MySQL的MEMORY存储引擎    二、MySQL （5.6为例）不同存储引擎的索引结构差别 ​    这里讨论MySQL两种主要的存储引擎InnoDB 和 MyISAM  InnoDB 每一个InnoDB都会有一个索引叫做聚">
+<meta property="og:description" content="淘汰笔记本的利用之前用的笔记本是dell5547，由于性能等各方面原因闲置下来了，当时还给它换了块固态硬盘，买的时候还是比较贵的，感觉扔了又比较可惜，于是打算安装个linux发行版在上面做服务器。 第一个问题是安装什么发行版本，centos还是ubuntu ​        之前用过最多的还是centos这类的发行版，因为考虑到可以体验下gnome的桌面环境可以使用浏览器/phpstorm啥的再加">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2019-05-21T13:56:03.570Z">
+<meta property="og:updated_time" content="2019-05-24T03:29:18.755Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="MySQL存储引擎和索引结构">
-<meta name="twitter:description" content="一、数据结构 ​    MySQL的索引方法  B-tree 快速查找使用等于不等于条件或者范围（&amp;gt;/&amp;lt;/BETWEEN）条件的情形。   hash 只适用于MySQL的MEMORY存储引擎    二、MySQL （5.6为例）不同存储引擎的索引结构差别 ​    这里讨论MySQL两种主要的存储引擎InnoDB 和 MyISAM  InnoDB 每一个InnoDB都会有一个索引叫做聚">
+<meta name="twitter:title" content="ubuntu">
+<meta name="twitter:description" content="淘汰笔记本的利用之前用的笔记本是dell5547，由于性能等各方面原因闲置下来了，当时还给它换了块固态硬盘，买的时候还是比较贵的，感觉扔了又比较可惜，于是打算安装个linux发行版在上面做服务器。 第一个问题是安装什么发行版本，centos还是ubuntu ​        之前用过最多的还是centos这类的发行版，因为考虑到可以体验下gnome的桌面环境可以使用浏览器/phpstorm啥的再加">
 
 
 
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2019/04/25/MySQL存储引擎和索引结构/">
+  <link rel="canonical" href="http://yoursite.com/2019/05/24/ubuntu/">
 
 
 
@@ -136,7 +136,7 @@
   };
 </script>
 
-  <title>MySQL存储引擎和索引结构 | Beginning</title>
+  <title>ubuntu | Beginning</title>
   
 
 
@@ -368,7 +368,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/04/25/MySQL存储引擎和索引结构/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/05/24/ubuntu/">
 
     <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
       <meta itemprop="name" content="czhuyu">
@@ -385,7 +385,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">MySQL存储引擎和索引结构
+          <h1 class="post-title" itemprop="name headline">ubuntu
               
             
           </h1>
@@ -410,24 +410,12 @@
                 
               
 
-              <time title="创建时间：2019-04-25 21:10:47" itemprop="dateCreated datePublished" datetime="2019-04-25T21:10:47+08:00">2019-04-25</time>
+              <time title="创建时间：2019-05-24 11:03:06 / 修改时间：11:29:18" itemprop="dateCreated datePublished" datetime="2019-05-24T11:03:06+08:00">2019-05-24</time>
             
 
             
               
 
-              
-                
-                <span class="post-meta-divider">|</span>
-                
-
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">更新于</span>
-                
-                <time title="修改时间：2019-05-21 21:56:03" itemprop="dateModified" datetime="2019-05-21T21:56:03+08:00">2019-05-21</time>
               
             
           </span>
@@ -460,38 +448,23 @@
       
 
       
-        <p>一、数据结构</p>
-<p>​    MySQL的索引方法</p>
-<ol>
-<li>B-tree<ol>
-<li>快速查找使用等于不等于条件或者范围（&gt;/&lt;/BETWEEN）条件的情形。</li>
-</ol>
-</li>
-<li>hash<ol>
-<li>只适用于MySQL的MEMORY存储引擎</li>
-</ol>
-</li>
-</ol>
-<p>二、MySQL （5.6为例）不同存储引擎的索引结构差别</p>
-<p>​    这里讨论MySQL两种主要的存储引擎InnoDB 和 MyISAM</p>
-<ol>
-<li>InnoDB<ol>
-<li>每一个InnoDB都会有一个索引叫做聚集索引(<a href="https://dev.mysql.com/doc/refman/5.6/en/glossary.html#glos_clustered_index" target="_blank" rel="noopener">clustered index</a>)，通常这个索引也是主键（primary key），数据文件按主键聚集。每个索引的数据都会存在于此索引结构的树上。</li>
-<li>每一个第二索引(Secondary Indexes)都会有一个字段来存储主键来关联上数据。</li>
-<li>所有的InnoDB索引都是用B-trees,所有的索引记录都存在树的叶子结点。默认索引页大小为16KB。</li>
-</ol>
-</li>
-<li>MyISAM<ol>
-<li>MySQL5.6版本之后默认存储引擎为InnoDB，如果需要MyISAM则需要在建表语句中指定。</li>
-<li>同样支持B-tree索引、不支持聚集索引、不支持HASH索引。采用非聚集索引。</li>
-<li>Primary Key和Secondary Key在结构上是一致的。MyISAM的索引文件不同之处在于Primary Key的key要求是唯一的，而Secondary Key的key可以重复。</li>
-<li>和InnoDB的结构不同之处在于MyISAM的每个索引树的叶子节点存储的是数据的地址，索引文件数据文件分离。</li>
-</ol>
-</li>
-</ol>
-<p>三、BTREE树搜索算法</p>
-<p>四、其他</p>
-
+        <h2 id="淘汰笔记本的利用"><a href="#淘汰笔记本的利用" class="headerlink" title="淘汰笔记本的利用"></a>淘汰笔记本的利用</h2><p>之前用的笔记本是dell5547，由于性能等各方面原因闲置下来了，当时还给它换了块固态硬盘，买的时候还是比较贵的，感觉扔了又比较可惜，于是打算安装个linux发行版在上面做服务器。</p>
+<p><strong>第一个问题是安装什么发行版本，centos还是ubuntu</strong></p>
+<p>​        之前用过最多的还是centos这类的发行版，因为考虑到可以体验下gnome的桌面环境可以使用浏览器/phpstorm啥的再加上……(其实是因为安装centos遇到了显卡驱动的问题反正网上是这么说的，在安装系统时卡住了，搜了很多没有解决)。</p>
+<p>​    对我而言redhat和debain系目前使用上最大的区别就是一个用yum来安装一个用apt-get。</p>
+<p><strong>下载Ubuntu 18.04.2 LTS (long time support?)</strong></p>
+<p><strong>下载ultraiso</strong> 把系统写进u盘（第一步打开镜像iso文件 第二步写入硬盘），什么？要收费？试用30天！</p>
+<p>然后在笔记本开机的时候疯狂摁fn+f12（进入快捷选择启动盘），fn+f2进入boot引导设置界面.dell应该都是这样的，其他机型baidu/google.然后选择u盘，然后图形界面安装完成</p>
+<p><strong>ssh</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">apt-get install openssh-server</span><br><span class="line">service ssh start</span><br></pre></td></tr></table></figure>
+<p><strong>因为是用来作服务器，所以想让它启动就进入命令行模式</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">vim /etc/default/grub</span><br><span class="line">把这行 GRUB_CMDLINE_LINUX_DEFAULT=&quot;quiet splash&quot;</span><br><span class="line">改成   GRUB_CMDLINE_LINUX_DEFAULT=&quot;quiet splash 3&quot;</span><br><span class="line">update-grub</span><br></pre></td></tr></table></figure>
+<p><strong>重启进入命令行模式</strong></p>
+<p><strong>然后把笔记本盖子关上（减小功耗），ssh断了???</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">vim /etc/systemd/logind.conf</span><br><span class="line">	HandleLidSwitch 这个变量是用来控制合上盖子的系统操作的</span><br><span class="line">	我们把它的值改成 &quot;lock&quot;(锁屏)</span><br><span class="line">systemctl restart systemd-logind</span><br></pre></td></tr></table></figure>
+<p>然后就可以让它安静地做一个服务器了，你可以在上面安装lnmp……</p>
+<p><strong>最后一个问题，查看电量</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">find /sys/ -name capacity -exec cat &#123;&#125; \;</span><br></pre></td></tr></table></figure>
       
     </div>
 
@@ -514,9 +487,7 @@
       
         <div class="post-tags">
           
-            <a href="/tags/mysql/" rel="tag"># mysql</a>
-          
-            <a href="/tags/数据结构/" rel="tag"># 数据结构</a>
+            <a href="/tags/ubuntu/" rel="tag"># ubuntu</a>
           
         </div>
       
@@ -529,8 +500,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2019/04/25/redis-内存置换策略/" rel="next" title="redis-内存置换策略">
-                <i class="fa fa-chevron-left"></i> redis-内存置换策略
+              <a href="/2019/05/21/mysql查询优化/" rel="next" title="mysql查询优化">
+                <i class="fa fa-chevron-left"></i> mysql查询优化
               </a>
             
           </div>
@@ -538,10 +509,6 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2019/05/18/awk相关/" rel="prev" title="awk相关">
-                awk相关 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -586,8 +553,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
 
-      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+      <section class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
             
@@ -722,6 +698,22 @@
         </div>
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#淘汰笔记本的利用"><span class="nav-number">1.</span> <span class="nav-text">淘汰笔记本的利用</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       

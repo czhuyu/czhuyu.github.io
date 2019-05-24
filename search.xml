@@ -1,6 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title><![CDATA[ubuntu]]></title>
+    <url>%2F2019%2F05%2F24%2Fubuntu%2F</url>
+    <content type="text"><![CDATA[淘汰笔记本的利用之前用的笔记本是dell5547，由于性能等各方面原因闲置下来了，当时还给它换了块固态硬盘，买的时候还是比较贵的，感觉扔了又比较可惜，于是打算安装个linux发行版在上面做服务器。 第一个问题是安装什么发行版本，centos还是ubuntu ​ 之前用过最多的还是centos这类的发行版，因为考虑到可以体验下gnome的桌面环境可以使用浏览器/phpstorm啥的再加上……(其实是因为安装centos遇到了显卡驱动的问题反正网上是这么说的，在安装系统时卡住了，搜了很多没有解决)。 ​ 对我而言redhat和debain系目前使用上最大的区别就是一个用yum来安装一个用apt-get。 下载Ubuntu 18.04.2 LTS (long time support?) 下载ultraiso 把系统写进u盘（第一步打开镜像iso文件 第二步写入硬盘），什么？要收费？试用30天！ 然后在笔记本开机的时候疯狂摁fn+f12（进入快捷选择启动盘），fn+f2进入boot引导设置界面.dell应该都是这样的，其他机型baidu/google.然后选择u盘，然后图形界面安装完成 ssh 12apt-get install openssh-serverservice ssh start 因为是用来作服务器，所以想让它启动就进入命令行模式 1234vim /etc/default/grub把这行 GRUB_CMDLINE_LINUX_DEFAULT=&quot;quiet splash&quot;改成 GRUB_CMDLINE_LINUX_DEFAULT=&quot;quiet splash 3&quot;update-grub 重启进入命令行模式 然后把笔记本盖子关上（减小功耗），ssh断了??? 1234vim /etc/systemd/logind.conf HandleLidSwitch 这个变量是用来控制合上盖子的系统操作的 我们把它的值改成 &quot;lock&quot;(锁屏)systemctl restart systemd-logind 然后就可以让它安静地做一个服务器了，你可以在上面安装lnmp…… 最后一个问题，查看电量 1find /sys/ -name capacity -exec cat &#123;&#125; \;]]></content>
+      <tags>
+        <tag>ubuntu</tag>
+      </tags>
+  </entry>
+  <entry>
     <title><![CDATA[mysql查询优化]]></title>
     <url>%2F2019%2F05%2F21%2Fmysql%E6%9F%A5%E8%AF%A2%E4%BC%98%E5%8C%96%2F</url>
     <content type="text"><![CDATA[mysql 查询优化1.使用explain分析sql索引使用情况有如下表结构 123456CREATE TABLE `index_test` ( `id` int(11) NOT NULL, `name` varchar(255) NOT NULL, `age` int(11) NOT NULL, PRIMARY KEY (`id`)) ENGINE=InnoDB DEFAULT CHARSET=utf8; 1explain SELECT * FROM `index_test` WHERE id = 1; id select_type table type possible_keys key key_len ref rows Extra 1 SIMPLE index_test const PRIMARY PRIMARY 4 const 1 id 唯一查询标识符 select_type 有没有子句 group 等 table 表名 type 类型 ​ 效率从高到低 1system &gt; const &gt; eq_ref &gt; ref &gt; fulltext &gt; ref_or_null &gt; index_merge &gt; unique_subquery &gt; index_subquery &gt; range &gt; index &gt; ALL ​ const 主键或者唯一索引的等值查询 ​ index 会扫描所有的索引 ​ ref 通过特殊查找(即不会扫描所有索引) ​ all 扫描全表 ​ EXPLAIN SELECT * FROM index_test where name like ‘%a%’; ​ range 范围查询 ​ EXPLAIN SELECT * FROM index_test where id &gt; 1; ​ EXPLAIN SELECT * FROM index_test where name like ‘a%’; possible_keys 能够用到的索引，但可能在具体查询时并没有用到 ​ eg:给上表再增加一个普通索引 ADD INDEX idx_name (name) ; 12EXPLAIN SELECT * FROM `index_test` where id = 1 and `name` = &apos;aaa&apos;;这里将会看到possible_keys为PRIMARY,idx_name，但实际上key为PRIMARY key 当前查询使用到的索引 key_len 索引使用的字节数 ​ 表示查询优化器使用了索引的字节数. 这个字段可以评估组合索引是否完全被使用, 或只有最左部分字段被使用到. ref rows 需要扫描的行数 ​ 在实际查询过程中，此值一般越小越好 Extra 额外 ​ 当所查询的字段在索引树上可以直接找到 会展示Using index 2.其他语句查询索引使用情况12show status like &apos;%Handler_read%&apos;;select * from schema_unused_indexes; 3.索引的最左匹配原则复合索引/联合索引 使用多列建立索引 1ADD INDEX `idx_name_age` (`name`, `age`) ; 需要先使用最左边的索引才能继续使用第二个索引，并且第一个索引必须是等值匹配。即where条件中需要有等值匹配name（不能是&gt;/&lt;/between/like）的字段之后才有可能会用到age的索引，至于先后，mysql会做查询优化 123456789explain SELECT * FROM `index_test` where age = 18;explain SELECT * FROM `index_test` where `name` = &apos;aaa&apos;;explain SELECT * FROM `index_test` where age = 18 and name` = &apos;aaa&apos;;explain SELECT * FROM `index_test` where `name` like &apos;%a%&apos; and age = 18;第一句sql的type为index，rows为5第二句sql的type为ref，rows为3第三句sql的type为ref,rows为1第三句sql的type为index,rows为5 1234eg:explain SELECT * FROM `index_test` where age = 20 and `name` = &apos;ccc&apos;;explain SELECT * FROM `index_test` where `name` = &apos;ccc&apos; and age = 20;这两句sql的explain结果是一致的 为什么需要有name字段的条件呢，这和复合索引的存储结构有关 idx_name_age在索引中的结构大致如下 name age aaa 18 aaa 20 bbb 19 ccc 20 类似于orderBy name order by age，所以name在索引结构中是有序的而age不一定有序。 其他1.数据库三范式 1NF：每个列原子性/不可再分 2NF：非主键字段完全依赖于主键而不是依赖于主键的一部分 3NF : 非主键字段需要直接依赖于主键而不是间接依赖 2.临时表 3.filesort]]></content>
@@ -100,11 +108,11 @@
       </tags>
   </entry>
   <entry>
-    <title><![CDATA[day1]]></title>
-    <url>%2F2017%2F03%2F16%2Fleetcode_day1%2F</url>
-    <content type="text"><![CDATA[1.&nbsp;Two SumGiven an array of integers, return&nbsp;indices&nbsp;of the two numbers such that they add up to a specific target.You may assume that each input would have&nbsp;exactly&nbsp;one solution, and you may not use the&nbsp;same&nbsp;element twice.Example:Given&nbsp;nums&nbsp;=&nbsp;[2,&nbsp;7,&nbsp;11,&nbsp;15],&nbsp;target&nbsp;=&nbsp;9,Because&nbsp;nums[0]&nbsp;+&nbsp;nums[1]&nbsp;=&nbsp;2&nbsp;+&nbsp;7&nbsp;=&nbsp;9,return&nbsp;[0,&nbsp;1].func&nbsp;twoSum(nums&nbsp;[]int,&nbsp;target&nbsp;int)&nbsp;[]int&nbsp;{ var&nbsp;arr&nbsp;[]intEXIT: for&nbsp;i,&nbsp;&nbsp;:=&nbsp;range&nbsp;nums&nbsp;{ for&nbsp;j,&nbsp;&nbsp;:=&nbsp;range&nbsp;nums&nbsp;{ if&nbsp;(nums[i]+nums[j])&nbsp;==&nbsp;target&nbsp;&amp;&amp;&nbsp;i&nbsp;!=&nbsp;j&nbsp;{ arr&nbsp;=&nbsp;append(arr,&nbsp;i) arr&nbsp;=&nbsp;append(arr,&nbsp;j) break&nbsp;EXIT } } } return&nbsp;arr}]]></content>
+    <title><![CDATA[tomcat war]]></title>
+    <url>%2F2017%2F03%2F16%2FLinux%E4%B8%8B%E5%AE%89%E8%A3%85jdk%20tomcat%20.war%E5%8F%91%E5%B8%83%E9%A1%B9%E7%9B%AE%2F</url>
+    <content type="text"><![CDATA[一、安装JDK 1.下载jdk，注意下载的时候不要下载成html了，这是个坑。。。2.vim /etc/profileJAVA_HOME=/usr/…/jdk解压后的路径PATH=$PATH:$JAVA_HOME/binCLASSPATH=.:$JAVA_HOME/lib/jt.jar:$JAVA_HOME/lib/tools.jarexport JAVA_HOME PATH CLASSPATH:wqsource /etc/profile最后java -version3.下载tomcat，解压进入目录/bin &nbsp; ./startup.sh4.eclipse export 项目为.war格式 选择导出路径 上传到服务器webapps目录下]]></content>
       <tags>
-        <tag>leetcode</tag>
+        <tag>java</tag>
       </tags>
   </entry>
   <entry>
@@ -113,6 +121,30 @@
     <content type="text"><![CDATA[首先有两种使用方式 1.先在git官网上建立一个git仓库，然后git clone到本地&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 2.直接在本地cd进一个文件夹 git init配置用户名和email&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;git config –global user.name &#39;&#39;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;git config –global user.email xxx@xxx.com简单使用命令 &nbsp;git add .&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; git status&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; git commit -m &quot;The First Upload&quot;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;git push -u origin master&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;]]></content>
       <tags>
         <tag>git</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[day2]]></title>
+    <url>%2F2017%2F03%2F16%2Fleetcode_day2%2F</url>
+    <content type="text"><![CDATA[7.&nbsp;Reverse Integerfunc&nbsp;reverse(x&nbsp;int)&nbsp;int&nbsp;{ s&nbsp;:=&nbsp;strconv.Itoa(x) rs&nbsp;:=&nbsp;&quot;&quot; j&nbsp;:=&nbsp;0 if&nbsp;x&nbsp;&lt;&nbsp;0&nbsp;{ j&nbsp;=&nbsp;1 rs&nbsp;+=&nbsp;&quot;-&quot; } for&nbsp;i&nbsp;:=&nbsp;len(s)&nbsp;-&nbsp;1;&nbsp;i&nbsp;&gt;=&nbsp;j;&nbsp;i–&nbsp;{ rs&nbsp;+=&nbsp;string(s[i]) } rsi,&nbsp;_&nbsp;:=&nbsp;strconv.Atoi(rs) if&nbsp;rsi&nbsp;&gt;&nbsp;(1&lt;&lt;31)&nbsp;||&nbsp;rsi&nbsp;&lt;&nbsp;-(1&nbsp;&lt;&lt;&nbsp;31)&nbsp;{ rsi&nbsp;=&nbsp;0 } return&nbsp;rsi}]]></content>
+      <tags>
+        <tag>leetcode</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[day3]]></title>
+    <url>%2F2017%2F03%2F16%2Fleetcode_day3%2F</url>
+    <content type="text"><![CDATA[Binary Tree (Traverse A Tree)Binary Tree Preorder Traversal/*&nbsp;&nbsp;Definition&nbsp;for&nbsp;a&nbsp;binary&nbsp;tree&nbsp;node.&nbsp;&nbsp;type&nbsp;TreeNode&nbsp;struct&nbsp;{&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Val&nbsp;int&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Left&nbsp;TreeNode&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Right&nbsp;TreeNode&nbsp;&nbsp;}&nbsp;/func&nbsp;preorderTraversal(root&nbsp;TreeNode)&nbsp;[]int&nbsp;{ var&nbsp;arr&nbsp;[]int if&nbsp;root&nbsp;==&nbsp;nil&nbsp;{ return&nbsp;arr } arr&nbsp;=&nbsp;append(arr,&nbsp;root.Val) arr1&nbsp;:=&nbsp;preorderTraversal(root.Left) arr&nbsp;=&nbsp;arrmerge(arr,&nbsp;arr1) arr2&nbsp;:=&nbsp;preorderTraversal(root.Right) arr&nbsp;=&nbsp;arrmerge(arr,&nbsp;arr2) return&nbsp;arr}func&nbsp;arrmerge(arr&nbsp;[]int,&nbsp;arr1&nbsp;[]int)&nbsp;[]int&nbsp;{​ for&nbsp;_,&nbsp;v&nbsp;:=&nbsp;range&nbsp;arr1&nbsp;{​ arr&nbsp;=&nbsp;append(arr,&nbsp;v)​ }​ return&nbsp;arr}Binary Tree Inorder Traversalfunc&nbsp;inorderTraversal(root&nbsp;TreeNode)&nbsp;[]int&nbsp;{​ var&nbsp;arr&nbsp;[]int​ if&nbsp;root&nbsp;==&nbsp;nil&nbsp;{​ return&nbsp;arr​ }​ arr1&nbsp;:=&nbsp;inorderTraversal(root.Left)​ arr&nbsp;=&nbsp;arrmerge(arr,&nbsp;arr1)​ arr&nbsp;=&nbsp;append(arr,&nbsp;root.Val)​ arr2&nbsp;:=&nbsp;inorderTraversal(root.Right)​ arr&nbsp;=&nbsp;arrmerge(arr,&nbsp;arr2)​ return&nbsp;arr}Binary Tree Postorder Traversalfunc&nbsp;postorderTraversal(root&nbsp;*TreeNode)&nbsp;[]int&nbsp;{&nbsp;&nbsp;&nbsp;&nbsp;var&nbsp;arr&nbsp;[]int​ if&nbsp;root&nbsp;==&nbsp;nil&nbsp;{​ return&nbsp;arr​ }​ arr1&nbsp;:=&nbsp;postorderTraversal(root.Left)​ arr&nbsp;=&nbsp;arrmerge(arr,&nbsp;arr1)​ arr2&nbsp;:=&nbsp;postorderTraversal(root.Right)​ arr&nbsp;=&nbsp;arrmerge(arr,&nbsp;arr2)&nbsp;&nbsp;&nbsp;&nbsp;arr&nbsp;=&nbsp;append(arr,&nbsp;root.Val)​ return&nbsp;arr}&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;]]></content>
+      <tags>
+        <tag>leetcode</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[linux安装php]]></title>
+    <url>%2F2017%2F03%2F16%2FLinux%E4%B8%8B%E7%BC%96%E8%AF%91%E5%AE%89%E8%A3%85PHP%2F</url>
+    <content type="text"><![CDATA[1、&nbsp;&nbsp;安装依赖库2、&nbsp;&nbsp;yum install gd zlib libxml2 libxml2-devel libjpeg libjpeg-devel libpng libpng-devel3、&nbsp;&nbsp;下载php-5.6.23.tar.bz2，解压4、&nbsp;&nbsp;cd到php解压的目录里5、&nbsp;&nbsp;配置安装的一些参数./configure –prefix=/usr/local/php \–with-gd \–enable-gd-native-ttf \–enable-gd-jis-conv \–with-mysql=mysqlnd \–enable-mysqlnd \–with-pdo-mysql=mysqlnd \–enable-fpm\–with-openssl&nbsp;&nbsp;Curl &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;./configure –prefix=/usr/local/php7 –with-gd –enable-gd-native-ttf –enable-gd-jis-conv –with-mysql=mysqlnd –enable-mysqlnd –with-pdo-mysql=mysqlnd –enable-fpm –with-openssl –enable-mbstring –enable-tokenizer –enable-zip –with-curl&nbsp;&nbsp;enable-fpm是让php作为独立的进程来运行，占用9000端口配置注意&nbsp;可能会报openssl的错误yum install openssl openssl-devel&nbsp;每个参数后的斜杠前是有空格的，斜杠所起的作用是连接上下两行，没有空格两个参数会连到一起就会报错了6、&nbsp;&nbsp;make &amp;&amp;make install这个过程中如果使用小内存的服务器可能出现php error，解决办法:在配置的最后一行加上–disable-fileinfo7、cd /usr/local/phpcp etc/php-fpm.conf.default etc/php-fpm.confcp /usr/local/src/php-5.5.13/php.ini-development ./lib/php.ini7、&nbsp;&nbsp;启动php./sbin/php-fpm&nbsp;&nbsp;/usr/local/php7/lib/php/extensions/no-debug-non-zts-20151012]]></content>
+      <tags>
+        <tag>lnmp</tag>
       </tags>
   </entry>
   <entry>
@@ -132,39 +164,6 @@
       </tags>
   </entry>
   <entry>
-    <title><![CDATA[依赖注入]]></title>
-    <url>%2F2017%2F03%2F16%2Fdependency-injection%2F</url>
-    <content type="text"><![CDATA[依赖注入(DI)指的就是当你需要实例化的类依赖于其他类的实现的时候；不需要在本类中实例化所依赖的类，而是将所依赖的类通过参数的形式传入 即构造注入(构造函数)和设值注入(set方法);高耦合的反例//高耦合class Apple{​ protected $name = ‘ ‘; public function construct() { $this- &gt;name = ‘Apple ‘; } public function getName() { return $this- &gt;name; }}class Orange{​ protected $name = ‘ ‘; public function construct() { $this- &gt;name = ‘Orange ‘; } public function getName() { return $this- &gt;name; }}class Person{​ protected $likeFood = ‘ ‘; public function construct() { $this- &gt;likeFood = new Orange(); echo ‘这个人喜欢吃 ‘ . $this- &gt;likeFood- &gt;getName(); }}new Person();低耦合注入//低耦合实现interface Fruit{​ public function getName();}class Apple implements Fruit{​ protected $name = ‘ ‘; public function construct() { $this- &gt;name = ‘Apple ‘; } public function getName() { return $this- &gt;name; }}class Orange implements Fruit{​ protected $name = ‘ ‘; public function construct() { $this- &gt;name = ‘Orange ‘; } public function getName() { return $this- &gt;name; }}class Person{​ public $likeFood; public function construct(Fruit $fruit) { echo ‘这个人喜欢吃 ‘ . $fruit- &gt;getName(); }}$apple = new Apple();new Person($apple);]]></content>
-      <tags>
-        <tag>编程思想</tag>
-        <tag>面向对象</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title><![CDATA[tomcat war]]></title>
-    <url>%2F2017%2F03%2F16%2FLinux%E4%B8%8B%E5%AE%89%E8%A3%85jdk%20tomcat%20.war%E5%8F%91%E5%B8%83%E9%A1%B9%E7%9B%AE%2F</url>
-    <content type="text"><![CDATA[一、安装JDK 1.下载jdk，注意下载的时候不要下载成html了，这是个坑。。。2.vim /etc/profileJAVA_HOME=/usr/…/jdk解压后的路径PATH=$PATH:$JAVA_HOME/binCLASSPATH=.:$JAVA_HOME/lib/jt.jar:$JAVA_HOME/lib/tools.jarexport JAVA_HOME PATH CLASSPATH:wqsource /etc/profile最后java -version3.下载tomcat，解压进入目录/bin &nbsp; ./startup.sh4.eclipse export 项目为.war格式 选择导出路径 上传到服务器webapps目录下]]></content>
-      <tags>
-        <tag>java</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title><![CDATA[linux安装mysql]]></title>
-    <url>%2F2017%2F03%2F16%2FLinux%E4%B8%8B%E7%BC%96%E8%AF%91%E5%AE%89%E8%A3%85Mysql%2F</url>
-    <content type="text"><![CDATA[1、mysql 官网下载适合的压缩包，格式为mysql-x.x.xx-linuxxxx.tar.gz2、解压后配置配置帮助 ./configure –help3、groupadd mysqluseradd –g mysql mysqlcd到mysql的解压目录chown –R mysql .chgrp –R mysql .4、./scripts/mysql_install_db –user=mysql如果提示laibaio.1的相关错误yum install libaioso.1 libaio5、把目录权限还给rootchown –R root .chown –R mysql datamkdir /var/run/mysqldchown mysql /var/run/mysqldchgrp mysql /var/run/mysqld6、启动mysql./bin/mysqld_safe –user=mysql &amp;7、连接mysql ./bin/mysql –uroot -p如果报错 建立软连接或者直接将sock文件复制过去建立软连接方法ln /var/lib/mysql/mysql.sock /tmp/mysql.sock8、修改密码update user set Password=password(你想要的密码) where Host=’localhost’ and User= ‘root ‘;delete from user where Password= ‘’;flush privileges;]]></content>
-      <tags>
-        <tag>lnmp</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title><![CDATA[day3]]></title>
-    <url>%2F2017%2F03%2F16%2Fleetcode_day3%2F</url>
-    <content type="text"><![CDATA[Binary Tree (Traverse A Tree)Binary Tree Preorder Traversal/*&nbsp;&nbsp;Definition&nbsp;for&nbsp;a&nbsp;binary&nbsp;tree&nbsp;node.&nbsp;&nbsp;type&nbsp;TreeNode&nbsp;struct&nbsp;{&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Val&nbsp;int&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Left&nbsp;TreeNode&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Right&nbsp;TreeNode&nbsp;&nbsp;}&nbsp;/func&nbsp;preorderTraversal(root&nbsp;TreeNode)&nbsp;[]int&nbsp;{ var&nbsp;arr&nbsp;[]int if&nbsp;root&nbsp;==&nbsp;nil&nbsp;{ return&nbsp;arr } arr&nbsp;=&nbsp;append(arr,&nbsp;root.Val) arr1&nbsp;:=&nbsp;preorderTraversal(root.Left) arr&nbsp;=&nbsp;arrmerge(arr,&nbsp;arr1) arr2&nbsp;:=&nbsp;preorderTraversal(root.Right) arr&nbsp;=&nbsp;arrmerge(arr,&nbsp;arr2) return&nbsp;arr}func&nbsp;arrmerge(arr&nbsp;[]int,&nbsp;arr1&nbsp;[]int)&nbsp;[]int&nbsp;{​ for&nbsp;_,&nbsp;v&nbsp;:=&nbsp;range&nbsp;arr1&nbsp;{​ arr&nbsp;=&nbsp;append(arr,&nbsp;v)​ }​ return&nbsp;arr}Binary Tree Inorder Traversalfunc&nbsp;inorderTraversal(root&nbsp;TreeNode)&nbsp;[]int&nbsp;{​ var&nbsp;arr&nbsp;[]int​ if&nbsp;root&nbsp;==&nbsp;nil&nbsp;{​ return&nbsp;arr​ }​ arr1&nbsp;:=&nbsp;inorderTraversal(root.Left)​ arr&nbsp;=&nbsp;arrmerge(arr,&nbsp;arr1)​ arr&nbsp;=&nbsp;append(arr,&nbsp;root.Val)​ arr2&nbsp;:=&nbsp;inorderTraversal(root.Right)​ arr&nbsp;=&nbsp;arrmerge(arr,&nbsp;arr2)​ return&nbsp;arr}Binary Tree Postorder Traversalfunc&nbsp;postorderTraversal(root&nbsp;*TreeNode)&nbsp;[]int&nbsp;{&nbsp;&nbsp;&nbsp;&nbsp;var&nbsp;arr&nbsp;[]int​ if&nbsp;root&nbsp;==&nbsp;nil&nbsp;{​ return&nbsp;arr​ }​ arr1&nbsp;:=&nbsp;postorderTraversal(root.Left)​ arr&nbsp;=&nbsp;arrmerge(arr,&nbsp;arr1)​ arr2&nbsp;:=&nbsp;postorderTraversal(root.Right)​ arr&nbsp;=&nbsp;arrmerge(arr,&nbsp;arr2)&nbsp;&nbsp;&nbsp;&nbsp;arr&nbsp;=&nbsp;append(arr,&nbsp;root.Val)​ return&nbsp;arr}&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;]]></content>
-      <tags>
-        <tag>leetcode</tag>
-      </tags>
-  </entry>
-  <entry>
     <title><![CDATA[day4]]></title>
     <url>%2F2017%2F03%2F16%2Fleetcode_day4%2F</url>
     <content type="text"><![CDATA[2.&nbsp;Add Two NumbersYou are given two&nbsp;non-empty&nbsp;linked lists representing two non-negative integers. The digits are stored in&nbsp;reverse order&nbsp;and each of their nodes contain a single digit. Add the two numbers and return it as a linked list.You may assume the two numbers do not contain any leading zero, except the number 0 itself.ExampleInput:&nbsp;(2&nbsp;-&gt;&nbsp;4&nbsp;-&gt;&nbsp;3)&nbsp;+&nbsp;(5&nbsp;-&gt;&nbsp;6&nbsp;-&gt;&nbsp;4)Output:&nbsp;7&nbsp;-&gt;&nbsp;0&nbsp;-&gt;&nbsp;8Explanation:&nbsp;342&nbsp;+&nbsp;465&nbsp;=&nbsp;807./*&nbsp;&nbsp;Definition&nbsp;for&nbsp;singly-linked&nbsp;list.&nbsp;&nbsp;type&nbsp;ListNode&nbsp;struct&nbsp;{&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Val&nbsp;int&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Next&nbsp;ListNode&nbsp;&nbsp;}&nbsp;/func&nbsp;addTwoNumbers(l1&nbsp;ListNode,&nbsp;l2&nbsp;ListNode)&nbsp;ListNode&nbsp;{&nbsp;&nbsp;&nbsp;&nbsp;i1&nbsp;:=&nbsp;0 i2&nbsp;:=&nbsp;0 p&nbsp;:=&nbsp;l1 j&nbsp;:=&nbsp;0 for&nbsp;{ if&nbsp;p&nbsp;!=&nbsp;nil&nbsp;{ i1&nbsp;+=&nbsp;p.Val&nbsp;&nbsp;int(math.Pow(float64(10),&nbsp;float64(j))) j++ p&nbsp;=&nbsp;p.Next }&nbsp;else&nbsp;{ break } } j&nbsp;=&nbsp;0 p&nbsp;=&nbsp;l2 for&nbsp;{ if&nbsp;p&nbsp;!=&nbsp;nil&nbsp;{ i2&nbsp;+=&nbsp;p.Val&nbsp;&nbsp;int(math.Pow(float64(10),&nbsp;float64(j))) j++ p&nbsp;=&nbsp;p.Next }&nbsp;else&nbsp;{ break } } revres&nbsp;:=&nbsp;i1&nbsp;+&nbsp;i2&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;fmt.Println(revres) head&nbsp;:=&nbsp;new(ListNode) p&nbsp;=&nbsp;head for&nbsp;{ if&nbsp;revres&nbsp;==&nbsp;0&nbsp;{ break }&nbsp;else&nbsp;{ p.Val&nbsp;=&nbsp;revres&nbsp;%&nbsp;10&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; revres&nbsp;=&nbsp;revres&nbsp;/&nbsp;10&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if&nbsp;revres&nbsp;!=&nbsp;0{&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;node&nbsp;:=&nbsp;new(ListNode) &nbsp;&nbsp;&nbsp;&nbsp;p.Next&nbsp;=&nbsp;node &nbsp;&nbsp;&nbsp;&nbsp;p&nbsp;=&nbsp;p.Next&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;} } }&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;p&nbsp;=&nbsp;l1 for&nbsp;{ if&nbsp;p.Next&nbsp;==&nbsp;nil&nbsp;{ break } fmt.Printf(&quot;%d\t&quot;,&nbsp;p.Val) p&nbsp;=&nbsp;p.Next }&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; return&nbsp;head&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}&nbsp; 后面出现了位数很长的用例，所以换成采用数组来暂存单链表func&nbsp;addTwoNumbers(l1&nbsp;ListNode,&nbsp;l2&nbsp;ListNode)&nbsp;ListNode&nbsp;{ var&nbsp;i1&nbsp;[]int var&nbsp;i2&nbsp;[]int p&nbsp;:=&nbsp;l1 for&nbsp;{ if&nbsp;p&nbsp;!=&nbsp;nil&nbsp;{ i1&nbsp;=&nbsp;append(i1,&nbsp;p.Val) p&nbsp;=&nbsp;p.Next }&nbsp;else&nbsp;{ break } } p&nbsp;=&nbsp;l2 for&nbsp;{ if&nbsp;p&nbsp;!=&nbsp;nil&nbsp;{ i2&nbsp;=&nbsp;append(i2,&nbsp;p.Val) p&nbsp;=&nbsp;p.Next }&nbsp;else&nbsp;{ break } } head&nbsp;:=&nbsp;new(ListNode) p&nbsp;=&nbsp;head lenthi1&nbsp;:=&nbsp;len(i1) lenthi2&nbsp;:=&nbsp;len(i2) if&nbsp;lenthi1&nbsp;!=&nbsp;lenthi2&nbsp;{ if&nbsp;lenthi1&nbsp;&lt;&nbsp;lenthi2&nbsp;{ for&nbsp;i&nbsp;:=&nbsp;0;&nbsp;i&nbsp;&lt;&nbsp;lenthi2-lenthi1;&nbsp;i++&nbsp;{ i1&nbsp;=&nbsp;append(i1,&nbsp;0) } }&nbsp;else&nbsp;{ for&nbsp;i&nbsp;:=&nbsp;0;&nbsp;i&nbsp;&lt;&nbsp;lenthi1-lenthi2;&nbsp;i++&nbsp;{ i2&nbsp;=&nbsp;append(i2,&nbsp;0) } } } lenthi1&nbsp;=&nbsp;len(i1) lenthi2&nbsp;=&nbsp;len(i2) flag&nbsp;:=&nbsp;0 for&nbsp;i,&nbsp;_&nbsp;:=&nbsp;range&nbsp;i1&nbsp;{ sum&nbsp;:=&nbsp;i1[i]&nbsp;+&nbsp;i2[i] if&nbsp;i&nbsp;&lt;&nbsp;lenthi1-1&nbsp;{ if&nbsp;(sum)/10&nbsp;&gt;&nbsp;0&nbsp;{ i1[i+1]&nbsp;+=&nbsp;1 } }&nbsp;else&nbsp;{ if&nbsp;(sum)/10&nbsp;&gt;&nbsp;0&nbsp;{ flag&nbsp;=&nbsp;1 } } p.Val&nbsp;=&nbsp;sum&nbsp;%&nbsp;10 if&nbsp;i&nbsp;&lt;&nbsp;lenthi1-1&nbsp;{ node&nbsp;:=&nbsp;new(ListNode) p.Next&nbsp;=&nbsp;node p&nbsp;=&nbsp;p.Next } } if&nbsp;flag&nbsp;==&nbsp;1&nbsp;{ node&nbsp;:=&nbsp;new(ListNode) node.Val&nbsp;=&nbsp;1 p.Next&nbsp;=&nbsp;node } return&nbsp;head}]]></content>
@@ -173,35 +172,44 @@
       </tags>
   </entry>
   <entry>
-    <title><![CDATA[day2]]></title>
-    <url>%2F2017%2F03%2F16%2Fleetcode_day2%2F</url>
-    <content type="text"><![CDATA[7.&nbsp;Reverse Integerfunc&nbsp;reverse(x&nbsp;int)&nbsp;int&nbsp;{ s&nbsp;:=&nbsp;strconv.Itoa(x) rs&nbsp;:=&nbsp;&quot;&quot; j&nbsp;:=&nbsp;0 if&nbsp;x&nbsp;&lt;&nbsp;0&nbsp;{ j&nbsp;=&nbsp;1 rs&nbsp;+=&nbsp;&quot;-&quot; } for&nbsp;i&nbsp;:=&nbsp;len(s)&nbsp;-&nbsp;1;&nbsp;i&nbsp;&gt;=&nbsp;j;&nbsp;i–&nbsp;{ rs&nbsp;+=&nbsp;string(s[i]) } rsi,&nbsp;_&nbsp;:=&nbsp;strconv.Atoi(rs) if&nbsp;rsi&nbsp;&gt;&nbsp;(1&lt;&lt;31)&nbsp;||&nbsp;rsi&nbsp;&lt;&nbsp;-(1&nbsp;&lt;&lt;&nbsp;31)&nbsp;{ rsi&nbsp;=&nbsp;0 } return&nbsp;rsi}]]></content>
+    <title><![CDATA[day1]]></title>
+    <url>%2F2017%2F03%2F16%2Fleetcode_day1%2F</url>
+    <content type="text"><![CDATA[1.&nbsp;Two SumGiven an array of integers, return&nbsp;indices&nbsp;of the two numbers such that they add up to a specific target.You may assume that each input would have&nbsp;exactly&nbsp;one solution, and you may not use the&nbsp;same&nbsp;element twice.Example:Given&nbsp;nums&nbsp;=&nbsp;[2,&nbsp;7,&nbsp;11,&nbsp;15],&nbsp;target&nbsp;=&nbsp;9,Because&nbsp;nums[0]&nbsp;+&nbsp;nums[1]&nbsp;=&nbsp;2&nbsp;+&nbsp;7&nbsp;=&nbsp;9,return&nbsp;[0,&nbsp;1].func&nbsp;twoSum(nums&nbsp;[]int,&nbsp;target&nbsp;int)&nbsp;[]int&nbsp;{ var&nbsp;arr&nbsp;[]intEXIT: for&nbsp;i,&nbsp;&nbsp;:=&nbsp;range&nbsp;nums&nbsp;{ for&nbsp;j,&nbsp;&nbsp;:=&nbsp;range&nbsp;nums&nbsp;{ if&nbsp;(nums[i]+nums[j])&nbsp;==&nbsp;target&nbsp;&amp;&amp;&nbsp;i&nbsp;!=&nbsp;j&nbsp;{ arr&nbsp;=&nbsp;append(arr,&nbsp;i) arr&nbsp;=&nbsp;append(arr,&nbsp;j) break&nbsp;EXIT } } } return&nbsp;arr}]]></content>
       <tags>
         <tag>leetcode</tag>
       </tags>
   </entry>
   <entry>
-    <title><![CDATA[linux安装nginx]]></title>
-    <url>%2F2017%2F03%2F16%2FLinux%E4%B8%8B%E7%BC%96%E8%AF%91%E5%AE%89%E8%A3%85Nginx%2F</url>
-    <content type="text"><![CDATA[到nginx.org下载wget http://nginx.org/download/nginx-1.10.0.tar.gz解压压缩包环境配置Cd到解压出来的nginx目录中有configure目录的地方进行环境配置./configure –prefix=/usr/local/nginxⅠ.如果遇到提示缺少pcre库到www.pcre.org下载pcre库，if解压到/usr/local/src/pcre-sourceⅡ.1.6版本以后的版本制定pcre源码目录./configure –prefix=/usr/local/nginx–with-pcre=/usr/local/src/pcre-source之前的版本制定安装目录./configure –prefix=/usr/local/nginx–with-pcre=/usr/pcre4.编译安装 make &amp;&amp; make install5.启动nginx ./sbin/nginx重启./sbin/nginx –s reloadException:如果遇到80端口被httpd(Apache)占了Pkill -9 httpd如果无法访问检查防火墙设置]]></content>
+    <title><![CDATA[2017.3]]></title>
+    <url>%2F2017%2F03%2F16%2F2017.3%2F</url>
+    <content type="text"><![CDATA[git http://www.runoob.com/w3cnote/git-guide.htmljs编辑器 http://www.cnblogs.com/lhb25/p/html5-wysisyg-inline-editor.htmlJavaEE 注解和XMLhttp://blog.csdn.net/qmw19910301/article/details/52712893]]></content>
+      <tags>
+        <tag>other</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[linux安装php扩展]]></title>
+    <url>%2F2017%2F03%2F16%2FLinux%E4%B8%8B%E7%BC%96%E8%AF%91%E5%AE%89%E8%A3%85PHP%E6%89%A9%E5%B1%95%2F</url>
+    <content type="text"><![CDATA[下载扩展&nbsp;http://pecl.php.net/解压扩展 进入解压后的扩展目录 执行…/php/bin/phpize./configure –with-php-config=…/php/bin/php-config根据错误提示安装相应的依赖make &amp;&amp; make install在…/php/lib/extension/no-….目录下会出现.so的文件就说明安装好了到php.ini中增加extension=…/php/lib/ex…/xxx.so重启php]]></content>
       <tags>
         <tag>lnmp</tag>
       </tags>
   </entry>
   <entry>
-    <title><![CDATA[day5]]></title>
-    <url>%2F2017%2F03%2F16%2Fleetcode_day5%2F</url>
-    <content type="text"><![CDATA[3.&nbsp;Longest Substring Without Repeating CharactersGiven a string, find the length of the&nbsp;longest substring&nbsp;without repeating characters.Examples:Given&nbsp;&quot;abcabcbb&quot;, the answer is&nbsp;&quot;abc&quot;, which the length is 3.Given&nbsp;&quot;bbbbb&quot;, the answer is&nbsp;&quot;b&quot;, with the length of 1.Given&nbsp;&quot;pwwkew&quot;, the answer is&nbsp;&quot;wke&quot;, with the length of 3. Note that the answer must be a&nbsp;substring,&nbsp;&quot;pwke&quot;&nbsp;is a&nbsp;subsequence&nbsp;and not a substring.func&nbsp;lengthOfLongestSubstring(s&nbsp;string)&nbsp;int&nbsp;{ arr&nbsp;:=&nbsp;make(map[rune]int) start&nbsp;:=&nbsp;0 maxlen&nbsp;:=&nbsp;0 for&nbsp;i,&nbsp;v&nbsp;:=&nbsp;range&nbsp;[]rune(s)&nbsp;{ if&nbsp;pre,&nbsp;ok&nbsp;:=&nbsp;arr[v];&nbsp;ok&nbsp;&amp;&amp;&nbsp;pre&nbsp;&gt;=&nbsp;start&nbsp;{ start&nbsp;=&nbsp;pre&nbsp;+&nbsp;1 } if&nbsp;i-start+1&nbsp;&gt;&nbsp;maxlen&nbsp;{ maxlen&nbsp;=&nbsp;i&nbsp;-&nbsp;start&nbsp;+&nbsp;1 } arr[v]&nbsp;=&nbsp;i } return&nbsp;maxlen}]]></content>
+    <title><![CDATA[php内置数组排序]]></title>
+    <url>%2F2017%2F03%2F16%2FPHP%E5%86%85%E7%BD%AE%E6%95%B0%E7%BB%84%E6%8E%92%E5%BA%8F%E6%96%B9%E6%B3%95%2F</url>
+    <content type="text"></content>
       <tags>
-        <tag>leetcode</tag>
+        <tag>php</tag>
       </tags>
   </entry>
   <entry>
-    <title><![CDATA[linux安装php]]></title>
-    <url>%2F2017%2F03%2F16%2FLinux%E4%B8%8B%E7%BC%96%E8%AF%91%E5%AE%89%E8%A3%85PHP%2F</url>
-    <content type="text"><![CDATA[1、&nbsp;&nbsp;安装依赖库2、&nbsp;&nbsp;yum install gd zlib libxml2 libxml2-devel libjpeg libjpeg-devel libpng libpng-devel3、&nbsp;&nbsp;下载php-5.6.23.tar.bz2，解压4、&nbsp;&nbsp;cd到php解压的目录里5、&nbsp;&nbsp;配置安装的一些参数./configure –prefix=/usr/local/php \–with-gd \–enable-gd-native-ttf \–enable-gd-jis-conv \–with-mysql=mysqlnd \–enable-mysqlnd \–with-pdo-mysql=mysqlnd \–enable-fpm\–with-openssl&nbsp;&nbsp;Curl &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;./configure –prefix=/usr/local/php7 –with-gd –enable-gd-native-ttf –enable-gd-jis-conv –with-mysql=mysqlnd –enable-mysqlnd –with-pdo-mysql=mysqlnd –enable-fpm –with-openssl –enable-mbstring –enable-tokenizer –enable-zip –with-curl&nbsp;&nbsp;enable-fpm是让php作为独立的进程来运行，占用9000端口配置注意&nbsp;可能会报openssl的错误yum install openssl openssl-devel&nbsp;每个参数后的斜杠前是有空格的，斜杠所起的作用是连接上下两行，没有空格两个参数会连到一起就会报错了6、&nbsp;&nbsp;make &amp;&amp;make install这个过程中如果使用小内存的服务器可能出现php error，解决办法:在配置的最后一行加上–disable-fileinfo7、cd /usr/local/phpcp etc/php-fpm.conf.default etc/php-fpm.confcp /usr/local/src/php-5.5.13/php.ini-development ./lib/php.ini7、&nbsp;&nbsp;启动php./sbin/php-fpm&nbsp;&nbsp;/usr/local/php7/lib/php/extensions/no-debug-non-zts-20151012]]></content>
+    <title><![CDATA[一次完整的请求过程]]></title>
+    <url>%2F2017%2F03%2F16%2F%E4%B8%80%E6%AC%A1%E5%AE%8C%E6%95%B4%E7%9A%84%E8%AF%B7%E6%B1%82%E8%BF%87%E7%A8%8B%2F</url>
+    <content type="text"><![CDATA[浏览器一次完整的请求过程]]></content>
       <tags>
-        <tag>lnmp</tag>
+        <tag>http</tag>
+        <tag>web</tag>
       </tags>
   </entry>
   <entry>
@@ -216,45 +224,11 @@
       </tags>
   </entry>
   <entry>
-    <title><![CDATA[linux安装php扩展]]></title>
-    <url>%2F2017%2F03%2F16%2FLinux%E4%B8%8B%E7%BC%96%E8%AF%91%E5%AE%89%E8%A3%85PHP%E6%89%A9%E5%B1%95%2F</url>
-    <content type="text"><![CDATA[下载扩展&nbsp;http://pecl.php.net/解压扩展 进入解压后的扩展目录 执行…/php/bin/phpize./configure –with-php-config=…/php/bin/php-config根据错误提示安装相应的依赖make &amp;&amp; make install在…/php/lib/extension/no-….目录下会出现.so的文件就说明安装好了到php.ini中增加extension=…/php/lib/ex…/xxx.so重启php]]></content>
+    <title><![CDATA[linux安装mysql]]></title>
+    <url>%2F2017%2F03%2F16%2FLinux%E4%B8%8B%E7%BC%96%E8%AF%91%E5%AE%89%E8%A3%85Mysql%2F</url>
+    <content type="text"><![CDATA[1、mysql 官网下载适合的压缩包，格式为mysql-x.x.xx-linuxxxx.tar.gz2、解压后配置配置帮助 ./configure –help3、groupadd mysqluseradd –g mysql mysqlcd到mysql的解压目录chown –R mysql .chgrp –R mysql .4、./scripts/mysql_install_db –user=mysql如果提示laibaio.1的相关错误yum install libaioso.1 libaio5、把目录权限还给rootchown –R root .chown –R mysql datamkdir /var/run/mysqldchown mysql /var/run/mysqldchgrp mysql /var/run/mysqld6、启动mysql./bin/mysqld_safe –user=mysql &amp;7、连接mysql ./bin/mysql –uroot -p如果报错 建立软连接或者直接将sock文件复制过去建立软连接方法ln /var/lib/mysql/mysql.sock /tmp/mysql.sock8、修改密码update user set Password=password(你想要的密码) where Host=’localhost’ and User= ‘root ‘;delete from user where Password= ‘’;flush privileges;]]></content>
       <tags>
         <tag>lnmp</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title><![CDATA[一次完整的请求过程]]></title>
-    <url>%2F2017%2F03%2F16%2F%E4%B8%80%E6%AC%A1%E5%AE%8C%E6%95%B4%E7%9A%84%E8%AF%B7%E6%B1%82%E8%BF%87%E7%A8%8B%2F</url>
-    <content type="text"><![CDATA[浏览器一次完整的请求过程]]></content>
-      <tags>
-        <tag>http</tag>
-        <tag>web</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title><![CDATA[php内置数组排序]]></title>
-    <url>%2F2017%2F03%2F16%2FPHP%E5%86%85%E7%BD%AE%E6%95%B0%E7%BB%84%E6%8E%92%E5%BA%8F%E6%96%B9%E6%B3%95%2F</url>
-    <content type="text"></content>
-      <tags>
-        <tag>php</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title><![CDATA[2017.3]]></title>
-    <url>%2F2017%2F03%2F16%2F2017.3%2F</url>
-    <content type="text"><![CDATA[git http://www.runoob.com/w3cnote/git-guide.htmljs编辑器 http://www.cnblogs.com/lhb25/p/html5-wysisyg-inline-editor.htmlJavaEE 注解和XMLhttp://blog.csdn.net/qmw19910301/article/details/52712893]]></content>
-      <tags>
-        <tag>other</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title><![CDATA[安装laravel]]></title>
-    <url>%2F2017%2F03%2F16%2F%E5%AE%89%E8%A3%85Laravel%2F</url>
-    <content type="text"><![CDATA[一、根据官方文档需要安装几个php的扩展 Openssl/PDO/Mbstring/Tokenizer/XML二、Linux下可以使用Composer来安装Laravel&nbsp; 1.全局安装Composer&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;curl -sS https://getcomposer.org/installer | php&nbsp;&nbsp;&nbsp;&nbsp;mv composer.phar /usr/local/bin/composer&nbsp; &nbsp; &nbsp;解决更新慢的问题&nbsp;&nbsp;&nbsp;&nbsp;composer config repo.packagist composer https://packagist.phpcomposer.com&nbsp;&nbsp;&nbsp;&nbsp;composer –version查看是否安装成功&nbsp; 2.利用Composer安装Laravel&nbsp;&nbsp;&nbsp;&nbsp;composer global require &quot;laravel/installer&quot;&nbsp;&nbsp;&nbsp;&nbsp;cd到$Home/.composer/vendor/bin目录下&nbsp;&nbsp;&nbsp;&nbsp;执行 Laravel new Blog&nbsp; 3.最后利用php的内置服务器&nbsp;&nbsp;&nbsp;&nbsp;php artisan serve一些收获&nbsp; &nbsp;1.Linux方面 .tar.gz通过的是源码安装 ./configure –prefix=/usr/local/php 即指定安装路径 卸载的时候只需要删除这个目录下的东西即可 开机自启动 增加环境变量&nbsp; &nbsp;2.php 的两种运行方式的php.ini有可能是不同的,也就是会出现你的web上面的phpinfo()和你直接用CLI执行的php -m发现扩展的开启情况是不相同的，这个时候就需要你运行CLI和web的时候所用的php.ini是同一个文件&nbsp; &nbsp;3.Laravel 从laraval知道了php有一个内置的服务器。]]></content>
-      <tags>
-        <tag>laravel</tag>
-        <tag>php</tag>
       </tags>
   </entry>
   <entry>
@@ -267,11 +241,11 @@
       </tags>
   </entry>
   <entry>
-    <title><![CDATA[正则]]></title>
-    <url>%2F2017%2F03%2F16%2F%E6%AD%A3%E5%88%99%E3%80%81mb_substr%2F</url>
-    <content type="text"><![CDATA[0x1 爬虫过程遇到需要截取到&lt;span id=&quot;xhxm&quot;&gt;张三同学&lt;/span&gt;里面同学的名称&nbsp; 1.正则解决&nbsp; 2.通过字符串解决0x2 通过正则解决&nbsp; 1.简单解决&nbsp; &lt;span id=&quot;xhxm&quot;&gt;(.)\u540c\u5b66&lt;/span&gt;&nbsp;&nbsp; 2.零宽断言解决&nbsp; &nbsp;&gt;(.)(?=\u540c\u5b66)&nbsp;&nbsp;&nbsp; 这里使用零宽度正预测先行断言(?=exp)&nbsp; 就是找到匹配之前的内容&nbsp;&nbsp; (?&lt;=exp)用来找到匹配之后的东西，称为零宽度正回顾后发断言0x3 通过mb_substr解决 先匹配张三同学,然后截取字符串&nbsp; 因为这里的header是gb2312，所以指定mb_substr的编码为gb2312&nbsp; substr直接处理汉字会造成乱码的问题，可以使用mb_substr指定汉字编码方式gb2312&nbsp;&nbsp; 这样就可以截取到到张三0x4 这不算完&nbsp;]]></content>
+    <title><![CDATA[linux安装nginx]]></title>
+    <url>%2F2017%2F03%2F16%2FLinux%E4%B8%8B%E7%BC%96%E8%AF%91%E5%AE%89%E8%A3%85Nginx%2F</url>
+    <content type="text"><![CDATA[到nginx.org下载wget http://nginx.org/download/nginx-1.10.0.tar.gz解压压缩包环境配置Cd到解压出来的nginx目录中有configure目录的地方进行环境配置./configure –prefix=/usr/local/nginxⅠ.如果遇到提示缺少pcre库到www.pcre.org下载pcre库，if解压到/usr/local/src/pcre-sourceⅡ.1.6版本以后的版本制定pcre源码目录./configure –prefix=/usr/local/nginx–with-pcre=/usr/local/src/pcre-source之前的版本制定安装目录./configure –prefix=/usr/local/nginx–with-pcre=/usr/pcre4.编译安装 make &amp;&amp; make install5.启动nginx ./sbin/nginx重启./sbin/nginx –s reloadException:如果遇到80端口被httpd(Apache)占了Pkill -9 httpd如果无法访问检查防火墙设置]]></content>
       <tags>
-        <tag>正则</tag>
+        <tag>lnmp</tag>
       </tags>
   </entry>
   <entry>
@@ -283,6 +257,23 @@
       </tags>
   </entry>
   <entry>
+    <title><![CDATA[安装laravel]]></title>
+    <url>%2F2017%2F03%2F16%2F%E5%AE%89%E8%A3%85Laravel%2F</url>
+    <content type="text"><![CDATA[一、根据官方文档需要安装几个php的扩展 Openssl/PDO/Mbstring/Tokenizer/XML二、Linux下可以使用Composer来安装Laravel&nbsp; 1.全局安装Composer&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;curl -sS https://getcomposer.org/installer | php&nbsp;&nbsp;&nbsp;&nbsp;mv composer.phar /usr/local/bin/composer&nbsp; &nbsp; &nbsp;解决更新慢的问题&nbsp;&nbsp;&nbsp;&nbsp;composer config repo.packagist composer https://packagist.phpcomposer.com&nbsp;&nbsp;&nbsp;&nbsp;composer –version查看是否安装成功&nbsp; 2.利用Composer安装Laravel&nbsp;&nbsp;&nbsp;&nbsp;composer global require &quot;laravel/installer&quot;&nbsp;&nbsp;&nbsp;&nbsp;cd到$Home/.composer/vendor/bin目录下&nbsp;&nbsp;&nbsp;&nbsp;执行 Laravel new Blog&nbsp; 3.最后利用php的内置服务器&nbsp;&nbsp;&nbsp;&nbsp;php artisan serve一些收获&nbsp; &nbsp;1.Linux方面 .tar.gz通过的是源码安装 ./configure –prefix=/usr/local/php 即指定安装路径 卸载的时候只需要删除这个目录下的东西即可 开机自启动 增加环境变量&nbsp; &nbsp;2.php 的两种运行方式的php.ini有可能是不同的,也就是会出现你的web上面的phpinfo()和你直接用CLI执行的php -m发现扩展的开启情况是不相同的，这个时候就需要你运行CLI和web的时候所用的php.ini是同一个文件&nbsp; &nbsp;3.Laravel 从laraval知道了php有一个内置的服务器。]]></content>
+      <tags>
+        <tag>php</tag>
+        <tag>laravel</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[day5]]></title>
+    <url>%2F2017%2F03%2F16%2Fleetcode_day5%2F</url>
+    <content type="text"><![CDATA[3.&nbsp;Longest Substring Without Repeating CharactersGiven a string, find the length of the&nbsp;longest substring&nbsp;without repeating characters.Examples:Given&nbsp;&quot;abcabcbb&quot;, the answer is&nbsp;&quot;abc&quot;, which the length is 3.Given&nbsp;&quot;bbbbb&quot;, the answer is&nbsp;&quot;b&quot;, with the length of 1.Given&nbsp;&quot;pwwkew&quot;, the answer is&nbsp;&quot;wke&quot;, with the length of 3. Note that the answer must be a&nbsp;substring,&nbsp;&quot;pwke&quot;&nbsp;is a&nbsp;subsequence&nbsp;and not a substring.func&nbsp;lengthOfLongestSubstring(s&nbsp;string)&nbsp;int&nbsp;{ arr&nbsp;:=&nbsp;make(map[rune]int) start&nbsp;:=&nbsp;0 maxlen&nbsp;:=&nbsp;0 for&nbsp;i,&nbsp;v&nbsp;:=&nbsp;range&nbsp;[]rune(s)&nbsp;{ if&nbsp;pre,&nbsp;ok&nbsp;:=&nbsp;arr[v];&nbsp;ok&nbsp;&amp;&amp;&nbsp;pre&nbsp;&gt;=&nbsp;start&nbsp;{ start&nbsp;=&nbsp;pre&nbsp;+&nbsp;1 } if&nbsp;i-start+1&nbsp;&gt;&nbsp;maxlen&nbsp;{ maxlen&nbsp;=&nbsp;i&nbsp;-&nbsp;start&nbsp;+&nbsp;1 } arr[v]&nbsp;=&nbsp;i } return&nbsp;maxlen}]]></content>
+      <tags>
+        <tag>leetcode</tag>
+      </tags>
+  </entry>
+  <entry>
     <title><![CDATA[最长不重复子串]]></title>
     <url>%2F2017%2F03%2F16%2F%E8%AE%A1%E7%AE%97%E4%B8%80%E4%B8%AA%E5%AD%97%E7%AC%A6%E4%B8%B2%E4%B8%AD%E6%9C%80%E5%A4%A7%E4%B8%8D%E9%87%8D%E5%A4%8D%E5%AD%90%E4%B8%B2%E9%95%BF%E5%BA%A6%2F</url>
     <content type="text"><![CDATA[123456789101112131415161718192021222324252627282930package mainimport ( "fmt ")func maxLen(str string) int &#123; start := 0 maxlen := 0 lastO := make(map[rune]int) for i, v := range []rune(str) &#123; if lastI, ok := lastO[v]; ok &#123; start = lastI + 1 &#125; if (i-start+1 &amp;gt; maxlen) &#123; maxlen = i - start + 1 &#125; lastO[v] = i &#125; return maxlen&#125;func main() &#123; //求字符串最大不重复子串长度 //s:= "Yes哈哈哈! " fmt.Println(maxLen( "abcbcdef ")) fmt.Println(maxLen( "abcdef ")) fmt.Println(maxLen( "aaaaaaa ")) fmt.Println(maxLen( "你说什么 "))&#125;]]></content>
@@ -291,11 +282,28 @@
       </tags>
   </entry>
   <entry>
+    <title><![CDATA[正则]]></title>
+    <url>%2F2017%2F03%2F16%2F%E6%AD%A3%E5%88%99%E3%80%81mb_substr%2F</url>
+    <content type="text"><![CDATA[0x1 爬虫过程遇到需要截取到&lt;span id=&quot;xhxm&quot;&gt;张三同学&lt;/span&gt;里面同学的名称&nbsp; 1.正则解决&nbsp; 2.通过字符串解决0x2 通过正则解决&nbsp; 1.简单解决&nbsp; &lt;span id=&quot;xhxm&quot;&gt;(.)\u540c\u5b66&lt;/span&gt;&nbsp;&nbsp; 2.零宽断言解决&nbsp; &nbsp;&gt;(.)(?=\u540c\u5b66)&nbsp;&nbsp;&nbsp; 这里使用零宽度正预测先行断言(?=exp)&nbsp; 就是找到匹配之前的内容&nbsp;&nbsp; (?&lt;=exp)用来找到匹配之后的东西，称为零宽度正回顾后发断言0x3 通过mb_substr解决 先匹配张三同学,然后截取字符串&nbsp; 因为这里的header是gb2312，所以指定mb_substr的编码为gb2312&nbsp; substr直接处理汉字会造成乱码的问题，可以使用mb_substr指定汉字编码方式gb2312&nbsp;&nbsp; 这样就可以截取到到张三0x4 这不算完&nbsp;]]></content>
+      <tags>
+        <tag>正则</tag>
+      </tags>
+  </entry>
+  <entry>
     <title><![CDATA[面试算法题]]></title>
     <url>%2F2017%2F03%2F16%2F%E9%9D%A2%E8%AF%95%E7%AE%97%E6%B3%95%E9%A2%98%2F</url>
     <content type="text"><![CDATA[package&nbsp;main import&nbsp;(&nbsp;&nbsp;&nbsp;&quot;fmt&quot;&nbsp;&nbsp;&nbsp;&quot;strconv&quot;&nbsp;&nbsp;&nbsp;&quot;sort&quot;) func&nbsp;filter(str&nbsp;string)&nbsp;string{&nbsp;&nbsp;&nbsp;//过滤aabbbbbccc&nbsp;为abc&nbsp;&nbsp;&nbsp;var&nbsp;newArr&nbsp;=&nbsp;make(map[rune]int)&nbsp;&nbsp;&nbsp;s&nbsp;:=&nbsp;&quot;&quot; &nbsp;&nbsp;&nbsp;for&nbsp;_,v&nbsp;:=&nbsp;range&nbsp;[]rune(str){&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if&nbsp;newArr[v]&nbsp;==&nbsp;0{&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;newArr[v]&nbsp;=&nbsp;1&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;s&nbsp;+=&nbsp;string(v)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}&nbsp;&nbsp;&nbsp;}&nbsp;&nbsp;&nbsp;return&nbsp;s} func&nbsp;filter2(str&nbsp;string)&nbsp;string{&nbsp;&nbsp;&nbsp;//过滤aaabbbcssss为3a3bc4s&nbsp;&nbsp;&nbsp;var&nbsp;newArr&nbsp;=&nbsp;make(map[rune]int)&nbsp;&nbsp;&nbsp;var&nbsp;sortArr&nbsp;[]string&nbsp;&nbsp;&nbsp;s&nbsp;:=&nbsp;&quot;&quot; &nbsp;&nbsp;&nbsp;for&nbsp;_,v&nbsp;:=&nbsp;range&nbsp;[]rune(str){&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;sortArr&nbsp;=&nbsp;append(sortArr,&nbsp;string(v))&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if&nbsp;newArr[v]&nbsp;==&nbsp;0{&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;newArr[v]&nbsp;=&nbsp;1&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}else{&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;newArr[v]&nbsp;+=&nbsp;1&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}&nbsp;&nbsp;&nbsp;} &nbsp;&nbsp;&nbsp;sort.Strings(sortArr) &nbsp;&nbsp;&nbsp;for&nbsp;i,v&nbsp;:=&nbsp;range&nbsp;newArr{&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if&nbsp;v&nbsp;==&nbsp;1&nbsp;{&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;s&nbsp;+=&nbsp;string(i)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}else{&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;s&nbsp;+=&nbsp;strconv.Itoa(v)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;s&nbsp;+=&nbsp;string(i)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}&nbsp;&nbsp;&nbsp;}&nbsp;&nbsp;&nbsp;return&nbsp;s} func&nbsp;main()&nbsp;{&nbsp;&nbsp;&nbsp;fmt.Println(filter2(&quot;aabccddee&quot;))}go语言的map用for range遍历是随机的key所以如果需要顺序遍历则需要先将key排序]]></content>
       <tags>
         <tag>面经</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[依赖注入]]></title>
+    <url>%2F2017%2F03%2F16%2Fdependency-injection%2F</url>
+    <content type="text"><![CDATA[依赖注入(DI)指的就是当你需要实例化的类依赖于其他类的实现的时候；不需要在本类中实例化所依赖的类，而是将所依赖的类通过参数的形式传入 即构造注入(构造函数)和设值注入(set方法);高耦合的反例//高耦合class Apple{​ protected $name = ‘ ‘; public function construct() { $this- &gt;name = ‘Apple ‘; } public function getName() { return $this- &gt;name; }}class Orange{​ protected $name = ‘ ‘; public function construct() { $this- &gt;name = ‘Orange ‘; } public function getName() { return $this- &gt;name; }}class Person{​ protected $likeFood = ‘ ‘; public function construct() { $this- &gt;likeFood = new Orange(); echo ‘这个人喜欢吃 ‘ . $this- &gt;likeFood- &gt;getName(); }}new Person();低耦合注入//低耦合实现interface Fruit{​ public function getName();}class Apple implements Fruit{​ protected $name = ‘ ‘; public function construct() { $this- &gt;name = ‘Apple ‘; } public function getName() { return $this- &gt;name; }}class Orange implements Fruit{​ protected $name = ‘ ‘; public function construct() { $this- &gt;name = ‘Orange ‘; } public function getName() { return $this- &gt;name; }}class Person{​ public $likeFood; public function construct(Fruit $fruit) { echo ‘这个人喜欢吃 ‘ . $fruit- &gt;getName(); }}$apple = new Apple();new Person($apple);]]></content>
+      <tags>
+        <tag>编程思想</tag>
+        <tag>面向对象</tag>
       </tags>
   </entry>
 </search>
