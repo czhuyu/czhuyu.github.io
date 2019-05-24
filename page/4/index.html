@@ -517,7 +517,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/03/16/正则、mb_substr/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/03/16/计算一个字符串中最大不重复子串长度/">
 
     <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
       <meta itemprop="name" content="czhuyu">
@@ -537,7 +537,7 @@
           <h1 class="post-title" itemprop="name headline">
                 
                 
-                <a href="/2017/03/16/正则、mb_substr/" class="post-title-link" itemprop="http://yoursite.com/page/4/index.html">正则</a>
+                <a href="/2017/03/16/计算一个字符串中最大不重复子串长度/" class="post-title-link" itemprop="http://yoursite.com/page/4/index.html">最长不重复子串</a>
               
             
           </h1>
@@ -579,7 +579,7 @@
                 
                   <span class="post-meta-item-text">更新于</span>
                 
-                <time title="修改时间：2019-05-20 22:29:45" itemprop="dateModified" datetime="2019-05-20T22:29:45+08:00">2019-05-20</time>
+                <time title="修改时间：2019-05-20 22:27:01" itemprop="dateModified" datetime="2019-05-20T22:27:01+08:00">2019-05-20</time>
               
             
           </span>
@@ -614,167 +614,7 @@
       
         
           
-            <p><strong>0x1</strong> 爬虫过程遇到需要截取到&lt;span id=&quot;xhxm&quot;&gt;张三同学&lt;/span&gt;里面同学的名称<br></p><p>&nbsp; 1.正则解决<br></p><p>&nbsp; 2.通过字符串解决<br></p><p><strong>0x2</strong> 通过正则解决</p><p>&nbsp; 1.简单解决</p><p>&nbsp; &lt;span id=&quot;xhxm&quot;&gt;(.<em>)\u540c\u5b66&lt;/span&gt;</em></p><p>&nbsp;<img src="/ueditor/php/upload/image/20170515/1494855697445556.png" title="1494855697445556.png" alt="blob.png"></p><p>&nbsp; 2.零宽断言解决</p><p>&nbsp; &nbsp;&gt;(.)(?=\u540c\u5b66)</p><p>&nbsp;&nbsp;<img src="/ueditor/php/upload/image/20170515/1494856468363010.png" title="1494856468363010.png" alt="blob.png"></p><p>&nbsp; 这里使用零宽度正预测先行断言(?=exp)</p><p>&nbsp; 就是找到匹配之前的内容&nbsp;</p><p>&nbsp; (?&lt;=exp)用来找到匹配之后的东西，称为零宽度正回顾后发断言</p><p><strong>0x3</strong> 通过mb_substr解决 先匹配张三同学,然后截取字符串</p><p>&nbsp; 因为这里的header是gb2312，所以指定mb_substr的编码为gb2312<br></p><p>&nbsp; substr直接处理汉字会造成乱码的问题，可以使用mb_substr指定汉字编码方式gb2312</p><p>&nbsp;<img src="/ueditor/php/upload/image/20170515/1494853756143314.png" title="1494853756143314.png" alt="blob.png"></p><p>&nbsp; 这样就可以截取到到张三<br></p><p><strong>0x4</strong> 这不算完</p><p>&nbsp;<br></p>
-          
-        
-      
-    </div>
-
-    
-
-    
-    
-    
-
-    
-
-    
-       
-    
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/03/16/排序算法/">
-
-    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="czhuyu">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="https://avatars2.githubusercontent.com/u/26237984">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Beginning">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                
-                <a href="/2017/03/16/排序算法/" class="post-title-link" itemprop="http://yoursite.com/page/4/index.html">基本排序算法</a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-
-            
-            
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-
-              
-                
-              
-
-              <time title="创建时间：2017-03-16 22:22:56" itemprop="dateCreated datePublished" datetime="2017-03-16T22:22:56+08:00">2017-03-16</time>
-            
-
-            
-              
-
-              
-                
-                <span class="post-meta-divider">|</span>
-                
-
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">更新于</span>
-                
-                <time title="修改时间：2019-05-20 22:27:55" itemprop="dateModified" datetime="2019-05-20T22:27:55+08:00">2019-05-20</time>
-              
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h4 id="使用四种基本的排序方法对生成的1000个随机数进行排序，比较执行时间"><a href="#使用四种基本的排序方法对生成的1000个随机数进行排序，比较执行时间" class="headerlink" title="使用四种基本的排序方法对生成的1000个随机数进行排序，比较执行时间"></a>使用四种基本的排序方法对生成的1000个随机数进行排序，比较执行时间</h4><h3 id="一、冒泡排序"><a href="#一、冒泡排序" class="headerlink" title="一、冒泡排序"></a>一、冒泡排序</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">$s=microtime();//记录开始时间</span><br><span class="line"></span><br><span class="line">for($i=0;$i=1000;$i++)&#123;</span><br><span class="line">  	$a[$i] = mt_rand(0,1000);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">//冒泡排序</span><br><span class="line">for($j=0;$j&lt;999;$j++)&#123;</span><br><span class="line">  	for($k=0;$k&lt;999-$j;$k++)&#123;</span><br><span class="line">  		if($a[$k]&gt;$a[$k+1])&#123;</span><br><span class="line">  			$temp = $a[$k];</span><br><span class="line">  			$a[$k] = $a[$k+1];</span><br><span class="line">  			$a[$k+1] = $temp;</span><br><span class="line">  		&#125;</span><br><span class="line">  	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">for($i=0;$i&lt;1000;$i++)&#123;</span><br><span class="line">  	echo $a[$i].&apos;&apos;;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">$e = microtime();//记录结束时间</span><br><span class="line">echo &apos;&lt;br/&gt;&apos;;</span><br><span class="line">echo $e-$s;</span><br></pre></td></tr></table></figure>
-<h3 id="二、简单选择排序"><a href="#二、简单选择排序" class="headerlink" title="二、简单选择排序"></a>二、简单选择排序</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">for($i=0;$i&lt;999;$i++)&#123;</span><br><span class="line">  	for($j=$i+1;$j&lt;1000;$j++)&#123;</span><br><span class="line">  		if($a[$j]&lt;$a[$i])&#123;</span><br><span class="line">  			$temp = $a[$j];</span><br><span class="line">  			$a[$j] = $a[$i];</span><br><span class="line">  			$a[$i] = $temp;</span><br><span class="line">  		&#125;</span><br><span class="line">  	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h3 id="三、直接插入排序"><a href="#三、直接插入排序" class="headerlink" title="三、直接插入排序"></a>三、直接插入排序</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">for($i=1;$i&lt;1000;$i++)&#123;</span><br><span class="line">  	if($a[$i]&lt;$a[$i-1])&#123;</span><br><span class="line">  		$j = $i-1;</span><br><span class="line">  		$temp = $a[$i];</span><br><span class="line">  		for($j;$j&gt;=0&amp;amp;&amp;amp;$a[$j]&gt;$temp;$j--)&#123;</span><br><span class="line">  			$a[$j+1] = $a[$j];</span><br><span class="line">  		&#125;</span><br><span class="line">  		$a[$j+1] = $temp;</span><br><span class="line">  	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h3 id="四、快速排序"><a href="#四、快速排序" class="headerlink" title="四、快速排序"></a>四、快速排序</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">function qsort($left,$right)&#123;</span><br><span class="line">    if($left&gt;$right)&#123;</span><br><span class="line">        return;</span><br><span class="line">    &#125;</span><br><span class="line">    global $a;</span><br><span class="line"></span><br><span class="line">    $i=$left;</span><br><span class="line">    $j=$right;</span><br><span class="line">    $key = $i;</span><br><span class="line">    while($i&lt;$j)&#123;</span><br><span class="line">        //从右往左找到第一个小于标记的值，交换</span><br><span class="line">	while($a[$j]&gt;=$a[$key]&amp;amp;&amp;amp;$j&gt;$i)$j--;</span><br><span class="line">	$temp = $a[$i];</span><br><span class="line">	$a[$i] = $a[$j];</span><br><span class="line">	$a[$j] = $temp;</span><br><span class="line">	$key = $j;</span><br><span class="line">	//从左往右找到第一个大于标记的值，交换</span><br><span class="line">	while($a[$i]&lt;=$a[$key]&amp;amp;&amp;amp;$i&lt;$j)$i++;</span><br><span class="line">	$temp = $a[$i];</span><br><span class="line">	$a[$i] = $a[$j];</span><br><span class="line">	$a[$j] = $temp;</span><br><span class="line">	$key = $i;</span><br><span class="line">&#125;</span><br><span class="line">//递归调用</span><br><span class="line">qsort($left,$i-1);</span><br><span class="line">qsort($i+1,$right);</span><br><span class="line">qsort(0,999);</span><br></pre></td></tr></table></figure>
-<h3 id="多次测试结果"><a href="#多次测试结果" class="headerlink" title="多次测试结果"></a>多次测试结果</h3><p>冒泡排序0.05~0.07</p>
-<p>简单选择0.03~0.06</p>
-<p>直接插入0.02~0.04</p>
-<p>快速排序0.002~0.007</p>
+            <figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> main</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> (</span><br><span class="line">   <span class="string">"fmt "</span></span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">maxLen</span><span class="params">(str <span class="keyword">string</span>)</span> <span class="title">int</span></span> &#123;</span><br><span class="line">  start := <span class="number">0</span></span><br><span class="line">  maxlen := <span class="number">0</span></span><br><span class="line">  lastO := <span class="built_in">make</span>(<span class="keyword">map</span>[<span class="keyword">rune</span>]<span class="keyword">int</span>)</span><br><span class="line">  <span class="keyword">for</span> i, v := <span class="keyword">range</span> []<span class="keyword">rune</span>(str) &#123;</span><br><span class="line">      <span class="keyword">if</span> lastI, ok := lastO[v]; ok &#123;</span><br><span class="line">         start = lastI + <span class="number">1</span></span><br><span class="line">      &#125;</span><br><span class="line">      <span class="keyword">if</span> (i-start+<span class="number">1</span> &amp;gt; maxlen) &#123;</span><br><span class="line">         maxlen = i - start + <span class="number">1</span></span><br><span class="line">      &#125;</span><br><span class="line">      lastO[v] = i</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">return</span> maxlen</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">  <span class="comment">//求字符串最大不重复子串长度</span></span><br><span class="line">  <span class="comment">//s:=  "Yes哈哈哈! "</span></span><br><span class="line">  fmt.Println(maxLen( <span class="string">"abcbcdef "</span>))</span><br><span class="line">  fmt.Println(maxLen( <span class="string">"abcdef "</span>))</span><br><span class="line">  fmt.Println(maxLen( <span class="string">"aaaaaaa "</span>))</span><br><span class="line">  fmt.Println(maxLen( <span class="string">"你说什么 "</span>))</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
           
         
@@ -984,160 +824,6 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/03/16/计算一个字符串中最大不重复子串长度/">
-
-    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="czhuyu">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="https://avatars2.githubusercontent.com/u/26237984">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Beginning">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                
-                <a href="/2017/03/16/计算一个字符串中最大不重复子串长度/" class="post-title-link" itemprop="http://yoursite.com/page/4/index.html">最长不重复子串</a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-
-            
-            
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-
-              
-                
-              
-
-              <time title="创建时间：2017-03-16 22:22:56" itemprop="dateCreated datePublished" datetime="2017-03-16T22:22:56+08:00">2017-03-16</time>
-            
-
-            
-              
-
-              
-                
-                <span class="post-meta-divider">|</span>
-                
-
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">更新于</span>
-                
-                <time title="修改时间：2019-05-20 22:27:01" itemprop="dateModified" datetime="2019-05-20T22:27:01+08:00">2019-05-20</time>
-              
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> main</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> (</span><br><span class="line">   <span class="string">"fmt "</span></span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">maxLen</span><span class="params">(str <span class="keyword">string</span>)</span> <span class="title">int</span></span> &#123;</span><br><span class="line">  start := <span class="number">0</span></span><br><span class="line">  maxlen := <span class="number">0</span></span><br><span class="line">  lastO := <span class="built_in">make</span>(<span class="keyword">map</span>[<span class="keyword">rune</span>]<span class="keyword">int</span>)</span><br><span class="line">  <span class="keyword">for</span> i, v := <span class="keyword">range</span> []<span class="keyword">rune</span>(str) &#123;</span><br><span class="line">      <span class="keyword">if</span> lastI, ok := lastO[v]; ok &#123;</span><br><span class="line">         start = lastI + <span class="number">1</span></span><br><span class="line">      &#125;</span><br><span class="line">      <span class="keyword">if</span> (i-start+<span class="number">1</span> &amp;gt; maxlen) &#123;</span><br><span class="line">         maxlen = i - start + <span class="number">1</span></span><br><span class="line">      &#125;</span><br><span class="line">      lastO[v] = i</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">return</span> maxlen</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">  <span class="comment">//求字符串最大不重复子串长度</span></span><br><span class="line">  <span class="comment">//s:=  "Yes哈哈哈! "</span></span><br><span class="line">  fmt.Println(maxLen( <span class="string">"abcbcdef "</span>))</span><br><span class="line">  fmt.Println(maxLen( <span class="string">"abcdef "</span>))</span><br><span class="line">  fmt.Println(maxLen( <span class="string">"aaaaaaa "</span>))</span><br><span class="line">  fmt.Println(maxLen( <span class="string">"你说什么 "</span>))</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-          
-        
-      
-    </div>
-
-    
-
-    
-    
-    
-
-    
-
-    
-       
-    
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/03/16/面试算法题/">
 
     <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
@@ -1285,6 +971,465 @@
 
 
     
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/03/16/PHP内置数组排序方法/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="czhuyu">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="https://avatars2.githubusercontent.com/u/26237984">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Beginning">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                
+                <a href="/2017/03/16/PHP内置数组排序方法/" class="post-title-link" itemprop="http://yoursite.com/page/4/index.html">php内置数组排序</a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2017-03-16 22:22:56" itemprop="dateCreated datePublished" datetime="2017-03-16T22:22:56+08:00">2017-03-16</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2019-05-20 22:25:49" itemprop="dateModified" datetime="2019-05-20T22:25:49+08:00">2019-05-20</time>
+              
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            
+          
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+       
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/03/16/leetcode_day4/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="czhuyu">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="https://avatars2.githubusercontent.com/u/26237984">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Beginning">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                
+                <a href="/2017/03/16/leetcode_day4/" class="post-title-link" itemprop="http://yoursite.com/page/4/index.html">day4</a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2017-03-16 22:22:56" itemprop="dateCreated datePublished" datetime="2017-03-16T22:22:56+08:00">2017-03-16</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2019-05-20 22:23:47" itemprop="dateModified" datetime="2019-05-20T22:23:47+08:00">2019-05-20</time>
+              
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p><br></p><p style="box-sizing: border-box; font-family: inherit; font-weight: 500; line-height: 1.1; color: inherit; margin-top: 0px; margin-bottom: 10px; font-size: 24px; display: inline-block; margin-right: 0.5em;">2.&nbsp;Add Two Numbers</p><p style="box-sizing: border-box; margin-top: 0px; margin-bottom: 10px; color: rgb(51, 51, 51); font-family: &quot;Helvetica Neue&quot;, Helvetica, Arial, sans-serif; font-size: 14px; white-space: normal; background-color: rgb(255, 255, 255);">You are given two&nbsp;<span style="box-sizing: border-box; font-weight: 700;">non-empty</span>&nbsp;linked lists representing two non-negative integers. The digits are stored in&nbsp;<span style="box-sizing: border-box; font-weight: 700;">reverse order</span>&nbsp;and each of their nodes contain a single digit. Add the two numbers and return it as a linked list.</p><p style="box-sizing: border-box; margin-top: 0px; margin-bottom: 10px; color: rgb(51, 51, 51); font-family: &quot;Helvetica Neue&quot;, Helvetica, Arial, sans-serif; font-size: 14px; white-space: normal; background-color: rgb(255, 255, 255);">You may assume the two numbers do not contain any leading zero, except the number 0 itself.</p><p style="box-sizing: border-box; margin-top: 0px; margin-bottom: 10px; color: rgb(51, 51, 51); font-family: &quot;Helvetica Neue&quot;, Helvetica, Arial, sans-serif; font-size: 14px; white-space: normal; background-color: rgb(255, 255, 255);"><span style="box-sizing: border-box; font-weight: 700;">Example</span></p><pre style="box-sizing: border-box; overflow: auto; font-family: Menlo, Monaco, Consolas, &quot;Courier New&quot;, monospace; font-size: 13px; padding: 9.5px; margin-top: 0px; margin-bottom: 10px; line-height: 1.42857; color: rgb(51, 51, 51); word-break: break-all; word-wrap: break-word; background-color: rgb(245, 245, 245); border: 1px solid rgb(204, 204, 204); border-radius: 4px;">Input:&nbsp;(2&nbsp;-&gt;&nbsp;4&nbsp;-&gt;&nbsp;3)&nbsp;+&nbsp;(5&nbsp;-&gt;&nbsp;6&nbsp;-&gt;&nbsp;4)Output:&nbsp;7&nbsp;-&gt;&nbsp;0&nbsp;-&gt;&nbsp;8Explanation:&nbsp;342&nbsp;+&nbsp;465&nbsp;=&nbsp;807.</pre><p><br></p><pre class="brush:cpp;toolbar:false">/*<em><br>&nbsp;</em>&nbsp;Definition&nbsp;for&nbsp;singly-linked&nbsp;list.<br>&nbsp;<em>&nbsp;type&nbsp;ListNode&nbsp;struct&nbsp;{<br>&nbsp;</em>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Val&nbsp;int<br>&nbsp;<em>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Next&nbsp;</em>ListNode<br>&nbsp;<em>&nbsp;}<br>&nbsp;</em>/<br>func&nbsp;addTwoNumbers(l1&nbsp;<em>ListNode,&nbsp;l2&nbsp;</em>ListNode)&nbsp;<em>ListNode&nbsp;{<br>&nbsp;&nbsp;&nbsp;&nbsp;i1&nbsp;:=&nbsp;0<br>    i2&nbsp;:=&nbsp;0<br>    p&nbsp;:=&nbsp;l1<br>    j&nbsp;:=&nbsp;0<br>    for&nbsp;{<br>        if&nbsp;p&nbsp;!=&nbsp;nil&nbsp;{<br>            i1&nbsp;+=&nbsp;p.Val&nbsp;</em>&nbsp;int(math.Pow(float64(10),&nbsp;float64(j)))<br>            j++<br>            p&nbsp;=&nbsp;p.Next<br>        }&nbsp;else&nbsp;{<br>            break<br>        }<br>    }<br>    j&nbsp;=&nbsp;0<br>    p&nbsp;=&nbsp;l2<br>    for&nbsp;{<br>        if&nbsp;p&nbsp;!=&nbsp;nil&nbsp;{<br>            i2&nbsp;+=&nbsp;p.Val&nbsp;<em>&nbsp;int(math.Pow(float64(10),&nbsp;float64(j)))<br>            j++<br>            p&nbsp;=&nbsp;p.Next<br>        }&nbsp;else&nbsp;{<br>            break<br>        }<br>    }<br>    revres&nbsp;:=&nbsp;i1&nbsp;+&nbsp;i2<br>&nbsp;&nbsp;&nbsp;&nbsp;<br>&nbsp;&nbsp;&nbsp;&nbsp;fmt.Println(revres)<br>    head&nbsp;:=&nbsp;new(ListNode)<br>    p&nbsp;=&nbsp;head<br>    for&nbsp;{<br>        if&nbsp;revres&nbsp;==&nbsp;0&nbsp;{<br>            break<br>        }&nbsp;else&nbsp;{<br>            p.Val&nbsp;=&nbsp;revres&nbsp;%&nbsp;10&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>            revres&nbsp;=&nbsp;revres&nbsp;/&nbsp;10<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if&nbsp;revres&nbsp;!=&nbsp;0{<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;    &nbsp;&nbsp;&nbsp;&nbsp;node&nbsp;:=&nbsp;new(ListNode)<br>            &nbsp;&nbsp;&nbsp;&nbsp;p.Next&nbsp;=&nbsp;node<br>            &nbsp;&nbsp;&nbsp;&nbsp;p&nbsp;=&nbsp;p.Next&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>        }<br>    }<br>&nbsp;&nbsp;&nbsp;&nbsp;<br>&nbsp;&nbsp;&nbsp;&nbsp;<br>&nbsp;&nbsp;&nbsp;&nbsp;p&nbsp;=&nbsp;l1<br>    for&nbsp;{<br>        if&nbsp;p.Next&nbsp;==&nbsp;nil&nbsp;{<br>            break<br>        }<br>        fmt.Printf(&quot;%d\t&quot;,&nbsp;p.Val)<br>        p&nbsp;=&nbsp;p.Next<br>    }<br>&nbsp;&nbsp;&nbsp;&nbsp;<br>&nbsp;&nbsp;&nbsp;&nbsp;<br>    return&nbsp;head<br>&nbsp;&nbsp;&nbsp;&nbsp;<br>&nbsp;&nbsp;&nbsp;&nbsp;<br>}</em></pre><p>&nbsp; 后面出现了位数很长的用例，所以换成采用数组来暂存单链表</p><pre class="brush:cpp;toolbar:false">func&nbsp;addTwoNumbers(l1&nbsp;ListNode,&nbsp;l2&nbsp;<em>ListNode)&nbsp;</em>ListNode&nbsp;{<br>    var&nbsp;i1&nbsp;[]int<br>    var&nbsp;i2&nbsp;[]int<br>    p&nbsp;:=&nbsp;l1<br>    for&nbsp;{<br>        if&nbsp;p&nbsp;!=&nbsp;nil&nbsp;{<br>            i1&nbsp;=&nbsp;append(i1,&nbsp;p.Val)<br>            p&nbsp;=&nbsp;p.Next<br>        }&nbsp;else&nbsp;{<br>            break<br>        }<br>    }<br>    p&nbsp;=&nbsp;l2<br>    for&nbsp;{<br>        if&nbsp;p&nbsp;!=&nbsp;nil&nbsp;{<br>            i2&nbsp;=&nbsp;append(i2,&nbsp;p.Val)<br>            p&nbsp;=&nbsp;p.Next<br>        }&nbsp;else&nbsp;{<br>            break<br>        }<br>    }<br>    head&nbsp;:=&nbsp;new(ListNode)<br>    p&nbsp;=&nbsp;head<br>    lenthi1&nbsp;:=&nbsp;len(i1)<br>    lenthi2&nbsp;:=&nbsp;len(i2)<br>    if&nbsp;lenthi1&nbsp;!=&nbsp;lenthi2&nbsp;{<br>        if&nbsp;lenthi1&nbsp;&lt;&nbsp;lenthi2&nbsp;{<br>            for&nbsp;i&nbsp;:=&nbsp;0;&nbsp;i&nbsp;&lt;&nbsp;lenthi2-lenthi1;&nbsp;i++&nbsp;{<br>                i1&nbsp;=&nbsp;append(i1,&nbsp;0)<br>            }<br>        }&nbsp;else&nbsp;{<br>            for&nbsp;i&nbsp;:=&nbsp;0;&nbsp;i&nbsp;&lt;&nbsp;lenthi1-lenthi2;&nbsp;i++&nbsp;{<br>                i2&nbsp;=&nbsp;append(i2,&nbsp;0)<br>            }<br>        }<br>    }<br>    lenthi1&nbsp;=&nbsp;len(i1)<br>    lenthi2&nbsp;=&nbsp;len(i2)<br>    flag&nbsp;:=&nbsp;0<br>    for&nbsp;i,&nbsp;_&nbsp;:=&nbsp;range&nbsp;i1&nbsp;{<br>        sum&nbsp;:=&nbsp;i1[i]&nbsp;+&nbsp;i2[i]<br>        if&nbsp;i&nbsp;&lt;&nbsp;lenthi1-1&nbsp;{<br>            if&nbsp;(sum)/10&nbsp;&gt;&nbsp;0&nbsp;{<br>                i1[i+1]&nbsp;+=&nbsp;1<br>            }<br>        }&nbsp;else&nbsp;{<br>            if&nbsp;(sum)/10&nbsp;&gt;&nbsp;0&nbsp;{<br>                flag&nbsp;=&nbsp;1<br>            }<br>        }<br>        p.Val&nbsp;=&nbsp;sum&nbsp;%&nbsp;10<br>        if&nbsp;i&nbsp;&lt;&nbsp;lenthi1-1&nbsp;{<br>            node&nbsp;:=&nbsp;new(ListNode)<br>            p.Next&nbsp;=&nbsp;node<br>            p&nbsp;=&nbsp;p.Next<br>        }<br>    }<br>    if&nbsp;flag&nbsp;==&nbsp;1&nbsp;{<br>        node&nbsp;:=&nbsp;new(ListNode)<br>        node.Val&nbsp;=&nbsp;1<br>        p.Next&nbsp;=&nbsp;node<br>    }<br>    return&nbsp;head<br>}</pre><p><br></p>
+          
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+       
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/03/16/leetcode_day1/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="czhuyu">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="https://avatars2.githubusercontent.com/u/26237984">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Beginning">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                
+                <a href="/2017/03/16/leetcode_day1/" class="post-title-link" itemprop="http://yoursite.com/page/4/index.html">day1</a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2017-03-16 22:22:56" itemprop="dateCreated datePublished" datetime="2017-03-16T22:22:56+08:00">2017-03-16</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2019-05-20 22:23:15" itemprop="dateModified" datetime="2019-05-20T22:23:15+08:00">2019-05-20</time>
+              
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p><br></p><p style="box-sizing: border-box; font-family: inherit; font-weight: 500; line-height: 1.1; color: inherit; margin-top: 0px; margin-bottom: 10px; font-size: 24px; display: inline-block; margin-right: 0.5em;">1.&nbsp;Two Sum</p><p style="box-sizing: border-box; margin-top: 0px; margin-bottom: 10px; color: rgb(51, 51, 51); font-family: &quot;Helvetica Neue&quot;, Helvetica, Arial, sans-serif; font-size: 14px; white-space: normal; background-color: rgb(255, 255, 255);">Given an array of integers, return&nbsp;<span style="box-sizing: border-box; font-weight: 700;">indices</span>&nbsp;of the two numbers such that they add up to a specific target.</p><p style="box-sizing: border-box; margin-top: 0px; margin-bottom: 10px; color: rgb(51, 51, 51); font-family: &quot;Helvetica Neue&quot;, Helvetica, Arial, sans-serif; font-size: 14px; white-space: normal; background-color: rgb(255, 255, 255);">You may assume that each input would have&nbsp;<span style="box-sizing: border-box; font-weight: 700;"><em style="box-sizing: border-box;">exactly</em></span>&nbsp;one solution, and you may not use the&nbsp;<em style="box-sizing: border-box;">same</em>&nbsp;element twice.</p><p style="box-sizing: border-box; margin-top: 0px; margin-bottom: 10px; color: rgb(51, 51, 51); font-family: &quot;Helvetica Neue&quot;, Helvetica, Arial, sans-serif; font-size: 14px; white-space: normal; background-color: rgb(255, 255, 255);"><span style="box-sizing: border-box; font-weight: 700;">Example:</span><br></p><pre style="box-sizing: border-box; overflow: auto; font-family: Menlo, Monaco, Consolas, &quot;Courier New&quot;, monospace; font-size: 13px; padding: 9.5px; margin-top: 0px; margin-bottom: 10px; line-height: 1.42857; color: rgb(51, 51, 51); word-break: break-all; word-wrap: break-word; background-color: rgb(245, 245, 245); border: 1px solid rgb(204, 204, 204); border-radius: 4px;">Given&nbsp;nums&nbsp;=&nbsp;[2,&nbsp;7,&nbsp;11,&nbsp;15],&nbsp;target&nbsp;=&nbsp;9,<br>Because&nbsp;nums[0]&nbsp;+&nbsp;nums[1]&nbsp;=&nbsp;2&nbsp;+&nbsp;7&nbsp;=&nbsp;9,<br>return&nbsp;[0,&nbsp;1].</pre><pre class="brush:cpp;toolbar:false">func&nbsp;twoSum(nums&nbsp;[]int,&nbsp;target&nbsp;int)&nbsp;[]int&nbsp;{<br>    var&nbsp;arr&nbsp;[]int<br>EXIT:<br>    for&nbsp;i,&nbsp;<em>&nbsp;:=&nbsp;range&nbsp;nums&nbsp;{<br>        for&nbsp;j,&nbsp;</em>&nbsp;:=&nbsp;range&nbsp;nums&nbsp;{<br>            if&nbsp;(nums[i]+nums[j])&nbsp;==&nbsp;target&nbsp;&amp;&amp;&nbsp;i&nbsp;!=&nbsp;j&nbsp;{<br>                arr&nbsp;=&nbsp;append(arr,&nbsp;i)<br>                arr&nbsp;=&nbsp;append(arr,&nbsp;j)<br>                break&nbsp;EXIT<br>            }<br>        }<br>    }<br>    return&nbsp;arr<br>}</pre><p><br></p>
+          
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+       
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
   </section>
 
   
@@ -1334,7 +1479,7 @@
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">36</span>
+                    <span class="site-state-item-count">37</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>
