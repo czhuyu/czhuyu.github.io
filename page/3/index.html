@@ -517,7 +517,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/03/16/2017.3/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/03/16/Linux下编译安装Mysql/">
 
     <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
       <meta itemprop="name" content="czhuyu">
@@ -537,7 +537,7 @@
           <h1 class="post-title" itemprop="name headline">
                 
                 
-                <a href="/2017/03/16/2017.3/" class="post-title-link" itemprop="http://yoursite.com/page/3/index.html">2017.3</a>
+                <a href="/2017/03/16/Linux下编译安装Mysql/" class="post-title-link" itemprop="http://yoursite.com/page/3/index.html">linux安装mysql</a>
               
             
           </h1>
@@ -579,7 +579,7 @@
                 
                   <span class="post-meta-item-text">更新于</span>
                 
-                <time title="修改时间：2019-05-20 22:20:58" itemprop="dateModified" datetime="2019-05-20T22:20:58+08:00">2019-05-20</time>
+                <time title="修改时间：2019-05-20 22:24:23" itemprop="dateModified" datetime="2019-05-20T22:24:23+08:00">2019-05-20</time>
               
             
           </span>
@@ -614,7 +614,7 @@
       
         
           
-            <p>git <a href="http://www.runoob.com/w3cnote/git-guide.html" target="_blank" rel="noopener">http://www.runoob.com/w3cnote/git-guide.html</a><br>js编辑器 <a href="http://www.cnblogs.com/lhb25/p/html5-wysisyg-inline-editor.html" target="_blank" rel="noopener">http://www.cnblogs.com/lhb25/p/html5-wysisyg-inline-editor.html</a><br>JavaEE 注解和XML<a href="http://blog.csdn.net/qmw19910301/article/details/52712893" target="_blank" rel="noopener">http://blog.csdn.net/qmw19910301/article/details/52712893</a></p>
+            <p>1、mysql   官网下载适合的压缩包，格式为mysql-x.x.xx-linuxxxx.tar.gz<br>2、解压后配置<br>配置帮助  ./configure –help<br>3、groupadd mysql<br>useradd –g mysql mysql<br>cd到mysql的解压目录<br>chown –R mysql .<br>chgrp –R mysql .<br>4、./scripts/mysql_install_db –user=mysql<br>如果提示laibaio.1的相关错误<br>yum install libaioso.1 libaio<br>5、把目录权限还给root<br>chown –R root .<br>chown –R mysql data<br>mkdir /var/run/mysqld<br>chown mysql /var/run/mysqld<br>chgrp mysql /var/run/mysqld<br>6、启动mysql<br>./bin/mysqld_safe –user=mysql &amp;<br>7、连接mysql ./bin/mysql –uroot -p<br>如果报错   建立软连接或者直接将sock文件复制过去<br>建立软连接方法<br>ln /var/lib/mysql/mysql.sock /tmp/mysql.sock<br>8、修改密码<br>update user set Password=password(你想要的密码) where Host=’localhost’ and User=  ‘root  ‘;<br>delete from user where Password=  ‘’;<br>flush privileges;</p>
 
           
         
@@ -671,7 +671,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/03/16/Linux下编译安装PHP扩展/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/03/16/leetcode_day5/">
 
     <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
       <meta itemprop="name" content="czhuyu">
@@ -691,7 +691,7 @@
           <h1 class="post-title" itemprop="name headline">
                 
                 
-                <a href="/2017/03/16/Linux下编译安装PHP扩展/" class="post-title-link" itemprop="http://yoursite.com/page/3/index.html">linux安装php扩展</a>
+                <a href="/2017/03/16/leetcode_day5/" class="post-title-link" itemprop="http://yoursite.com/page/3/index.html">day5</a>
               
             
           </h1>
@@ -733,7 +733,7 @@
                 
                   <span class="post-meta-item-text">更新于</span>
                 
-                <time title="修改时间：2019-05-20 22:24:46" itemprop="dateModified" datetime="2019-05-20T22:24:46+08:00">2019-05-20</time>
+                <time title="修改时间：2019-05-20 22:23:55" itemprop="dateModified" datetime="2019-05-20T22:23:55+08:00">2019-05-20</time>
               
             
           </span>
@@ -768,7 +768,7 @@
       
         
           
-            <p>下载扩展&nbsp;<a href="http://pecl.php.net/" target="_blank" rel="noopener">http://pecl.php.net/</a><br></p><p>解压扩展 进入解压后的扩展目录 执行…/php/bin/phpize</p><p>./configure –with-php-config=…/php/bin/php-config</p><p>根据错误提示安装相应的依赖</p><p>make &amp;&amp; make install</p><p>在…/php/lib/extension/no-….目录下会出现.so的文件就说明安装好了</p><p>到php.ini中增加extension=…/php/lib/ex…/xxx.so</p><p>重启php<br></p>
+            <p></p><p style="box-sizing: border-box; font-family: inherit; font-weight: 500; line-height: 1.1; color: inherit; margin-top: 0px; margin-bottom: 10px; font-size: 24px; display: inline-block; margin-right: 0.5em;">3.&nbsp;Longest Substring Without Repeating Characters</p><p style="box-sizing: border-box; margin-top: 0px; margin-bottom: 10px; color: rgb(51, 51, 51); font-family: &quot;Helvetica Neue&quot;, Helvetica, Arial, sans-serif; font-size: 14px; white-space: normal; background-color: rgb(255, 255, 255);">Given a string, find the length of the&nbsp;<span style="box-sizing: border-box; font-weight: 700;">longest substring</span>&nbsp;without repeating characters.<br></p><p style="box-sizing: border-box; margin-top: 0px; margin-bottom: 10px; color: rgb(51, 51, 51); font-family: &quot;Helvetica Neue&quot;, Helvetica, Arial, sans-serif; font-size: 14px; white-space: normal; background-color: rgb(255, 255, 255);"><span style="box-sizing: border-box; font-weight: 700;">Examples:</span></p><p style="box-sizing: border-box; margin-top: 0px; margin-bottom: 10px; color: rgb(51, 51, 51); font-family: &quot;Helvetica Neue&quot;, Helvetica, Arial, sans-serif; font-size: 14px; white-space: normal; background-color: rgb(255, 255, 255);">Given&nbsp;<code style="box-sizing: border-box; font-family: Menlo, Monaco, Consolas, &quot;Courier New&quot;, monospace; font-size: 12.6px; padding: 2px 4px; color: rgb(199, 37, 78); background-color: rgb(249, 242, 244); border-radius: 4px;">&quot;abcabcbb&quot;</code>, the answer is&nbsp;<code style="box-sizing: border-box; font-family: Menlo, Monaco, Consolas, &quot;Courier New&quot;, monospace; font-size: 12.6px; padding: 2px 4px; color: rgb(199, 37, 78); background-color: rgb(249, 242, 244); border-radius: 4px;">&quot;abc&quot;</code>, which the length is 3.</p><p style="box-sizing: border-box; margin-top: 0px; margin-bottom: 10px; color: rgb(51, 51, 51); font-family: &quot;Helvetica Neue&quot;, Helvetica, Arial, sans-serif; font-size: 14px; white-space: normal; background-color: rgb(255, 255, 255);">Given&nbsp;<code style="box-sizing: border-box; font-family: Menlo, Monaco, Consolas, &quot;Courier New&quot;, monospace; font-size: 12.6px; padding: 2px 4px; color: rgb(199, 37, 78); background-color: rgb(249, 242, 244); border-radius: 4px;">&quot;bbbbb&quot;</code>, the answer is&nbsp;<code style="box-sizing: border-box; font-family: Menlo, Monaco, Consolas, &quot;Courier New&quot;, monospace; font-size: 12.6px; padding: 2px 4px; color: rgb(199, 37, 78); background-color: rgb(249, 242, 244); border-radius: 4px;">&quot;b&quot;</code>, with the length of 1.</p><p style="box-sizing: border-box; margin-top: 0px; margin-bottom: 10px; color: rgb(51, 51, 51); font-family: &quot;Helvetica Neue&quot;, Helvetica, Arial, sans-serif; font-size: 14px; white-space: normal; background-color: rgb(255, 255, 255);">Given&nbsp;<code style="box-sizing: border-box; font-family: Menlo, Monaco, Consolas, &quot;Courier New&quot;, monospace; font-size: 12.6px; padding: 2px 4px; color: rgb(199, 37, 78); background-color: rgb(249, 242, 244); border-radius: 4px;">&quot;pwwkew&quot;</code>, the answer is&nbsp;<code style="box-sizing: border-box; font-family: Menlo, Monaco, Consolas, &quot;Courier New&quot;, monospace; font-size: 12.6px; padding: 2px 4px; color: rgb(199, 37, 78); background-color: rgb(249, 242, 244); border-radius: 4px;">&quot;wke&quot;</code>, with the length of 3. Note that the answer must be a&nbsp;<span style="box-sizing: border-box; font-weight: 700;">substring</span>,&nbsp;<code style="box-sizing: border-box; font-family: Menlo, Monaco, Consolas, &quot;Courier New&quot;, monospace; font-size: 12.6px; padding: 2px 4px; color: rgb(199, 37, 78); background-color: rgb(249, 242, 244); border-radius: 4px;">&quot;pwke&quot;</code>&nbsp;is a&nbsp;<em style="box-sizing: border-box;">subsequence</em>&nbsp;and not a substring.</p><pre class="brush:cpp;toolbar:false">func&nbsp;lengthOfLongestSubstring(s&nbsp;string)&nbsp;int&nbsp;{<br>    arr&nbsp;:=&nbsp;make(map[rune]int)<br>    start&nbsp;:=&nbsp;0<br>    maxlen&nbsp;:=&nbsp;0<br>    for&nbsp;i,&nbsp;v&nbsp;:=&nbsp;range&nbsp;[]rune(s)&nbsp;{<br>        if&nbsp;pre,&nbsp;ok&nbsp;:=&nbsp;arr[v];&nbsp;ok&nbsp;&amp;&amp;&nbsp;pre&nbsp;&gt;=&nbsp;start&nbsp;{<br>            start&nbsp;=&nbsp;pre&nbsp;+&nbsp;1<br>        }<br>        if&nbsp;i-start+1&nbsp;&gt;&nbsp;maxlen&nbsp;{<br>            maxlen&nbsp;=&nbsp;i&nbsp;-&nbsp;start&nbsp;+&nbsp;1<br>        }<br>        arr[v]&nbsp;=&nbsp;i<br>    }<br>    return&nbsp;maxlen<br>}</pre><p><br></p>
           
         
       
@@ -1284,7 +1284,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/03/16/Linux下编译安装Mysql/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/03/16/2017.3/">
 
     <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
       <meta itemprop="name" content="czhuyu">
@@ -1304,7 +1304,7 @@
           <h1 class="post-title" itemprop="name headline">
                 
                 
-                <a href="/2017/03/16/Linux下编译安装Mysql/" class="post-title-link" itemprop="http://yoursite.com/page/3/index.html">linux安装mysql</a>
+                <a href="/2017/03/16/2017.3/" class="post-title-link" itemprop="http://yoursite.com/page/3/index.html">2017.3</a>
               
             
           </h1>
@@ -1346,7 +1346,7 @@
                 
                   <span class="post-meta-item-text">更新于</span>
                 
-                <time title="修改时间：2019-05-20 22:24:23" itemprop="dateModified" datetime="2019-05-20T22:24:23+08:00">2019-05-20</time>
+                <time title="修改时间：2019-05-20 22:20:58" itemprop="dateModified" datetime="2019-05-20T22:20:58+08:00">2019-05-20</time>
               
             
           </span>
@@ -1381,7 +1381,7 @@
       
         
           
-            <p>1、mysql   官网下载适合的压缩包，格式为mysql-x.x.xx-linuxxxx.tar.gz<br>2、解压后配置<br>配置帮助  ./configure –help<br>3、groupadd mysql<br>useradd –g mysql mysql<br>cd到mysql的解压目录<br>chown –R mysql .<br>chgrp –R mysql .<br>4、./scripts/mysql_install_db –user=mysql<br>如果提示laibaio.1的相关错误<br>yum install libaioso.1 libaio<br>5、把目录权限还给root<br>chown –R root .<br>chown –R mysql data<br>mkdir /var/run/mysqld<br>chown mysql /var/run/mysqld<br>chgrp mysql /var/run/mysqld<br>6、启动mysql<br>./bin/mysqld_safe –user=mysql &amp;<br>7、连接mysql ./bin/mysql –uroot -p<br>如果报错   建立软连接或者直接将sock文件复制过去<br>建立软连接方法<br>ln /var/lib/mysql/mysql.sock /tmp/mysql.sock<br>8、修改密码<br>update user set Password=password(你想要的密码) where Host=’localhost’ and User=  ‘root  ‘;<br>delete from user where Password=  ‘’;<br>flush privileges;</p>
+            <p>git <a href="http://www.runoob.com/w3cnote/git-guide.html" target="_blank" rel="noopener">http://www.runoob.com/w3cnote/git-guide.html</a><br>js编辑器 <a href="http://www.cnblogs.com/lhb25/p/html5-wysisyg-inline-editor.html" target="_blank" rel="noopener">http://www.cnblogs.com/lhb25/p/html5-wysisyg-inline-editor.html</a><br>JavaEE 注解和XML<a href="http://blog.csdn.net/qmw19910301/article/details/52712893" target="_blank" rel="noopener">http://blog.csdn.net/qmw19910301/article/details/52712893</a></p>
 
           
         
@@ -1599,7 +1599,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/03/16/Linux下编译安装Nginx/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/03/16/NginxPHPMysql 重启等命令/">
 
     <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
       <meta itemprop="name" content="czhuyu">
@@ -1619,7 +1619,7 @@
           <h1 class="post-title" itemprop="name headline">
                 
                 
-                <a href="/2017/03/16/Linux下编译安装Nginx/" class="post-title-link" itemprop="http://yoursite.com/page/3/index.html">linux安装nginx</a>
+                <a href="/2017/03/16/NginxPHPMysql 重启等命令/" class="post-title-link" itemprop="http://yoursite.com/page/3/index.html">lnmp重启</a>
               
             
           </h1>
@@ -1661,7 +1661,7 @@
                 
                   <span class="post-meta-item-text">更新于</span>
                 
-                <time title="修改时间：2019-05-20 22:24:34" itemprop="dateModified" datetime="2019-05-20T22:24:34+08:00">2019-05-20</time>
+                <time title="修改时间：2019-05-20 22:25:38" itemprop="dateModified" datetime="2019-05-20T22:25:38+08:00">2019-05-20</time>
               
             
           </span>
@@ -1696,8 +1696,7 @@
       
         
           
-            <p>到nginx.org下载<br>wget <a href="http://nginx.org/download/nginx-1.10.0.tar.gz" target="_blank" rel="noopener">http://nginx.org/download/nginx-1.10.0.tar.gz</a><br>解压压缩包<br>环境配置<br>Cd到解压出来的nginx目录中有configure目录的地方进行环境配置<br>./configure –prefix=/usr/local/nginx<br>Ⅰ.如果遇到提示缺少pcre库<br>到<a href="http://www.pcre.org下载pcre库，if解压到/usr/local/src/pcre-source" target="_blank" rel="noopener">www.pcre.org下载pcre库，if解压到/usr/local/src/pcre-source</a><br>Ⅱ.1.6版本以后的版本制定pcre源码目录./configure –prefix=/usr/local/nginx<br>–with-pcre=/usr/local/src/pcre-source<br>之前的版本制定安装目录./configure –prefix=/usr/local/nginx<br>–with-pcre=/usr/pcre<br>4.编译安装 make &amp;&amp; make install<br>5.启动nginx ./sbin/nginx<br>重启<br>./sbin/nginx –s reload<br>Exception:如果遇到80端口被httpd(Apache)占了<br>Pkill -9 httpd<br>如果无法访问<br>检查防火墙设置</p>
-
+            <p>nginx&nbsp;<br></p><p>&nbsp;&nbsp;</p><p>start：&nbsp;</p><p>/usr/local/nginx/sbin/nginx&nbsp;</p><p>&nbsp;</p><p>stop：&nbsp;</p><p>/usr/local/nginx/sbin/nginx&nbsp;-s&nbsp;stop&nbsp;</p><p>&nbsp;</p><p>reload：&nbsp;</p><p>/usr/local/nginx/sbin/nginx&nbsp;-s&nbsp;reload&nbsp;</p><p>&nbsp;</p><p>#<strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><em>**</em></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong>&nbsp;</p><p>&nbsp;</p><p>#php-fpm(fast-cgi)命令&nbsp;</p><p>&nbsp;&nbsp;</p><p>start：&nbsp;</p><p>/usr/local/php/sbin/php-fpm&nbsp;</p><p>&nbsp;</p><p>stop：&nbsp;</p><p>/bin/ps&nbsp;-ef&nbsp;|&nbsp;grep&nbsp;&#39;php-fpm&#39;&nbsp;|&nbsp;grep&nbsp;-v&nbsp;grep&nbsp;|&nbsp;cut&nbsp;-c&nbsp;9-15&nbsp;|&nbsp;xargs&nbsp;kill&nbsp;-9&nbsp;</p><p>&nbsp;</p><p>&nbsp;</p><p>Linux：PHP&nbsp;5.3.3&nbsp;以上版本的php-fpm的重启</p><p>&nbsp;</p><p>INT,&nbsp;TERM：立刻终止</p><p>QUIT：平滑终止</p><p>USR1：重新打开日志文件</p><p>USR2：平滑重载所有worker进程并重新载入配置和二进制模块</p><p>&nbsp;</p><p>示例：</p><p>1）php-fpm&nbsp;关闭：</p><p>kill&nbsp;-INT&nbsp;<code>cat&amp;nbsp;/usr/local/php/var/run/php-fpm.pid</code></p><p>&nbsp;</p><p>2）php-fpm&nbsp;重启：</p><p>kill&nbsp;-USR2&nbsp;<code>cat&amp;nbsp;/usr/local/php/var/run/php-fpm.pid</code></p><p>&nbsp;</p><p>查看php-fpm进程数：</p><p>ps&nbsp;aux&nbsp;|&nbsp;grep&nbsp;-c&nbsp;php-fpm</p><p>&nbsp;</p><p>#<strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><em>**</em></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong>&nbsp;</p><p>&nbsp;</p><p>#mysql命令&nbsp;</p><p>&nbsp;</p><p>start：&nbsp;</p><p>/etc/init.d/mysqld&nbsp;start&nbsp;</p><p>&nbsp;</p><p>stop：&nbsp;</p><p>/etc/init.d/mysqld&nbsp;stop&nbsp;</p><p>&nbsp;</p><p>restart：&nbsp;</p><p>/etc/init.d/mysqld&nbsp;restart&nbsp;</p><p>&nbsp;</p><p>#<strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><em>**</em></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong>&nbsp;</p><p><br></p>
           
         
       
@@ -1753,7 +1752,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/03/16/编译安装apache 环境变量/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/03/16/正则、mb_substr/">
 
     <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
       <meta itemprop="name" content="czhuyu">
@@ -1773,7 +1772,7 @@
           <h1 class="post-title" itemprop="name headline">
                 
                 
-                <a href="/2017/03/16/编译安装apache 环境变量/" class="post-title-link" itemprop="http://yoursite.com/page/3/index.html">apache</a>
+                <a href="/2017/03/16/正则、mb_substr/" class="post-title-link" itemprop="http://yoursite.com/page/3/index.html">正则</a>
               
             
           </h1>
@@ -1815,7 +1814,7 @@
                 
                   <span class="post-meta-item-text">更新于</span>
                 
-                <time title="修改时间：2019-05-20 22:26:50" itemprop="dateModified" datetime="2019-05-20T22:26:50+08:00">2019-05-20</time>
+                <time title="修改时间：2019-05-20 22:29:45" itemprop="dateModified" datetime="2019-05-20T22:29:45+08:00">2019-05-20</time>
               
             
           </span>
@@ -1850,7 +1849,7 @@
       
         
           
-            <p>1.下载httpd apr apr-util pcre</p><p>配置安装apr .configure –with-prefix=/…./apa/apr&nbsp;</p><p>make &amp;&amp; make install</p><p>配置安装apr-util .configure –with-prefix=/…./apa/apr-util&nbsp;</p><p>make &amp;&amp; make install</p><p>配置安装pcre .configure –with-prefix=/…./local/pcre&nbsp;</p><p>make &amp;&amp; make install</p><p>配置安装apache httpd&nbsp;./configure –prefix=/usr/local/apache2 –with-mpm=worker –enable-cache –enable-disk-cache –enable-mem-cache –enable-file-cache –enable-nonportable-atomics –enable-mods-shared=most –enable-so –enable-rewrite –enable-ssl –with-apr=/../apr安装目录 –with-apr-util=/…/apr-util安装目录 –with-pcre=pcre安装目录</p><p>make &amp;&amp; make install</p><p>&nbsp;</p><p>php configure 参数 <a href="http://www.mamicode.com/info-detail-32029.html" target="_blank" rel="noopener">http://www.mamicode.com/info-detail-32029.html</a></p><p><br></p>
+            <p><strong>0x1</strong> 爬虫过程遇到需要截取到&lt;span id=&quot;xhxm&quot;&gt;张三同学&lt;/span&gt;里面同学的名称<br></p><p>&nbsp; 1.正则解决<br></p><p>&nbsp; 2.通过字符串解决<br></p><p><strong>0x2</strong> 通过正则解决</p><p>&nbsp; 1.简单解决</p><p>&nbsp; &lt;span id=&quot;xhxm&quot;&gt;(.<em>)\u540c\u5b66&lt;/span&gt;</em></p><p>&nbsp;<img src="/ueditor/php/upload/image/20170515/1494855697445556.png" title="1494855697445556.png" alt="blob.png"></p><p>&nbsp; 2.零宽断言解决</p><p>&nbsp; &nbsp;&gt;(.)(?=\u540c\u5b66)</p><p>&nbsp;&nbsp;<img src="/ueditor/php/upload/image/20170515/1494856468363010.png" title="1494856468363010.png" alt="blob.png"></p><p>&nbsp; 这里使用零宽度正预测先行断言(?=exp)</p><p>&nbsp; 就是找到匹配之前的内容&nbsp;</p><p>&nbsp; (?&lt;=exp)用来找到匹配之后的东西，称为零宽度正回顾后发断言</p><p><strong>0x3</strong> 通过mb_substr解决 先匹配张三同学,然后截取字符串</p><p>&nbsp; 因为这里的header是gb2312，所以指定mb_substr的编码为gb2312<br></p><p>&nbsp; substr直接处理汉字会造成乱码的问题，可以使用mb_substr指定汉字编码方式gb2312</p><p>&nbsp;<img src="/ueditor/php/upload/image/20170515/1494853756143314.png" title="1494853756143314.png" alt="blob.png"></p><p>&nbsp; 这样就可以截取到到张三<br></p><p><strong>0x4</strong> 这不算完</p><p>&nbsp;<br></p>
           
         
       
