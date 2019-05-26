@@ -362,6 +362,170 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/12/17/Sphinx安装/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="czhuyu">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="https://avatars2.githubusercontent.com/u/26237984">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="无限进步">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                
+                <a href="/2018/12/17/Sphinx安装/" class="post-title-link" itemprop="http://yoursite.com/page/2/index.html">Sphinx安装</a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2018-12-17 22:23:09" itemprop="dateCreated datePublished" datetime="2018-12-17T22:23:09+08:00">2018-12-17</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2019-05-20 22:26:25" itemprop="dateModified" datetime="2019-05-20T22:26:25+08:00">2019-05-20</time>
+              
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>坑<br>1.安装Sphinx报错</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">libsphinx.a(sphinx.o)：在函数‘xmlUnknownEncoding(void*, char const*, XML_Encoding*)’中：</span><br><span class="line">/mnt/Project/src/sphinx/src/sphinx.cpp:29116：对‘libiconv_open’未定义的引用</span><br><span class="line">libsphinx.a(sphinx.o)：在函数‘xmlUnknownEncoding(void*, char const*, XML_Encoding*)’中：</span><br><span class="line">sphinx.cpp:(.text+0x11ce)：对‘libiconv’未定义的引用</span><br><span class="line">sphinx.cpp:(.text+0x11ff)：对‘libiconv_close’未定义的引用</span><br><span class="line">collect2: 错误：ld 返回 1</span><br><span class="line">make[2]: *** [indexer] 错误 1</span><br><span class="line">make[2]: 离开目录“/mnt/Project/src/sphinx/src”</span><br><span class="line">make[1]: *** [all] 错误 2</span><br><span class="line">make[1]: 离开目录“/mnt/Project/src/sphinx/src”</span><br><span class="line">make: *** [all-recursive] 错误 1</span><br></pre></td></tr></table></figure>
+<p>以为是没有安装libiconv，yum安装还是报错 yum -y install libevent libevent-devel</p>
+<p>百度 </p>
+<p>1.编译新增参数（注意这个改的是sphinx的解压包的src下的MakeFile）(推荐)</p>
+<p>​    LIBS = -lm -lexpat -liconv -L/usr/local/lib</p>
+<ol start="2">
+<li>修改configure文件，找到“#define USE_LIBICONV 1”，将注释去掉，并将1改成0。</li>
+</ol>
+<p>两个命令 </p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">/usr/local/sphinx/bin/indexer --all  //根据sphinx.conf的配置生成索引</span><br><span class="line">/usr/local/sphinx/bin/searchd  //启动搜索引擎</span><br></pre></td></tr></table></figure>
+
+          
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+       
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/12/16/Sphinx/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1052,160 +1216,6 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/03/16/Linux下编译安装Mysql/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="czhuyu">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="https://avatars2.githubusercontent.com/u/26237984">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="无限进步">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                
-                <a href="/2017/03/16/Linux下编译安装Mysql/" class="post-title-link" itemprop="http://yoursite.com/page/2/index.html">linux安装mysql</a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-
-            
-            
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-
-              
-                
-              
-
-              <time title="创建时间：2017-03-16 22:22:56" itemprop="dateCreated datePublished" datetime="2017-03-16T22:22:56+08:00">2017-03-16</time>
-            
-
-            
-              
-
-              
-                
-                <span class="post-meta-divider">|</span>
-                
-
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">更新于</span>
-                
-                <time title="修改时间：2019-05-20 22:24:23" itemprop="dateModified" datetime="2019-05-20T22:24:23+08:00">2019-05-20</time>
-              
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>1、mysql   官网下载适合的压缩包，格式为mysql-x.x.xx-linuxxxx.tar.gz<br>2、解压后配置<br>配置帮助  ./configure –help<br>3、groupadd mysql<br>useradd –g mysql mysql<br>cd到mysql的解压目录<br>chown –R mysql .<br>chgrp –R mysql .<br>4、./scripts/mysql_install_db –user=mysql<br>如果提示laibaio.1的相关错误<br>yum install libaioso.1 libaio<br>5、把目录权限还给root<br>chown –R root .<br>chown –R mysql data<br>mkdir /var/run/mysqld<br>chown mysql /var/run/mysqld<br>chgrp mysql /var/run/mysqld<br>6、启动mysql<br>./bin/mysqld_safe –user=mysql &amp;<br>7、连接mysql ./bin/mysql –uroot -p<br>如果报错   建立软连接或者直接将sock文件复制过去<br>建立软连接方法<br>ln /var/lib/mysql/mysql.sock /tmp/mysql.sock<br>8、修改密码<br>update user set Password=password(你想要的密码) where Host=’localhost’ and User=  ‘root  ‘;<br>delete from user where Password=  ‘’;<br>flush privileges;</p>
-
-          
-        
-      
-    </div>
-
-    
-
-    
-    
-    
-
-    
-
-    
-       
-    
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/03/16/dependency-injection/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1512,7 +1522,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/03/16/Linux下编译安装Nginx/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/03/16/leetcode_day1/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="czhuyu">
@@ -1532,7 +1542,7 @@
           <h1 class="post-title" itemprop="name headline">
                 
                 
-                <a href="/2017/03/16/Linux下编译安装Nginx/" class="post-title-link" itemprop="http://yoursite.com/page/2/index.html">linux安装nginx</a>
+                <a href="/2017/03/16/leetcode_day1/" class="post-title-link" itemprop="http://yoursite.com/page/2/index.html">leetcode-1</a>
               
             
           </h1>
@@ -1574,7 +1584,7 @@
                 
                   <span class="post-meta-item-text">更新于</span>
                 
-                <time title="修改时间：2019-05-20 22:24:34" itemprop="dateModified" datetime="2019-05-20T22:24:34+08:00">2019-05-20</time>
+                <time title="修改时间：2019-05-24 23:54:27" itemprop="dateModified" datetime="2019-05-24T23:54:27+08:00">2019-05-24</time>
               
             
           </span>
@@ -1609,8 +1619,7 @@
       
         
           
-            <p>到nginx.org下载<br>wget <a href="http://nginx.org/download/nginx-1.10.0.tar.gz" target="_blank" rel="noopener">http://nginx.org/download/nginx-1.10.0.tar.gz</a><br>解压压缩包<br>环境配置<br>Cd到解压出来的nginx目录中有configure目录的地方进行环境配置<br>./configure –prefix=/usr/local/nginx<br>Ⅰ.如果遇到提示缺少pcre库<br>到<a href="http://www.pcre.org下载pcre库，if解压到/usr/local/src/pcre-source" target="_blank" rel="noopener">www.pcre.org下载pcre库，if解压到/usr/local/src/pcre-source</a><br>Ⅱ.1.6版本以后的版本制定pcre源码目录./configure –prefix=/usr/local/nginx<br>–with-pcre=/usr/local/src/pcre-source<br>之前的版本制定安装目录./configure –prefix=/usr/local/nginx<br>–with-pcre=/usr/pcre<br>4.编译安装 make &amp;&amp; make install<br>5.启动nginx ./sbin/nginx<br>重启<br>./sbin/nginx –s reload<br>Exception:如果遇到80端口被httpd(Apache)占了<br>Pkill -9 httpd<br>如果无法访问<br>检查防火墙设置</p>
-
+            <p><br></p><p style="box-sizing: border-box; font-family: inherit; font-weight: 500; line-height: 1.1; color: inherit; margin-top: 0px; margin-bottom: 10px; font-size: 24px; display: inline-block; margin-right: 0.5em;">1.&nbsp;Two Sum</p><p style="box-sizing: border-box; margin-top: 0px; margin-bottom: 10px; color: rgb(51, 51, 51); font-family: &quot;Helvetica Neue&quot;, Helvetica, Arial, sans-serif; font-size: 14px; white-space: normal; background-color: rgb(255, 255, 255);">Given an array of integers, return&nbsp;<span style="box-sizing: border-box; font-weight: 700;">indices</span>&nbsp;of the two numbers such that they add up to a specific target.</p><p style="box-sizing: border-box; margin-top: 0px; margin-bottom: 10px; color: rgb(51, 51, 51); font-family: &quot;Helvetica Neue&quot;, Helvetica, Arial, sans-serif; font-size: 14px; white-space: normal; background-color: rgb(255, 255, 255);">You may assume that each input would have&nbsp;<span style="box-sizing: border-box; font-weight: 700;"><em style="box-sizing: border-box;">exactly</em></span>&nbsp;one solution, and you may not use the&nbsp;<em style="box-sizing: border-box;">same</em>&nbsp;element twice.</p><p style="box-sizing: border-box; margin-top: 0px; margin-bottom: 10px; color: rgb(51, 51, 51); font-family: &quot;Helvetica Neue&quot;, Helvetica, Arial, sans-serif; font-size: 14px; white-space: normal; background-color: rgb(255, 255, 255);"><span style="box-sizing: border-box; font-weight: 700;">Example:</span><br></p><pre style="box-sizing: border-box; overflow: auto; font-family: Menlo, Monaco, Consolas, &quot;Courier New&quot;, monospace; font-size: 13px; padding: 9.5px; margin-top: 0px; margin-bottom: 10px; line-height: 1.42857; color: rgb(51, 51, 51); word-break: break-all; word-wrap: break-word; background-color: rgb(245, 245, 245); border: 1px solid rgb(204, 204, 204); border-radius: 4px;">Given&nbsp;nums&nbsp;=&nbsp;[2,&nbsp;7,&nbsp;11,&nbsp;15],&nbsp;target&nbsp;=&nbsp;9,<br>Because&nbsp;nums[0]&nbsp;+&nbsp;nums[1]&nbsp;=&nbsp;2&nbsp;+&nbsp;7&nbsp;=&nbsp;9,<br>return&nbsp;[0,&nbsp;1].</pre><pre class="brush:cpp;toolbar:false">func&nbsp;twoSum(nums&nbsp;[]int,&nbsp;target&nbsp;int)&nbsp;[]int&nbsp;{<br>    var&nbsp;arr&nbsp;[]int<br>EXIT:<br>    for&nbsp;i,&nbsp;<em>&nbsp;:=&nbsp;range&nbsp;nums&nbsp;{<br>        for&nbsp;j,&nbsp;</em>&nbsp;:=&nbsp;range&nbsp;nums&nbsp;{<br>            if&nbsp;(nums[i]+nums[j])&nbsp;==&nbsp;target&nbsp;&amp;&amp;&nbsp;i&nbsp;!=&nbsp;j&nbsp;{<br>                arr&nbsp;=&nbsp;append(arr,&nbsp;i)<br>                arr&nbsp;=&nbsp;append(arr,&nbsp;j)<br>                break&nbsp;EXIT<br>            }<br>        }<br>    }<br>    return&nbsp;arr<br>}</pre><p><br></p>
           
         
       
@@ -1666,7 +1675,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/03/16/HTTP OPTIONS/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/03/16/NginxPHPMysql 重启等命令/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="czhuyu">
@@ -1686,7 +1695,7 @@
           <h1 class="post-title" itemprop="name headline">
                 
                 
-                <a href="/2017/03/16/HTTP OPTIONS/" class="post-title-link" itemprop="http://yoursite.com/page/2/index.html">HTTP OPTIONS</a>
+                <a href="/2017/03/16/NginxPHPMysql 重启等命令/" class="post-title-link" itemprop="http://yoursite.com/page/2/index.html">lnmp重启</a>
               
             
           </h1>
@@ -1728,7 +1737,7 @@
                 
                   <span class="post-meta-item-text">更新于</span>
                 
-                <time title="修改时间：2019-05-20 22:22:39" itemprop="dateModified" datetime="2019-05-20T22:22:39+08:00">2019-05-20</time>
+                <time title="修改时间：2019-05-20 22:25:38" itemprop="dateModified" datetime="2019-05-20T22:25:38+08:00">2019-05-20</time>
               
             
           </span>
@@ -1763,11 +1772,7 @@
       
         
           
-            <p>幂等和非幂等</p>
-<p>执行一次和执行很多次同样的操作是否是一样的</p>
-<p>GET/PUT/DELETE 幂等</p>
-<p>POST 非幂等</p>
-
+            <p>nginx&nbsp;<br></p><p>&nbsp;&nbsp;</p><p>start：&nbsp;</p><p>/usr/local/nginx/sbin/nginx&nbsp;</p><p>&nbsp;</p><p>stop：&nbsp;</p><p>/usr/local/nginx/sbin/nginx&nbsp;-s&nbsp;stop&nbsp;</p><p>&nbsp;</p><p>reload：&nbsp;</p><p>/usr/local/nginx/sbin/nginx&nbsp;-s&nbsp;reload&nbsp;</p><p>&nbsp;</p><p>#<strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><em>**</em></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong>&nbsp;</p><p>&nbsp;</p><p>#php-fpm(fast-cgi)命令&nbsp;</p><p>&nbsp;&nbsp;</p><p>start：&nbsp;</p><p>/usr/local/php/sbin/php-fpm&nbsp;</p><p>&nbsp;</p><p>stop：&nbsp;</p><p>/bin/ps&nbsp;-ef&nbsp;|&nbsp;grep&nbsp;&#39;php-fpm&#39;&nbsp;|&nbsp;grep&nbsp;-v&nbsp;grep&nbsp;|&nbsp;cut&nbsp;-c&nbsp;9-15&nbsp;|&nbsp;xargs&nbsp;kill&nbsp;-9&nbsp;</p><p>&nbsp;</p><p>&nbsp;</p><p>Linux：PHP&nbsp;5.3.3&nbsp;以上版本的php-fpm的重启</p><p>&nbsp;</p><p>INT,&nbsp;TERM：立刻终止</p><p>QUIT：平滑终止</p><p>USR1：重新打开日志文件</p><p>USR2：平滑重载所有worker进程并重新载入配置和二进制模块</p><p>&nbsp;</p><p>示例：</p><p>1）php-fpm&nbsp;关闭：</p><p>kill&nbsp;-INT&nbsp;<code>cat&amp;nbsp;/usr/local/php/var/run/php-fpm.pid</code></p><p>&nbsp;</p><p>2）php-fpm&nbsp;重启：</p><p>kill&nbsp;-USR2&nbsp;<code>cat&amp;nbsp;/usr/local/php/var/run/php-fpm.pid</code></p><p>&nbsp;</p><p>查看php-fpm进程数：</p><p>ps&nbsp;aux&nbsp;|&nbsp;grep&nbsp;-c&nbsp;php-fpm</p><p>&nbsp;</p><p>#<strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><em>**</em></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong>&nbsp;</p><p>&nbsp;</p><p>#mysql命令&nbsp;</p><p>&nbsp;</p><p>start：&nbsp;</p><p>/etc/init.d/mysqld&nbsp;start&nbsp;</p><p>&nbsp;</p><p>stop：&nbsp;</p><p>/etc/init.d/mysqld&nbsp;stop&nbsp;</p><p>&nbsp;</p><p>restart：&nbsp;</p><p>/etc/init.d/mysqld&nbsp;restart&nbsp;</p><p>&nbsp;</p><p>#<strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><em>**</em></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong>&nbsp;</p><p><br></p>
           
         
       
@@ -1823,7 +1828,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/03/16/leetcode_day2/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/03/16/2017.3/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="czhuyu">
@@ -1843,7 +1848,7 @@
           <h1 class="post-title" itemprop="name headline">
                 
                 
-                <a href="/2017/03/16/leetcode_day2/" class="post-title-link" itemprop="http://yoursite.com/page/2/index.html">leetcode-7</a>
+                <a href="/2017/03/16/2017.3/" class="post-title-link" itemprop="http://yoursite.com/page/2/index.html">2017.3</a>
               
             
           </h1>
@@ -1885,7 +1890,7 @@
                 
                   <span class="post-meta-item-text">更新于</span>
                 
-                <time title="修改时间：2019-05-24 23:54:48" itemprop="dateModified" datetime="2019-05-24T23:54:48+08:00">2019-05-24</time>
+                <time title="修改时间：2019-05-20 22:20:58" itemprop="dateModified" datetime="2019-05-20T22:20:58+08:00">2019-05-20</time>
               
             
           </span>
@@ -1920,7 +1925,8 @@
       
         
           
-            <p></p><p style="box-sizing: border-box; font-family: inherit; font-weight: 500; line-height: 1.1; color: inherit; margin-top: 0px; margin-bottom: 10px; font-size: 24px; display: inline-block; margin-right: 0.5em;">7.&nbsp;Reverse Integer</p><p><br></p><pre class="brush:cpp;toolbar:false">func&nbsp;reverse(x&nbsp;int)&nbsp;int&nbsp;{<br>    s&nbsp;:=&nbsp;strconv.Itoa(x)<br>    rs&nbsp;:=&nbsp;&quot;&quot;<br>    j&nbsp;:=&nbsp;0<br>    if&nbsp;x&nbsp;&lt;&nbsp;0&nbsp;{<br>        j&nbsp;=&nbsp;1<br>        rs&nbsp;+=&nbsp;&quot;-&quot;<br>    }<br>    for&nbsp;i&nbsp;:=&nbsp;len(s)&nbsp;-&nbsp;1;&nbsp;i&nbsp;&gt;=&nbsp;j;&nbsp;i–&nbsp;{<br>        rs&nbsp;+=&nbsp;string(s[i])<br>    }<br>    rsi,&nbsp;_&nbsp;:=&nbsp;strconv.Atoi(rs)<br>    if&nbsp;rsi&nbsp;&gt;&nbsp;(1&lt;&lt;31)&nbsp;||&nbsp;rsi&nbsp;&lt;&nbsp;-(1&nbsp;&lt;&lt;&nbsp;31)&nbsp;{<br>        rsi&nbsp;=&nbsp;0<br>    }<br>    return&nbsp;rsi<br><br>}</pre><p><br></p>
+            <p>git <a href="http://www.runoob.com/w3cnote/git-guide.html" target="_blank" rel="noopener">http://www.runoob.com/w3cnote/git-guide.html</a><br>js编辑器 <a href="http://www.cnblogs.com/lhb25/p/html5-wysisyg-inline-editor.html" target="_blank" rel="noopener">http://www.cnblogs.com/lhb25/p/html5-wysisyg-inline-editor.html</a><br>JavaEE 注解和XML<a href="http://blog.csdn.net/qmw19910301/article/details/52712893" target="_blank" rel="noopener">http://blog.csdn.net/qmw19910301/article/details/52712893</a></p>
+
           
         
       
@@ -2012,7 +2018,7 @@
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">37</span>
+                    <span class="site-state-item-count">38</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>
@@ -2105,7 +2111,15 @@
                     
                       
                     
-                    <span class="site-state-item-count">39</span>
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">43</span>
                     <span class="site-state-item-name">标签</span>
                   </a>
                 </div>

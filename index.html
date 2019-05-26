@@ -360,6 +360,180 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/05/26/php内存管理与资源管理/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="czhuyu">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="https://avatars2.githubusercontent.com/u/26237984">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="无限进步">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                
+                <a href="/2019/05/26/php内存管理与资源管理/" class="post-title-link" itemprop="http://yoursite.com/index.html">php内存管理与资源管理</a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2019-05-26 16:18:56 / 修改时间：16:19:38" itemprop="dateCreated datePublished" datetime="2019-05-26T16:18:56+08:00">2019-05-26</time>
+            
+
+            
+              
+
+              
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h2 id="php内存管理与资源管理"><a href="#php内存管理与资源管理" class="headerlink" title="php内存管理与资源管理"></a>php内存管理与资源管理</h2><h3 id="一-内存管理"><a href="#一-内存管理" class="headerlink" title="一.内存管理"></a>一.内存管理</h3><h5 id="1-php5-3垃圾回收机制"><a href="#1-php5-3垃圾回收机制" class="headerlink" title="1.php5.3垃圾回收机制"></a>1.php5.3垃圾回收机制</h5><p><strong>引用计数</strong></p>
+<p><a href="https://www.php.net/manual/zh/features.gc.php" target="_blank" rel="noopener">https://www.php.net/manual/zh/features.gc.php</a><br>在c中,<br>​    函数的参数和局部变量保存在栈上  由编译器自动分配释放<br>​    malloc函数分来内存在堆上  需要手动使用free来释放</p>
+<p>在php中,</p>
+<p>每个php变量存在一个叫”zval”的变量容器中。每当一个变量被赋常量值的时候，就会生成下面zval这样的变量容器，一个_zval_struct结构体。而最终垃圾回收销毁的也是这样的变量容器。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">typedef union _zvalue_value &#123;</span><br><span class="line">	long lval;					/* long value */</span><br><span class="line">	double dval;				/* double value */</span><br><span class="line">	struct &#123;</span><br><span class="line">		char *val;</span><br><span class="line">		int len;</span><br><span class="line">	&#125; str;</span><br><span class="line">	HashTable *ht;				/* hash table value */</span><br><span class="line">	zend_object_value obj;</span><br><span class="line">	zend_ast *ast;</span><br><span class="line">&#125; zvalue_value;</span><br><span class="line"></span><br><span class="line">struct _zval_struct &#123;</span><br><span class="line">	/* Variable information */</span><br><span class="line">	zvalue_value value;		/* value */</span><br><span class="line">	zend_uint refcount__gc;</span><br><span class="line">	zend_uchar type;	/* active type */</span><br><span class="line">	zend_uchar is_ref__gc;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p>简单类型的引用计数原理<br>refcount__gc这个就是用以表示指向这个zval变量容器的变量(也称符号即symbol)个数</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php</span><br><span class="line">$a = &quot;new string&quot;;</span><br></pre></td></tr></table></figure>
+<p>因为$a使用了这个变量的容器，所以zval的refcount的值用xdebug_debug_zval打印出来会是</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">a: (refcount=1, is_ref=0)=&apos;new string&apos;</span><br></pre></td></tr></table></figure>
+<p>把一个变量赋值给另一变量将增加引用次数(refcount).，也就当$a被赋值给其他变量的时候这个refcount会增加。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php</span><br><span class="line">$a = &quot;new string&quot;;</span><br><span class="line">$c = $b = $a;</span><br><span class="line">xdebug_debug_zval( &apos;a&apos; );</span><br><span class="line">unset( $b, $c );</span><br><span class="line">xdebug_debug_zval( &apos;a&apos; );</span><br><span class="line">?&gt;</span><br></pre></td></tr></table></figure>
+<p>当然第一个打印出来的a的refcount会是3，当任何关联到某个变量容器的变量离开它的作用域(比如：函数执行结束)，或者对变量调用了函数 <a href="https://www.php.net/manual/zh/function.unset.php" target="_blank" rel="noopener">unset()</a>时，”refcount“就会减1，所以第二个打印出来的a的refcount会是1。变量容器在”refcount“变成0时就被销毁</p>
+<p>垃圾回收是为了解决内存泄露的问题,内存泄露指的是在程序申请了内存使用后而没有释放,最终导致内存消耗殆尽<br>还有个名词叫做内存溢出 指的是只申请了int大的内存空间,却往里面存储long类型的数据。</p>
+<p>这样就能保证不会产生内存泄漏了吗？</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php</span><br><span class="line">    $a = [&apos;one&apos;];</span><br><span class="line">    $a[] = &amp;$a;</span><br><span class="line">    xdebug_debug_zval(&apos;a&apos;);</span><br><span class="line">    unset($a);</span><br><span class="line">    xdebug_debug_zval(&apos;a&apos;);</span><br></pre></td></tr></table></figure>
+<p>第一个xdebug的结果是</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">a:</span><br><span class="line">(refcount=2, is_ref=1),</span><br><span class="line">array (size=2)</span><br><span class="line">  0 =&gt; (refcount=1, is_ref=0),string &apos;one&apos; (length=3)</span><br><span class="line">  1 =&gt; (refcount=2, is_ref=1),</span><br><span class="line">    &amp;array&lt;</span><br></pre></td></tr></table></figure>
+<p>第二个xdebug打印出来的结果会是</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">a: no such symbol</span><br></pre></td></tr></table></figure>
+<p>$a已经不在符号表了，但是数组的refcount变为的是1，还是会导致内存泄漏。这种怎么处理呢？这里就要讲下一个概念了：</p>
+<p><strong>回收周期</strong></p>
+<p>这是php手册中关于回收周期的图</p>
+<p><img src="https://www.php.net/manual/zh/images/12f37b1c6963c1c5c18f30495416a197-gc-algorithm.png" alt=""></p>
+<p>我们使用一个unset操作想清除这个变量所占的内存时（可能只是引用计数减一），会从当前符号的哈希表中删除变量名对应的项， 在所有的操作执行完后，并对从符号表中删除的项调用一个析构函数，临时变量会调用zval_dtor，一般的变量会调用zval_ptr_dtor。</p>
+<p>zval_ptr_dtor会做的事情就是：如果变量的引用计数为1，即减一后引用计数为0，直接清除变量。如果当前变量如果被缓存，则需要清除缓存；如果变量的引用计数大于1，即减一后引用计数大于0，则将变量放入垃圾列表。如果变量存在引用，则去掉其引用。</p>
+<p>垃圾列表满时（10000个gc_root_buffer内存空间），调用gc_collect_cycles函数</p>
+<p>步骤 B ，算法使用深度优先搜索查找所有可能的根，找到后将每个变量容器中的引用计数减1， 为确保不会对同一个变量容器减两次“1”，用灰色标记已减过1的。</p>
+<p>步骤 C ，算法再一次对每个根节点使用深度优先搜索，检查每个变量容器的引用计数。 如果引用计数是 0 ，变量容器用白色来标记。如果引用次数大于0，则恢复在这个点上使用深度优先搜索而将引用计数减1的操作（即引用计数加1）， 然后将它们重新用黑色标记。</p>
+<p>最后一步 D ，算法遍历根缓冲区以从那里删除变量容器根(zval roots)， 同时，检查是否有在上一步中被白色标记的变量容器。每个被白色标记的变量容器都被清除。</p>
+<h5 id="2-写时复制"><a href="#2-写时复制" class="headerlink" title="2.写时复制"></a>2.写时复制</h5><h5 id="3-慎用-amp"><a href="#3-慎用-amp" class="headerlink" title="3.慎用&amp;"></a>3.慎用&amp;</h5><h3 id="二-资源管理"><a href="#二-资源管理" class="headerlink" title="二.资源管理"></a>二.资源管理</h3><p><strong>数据库资源为例：</strong><br>​        在java里面，会在try cache的finally结构中调用一个connection.close()去显式地关闭数据库的连接<br>​        在c++里面可以用__destruct析构函数在对象被销毁的时候来做close的操作<br>​        在php中呢？日常开发使用laravel框架的时候好像没注意到这个地方，也没有去显式地调用close方法.但肯定是有close的方法来提前释放掉这个连接的，laravel的数据库操作的实现是基于PDO来做的。<br>​        通过查阅文档<a href="https://www.php.net/manual/zh/pdo.connections.php，连接数据成功后，返回一个" target="_blank" rel="noopener">https://www.php.net/manual/zh/pdo.connections.php，连接数据成功后，返回一个</a> PDO 类的实例给脚本，此连接在 PDO 对象的生存周期中保持活动。要想关闭连接，需要销毁对象以确保所有剩余到它的引用都被删除，可以赋一个 NULL 值给对象变量。如果不明确地这么做，PHP 在脚本结束时会自动关闭连接                                                                                                                                                                                                                                                                                                                                                                                                                                         </p>
+<h3 id="三-其他"><a href="#三-其他" class="headerlink" title="三.其他"></a>三.其他</h3><h5 id="1-符号表"><a href="#1-符号表" class="headerlink" title="1.符号表"></a>1.符号表</h5><h5 id="2-php是如何工作的"><a href="#2-php是如何工作的" class="headerlink" title="2.php是如何工作的"></a>2.php是如何工作的</h5><p><strong>参考资料：</strong></p>
+<p>1.php官方手册</p>
+<p>2.<a href="http://www.php-internals.com/book/?p=chapt06/06-04-00-garbage-collection" target="_blank" rel="noopener">http://www.php-internals.com/book/?p=chapt06/06-04-00-garbage-collection</a></p>
+
+          
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+       
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/05/24/leetcode-15/">
 
     <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
@@ -1919,170 +2093,6 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/12/17/Sphinx安装/">
-
-    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="czhuyu">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="https://avatars2.githubusercontent.com/u/26237984">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="无限进步">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                
-                <a href="/2018/12/17/Sphinx安装/" class="post-title-link" itemprop="http://yoursite.com/index.html">Sphinx安装</a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-
-            
-            
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-
-              
-                
-              
-
-              <time title="创建时间：2018-12-17 22:23:09" itemprop="dateCreated datePublished" datetime="2018-12-17T22:23:09+08:00">2018-12-17</time>
-            
-
-            
-              
-
-              
-                
-                <span class="post-meta-divider">|</span>
-                
-
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">更新于</span>
-                
-                <time title="修改时间：2019-05-20 22:26:25" itemprop="dateModified" datetime="2019-05-20T22:26:25+08:00">2019-05-20</time>
-              
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>坑<br>1.安装Sphinx报错</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">libsphinx.a(sphinx.o)：在函数‘xmlUnknownEncoding(void*, char const*, XML_Encoding*)’中：</span><br><span class="line">/mnt/Project/src/sphinx/src/sphinx.cpp:29116：对‘libiconv_open’未定义的引用</span><br><span class="line">libsphinx.a(sphinx.o)：在函数‘xmlUnknownEncoding(void*, char const*, XML_Encoding*)’中：</span><br><span class="line">sphinx.cpp:(.text+0x11ce)：对‘libiconv’未定义的引用</span><br><span class="line">sphinx.cpp:(.text+0x11ff)：对‘libiconv_close’未定义的引用</span><br><span class="line">collect2: 错误：ld 返回 1</span><br><span class="line">make[2]: *** [indexer] 错误 1</span><br><span class="line">make[2]: 离开目录“/mnt/Project/src/sphinx/src”</span><br><span class="line">make[1]: *** [all] 错误 2</span><br><span class="line">make[1]: 离开目录“/mnt/Project/src/sphinx/src”</span><br><span class="line">make: *** [all-recursive] 错误 1</span><br></pre></td></tr></table></figure>
-<p>以为是没有安装libiconv，yum安装还是报错 yum -y install libevent libevent-devel</p>
-<p>百度 </p>
-<p>1.编译新增参数（注意这个改的是sphinx的解压包的src下的MakeFile）(推荐)</p>
-<p>​    LIBS = -lm -lexpat -liconv -L/usr/local/lib</p>
-<ol start="2">
-<li>修改configure文件，找到“#define USE_LIBICONV 1”，将注释去掉，并将1改成0。</li>
-</ol>
-<p>两个命令 </p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">/usr/local/sphinx/bin/indexer --all  //根据sphinx.conf的配置生成索引</span><br><span class="line">/usr/local/sphinx/bin/searchd  //启动搜索引擎</span><br></pre></td></tr></table></figure>
-
-          
-        
-      
-    </div>
-
-    
-
-    
-    
-    
-
-    
-
-    
-       
-    
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -2132,7 +2142,7 @@
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">37</span>
+                    <span class="site-state-item-count">38</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>
@@ -2225,7 +2235,15 @@
                     
                       
                     
-                    <span class="site-state-item-count">39</span>
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">43</span>
                     <span class="site-state-item-name">标签</span>
                   </a>
                 </div>
