@@ -360,6 +360,159 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/03/16/leetcode_day5/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="czhuyu">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="https://avatars2.githubusercontent.com/u/26237984">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="无限进步">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                
+                <a href="/2017/03/16/leetcode_day5/" class="post-title-link" itemprop="http://yoursite.com/page/3/index.html">leetcode-4</a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2017-03-16 22:22:56" itemprop="dateCreated datePublished" datetime="2017-03-16T22:22:56+08:00">2017-03-16</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2019-05-24 23:55:43" itemprop="dateModified" datetime="2019-05-24T23:55:43+08:00">2019-05-24</time>
+              
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p></p><p style="box-sizing: border-box; font-family: inherit; font-weight: 500; line-height: 1.1; color: inherit; margin-top: 0px; margin-bottom: 10px; font-size: 24px; display: inline-block; margin-right: 0.5em;">3.&nbsp;Longest Substring Without Repeating Characters</p><p style="box-sizing: border-box; margin-top: 0px; margin-bottom: 10px; color: rgb(51, 51, 51); font-family: &quot;Helvetica Neue&quot;, Helvetica, Arial, sans-serif; font-size: 14px; white-space: normal; background-color: rgb(255, 255, 255);">Given a string, find the length of the&nbsp;<span style="box-sizing: border-box; font-weight: 700;">longest substring</span>&nbsp;without repeating characters.<br></p><p style="box-sizing: border-box; margin-top: 0px; margin-bottom: 10px; color: rgb(51, 51, 51); font-family: &quot;Helvetica Neue&quot;, Helvetica, Arial, sans-serif; font-size: 14px; white-space: normal; background-color: rgb(255, 255, 255);"><span style="box-sizing: border-box; font-weight: 700;">Examples:</span></p><p style="box-sizing: border-box; margin-top: 0px; margin-bottom: 10px; color: rgb(51, 51, 51); font-family: &quot;Helvetica Neue&quot;, Helvetica, Arial, sans-serif; font-size: 14px; white-space: normal; background-color: rgb(255, 255, 255);">Given&nbsp;<code style="box-sizing: border-box; font-family: Menlo, Monaco, Consolas, &quot;Courier New&quot;, monospace; font-size: 12.6px; padding: 2px 4px; color: rgb(199, 37, 78); background-color: rgb(249, 242, 244); border-radius: 4px;">&quot;abcabcbb&quot;</code>, the answer is&nbsp;<code style="box-sizing: border-box; font-family: Menlo, Monaco, Consolas, &quot;Courier New&quot;, monospace; font-size: 12.6px; padding: 2px 4px; color: rgb(199, 37, 78); background-color: rgb(249, 242, 244); border-radius: 4px;">&quot;abc&quot;</code>, which the length is 3.</p><p style="box-sizing: border-box; margin-top: 0px; margin-bottom: 10px; color: rgb(51, 51, 51); font-family: &quot;Helvetica Neue&quot;, Helvetica, Arial, sans-serif; font-size: 14px; white-space: normal; background-color: rgb(255, 255, 255);">Given&nbsp;<code style="box-sizing: border-box; font-family: Menlo, Monaco, Consolas, &quot;Courier New&quot;, monospace; font-size: 12.6px; padding: 2px 4px; color: rgb(199, 37, 78); background-color: rgb(249, 242, 244); border-radius: 4px;">&quot;bbbbb&quot;</code>, the answer is&nbsp;<code style="box-sizing: border-box; font-family: Menlo, Monaco, Consolas, &quot;Courier New&quot;, monospace; font-size: 12.6px; padding: 2px 4px; color: rgb(199, 37, 78); background-color: rgb(249, 242, 244); border-radius: 4px;">&quot;b&quot;</code>, with the length of 1.</p><p style="box-sizing: border-box; margin-top: 0px; margin-bottom: 10px; color: rgb(51, 51, 51); font-family: &quot;Helvetica Neue&quot;, Helvetica, Arial, sans-serif; font-size: 14px; white-space: normal; background-color: rgb(255, 255, 255);">Given&nbsp;<code style="box-sizing: border-box; font-family: Menlo, Monaco, Consolas, &quot;Courier New&quot;, monospace; font-size: 12.6px; padding: 2px 4px; color: rgb(199, 37, 78); background-color: rgb(249, 242, 244); border-radius: 4px;">&quot;pwwkew&quot;</code>, the answer is&nbsp;<code style="box-sizing: border-box; font-family: Menlo, Monaco, Consolas, &quot;Courier New&quot;, monospace; font-size: 12.6px; padding: 2px 4px; color: rgb(199, 37, 78); background-color: rgb(249, 242, 244); border-radius: 4px;">&quot;wke&quot;</code>, with the length of 3. Note that the answer must be a&nbsp;<span style="box-sizing: border-box; font-weight: 700;">substring</span>,&nbsp;<code style="box-sizing: border-box; font-family: Menlo, Monaco, Consolas, &quot;Courier New&quot;, monospace; font-size: 12.6px; padding: 2px 4px; color: rgb(199, 37, 78); background-color: rgb(249, 242, 244); border-radius: 4px;">&quot;pwke&quot;</code>&nbsp;is a&nbsp;<em style="box-sizing: border-box;">subsequence</em>&nbsp;and not a substring.</p><pre class="brush:cpp;toolbar:false">func&nbsp;lengthOfLongestSubstring(s&nbsp;string)&nbsp;int&nbsp;{<br>    arr&nbsp;:=&nbsp;make(map[rune]int)<br>    start&nbsp;:=&nbsp;0<br>    maxlen&nbsp;:=&nbsp;0<br>    for&nbsp;i,&nbsp;v&nbsp;:=&nbsp;range&nbsp;[]rune(s)&nbsp;{<br>        if&nbsp;pre,&nbsp;ok&nbsp;:=&nbsp;arr[v];&nbsp;ok&nbsp;&amp;&amp;&nbsp;pre&nbsp;&gt;=&nbsp;start&nbsp;{<br>            start&nbsp;=&nbsp;pre&nbsp;+&nbsp;1<br>        }<br>        if&nbsp;i-start+1&nbsp;&gt;&nbsp;maxlen&nbsp;{<br>            maxlen&nbsp;=&nbsp;i&nbsp;-&nbsp;start&nbsp;+&nbsp;1<br>        }<br>        arr[v]&nbsp;=&nbsp;i<br>    }<br>    return&nbsp;maxlen<br>}</pre><p><br></p>
+          
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+       
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/03/16/leetcode_day3/">
 
     <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
@@ -666,7 +819,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/03/16/leetcode_day5/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/03/16/一次完整的请求过程/">
 
     <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
       <meta itemprop="name" content="czhuyu">
@@ -686,7 +839,7 @@
           <h1 class="post-title" itemprop="name headline">
                 
                 
-                <a href="/2017/03/16/leetcode_day5/" class="post-title-link" itemprop="http://yoursite.com/page/3/index.html">leetcode-4</a>
+                <a href="/2017/03/16/一次完整的请求过程/" class="post-title-link" itemprop="http://yoursite.com/page/3/index.html">一次完整的请求过程</a>
               
             
           </h1>
@@ -728,7 +881,7 @@
                 
                   <span class="post-meta-item-text">更新于</span>
                 
-                <time title="修改时间：2019-05-24 23:55:43" itemprop="dateModified" datetime="2019-05-24T23:55:43+08:00">2019-05-24</time>
+                <time title="修改时间：2019-05-20 22:28:49" itemprop="dateModified" datetime="2019-05-20T22:28:49+08:00">2019-05-20</time>
               
             
           </span>
@@ -763,314 +916,7 @@
       
         
           
-            <p></p><p style="box-sizing: border-box; font-family: inherit; font-weight: 500; line-height: 1.1; color: inherit; margin-top: 0px; margin-bottom: 10px; font-size: 24px; display: inline-block; margin-right: 0.5em;">3.&nbsp;Longest Substring Without Repeating Characters</p><p style="box-sizing: border-box; margin-top: 0px; margin-bottom: 10px; color: rgb(51, 51, 51); font-family: &quot;Helvetica Neue&quot;, Helvetica, Arial, sans-serif; font-size: 14px; white-space: normal; background-color: rgb(255, 255, 255);">Given a string, find the length of the&nbsp;<span style="box-sizing: border-box; font-weight: 700;">longest substring</span>&nbsp;without repeating characters.<br></p><p style="box-sizing: border-box; margin-top: 0px; margin-bottom: 10px; color: rgb(51, 51, 51); font-family: &quot;Helvetica Neue&quot;, Helvetica, Arial, sans-serif; font-size: 14px; white-space: normal; background-color: rgb(255, 255, 255);"><span style="box-sizing: border-box; font-weight: 700;">Examples:</span></p><p style="box-sizing: border-box; margin-top: 0px; margin-bottom: 10px; color: rgb(51, 51, 51); font-family: &quot;Helvetica Neue&quot;, Helvetica, Arial, sans-serif; font-size: 14px; white-space: normal; background-color: rgb(255, 255, 255);">Given&nbsp;<code style="box-sizing: border-box; font-family: Menlo, Monaco, Consolas, &quot;Courier New&quot;, monospace; font-size: 12.6px; padding: 2px 4px; color: rgb(199, 37, 78); background-color: rgb(249, 242, 244); border-radius: 4px;">&quot;abcabcbb&quot;</code>, the answer is&nbsp;<code style="box-sizing: border-box; font-family: Menlo, Monaco, Consolas, &quot;Courier New&quot;, monospace; font-size: 12.6px; padding: 2px 4px; color: rgb(199, 37, 78); background-color: rgb(249, 242, 244); border-radius: 4px;">&quot;abc&quot;</code>, which the length is 3.</p><p style="box-sizing: border-box; margin-top: 0px; margin-bottom: 10px; color: rgb(51, 51, 51); font-family: &quot;Helvetica Neue&quot;, Helvetica, Arial, sans-serif; font-size: 14px; white-space: normal; background-color: rgb(255, 255, 255);">Given&nbsp;<code style="box-sizing: border-box; font-family: Menlo, Monaco, Consolas, &quot;Courier New&quot;, monospace; font-size: 12.6px; padding: 2px 4px; color: rgb(199, 37, 78); background-color: rgb(249, 242, 244); border-radius: 4px;">&quot;bbbbb&quot;</code>, the answer is&nbsp;<code style="box-sizing: border-box; font-family: Menlo, Monaco, Consolas, &quot;Courier New&quot;, monospace; font-size: 12.6px; padding: 2px 4px; color: rgb(199, 37, 78); background-color: rgb(249, 242, 244); border-radius: 4px;">&quot;b&quot;</code>, with the length of 1.</p><p style="box-sizing: border-box; margin-top: 0px; margin-bottom: 10px; color: rgb(51, 51, 51); font-family: &quot;Helvetica Neue&quot;, Helvetica, Arial, sans-serif; font-size: 14px; white-space: normal; background-color: rgb(255, 255, 255);">Given&nbsp;<code style="box-sizing: border-box; font-family: Menlo, Monaco, Consolas, &quot;Courier New&quot;, monospace; font-size: 12.6px; padding: 2px 4px; color: rgb(199, 37, 78); background-color: rgb(249, 242, 244); border-radius: 4px;">&quot;pwwkew&quot;</code>, the answer is&nbsp;<code style="box-sizing: border-box; font-family: Menlo, Monaco, Consolas, &quot;Courier New&quot;, monospace; font-size: 12.6px; padding: 2px 4px; color: rgb(199, 37, 78); background-color: rgb(249, 242, 244); border-radius: 4px;">&quot;wke&quot;</code>, with the length of 3. Note that the answer must be a&nbsp;<span style="box-sizing: border-box; font-weight: 700;">substring</span>,&nbsp;<code style="box-sizing: border-box; font-family: Menlo, Monaco, Consolas, &quot;Courier New&quot;, monospace; font-size: 12.6px; padding: 2px 4px; color: rgb(199, 37, 78); background-color: rgb(249, 242, 244); border-radius: 4px;">&quot;pwke&quot;</code>&nbsp;is a&nbsp;<em style="box-sizing: border-box;">subsequence</em>&nbsp;and not a substring.</p><pre class="brush:cpp;toolbar:false">func&nbsp;lengthOfLongestSubstring(s&nbsp;string)&nbsp;int&nbsp;{<br>    arr&nbsp;:=&nbsp;make(map[rune]int)<br>    start&nbsp;:=&nbsp;0<br>    maxlen&nbsp;:=&nbsp;0<br>    for&nbsp;i,&nbsp;v&nbsp;:=&nbsp;range&nbsp;[]rune(s)&nbsp;{<br>        if&nbsp;pre,&nbsp;ok&nbsp;:=&nbsp;arr[v];&nbsp;ok&nbsp;&amp;&amp;&nbsp;pre&nbsp;&gt;=&nbsp;start&nbsp;{<br>            start&nbsp;=&nbsp;pre&nbsp;+&nbsp;1<br>        }<br>        if&nbsp;i-start+1&nbsp;&gt;&nbsp;maxlen&nbsp;{<br>            maxlen&nbsp;=&nbsp;i&nbsp;-&nbsp;start&nbsp;+&nbsp;1<br>        }<br>        arr[v]&nbsp;=&nbsp;i<br>    }<br>    return&nbsp;maxlen<br>}</pre><p><br></p>
-          
-        
-      
-    </div>
-
-    
-
-    
-    
-    
-
-    
-
-    
-       
-    
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/03/16/Linux下编译安装Nginx/">
-
-    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="czhuyu">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="https://avatars2.githubusercontent.com/u/26237984">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="无限进步">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                
-                <a href="/2017/03/16/Linux下编译安装Nginx/" class="post-title-link" itemprop="http://yoursite.com/page/3/index.html">linux安装nginx</a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-
-            
-            
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-
-              
-                
-              
-
-              <time title="创建时间：2017-03-16 22:22:56" itemprop="dateCreated datePublished" datetime="2017-03-16T22:22:56+08:00">2017-03-16</time>
-            
-
-            
-              
-
-              
-                
-                <span class="post-meta-divider">|</span>
-                
-
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">更新于</span>
-                
-                <time title="修改时间：2019-05-20 22:24:34" itemprop="dateModified" datetime="2019-05-20T22:24:34+08:00">2019-05-20</time>
-              
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>到nginx.org下载<br>wget <a href="http://nginx.org/download/nginx-1.10.0.tar.gz" target="_blank" rel="noopener">http://nginx.org/download/nginx-1.10.0.tar.gz</a><br>解压压缩包<br>环境配置<br>Cd到解压出来的nginx目录中有configure目录的地方进行环境配置<br>./configure –prefix=/usr/local/nginx<br>Ⅰ.如果遇到提示缺少pcre库<br>到<a href="http://www.pcre.org下载pcre库，if解压到/usr/local/src/pcre-source" target="_blank" rel="noopener">www.pcre.org下载pcre库，if解压到/usr/local/src/pcre-source</a><br>Ⅱ.1.6版本以后的版本制定pcre源码目录./configure –prefix=/usr/local/nginx<br>–with-pcre=/usr/local/src/pcre-source<br>之前的版本制定安装目录./configure –prefix=/usr/local/nginx<br>–with-pcre=/usr/pcre<br>4.编译安装 make &amp;&amp; make install<br>5.启动nginx ./sbin/nginx<br>重启<br>./sbin/nginx –s reload<br>Exception:如果遇到80端口被httpd(Apache)占了<br>Pkill -9 httpd<br>如果无法访问<br>检查防火墙设置</p>
-
-          
-        
-      
-    </div>
-
-    
-
-    
-    
-    
-
-    
-
-    
-       
-    
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/03/16/Linux下编译安装PHP/">
-
-    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="czhuyu">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="https://avatars2.githubusercontent.com/u/26237984">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="无限进步">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                
-                <a href="/2017/03/16/Linux下编译安装PHP/" class="post-title-link" itemprop="http://yoursite.com/page/3/index.html">linux安装php</a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-
-            
-            
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-
-              
-                
-              
-
-              <time title="创建时间：2017-03-16 22:22:56" itemprop="dateCreated datePublished" datetime="2017-03-16T22:22:56+08:00">2017-03-16</time>
-            
-
-            
-              
-
-              
-                
-                <span class="post-meta-divider">|</span>
-                
-
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">更新于</span>
-                
-                <time title="修改时间：2019-05-20 22:24:40" itemprop="dateModified" datetime="2019-05-20T22:24:40+08:00">2019-05-20</time>
-              
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>1、&nbsp;&nbsp;安装依赖库<br></p><p>2、&nbsp;&nbsp;yum install gd zlib libxml2 libxml2-devel libjpeg libjpeg-devel libpng libpng-devel</p><p>3、&nbsp;&nbsp;下载php-5.6.23.tar.bz2，解压</p><p>4、&nbsp;&nbsp;cd到php解压的目录里</p><p>5、&nbsp;&nbsp;配置安装的一些参数</p><p>./configure –prefix=/usr/local/php \</p><p>–with-gd \</p><p>–enable-gd-native-ttf \</p><p>–enable-gd-jis-conv \</p><p>–with-mysql=mysqlnd \</p><p>–enable-mysqlnd \</p><p>–with-pdo-mysql=mysqlnd \</p><p>–enable-fpm\</p><p>–with-openssl</p><p>&nbsp;</p><p>&nbsp;</p><p>Curl &nbsp;&nbsp;&nbsp;</p><p>&nbsp;</p><p>&nbsp;</p><p>./configure –prefix=/usr/local/php7 –with-gd –enable-gd-native-ttf –enable-gd-jis-conv –with-mysql=mysqlnd –enable-mysqlnd –with-pdo-mysql=mysqlnd –enable-fpm –with-openssl –enable-mbstring –enable-tokenizer –enable-zip –with-curl</p><p>&nbsp;</p><p>&nbsp;</p><p>enable-fpm是让php作为独立的进程来运行，占用9000端口</p><p>配置注意</p><p>&nbsp;</p><p>可能会报openssl的错误</p><p>yum install openssl openssl-devel</p><p>&nbsp;</p><p>每个参数后的斜杠前是有空格的，斜杠所起的作用是连接上下两行，没有空格两个参数会连到一起就会报错了</p><p>6、&nbsp;&nbsp;make &amp;&amp;make install</p><p>这个过程中如果使用小内存的服务器可能出现php error，解决办法:</p><p>在配置的最后一行加上–disable-fileinfo</p><p>7、cd /usr/local/php</p><p>cp etc/php-fpm.conf.default etc/php-fpm.conf</p><p>cp /usr/local/src/php-5.5.13/php.ini-development ./lib/php.ini</p><p>7、&nbsp;&nbsp;启动php</p><p>./sbin/php-fpm</p><p>&nbsp;</p><p>&nbsp;</p><p>/usr/local/php7/lib/php/extensions/no-debug-non-zts-20151012</p><p><br></p>
+            <p><a href="https://www.cnblogs.com/engeng/articles/5959335.html" target="_blank">浏览器一次完整的请求过程</a><br></p>
           
         
       
@@ -1280,6 +1126,313 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/03/16/Linux下安装jdk tomcat .war发布项目/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="czhuyu">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="https://avatars2.githubusercontent.com/u/26237984">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="无限进步">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                
+                <a href="/2017/03/16/Linux下安装jdk tomcat .war发布项目/" class="post-title-link" itemprop="http://yoursite.com/page/3/index.html">tomcat war</a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2017-03-16 22:22:56" itemprop="dateCreated datePublished" datetime="2017-03-16T22:22:56+08:00">2017-03-16</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2019-05-20 22:24:08" itemprop="dateModified" datetime="2019-05-20T22:24:08+08:00">2019-05-20</time>
+              
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p style="margin: 10px auto; font-family: verdana, Arial, Helvetica, sans-serif; font-size: 14px; line-height: 21px; white-space: normal;">一、安装JDK　　</p><p style="margin: 10px auto; font-family: verdana, Arial, Helvetica, sans-serif; font-size: 14px; line-height: 21px; white-space: normal;">1.下载jdk，注意下载的时候不要下载成html了，这是个坑。。。</p><p style="margin: 10px auto; font-family: verdana, Arial, Helvetica, sans-serif; font-size: 14px; line-height: 21px; white-space: normal;">2.</p><p style="margin: 10px auto; font-family: verdana, Arial, Helvetica, sans-serif; font-size: 14px; line-height: 21px; white-space: normal;">vim /etc/profile</p><p style="margin: 10px auto; font-family: verdana, Arial, Helvetica, sans-serif; font-size: 14px; line-height: 21px; white-space: normal;">JAVA_HOME=/usr/…/jdk解压后的路径<br>PATH=$PATH:$JAVA_HOME/bin<br>CLASSPATH=.:$JAVA_HOME/lib/jt.jar:$JAVA_HOME/lib/tools.jar<br>export JAVA_HOME PATH CLASSPATH</p><p style="margin: 10px auto; font-family: verdana, Arial, Helvetica, sans-serif; font-size: 14px; line-height: 21px; white-space: normal;">:wq</p><p style="margin: 10px auto; font-family: verdana, Arial, Helvetica, sans-serif; font-size: 14px; line-height: 21px; white-space: normal;">source /etc/profile</p><p style="margin: 10px auto; font-family: verdana, Arial, Helvetica, sans-serif; font-size: 14px; line-height: 21px; white-space: normal;">最后java -version</p><p style="margin: 10px auto; font-family: verdana, Arial, Helvetica, sans-serif; font-size: 14px; line-height: 21px; white-space: normal;">3.下载tomcat，解压进入目录/bin &nbsp; ./startup.sh</p><p style="margin: 10px auto; font-family: verdana, Arial, Helvetica, sans-serif; font-size: 14px; line-height: 21px; white-space: normal;">4.eclipse export 项目为.war格式 选择导出路径 上传到服务器webapps目录下</p><p><br></p>
+          
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+       
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/03/16/写时复制和引用计数/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="czhuyu">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="https://avatars2.githubusercontent.com/u/26237984">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="无限进步">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                
+                <a href="/2017/03/16/写时复制和引用计数/" class="post-title-link" itemprop="http://yoursite.com/page/3/index.html">写时复制和引用计数</a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2017-03-16 22:22:56" itemprop="dateCreated datePublished" datetime="2017-03-16T22:22:56+08:00">2017-03-16</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2019-05-20 22:28:39" itemprop="dateModified" datetime="2019-05-20T22:28:39+08:00">2019-05-20</time>
+              
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p></p><p><a href="http://www.cnblogs.com/phpcoder/p/4462210.html" target="_blank" title="http://www.cnblogs.com/phpcoder/p/4462210.html">http://www.cnblogs.com/phpcoder/p/4462210.html</a><br></p><audio controls="controls" style="display: none;"></audio><p></p>
+
+          
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+       
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/03/16/PHP内置数组排序方法/">
 
     <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
@@ -1433,7 +1586,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/03/16/HTTP OPTIONS/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/03/16/Linux下编译安装PHP/">
 
     <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
       <meta itemprop="name" content="czhuyu">
@@ -1453,7 +1606,7 @@
           <h1 class="post-title" itemprop="name headline">
                 
                 
-                <a href="/2017/03/16/HTTP OPTIONS/" class="post-title-link" itemprop="http://yoursite.com/page/3/index.html">HTTP OPTIONS</a>
+                <a href="/2017/03/16/Linux下编译安装PHP/" class="post-title-link" itemprop="http://yoursite.com/page/3/index.html">linux安装php</a>
               
             
           </h1>
@@ -1495,7 +1648,7 @@
                 
                   <span class="post-meta-item-text">更新于</span>
                 
-                <time title="修改时间：2019-05-20 22:22:39" itemprop="dateModified" datetime="2019-05-20T22:22:39+08:00">2019-05-20</time>
+                <time title="修改时间：2019-05-20 22:24:40" itemprop="dateModified" datetime="2019-05-20T22:24:40+08:00">2019-05-20</time>
               
             
           </span>
@@ -1530,164 +1683,7 @@
       
         
           
-            <p>幂等和非幂等</p>
-<p>执行一次和执行很多次同样的操作是否是一样的</p>
-<p>GET/PUT/DELETE 幂等</p>
-<p>POST 非幂等</p>
-
-          
-        
-      
-    </div>
-
-    
-
-    
-    
-    
-
-    
-
-    
-       
-    
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/03/16/一次完整的请求过程/">
-
-    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="czhuyu">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="https://avatars2.githubusercontent.com/u/26237984">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="无限进步">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                
-                <a href="/2017/03/16/一次完整的请求过程/" class="post-title-link" itemprop="http://yoursite.com/page/3/index.html">一次完整的请求过程</a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-
-            
-            
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-
-              
-                
-              
-
-              <time title="创建时间：2017-03-16 22:22:56" itemprop="dateCreated datePublished" datetime="2017-03-16T22:22:56+08:00">2017-03-16</time>
-            
-
-            
-              
-
-              
-                
-                <span class="post-meta-divider">|</span>
-                
-
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">更新于</span>
-                
-                <time title="修改时间：2019-05-20 22:28:49" itemprop="dateModified" datetime="2019-05-20T22:28:49+08:00">2019-05-20</time>
-              
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p><a href="https://www.cnblogs.com/engeng/articles/5959335.html" target="_blank">浏览器一次完整的请求过程</a><br></p>
+            <p>1、&nbsp;&nbsp;安装依赖库<br></p><p>2、&nbsp;&nbsp;yum install gd zlib libxml2 libxml2-devel libjpeg libjpeg-devel libpng libpng-devel</p><p>3、&nbsp;&nbsp;下载php-5.6.23.tar.bz2，解压</p><p>4、&nbsp;&nbsp;cd到php解压的目录里</p><p>5、&nbsp;&nbsp;配置安装的一些参数</p><p>./configure –prefix=/usr/local/php \</p><p>–with-gd \</p><p>–enable-gd-native-ttf \</p><p>–enable-gd-jis-conv \</p><p>–with-mysql=mysqlnd \</p><p>–enable-mysqlnd \</p><p>–with-pdo-mysql=mysqlnd \</p><p>–enable-fpm\</p><p>–with-openssl</p><p>&nbsp;</p><p>&nbsp;</p><p>Curl &nbsp;&nbsp;&nbsp;</p><p>&nbsp;</p><p>&nbsp;</p><p>./configure –prefix=/usr/local/php7 –with-gd –enable-gd-native-ttf –enable-gd-jis-conv –with-mysql=mysqlnd –enable-mysqlnd –with-pdo-mysql=mysqlnd –enable-fpm –with-openssl –enable-mbstring –enable-tokenizer –enable-zip –with-curl</p><p>&nbsp;</p><p>&nbsp;</p><p>enable-fpm是让php作为独立的进程来运行，占用9000端口</p><p>配置注意</p><p>&nbsp;</p><p>可能会报openssl的错误</p><p>yum install openssl openssl-devel</p><p>&nbsp;</p><p>每个参数后的斜杠前是有空格的，斜杠所起的作用是连接上下两行，没有空格两个参数会连到一起就会报错了</p><p>6、&nbsp;&nbsp;make &amp;&amp;make install</p><p>这个过程中如果使用小内存的服务器可能出现php error，解决办法:</p><p>在配置的最后一行加上–disable-fileinfo</p><p>7、cd /usr/local/php</p><p>cp etc/php-fpm.conf.default etc/php-fpm.conf</p><p>cp /usr/local/src/php-5.5.13/php.ini-development ./lib/php.ini</p><p>7、&nbsp;&nbsp;启动php</p><p>./sbin/php-fpm</p><p>&nbsp;</p><p>&nbsp;</p><p>/usr/local/php7/lib/php/extensions/no-debug-non-zts-20151012</p><p><br></p>
           
         
       
@@ -1930,7 +1926,7 @@
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">38</span>
+                    <span class="site-state-item-count">39</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>
@@ -2031,7 +2027,11 @@
                     
                       
                     
-                    <span class="site-state-item-count">43</span>
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">45</span>
                     <span class="site-state-item-name">标签</span>
                   </a>
                 </div>
