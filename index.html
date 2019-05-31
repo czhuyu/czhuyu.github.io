@@ -364,6 +364,183 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/05/31/查找和排序算法/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="czhuyu">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="https://avatars2.githubusercontent.com/u/26237984">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="无限进步">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                
+                <a href="/2019/05/31/查找和排序算法/" class="post-title-link" itemprop="http://yoursite.com/index.html">查找和排序算法</a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2019-05-31 22:14:07" itemprop="dateCreated datePublished" datetime="2019-05-31T22:14:07+08:00">2019-05-31</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2019-06-01 00:53:50" itemprop="dateModified" datetime="2019-06-01T00:53:50+08:00">2019-06-01</time>
+              
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h2 id="查找和排序算法"><a href="#查找和排序算法" class="headerlink" title="查找和排序算法"></a>查找和排序算法</h2><h4 id="查找算法"><a href="#查找算法" class="headerlink" title="查找算法"></a>查找算法</h4><p>1.顺序查找</p>
+<p>2.二分查找</p>
+<p>循环实现</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">function midSearch($k,$arr)&#123;</span><br><span class="line">	$left = 0;</span><br><span class="line">	$right = count($arr);</span><br><span class="line">	while($left &lt; $right)&#123;</span><br><span class="line">		$mid = floor(($left + $right)/2);</span><br><span class="line">		if($arr[$mid] == $k)&#123;</span><br><span class="line">			return $mid;</span><br><span class="line">		&#125;else if($arr[$mid] &gt; $k)&#123;</span><br><span class="line">			$right = $mid - 1;</span><br><span class="line">		&#125;else&#123;</span><br><span class="line">			$left = $mid + 1;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	return -1;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>递归实现</p>
+<h4 id="排序算法"><a href="#排序算法" class="headerlink" title="排序算法"></a>排序算法</h4><p><strong>一.内部排序</strong></p>
+<p>先定义一百个0-100整数元素组成的随机数数组和交换函数</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">$n = 100;</span><br><span class="line">$a = [];</span><br><span class="line"></span><br><span class="line">for ($i=0; $i &lt; $n; $i++) &#123; </span><br><span class="line">	$a[] = rand(0,$n);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">function swap(&amp;$arr,$i,$j)&#123;</span><br><span class="line">	$temp = $arr[$i];</span><br><span class="line">	$arr[$i] = $arr[$j];</span><br><span class="line">	$arr[$j] = $temp;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>1.冒泡排序</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">function bubbleSort($arr)&#123;</span><br><span class="line">	$n = count($arr);</span><br><span class="line">	for($i = 0; $i &lt; $n-1; $i++)&#123;</span><br><span class="line">		for($j = 0;$j &lt; $n-1-$i; $j++)&#123;</span><br><span class="line">			if($arr[$j] &gt; $arr[$j+1])&#123;</span><br><span class="line">				swap($arr,$j,$j+1);</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	return $arr;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>2.选择排序</p>
+<p>简单选择排序</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">function selectSort($arr)&#123;</span><br><span class="line">	$n = count($arr);</span><br><span class="line">	for($i = 0; $i &lt; $n-1; $i++)&#123;</span><br><span class="line">		$minKey = $i;</span><br><span class="line">		for($j = $i;$j &lt; $n; $j++)&#123;</span><br><span class="line">			if($arr[$j] &lt; $arr[$minKey])&#123;</span><br><span class="line">				$minKey = $j;</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">		if($i != $minKey)&#123;</span><br><span class="line">			swap($arr,$i,$minKey);</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	return $arr;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>树形选择排序/堆排序</p>
+<p>3.插入排序</p>
+<p>直接插入排序</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">function insertSort($arr)&#123;</span><br><span class="line">	$n = count($arr);</span><br><span class="line">	for($i = 1; $i &lt; $n; $i++)&#123;</span><br><span class="line">		if($arr[$i] &lt; $arr[$i-1])&#123;</span><br><span class="line">			$temp = $arr[$i];</span><br><span class="line">			$j = $i - 1; </span><br><span class="line">			for($j;$j&gt;=0 &amp;&amp; $arr[$j] &gt; $temp;$j--)&#123;</span><br><span class="line">				$arr[$j+1] = $arr[$j];</span><br><span class="line">			&#125;</span><br><span class="line">			$arr[$j+1] = $temp;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	return $arr;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>其他插入排序/希尔排序</p>
+<p>4.快速排序</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">function qsort(&amp;$arr, $left, $right)&#123;</span><br><span class="line">	if($left &gt; $right)&#123;</span><br><span class="line">		return;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	$i = $left;</span><br><span class="line">	$k = $left;</span><br><span class="line">	$j = $right;</span><br><span class="line"></span><br><span class="line">	while($i &lt; $j)&#123;</span><br><span class="line">		while($arr[$j] &gt;= $arr[$k] &amp;&amp; $i &lt; $j) $j--;</span><br><span class="line">		swap($arr,$j,$k);</span><br><span class="line">		$k = $j;</span><br><span class="line"></span><br><span class="line">		while($arr[$i] &lt;= $arr[$k] &amp;&amp; $i &lt; $j) $i++;</span><br><span class="line">		swap($arr,$i,$k);</span><br><span class="line">		$k = $i;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">	qsort($arr, $left, $k-1);</span><br><span class="line">	qsort($arr, $k+1, $right);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">$n = count($a);</span><br><span class="line">qsort($a, 0, $n-1);</span><br></pre></td></tr></table></figure>
+<p>5.归并排序</p>
+<p>6.基数排序</p>
+<p>多关键字排序/链式基数排序</p>
+<p><strong>二.外部排序</strong></p>
+
+          
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+       
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/05/27/php-cli/">
 
     <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
@@ -623,12 +800,24 @@ exec_direct=php_optarg;
                 
               
 
-              <time title="创建时间：2019-05-26 16:18:56 / 修改时间：16:19:38" itemprop="dateCreated datePublished" datetime="2019-05-26T16:18:56+08:00">2019-05-26</time>
+              <time title="创建时间：2019-05-26 16:18:56" itemprop="dateCreated datePublished" datetime="2019-05-26T16:18:56+08:00">2019-05-26</time>
             
 
             
               
 
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2019-05-28 15:47:36" itemprop="dateModified" datetime="2019-05-28T15:47:36+08:00">2019-05-28</time>
               
             
           </span>
@@ -692,8 +881,9 @@ exec_direct=php_optarg;
 <p>步骤 B ，算法使用深度优先搜索查找所有可能的根，找到后将每个变量容器中的引用计数减1， 为确保不会对同一个变量容器减两次“1”，用灰色标记已减过1的。</p>
 <p>步骤 C ，算法再一次对每个根节点使用深度优先搜索，检查每个变量容器的引用计数。 如果引用计数是 0 ，变量容器用白色来标记。如果引用次数大于0，则恢复在这个点上使用深度优先搜索而将引用计数减1的操作（即引用计数加1）， 然后将它们重新用黑色标记。</p>
 <p>最后一步 D ，算法遍历根缓冲区以从那里删除变量容器根(zval roots)， 同时，检查是否有在上一步中被白色标记的变量容器。每个被白色标记的变量容器都被清除。</p>
-<h5 id="2-写时复制"><a href="#2-写时复制" class="headerlink" title="2.写时复制"></a>2.写时复制</h5><h5 id="3-慎用-amp"><a href="#3-慎用-amp" class="headerlink" title="3.慎用&amp;"></a>3.慎用&amp;</h5><h3 id="二-资源管理"><a href="#二-资源管理" class="headerlink" title="二.资源管理"></a>二.资源管理</h3><p><strong>数据库资源为例：</strong><br>​        在java里面，会在try cache的finally结构中调用一个connection.close()去显式地关闭数据库的连接<br>​        在c++里面可以用__destruct析构函数在对象被销毁的时候来做close的操作<br>​        在php中呢？日常开发使用laravel框架的时候好像没注意到这个地方，也没有去显式地调用close方法.但肯定是有close的方法来提前释放掉这个连接的，laravel的数据库操作的实现是基于PDO来做的。<br>​        通过查阅文档<a href="https://www.php.net/manual/zh/pdo.connections.php，连接数据成功后，返回一个" target="_blank" rel="noopener">https://www.php.net/manual/zh/pdo.connections.php，连接数据成功后，返回一个</a> PDO 类的实例给脚本，此连接在 PDO 对象的生存周期中保持活动。要想关闭连接，需要销毁对象以确保所有剩余到它的引用都被删除，可以赋一个 NULL 值给对象变量。如果不明确地这么做，PHP 在脚本结束时会自动关闭连接                                                                                                                                                                                                                                                                                                                                                                                                                                         </p>
-<h3 id="三-其他"><a href="#三-其他" class="headerlink" title="三.其他"></a>三.其他</h3><h5 id="1-符号表"><a href="#1-符号表" class="headerlink" title="1.符号表"></a>1.符号表</h5><h5 id="2-php是如何工作的"><a href="#2-php是如何工作的" class="headerlink" title="2.php是如何工作的"></a>2.php是如何工作的</h5><p><strong>参考资料：</strong></p>
+<h5 id="2-写时复制"><a href="#2-写时复制" class="headerlink" title="2.写时复制"></a>2.写时复制</h5><p>写时复制并不是PHP独有的</p>
+<h5 id="3-慎用-amp"><a href="#3-慎用-amp" class="headerlink" title="3.慎用&amp;"></a>3.慎用&amp;</h5><h3 id="二-资源管理"><a href="#二-资源管理" class="headerlink" title="二.资源管理"></a>二.资源管理</h3><p><strong>数据库资源为例：</strong><br>​        在java里面，会在try cache的finally结构中调用一个connection.close()去显式地关闭数据库的连接<br>​        在c++里面可以用__destruct析构函数在对象被销毁的时候来做close的操作<br>​        在php中呢？日常开发使用laravel框架的时候好像没注意到这个地方，也没有去显式地调用close方法.但肯定是有close的方法来提前释放掉这个连接的，laravel的数据库操作的实现是基于PDO来做的。<br>​        通过查阅文档<a href="https://www.php.net/manual/zh/pdo.connections.php，连接数据成功后，返回一个" target="_blank" rel="noopener">https://www.php.net/manual/zh/pdo.connections.php，连接数据成功后，返回一个</a> PDO 类的实例给脚本，此连接在 PDO 对象的生存周期中保持活动。要想关闭连接，需要销毁对象以确保所有剩余到它的引用都被删除，可以赋一个 NULL 值给对象变量。如果不明确地这么做，PHP 在脚本结束时会自动关闭连接                                                                                                                                                                                                                                                                                                                                                                                                                                         </p>
+<h3 id="三-其他"><a href="#三-其他" class="headerlink" title="三.其他"></a>三.其他</h3><h5 id="1-符号表"><a href="#1-符号表" class="headerlink" title="1.符号表"></a>1.符号表</h5><p><strong>参考资料：</strong></p>
 <p>1.php官方手册</p>
 <p>2.<a href="http://www.php-internals.com/book/?p=chapt06/06-04-00-garbage-collection" target="_blank" rel="noopener">http://www.php-internals.com/book/?p=chapt06/06-04-00-garbage-collection</a></p>
 
@@ -1976,171 +2166,6 @@ exec_direct=php_optarg;
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/04/25/redis-内存置换策略/">
-
-    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="czhuyu">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="https://avatars2.githubusercontent.com/u/26237984">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="无限进步">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                
-                <a href="/2019/04/25/redis-内存置换策略/" class="post-title-link" itemprop="http://yoursite.com/index.html">redis-内存置换策略</a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-
-            
-            
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-
-              
-                
-              
-
-              <time title="创建时间：2019-04-25 21:10:19" itemprop="dateCreated datePublished" datetime="2019-04-25T21:10:19+08:00">2019-04-25</time>
-            
-
-            
-              
-
-              
-                
-                <span class="post-meta-divider">|</span>
-                
-
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">更新于</span>
-                
-                <time title="修改时间：2019-05-20 22:26:13" itemprop="dateModified" datetime="2019-05-20T22:26:13+08:00">2019-05-20</time>
-              
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h1 id="redis"><a href="#redis" class="headerlink" title="redis"></a>redis</h1><p>1.数据类型</p>
-<p>​    k-v string list set zset</p>
-<p>2.redis内存淘汰策略</p>
-<ol>
-<li>超出内存限制报错</li>
-<li>淘汰最近最少未使用</li>
-<li>从设置了过期时间中的键中淘汰最近最少未使用</li>
-<li>随机淘汰</li>
-<li>从设置了过期时间中的键中随机淘汰</li>
-<li>淘汰离过期时间最近的键</li>
-</ol>
-<p>3.redis 持久化策略</p>
-
-          
-        
-      
-    </div>
-
-    
-
-    
-    
-    
-
-    
-
-    
-       
-    
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -2190,7 +2215,7 @@ exec_direct=php_optarg;
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">39</span>
+                    <span class="site-state-item-count">40</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>
@@ -2295,7 +2320,9 @@ exec_direct=php_optarg;
                     
                       
                     
-                    <span class="site-state-item-count">45</span>
+                      
+                    
+                    <span class="site-state-item-count">46</span>
                     <span class="site-state-item-name">标签</span>
                   </a>
                 </div>

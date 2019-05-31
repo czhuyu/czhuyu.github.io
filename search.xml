@@ -1,6 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title><![CDATA[查找和排序算法]]></title>
+    <url>%2F2019%2F05%2F31%2F%E6%9F%A5%E6%89%BE%E5%92%8C%E6%8E%92%E5%BA%8F%E7%AE%97%E6%B3%95%2F</url>
+    <content type="text"><![CDATA[查找和排序算法查找算法1.顺序查找 2.二分查找 循环实现 123456789101112131415function midSearch($k,$arr)&#123; $left = 0; $right = count($arr); while($left &lt; $right)&#123; $mid = floor(($left + $right)/2); if($arr[$mid] == $k)&#123; return $mid; &#125;else if($arr[$mid] &gt; $k)&#123; $right = $mid - 1; &#125;else&#123; $left = $mid + 1; &#125; &#125; return -1;&#125; 递归实现 排序算法一.内部排序 先定义一百个0-100整数元素组成的随机数数组和交换函数 123456789101112$n = 100;$a = [];for ($i=0; $i &lt; $n; $i++) &#123; $a[] = rand(0,$n);&#125;function swap(&amp;$arr,$i,$j)&#123; $temp = $arr[$i]; $arr[$i] = $arr[$j]; $arr[$j] = $temp;&#125; 1.冒泡排序 1234567891011function bubbleSort($arr)&#123; $n = count($arr); for($i = 0; $i &lt; $n-1; $i++)&#123; for($j = 0;$j &lt; $n-1-$i; $j++)&#123; if($arr[$j] &gt; $arr[$j+1])&#123; swap($arr,$j,$j+1); &#125; &#125; &#125; return $arr;&#125; 2.选择排序 简单选择排序 123456789101112131415function selectSort($arr)&#123; $n = count($arr); for($i = 0; $i &lt; $n-1; $i++)&#123; $minKey = $i; for($j = $i;$j &lt; $n; $j++)&#123; if($arr[$j] &lt; $arr[$minKey])&#123; $minKey = $j; &#125; &#125; if($i != $minKey)&#123; swap($arr,$i,$minKey); &#125; &#125; return $arr;&#125; 树形选择排序/堆排序 3.插入排序 直接插入排序 1234567891011121314function insertSort($arr)&#123; $n = count($arr); for($i = 1; $i &lt; $n; $i++)&#123; if($arr[$i] &lt; $arr[$i-1])&#123; $temp = $arr[$i]; $j = $i - 1; for($j;$j&gt;=0 &amp;&amp; $arr[$j] &gt; $temp;$j--)&#123; $arr[$j+1] = $arr[$j]; &#125; $arr[$j+1] = $temp; &#125; &#125; return $arr;&#125; 其他插入排序/希尔排序 4.快速排序 1234567891011121314151617181920212223242526function qsort(&amp;$arr, $left, $right)&#123; if($left &gt; $right)&#123; return; &#125; $i = $left; $k = $left; $j = $right; while($i &lt; $j)&#123; while($arr[$j] &gt;= $arr[$k] &amp;&amp; $i &lt; $j) $j--; swap($arr,$j,$k); $k = $j; while($arr[$i] &lt;= $arr[$k] &amp;&amp; $i &lt; $j) $i++; swap($arr,$i,$k); $k = $i; &#125; qsort($arr, $left, $k-1); qsort($arr, $k+1, $right);&#125;$n = count($a);qsort($a, 0, $n-1); 5.归并排序 6.基数排序 多关键字排序/链式基数排序 二.外部排序]]></content>
+      <tags>
+        <tag>排序</tag>
+        <tag>算法</tag>
+        <tag>查找</tag>
+      </tags>
+  </entry>
+  <entry>
     <title><![CDATA[php-cli]]></title>
     <url>%2F2019%2F05%2F27%2Fphp-cli%2F</url>
     <content type="text"><![CDATA[PHP-CLI在命令行输入 php -r “echo 111;” 就可以运行php代码并在控制台得到111的输出，那这中间经历了哪些步骤呢？ 从php的github项目中你可以下载到各个版本的源码，这里以5.6.40版本为例 php在命令行的处理源文件在{PHPSRC}/sapi/php_cli.c中 首先跟到main函数(在约1203行) 1378行 1234567891011 zend_first_try &#123;#ifndef PHP_CLI_WIN32_NO_CONSOLE if (sapi_module == &amp;cli_sapi_module) &#123;#endif exit_status = do_cli(argc, argv TSRMLS_CC);#ifndef PHP_CLI_WIN32_NO_CONSOLE &#125; else &#123; exit_status = do_cli_server(argc, argv TSRMLS_CC); &#125;#endif &#125; zend_end_try(); 这里的do_cli就是具体的实现了，跟到do_cli函数681行 123456789101112131415161718192021222324252627282930313233343536373839404142434445464748495051525354555657585960616263646566676869707172737475static int do_cli(int argc, char **argv TSRMLS_DC) /* &#123;&#123;&#123; */&#123; int c; ...... char *php_optarg = NULL, *orig_optarg = NULL; ...... zend_try &#123; CG(in_compilation) = 0; /* not initialized but needed for several options */ EG(uninitialized_zval_ptr) = NULL; while ((c = php_getopt(argc, argv, OPTIONS, &amp;php_optarg, &amp;php_optind, 0, 2)) != -1) &#123;zend_try &#123; CG(in_compilation) = 0; /* not initialized but needed for several options */ EG(uninitialized_zval_ptr) = NULL; while ((c = php_getopt(argc, argv, OPTIONS, &amp;php_optarg, &amp;php_optind, 0, 2)) != -1) &#123; switch (c) &#123; ...... case &apos;v&apos;: /* show php version &amp; quit */ php_printf(&quot;PHP %s (%s) (built: %s %s) %s\nCopyright (c) 1997-2016 The PHP Group\n%s&quot;, PHP_VERSION, cli_sapi_module.name, __DATE__, __TIME__,#if ZEND_DEBUG &amp;&amp; defined(HAVE_GCOV) &quot;(DEBUG GCOV)&quot;,#elif ZEND_DEBUG &quot;(DEBUG)&quot;,#elif defined(HAVE_GCOV) &quot;(GCOV)&quot;,#else &quot;&quot;,#endif get_zend_version() ); sapi_deactivate(TSRMLS_C); goto out; ...... default: break; &#125; &#125; /* Set some CLI defaults */ SG(options) |= SAPI_OPTION_NO_CHDIR; php_optind = orig_optind; php_optarg = orig_optarg; while ((c = php_getopt(argc, argv, OPTIONS, &amp;php_optarg, &amp;php_optind, 0, 2)) != -1) &#123; switch (c) &#123; ...... case &apos;r&apos;: /* run code from command line */ if (behavior == PHP_MODE_CLI_DIRECT) &#123; if (exec_direct || script_file) &#123; param_error = &quot;You can use -r only once.\n&quot;; break; &#125; &#125; else if (behavior != PHP_MODE_STANDARD || interactive) &#123; param_error = param_mode_conflict; break; &#125; behavior=PHP_MODE_CLI_DIRECT; exec_direct=php_optarg; break; ...... default: break; &#125; &#125; 这里就见到了我们经常使用的php -v，然后当然还有php -r。 1static int do_cli(int argc, char **argv TSRMLS_DC) /* &#123;&#123;&#123; */ 这里的argv就是从命令行获取到的内容,我们就跟着这个参数往下查找 1while ((c = php_getopt(argc, argv, OPTIONS, &amp;php_optarg, &amp;php_optind, 0, 2)) != -1) &#123; 686行有这样一部操作，然后我们看到当解析出命令行带了-r参数的时候，最主要做了两步操作 behavior=PHP_MODE_CLI_DIRECT; exec_direct=php_optarg; 所以这里传递引用&amp;php_optarg应该已经赋值了 再往下看会用在什么地方 123456case PHP_MODE_CLI_DIRECT: cli_register_file_handles(TSRMLS_C); if (zend_eval_string_ex(exec_direct, NULL, &quot;Command line code&quot;, 1 TSRMLS_CC) == FAILURE) &#123; exit_status=254; &#125; break; 然后把参数exec_direct传给zend_eval_string_ex，这个函数的实现在zend_excute_API.c文件中 1234567891011121314151617181920212223242526272829303132333435363738394041424344454647484950515253545556575859606162636465666768697071727374757677787980818283848586878889909192939495969798ZEND_API int zend_eval_stringl(char *str, int str_len, zval *retval_ptr, char *string_name TSRMLS_DC) /* &#123;&#123;&#123; */&#123; zval pv; zend_op_array *new_op_array; zend_op_array *original_active_op_array = EG(active_op_array); zend_uint original_compiler_options; int retval; if (retval_ptr) &#123; Z_STRLEN(pv) = str_len + sizeof(&quot;return ;&quot;) - 1; Z_STRVAL(pv) = emalloc(Z_STRLEN(pv) + 1); memcpy(Z_STRVAL(pv), &quot;return &quot;, sizeof(&quot;return &quot;) - 1); memcpy(Z_STRVAL(pv) + sizeof(&quot;return &quot;) - 1, str, str_len); Z_STRVAL(pv)[Z_STRLEN(pv) - 1] = &apos;;&apos;; Z_STRVAL(pv)[Z_STRLEN(pv)] = &apos;\0&apos;; &#125; else &#123; Z_STRLEN(pv) = str_len; Z_STRVAL(pv) = str; &#125; Z_TYPE(pv) = IS_STRING; /*printf(&quot;Evaluating &apos;%s&apos;\n&quot;, pv.value.str.val);*/ original_compiler_options = CG(compiler_options); CG(compiler_options) = ZEND_COMPILE_DEFAULT_FOR_EVAL; new_op_array = zend_compile_string(&amp;pv, string_name TSRMLS_CC); CG(compiler_options) = original_compiler_options; if (new_op_array) &#123; zval *local_retval_ptr=NULL; zval **original_return_value_ptr_ptr = EG(return_value_ptr_ptr); zend_op **original_opline_ptr = EG(opline_ptr); int orig_interactive = CG(interactive); EG(return_value_ptr_ptr) = &amp;local_retval_ptr; EG(active_op_array) = new_op_array; EG(no_extensions)=1; if (!EG(active_symbol_table)) &#123; zend_rebuild_symbol_table(TSRMLS_C); &#125; CG(interactive) = 0; zend_try &#123; zend_execute(new_op_array TSRMLS_CC); &#125; zend_catch &#123; destroy_op_array(new_op_array TSRMLS_CC); efree(new_op_array); zend_bailout(); &#125; zend_end_try(); CG(interactive) = orig_interactive; if (local_retval_ptr) &#123; if (retval_ptr) &#123; COPY_PZVAL_TO_ZVAL(*retval_ptr, local_retval_ptr); &#125; else &#123; zval_ptr_dtor(&amp;local_retval_ptr); &#125; &#125; else &#123; if (retval_ptr) &#123; INIT_ZVAL(*retval_ptr); &#125; &#125; EG(no_extensions)=0; EG(opline_ptr) = original_opline_ptr; EG(active_op_array) = original_active_op_array; destroy_op_array(new_op_array TSRMLS_CC); efree(new_op_array); EG(return_value_ptr_ptr) = original_return_value_ptr_ptr; retval = SUCCESS; &#125; else &#123; retval = FAILURE; &#125; if (retval_ptr) &#123; zval_dtor(&amp;pv); &#125; return retval;&#125;/* &#125;&#125;&#125; */ZEND_API int zend_eval_string(char *str, zval *retval_ptr, char *string_name TSRMLS_DC) /* &#123;&#123;&#123; */&#123; return zend_eval_stringl(str, strlen(str), retval_ptr, string_name TSRMLS_CC);&#125;/* &#125;&#125;&#125; */ZEND_API int zend_eval_stringl_ex(char *str, int str_len, zval *retval_ptr, char *string_name, int handle_exceptions TSRMLS_DC) /* &#123;&#123;&#123; */&#123; int result; result = zend_eval_stringl(str, str_len, retval_ptr, string_name TSRMLS_CC); if (handle_exceptions &amp;&amp; EG(exception)) &#123; zend_exception_error(EG(exception), E_ERROR TSRMLS_CC); result = FAILURE; &#125; return result;&#125;/* &#125;&#125;&#125; */ 可以看到最后执行的函数就是最上面的zend_eval_stringl Z_STRVAL(pv) = str; new_op_array = zend_compile_string(&amp;pv, string_name TSRMLS_CC); 经过词法分析/语法分析 这里得到的new_op_array应该就是包含了opcode的了 有一些比较眼熟的东西 12345zend_op_array 这里面会存放需要执行的opcodeEG 和代码的解释相关CG 和代码的执行相关zval_dtorzval_ptr_dtor EG 和 CG的定义可以在zend_globals_macros.h中可以找到 macro 宏指令的意思，这里就是C语言里面的特性了。 123456789101112131415161718/* Compiler */#ifdef ZTS# define CG(v) TSRMG(compiler_globals_id, zend_compiler_globals *, v)int zendparse(void *compiler_globals);#else# define CG(v) (compiler_globals.v)extern ZEND_API struct _zend_compiler_globals compiler_globals;int zendparse(void);#endif/* Executor */#ifdef ZTS# define EG(v) TSRMG(executor_globals_id, zend_executor_globals *, v)#else# define EG(v) (executor_globals.v)extern ZEND_API zend_executor_globals executor_globals;#endif zval_dtor和zval_ptr_dtor，我们使用一个unset操作想清除这个变量所占的内存时（可能只是引用计数减一），会从当前符号的哈希表中删除变量名对应的项， 在所有的操作执行完后，并对从符号表中删除的项调用一个析构函数，临时变量会调用zval_dtor，一般的变量会调用zval_ptr_dtor。 zval_ptr_dtor会做的事情就是：如果变量的引用计数为1，即减一后引用计数为0，直接清除变量。如果当前变量如果被缓存，则需要清除缓存；如果变量的引用计数大于1，即减一后引用计数大于0，则将变量放入垃圾列表。如果变量存在引用，则去掉其引用 1234567zend_try &#123; zend_execute(new_op_array TSRMLS_CC);&#125; zend_catch &#123; destroy_op_array(new_op_array TSRMLS_CC); efree(new_op_array); zend_bailout();&#125; zend_end_try(); 这里zend_execute(new_op_array TSRMLS_CC);肯定就是执行new_op_array里面的opcode了。 跟到{PHPSRC}/Zend/zend_vm_execute.h： 1234567891011121314151617181920212223242526272829303132333435363738394041424344454647484950515253ZEND_API void execute_ex(zend_execute_data *execute_data TSRMLS_DC)&#123; DCL_OPLINE zend_bool original_in_execution; original_in_execution = EG(in_execution); EG(in_execution) = 1; if (0) &#123;zend_vm_enter: execute_data = i_create_execute_data_from_op_array(EG(active_op_array), 1 TSRMLS_CC); &#125; LOAD_REGS(); LOAD_OPLINE(); while (1) &#123; int ret;#ifdef ZEND_WIN32 if (EG(timed_out)) &#123; zend_timeout(0); &#125;#endif if ((ret = OPLINE-&gt;handler(execute_data TSRMLS_CC)) &gt; 0) &#123; switch (ret) &#123; case 1: EG(in_execution) = original_in_execution; return; case 2: goto zend_vm_enter; break; case 3: execute_data = EG(current_execute_data); break; default: break; &#125; &#125; &#125; zend_error_noreturn(E_ERROR, &quot;Arrived at end of main loop which shouldn&apos;t happen&quot;);&#125;ZEND_API void zend_execute(zend_op_array *op_array TSRMLS_DC)&#123; if (EG(exception)) &#123; return; &#125; zend_execute_ex(i_create_execute_data_from_op_array(op_array, 0 TSRMLS_CC) TSRMLS_CC);&#125; 通过while(1)来执行从op_array里拿到的opcode进行执行。 opcode长什么样子呢？ 安装一个php扩展vld http://pecl.php.net/package/vld 安装扩展的方式 1234567891011121314151617181920phpize ./configure make &amp;&amp; make install把编译出来的动态链接库.so文件加到php.ini配置中vim /usr/local/php/etc/php.ini service php-fpm restartphp -ini | grep vldvldvld support =&gt; enabledvld.active =&gt; 0 =&gt; 0vld.col_sep =&gt; =&gt; vld.dump_paths =&gt; 1 =&gt; 1vld.execute =&gt; 1 =&gt; 1vld.format =&gt; 0 =&gt; 0vld.save_dir =&gt; /tmp =&gt; /tmpvld.save_paths =&gt; 0 =&gt; 0vld.skip_append =&gt; 0 =&gt; 0vld.skip_prepend =&gt; 0 =&gt; 0vld.verbosity =&gt; 1 =&gt; 1PWD =&gt; /usr/local/src/vld-0.14.0_SERVER[&quot;PWD&quot;] =&gt; /usr/local/src/vld-0.14.0 看到vld support =&gt; enabled就说明安装成功了 怎么使用呢？https://derickrethans.nl/projects.html#vld 在命令行运行 1php -r &quot;echo 1111;&quot; -dvld.active=1 我们得到了这样的结果 123456789101112131415161111root@czhuyu-Inspiron-5547:~# php -r &quot;echo 1111;&quot; -dvld.active=1Finding entry pointsBranch analysis from position: 0Jump found. (Code = 62) Position 1 = -2filename: Command line codefunction name: (null)number of ops: 2compiled vars: noneline #* E I O op fetch ext return operands------------------------------------------------------------------------------------- 1 0 E &gt; ECHO 1111 1 &gt; RETURN nullbranch: # 0; line: 1- 1; sop: 0; eop: 1; out1: -2path #1: 0, 1111 其中关键的部分应该就是这个op列下面的ECHO了 ECHO对应到源码中执行的操作就是ZEND_ECHO_SPEC_CONST_HANDLER 1234567891011121314151617static int ZEND_FASTCALL ZEND_ECHO_SPEC_CONST_HANDLER(ZEND_OPCODE_HANDLER_ARGS)&#123; USE_OPLINE zval *z; SAVE_OPLINE(); z = opline-&gt;op1.zv; if (IS_CONST == IS_TMP_VAR &amp;&amp; Z_TYPE_P(z) == IS_OBJECT) &#123; INIT_PZVAL(z); &#125; zend_print_variable(z); CHECK_EXCEPTION(); ZEND_VM_NEXT_OPCODE();&#125; 123456789ZEND_API int zend_print_variable(zval *var) &#123; return zend_print_zval(var, 0);&#125;ZEND_API int zend_print_zval(zval *expr, int indent) /* &#123;&#123;&#123; */&#123; return zend_print_zval_ex(zend_write, expr, indent);&#125; 123456789101112131415161718192021ZEND_API int zend_print_zval_ex(zend_write_func_t write_func, zval *expr, int indent) /* &#123;&#123;&#123; */&#123; zval expr_copy; int use_copy; zend_make_printable_zval(expr, &amp;expr_copy, &amp;use_copy); if (use_copy) &#123; expr = &amp;expr_copy; &#125; if (Z_STRLEN_P(expr) == 0) &#123; /* optimize away empty strings */ if (use_copy) &#123; zval_dtor(expr); &#125; return 0; &#125; write_func(Z_STRVAL_P(expr), Z_STRLEN_P(expr)); if (use_copy) &#123; zval_dtor(expr); &#125; return Z_STRLEN_P(expr);&#125; 这个write_func应该就是执行输出操作了 最后调用到的就是sapi_cli_single_write 1234567891011121314151617181920212223242526272829303132PHP_CLI_API size_t sapi_cli_single_write(const char *str, uint str_length TSRMLS_DC) /* &#123;&#123;&#123; */&#123;#ifdef PHP_WRITE_STDOUT long ret;#else size_t ret;#endif if (cli_shell_callbacks.cli_shell_write) &#123; size_t shell_wrote; shell_wrote = cli_shell_callbacks.cli_shell_write(str, str_length TSRMLS_CC); if (shell_wrote &gt; -1) &#123; return shell_wrote; &#125; &#125;#ifdef PHP_WRITE_STDOUT do &#123; ret = write(STDOUT_FILENO, str, str_length); &#125; while (ret &lt;= 0 &amp;&amp; errno == EAGAIN &amp;&amp; sapi_cli_select(STDOUT_FILENO TSRMLS_CC)); if (ret &lt;= 0) &#123; return 0; &#125; return ret;#else ret = fwrite(str, 1, MIN(str_length, 16384), stdout); return ret;#endif&#125;/* &#125;&#125;&#125; */ 我们都知道输出到控制台属于标准输出那肯定就是调用了write这个函数了 c语言的write函数是可以直接把内容输出到控制台的，至此，一个大概的流程就走完了，当然中间还有很多没有讲得很清楚的地方或许还有有错的地方，需要再看下文档，再梳理完善。 参考资料 https://github.com/php/php-src/tree/PHP-5.6.40 http://www.php-internals.com/]]></content>
@@ -13,7 +23,7 @@
   <entry>
     <title><![CDATA[php内存管理与资源管理]]></title>
     <url>%2F2019%2F05%2F26%2Fphp%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86%E4%B8%8E%E8%B5%84%E6%BA%90%E7%AE%A1%E7%90%86%2F</url>
-    <content type="text"><![CDATA[php内存管理与资源管理一.内存管理1.php5.3垃圾回收机制引用计数 https://www.php.net/manual/zh/features.gc.php在c中,​ 函数的参数和局部变量保存在栈上 由编译器自动分配释放​ malloc函数分来内存在堆上 需要手动使用free来释放 在php中, 每个php变量存在一个叫”zval”的变量容器中。每当一个变量被赋常量值的时候，就会生成下面zval这样的变量容器，一个_zval_struct结构体。而最终垃圾回收销毁的也是这样的变量容器。 12345678910111213141516171819typedef union _zvalue_value &#123; long lval; /* long value */ double dval; /* double value */ struct &#123; char *val; int len; &#125; str; HashTable *ht; /* hash table value */ zend_object_value obj; zend_ast *ast;&#125; zvalue_value;struct _zval_struct &#123; /* Variable information */ zvalue_value value; /* value */ zend_uint refcount__gc; zend_uchar type; /* active type */ zend_uchar is_ref__gc;&#125;; 简单类型的引用计数原理refcount__gc这个就是用以表示指向这个zval变量容器的变量(也称符号即symbol)个数 12&lt;?php$a = &quot;new string&quot;; 因为$a使用了这个变量的容器，所以zval的refcount的值用xdebug_debug_zval打印出来会是 1a: (refcount=1, is_ref=0)=&apos;new string&apos; 把一个变量赋值给另一变量将增加引用次数(refcount).，也就当$a被赋值给其他变量的时候这个refcount会增加。 1234567&lt;?php$a = &quot;new string&quot;;$c = $b = $a;xdebug_debug_zval( &apos;a&apos; );unset( $b, $c );xdebug_debug_zval( &apos;a&apos; );?&gt; 当然第一个打印出来的a的refcount会是3，当任何关联到某个变量容器的变量离开它的作用域(比如：函数执行结束)，或者对变量调用了函数 unset()时，”refcount“就会减1，所以第二个打印出来的a的refcount会是1。变量容器在”refcount“变成0时就被销毁 垃圾回收是为了解决内存泄露的问题,内存泄露指的是在程序申请了内存使用后而没有释放,最终导致内存消耗殆尽还有个名词叫做内存溢出 指的是只申请了int大的内存空间,却往里面存储long类型的数据。 这样就能保证不会产生内存泄漏了吗？ 123456&lt;?php $a = [&apos;one&apos;]; $a[] = &amp;$a; xdebug_debug_zval(&apos;a&apos;); unset($a); xdebug_debug_zval(&apos;a&apos;); 第一个xdebug的结果是 123456a:(refcount=2, is_ref=1),array (size=2) 0 =&gt; (refcount=1, is_ref=0),string &apos;one&apos; (length=3) 1 =&gt; (refcount=2, is_ref=1), &amp;array&lt; 第二个xdebug打印出来的结果会是 1a: no such symbol $a已经不在符号表了，但是数组的refcount变为的是1，还是会导致内存泄漏。这种怎么处理呢？这里就要讲下一个概念了： 回收周期 这是php手册中关于回收周期的图 我们使用一个unset操作想清除这个变量所占的内存时（可能只是引用计数减一），会从当前符号的哈希表中删除变量名对应的项， 在所有的操作执行完后，并对从符号表中删除的项调用一个析构函数，临时变量会调用zval_dtor，一般的变量会调用zval_ptr_dtor。 zval_ptr_dtor会做的事情就是：如果变量的引用计数为1，即减一后引用计数为0，直接清除变量。如果当前变量如果被缓存，则需要清除缓存；如果变量的引用计数大于1，即减一后引用计数大于0，则将变量放入垃圾列表。如果变量存在引用，则去掉其引用。 垃圾列表满时（10000个gc_root_buffer内存空间），调用gc_collect_cycles函数 步骤 B ，算法使用深度优先搜索查找所有可能的根，找到后将每个变量容器中的引用计数减1， 为确保不会对同一个变量容器减两次“1”，用灰色标记已减过1的。 步骤 C ，算法再一次对每个根节点使用深度优先搜索，检查每个变量容器的引用计数。 如果引用计数是 0 ，变量容器用白色来标记。如果引用次数大于0，则恢复在这个点上使用深度优先搜索而将引用计数减1的操作（即引用计数加1）， 然后将它们重新用黑色标记。 最后一步 D ，算法遍历根缓冲区以从那里删除变量容器根(zval roots)， 同时，检查是否有在上一步中被白色标记的变量容器。每个被白色标记的变量容器都被清除。 2.写时复制3.慎用&amp;二.资源管理数据库资源为例：​ 在java里面，会在try cache的finally结构中调用一个connection.close()去显式地关闭数据库的连接​ 在c++里面可以用__destruct析构函数在对象被销毁的时候来做close的操作​ 在php中呢？日常开发使用laravel框架的时候好像没注意到这个地方，也没有去显式地调用close方法.但肯定是有close的方法来提前释放掉这个连接的，laravel的数据库操作的实现是基于PDO来做的。​ 通过查阅文档https://www.php.net/manual/zh/pdo.connections.php，连接数据成功后，返回一个 PDO 类的实例给脚本，此连接在 PDO 对象的生存周期中保持活动。要想关闭连接，需要销毁对象以确保所有剩余到它的引用都被删除，可以赋一个 NULL 值给对象变量。如果不明确地这么做，PHP 在脚本结束时会自动关闭连接 三.其他1.符号表2.php是如何工作的参考资料： 1.php官方手册 2.http://www.php-internals.com/book/?p=chapt06/06-04-00-garbage-collection]]></content>
+    <content type="text"><![CDATA[php内存管理与资源管理一.内存管理1.php5.3垃圾回收机制引用计数 https://www.php.net/manual/zh/features.gc.php在c中,​ 函数的参数和局部变量保存在栈上 由编译器自动分配释放​ malloc函数分来内存在堆上 需要手动使用free来释放 在php中, 每个php变量存在一个叫”zval”的变量容器中。每当一个变量被赋常量值的时候，就会生成下面zval这样的变量容器，一个_zval_struct结构体。而最终垃圾回收销毁的也是这样的变量容器。 12345678910111213141516171819typedef union _zvalue_value &#123; long lval; /* long value */ double dval; /* double value */ struct &#123; char *val; int len; &#125; str; HashTable *ht; /* hash table value */ zend_object_value obj; zend_ast *ast;&#125; zvalue_value;struct _zval_struct &#123; /* Variable information */ zvalue_value value; /* value */ zend_uint refcount__gc; zend_uchar type; /* active type */ zend_uchar is_ref__gc;&#125;; 简单类型的引用计数原理refcount__gc这个就是用以表示指向这个zval变量容器的变量(也称符号即symbol)个数 12&lt;?php$a = &quot;new string&quot;; 因为$a使用了这个变量的容器，所以zval的refcount的值用xdebug_debug_zval打印出来会是 1a: (refcount=1, is_ref=0)=&apos;new string&apos; 把一个变量赋值给另一变量将增加引用次数(refcount).，也就当$a被赋值给其他变量的时候这个refcount会增加。 1234567&lt;?php$a = &quot;new string&quot;;$c = $b = $a;xdebug_debug_zval( &apos;a&apos; );unset( $b, $c );xdebug_debug_zval( &apos;a&apos; );?&gt; 当然第一个打印出来的a的refcount会是3，当任何关联到某个变量容器的变量离开它的作用域(比如：函数执行结束)，或者对变量调用了函数 unset()时，”refcount“就会减1，所以第二个打印出来的a的refcount会是1。变量容器在”refcount“变成0时就被销毁 垃圾回收是为了解决内存泄露的问题,内存泄露指的是在程序申请了内存使用后而没有释放,最终导致内存消耗殆尽还有个名词叫做内存溢出 指的是只申请了int大的内存空间,却往里面存储long类型的数据。 这样就能保证不会产生内存泄漏了吗？ 123456&lt;?php $a = [&apos;one&apos;]; $a[] = &amp;$a; xdebug_debug_zval(&apos;a&apos;); unset($a); xdebug_debug_zval(&apos;a&apos;); 第一个xdebug的结果是 123456a:(refcount=2, is_ref=1),array (size=2) 0 =&gt; (refcount=1, is_ref=0),string &apos;one&apos; (length=3) 1 =&gt; (refcount=2, is_ref=1), &amp;array&lt; 第二个xdebug打印出来的结果会是 1a: no such symbol $a已经不在符号表了，但是数组的refcount变为的是1，还是会导致内存泄漏。这种怎么处理呢？这里就要讲下一个概念了： 回收周期 这是php手册中关于回收周期的图 我们使用一个unset操作想清除这个变量所占的内存时（可能只是引用计数减一），会从当前符号的哈希表中删除变量名对应的项， 在所有的操作执行完后，并对从符号表中删除的项调用一个析构函数，临时变量会调用zval_dtor，一般的变量会调用zval_ptr_dtor。 zval_ptr_dtor会做的事情就是：如果变量的引用计数为1，即减一后引用计数为0，直接清除变量。如果当前变量如果被缓存，则需要清除缓存；如果变量的引用计数大于1，即减一后引用计数大于0，则将变量放入垃圾列表。如果变量存在引用，则去掉其引用。 垃圾列表满时（10000个gc_root_buffer内存空间），调用gc_collect_cycles函数 步骤 B ，算法使用深度优先搜索查找所有可能的根，找到后将每个变量容器中的引用计数减1， 为确保不会对同一个变量容器减两次“1”，用灰色标记已减过1的。 步骤 C ，算法再一次对每个根节点使用深度优先搜索，检查每个变量容器的引用计数。 如果引用计数是 0 ，变量容器用白色来标记。如果引用次数大于0，则恢复在这个点上使用深度优先搜索而将引用计数减1的操作（即引用计数加1）， 然后将它们重新用黑色标记。 最后一步 D ，算法遍历根缓冲区以从那里删除变量容器根(zval roots)， 同时，检查是否有在上一步中被白色标记的变量容器。每个被白色标记的变量容器都被清除。 2.写时复制写时复制并不是PHP独有的 3.慎用&amp;二.资源管理数据库资源为例：​ 在java里面，会在try cache的finally结构中调用一个connection.close()去显式地关闭数据库的连接​ 在c++里面可以用__destruct析构函数在对象被销毁的时候来做close的操作​ 在php中呢？日常开发使用laravel框架的时候好像没注意到这个地方，也没有去显式地调用close方法.但肯定是有close的方法来提前释放掉这个连接的，laravel的数据库操作的实现是基于PDO来做的。​ 通过查阅文档https://www.php.net/manual/zh/pdo.connections.php，连接数据成功后，返回一个 PDO 类的实例给脚本，此连接在 PDO 对象的生存周期中保持活动。要想关闭连接，需要销毁对象以确保所有剩余到它的引用都被删除，可以赋一个 NULL 值给对象变量。如果不明确地这么做，PHP 在脚本结束时会自动关闭连接 三.其他1.符号表参考资料： 1.php官方手册 2.http://www.php-internals.com/book/?p=chapt06/06-04-00-garbage-collection]]></content>
       <tags>
         <tag>php</tag>
         <tag>gc</tag>
@@ -138,34 +148,6 @@
       </tags>
   </entry>
   <entry>
-    <title><![CDATA[写时复制和引用计数]]></title>
-    <url>%2F2017%2F03%2F16%2F%E5%86%99%E6%97%B6%E5%A4%8D%E5%88%B6%E5%92%8C%E5%BC%95%E7%94%A8%E8%AE%A1%E6%95%B0%2F</url>
-    <content type="text"><![CDATA[http://www.cnblogs.com/phpcoder/p/4462210.html]]></content>
-      <tags>
-        <tag>php</tag>
-        <tag>写时复制</tag>
-        <tag>引用计数</tag>
-        <tag>内存</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title><![CDATA[依赖注入]]></title>
-    <url>%2F2017%2F03%2F16%2Fdependency-injection%2F</url>
-    <content type="text"><![CDATA[依赖注入(DI)指的就是当你需要实例化的类依赖于其他类的实现的时候；不需要在本类中实例化所依赖的类，而是将所依赖的类通过参数的形式传入 即构造注入(构造函数)和设值注入(set方法);高耦合的反例//高耦合class Apple{​ protected $name = ‘ ‘; public function construct() { $this- &gt;name = ‘Apple ‘; } public function getName() { return $this- &gt;name; }}class Orange{​ protected $name = ‘ ‘; public function construct() { $this- &gt;name = ‘Orange ‘; } public function getName() { return $this- &gt;name; }}class Person{​ protected $likeFood = ‘ ‘; public function construct() { $this- &gt;likeFood = new Orange(); echo ‘这个人喜欢吃 ‘ . $this- &gt;likeFood- &gt;getName(); }}new Person();低耦合注入//低耦合实现interface Fruit{​ public function getName();}class Apple implements Fruit{​ protected $name = ‘ ‘; public function construct() { $this- &gt;name = ‘Apple ‘; } public function getName() { return $this- &gt;name; }}class Orange implements Fruit{​ protected $name = ‘ ‘; public function construct() { $this- &gt;name = ‘Orange ‘; } public function getName() { return $this- &gt;name; }}class Person{​ public $likeFood; public function construct(Fruit $fruit) { echo ‘这个人喜欢吃 ‘ . $fruit- &gt;getName(); }}$apple = new Apple();new Person($apple);]]></content>
-      <tags>
-        <tag>编程思想</tag>
-        <tag>面向对象</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title><![CDATA[leetcode-1]]></title>
-    <url>%2F2017%2F03%2F16%2Fleetcode_day1%2F</url>
-    <content type="text"><![CDATA[1.&nbsp;Two SumGiven an array of integers, return&nbsp;indices&nbsp;of the two numbers such that they add up to a specific target.You may assume that each input would have&nbsp;exactly&nbsp;one solution, and you may not use the&nbsp;same&nbsp;element twice.Example:Given&nbsp;nums&nbsp;=&nbsp;[2,&nbsp;7,&nbsp;11,&nbsp;15],&nbsp;target&nbsp;=&nbsp;9,Because&nbsp;nums[0]&nbsp;+&nbsp;nums[1]&nbsp;=&nbsp;2&nbsp;+&nbsp;7&nbsp;=&nbsp;9,return&nbsp;[0,&nbsp;1].func&nbsp;twoSum(nums&nbsp;[]int,&nbsp;target&nbsp;int)&nbsp;[]int&nbsp;{ var&nbsp;arr&nbsp;[]intEXIT: for&nbsp;i,&nbsp;&nbsp;:=&nbsp;range&nbsp;nums&nbsp;{ for&nbsp;j,&nbsp;&nbsp;:=&nbsp;range&nbsp;nums&nbsp;{ if&nbsp;(nums[i]+nums[j])&nbsp;==&nbsp;target&nbsp;&amp;&amp;&nbsp;i&nbsp;!=&nbsp;j&nbsp;{ arr&nbsp;=&nbsp;append(arr,&nbsp;i) arr&nbsp;=&nbsp;append(arr,&nbsp;j) break&nbsp;EXIT } } } return&nbsp;arr}]]></content>
-      <tags>
-        <tag>leetcode</tag>
-      </tags>
-  </entry>
-  <entry>
     <title><![CDATA[leetcode-7]]></title>
     <url>%2F2017%2F03%2F16%2Fleetcode_day2%2F</url>
     <content type="text"><![CDATA[7.&nbsp;Reverse Integerfunc&nbsp;reverse(x&nbsp;int)&nbsp;int&nbsp;{ s&nbsp;:=&nbsp;strconv.Itoa(x) rs&nbsp;:=&nbsp;&quot;&quot; j&nbsp;:=&nbsp;0 if&nbsp;x&nbsp;&lt;&nbsp;0&nbsp;{ j&nbsp;=&nbsp;1 rs&nbsp;+=&nbsp;&quot;-&quot; } for&nbsp;i&nbsp;:=&nbsp;len(s)&nbsp;-&nbsp;1;&nbsp;i&nbsp;&gt;=&nbsp;j;&nbsp;i–&nbsp;{ rs&nbsp;+=&nbsp;string(s[i]) } rsi,&nbsp;_&nbsp;:=&nbsp;strconv.Atoi(rs) if&nbsp;rsi&nbsp;&gt;&nbsp;(1&lt;&lt;31)&nbsp;||&nbsp;rsi&nbsp;&lt;&nbsp;-(1&nbsp;&lt;&lt;&nbsp;31)&nbsp;{ rsi&nbsp;=&nbsp;0 } return&nbsp;rsi}]]></content>
@@ -174,17 +156,9 @@
       </tags>
   </entry>
   <entry>
-    <title><![CDATA[HTTP OPTIONS]]></title>
-    <url>%2F2017%2F03%2F16%2FHTTP%20OPTIONS%2F</url>
-    <content type="text"><![CDATA[幂等和非幂等 执行一次和执行很多次同样的操作是否是一样的 GET/PUT/DELETE 幂等 POST 非幂等]]></content>
-      <tags>
-        <tag>http</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title><![CDATA[day3]]></title>
-    <url>%2F2017%2F03%2F16%2Fleetcode_day3%2F</url>
-    <content type="text"><![CDATA[Binary Tree (Traverse A Tree)Binary Tree Preorder Traversal/*&nbsp;&nbsp;Definition&nbsp;for&nbsp;a&nbsp;binary&nbsp;tree&nbsp;node.&nbsp;&nbsp;type&nbsp;TreeNode&nbsp;struct&nbsp;{&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Val&nbsp;int&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Left&nbsp;TreeNode&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Right&nbsp;TreeNode&nbsp;&nbsp;}&nbsp;/func&nbsp;preorderTraversal(root&nbsp;TreeNode)&nbsp;[]int&nbsp;{ var&nbsp;arr&nbsp;[]int if&nbsp;root&nbsp;==&nbsp;nil&nbsp;{ return&nbsp;arr } arr&nbsp;=&nbsp;append(arr,&nbsp;root.Val) arr1&nbsp;:=&nbsp;preorderTraversal(root.Left) arr&nbsp;=&nbsp;arrmerge(arr,&nbsp;arr1) arr2&nbsp;:=&nbsp;preorderTraversal(root.Right) arr&nbsp;=&nbsp;arrmerge(arr,&nbsp;arr2) return&nbsp;arr}func&nbsp;arrmerge(arr&nbsp;[]int,&nbsp;arr1&nbsp;[]int)&nbsp;[]int&nbsp;{​ for&nbsp;_,&nbsp;v&nbsp;:=&nbsp;range&nbsp;arr1&nbsp;{​ arr&nbsp;=&nbsp;append(arr,&nbsp;v)​ }​ return&nbsp;arr}Binary Tree Inorder Traversalfunc&nbsp;inorderTraversal(root&nbsp;TreeNode)&nbsp;[]int&nbsp;{​ var&nbsp;arr&nbsp;[]int​ if&nbsp;root&nbsp;==&nbsp;nil&nbsp;{​ return&nbsp;arr​ }​ arr1&nbsp;:=&nbsp;inorderTraversal(root.Left)​ arr&nbsp;=&nbsp;arrmerge(arr,&nbsp;arr1)​ arr&nbsp;=&nbsp;append(arr,&nbsp;root.Val)​ arr2&nbsp;:=&nbsp;inorderTraversal(root.Right)​ arr&nbsp;=&nbsp;arrmerge(arr,&nbsp;arr2)​ return&nbsp;arr}Binary Tree Postorder Traversalfunc&nbsp;postorderTraversal(root&nbsp;*TreeNode)&nbsp;[]int&nbsp;{&nbsp;&nbsp;&nbsp;&nbsp;var&nbsp;arr&nbsp;[]int​ if&nbsp;root&nbsp;==&nbsp;nil&nbsp;{​ return&nbsp;arr​ }​ arr1&nbsp;:=&nbsp;postorderTraversal(root.Left)​ arr&nbsp;=&nbsp;arrmerge(arr,&nbsp;arr1)​ arr2&nbsp;:=&nbsp;postorderTraversal(root.Right)​ arr&nbsp;=&nbsp;arrmerge(arr,&nbsp;arr2)&nbsp;&nbsp;&nbsp;&nbsp;arr&nbsp;=&nbsp;append(arr,&nbsp;root.Val)​ return&nbsp;arr}&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;]]></content>
+    <title><![CDATA[leetcode-1]]></title>
+    <url>%2F2017%2F03%2F16%2Fleetcode_day1%2F</url>
+    <content type="text"><![CDATA[1.&nbsp;Two SumGiven an array of integers, return&nbsp;indices&nbsp;of the two numbers such that they add up to a specific target.You may assume that each input would have&nbsp;exactly&nbsp;one solution, and you may not use the&nbsp;same&nbsp;element twice.Example:Given&nbsp;nums&nbsp;=&nbsp;[2,&nbsp;7,&nbsp;11,&nbsp;15],&nbsp;target&nbsp;=&nbsp;9,Because&nbsp;nums[0]&nbsp;+&nbsp;nums[1]&nbsp;=&nbsp;2&nbsp;+&nbsp;7&nbsp;=&nbsp;9,return&nbsp;[0,&nbsp;1].func&nbsp;twoSum(nums&nbsp;[]int,&nbsp;target&nbsp;int)&nbsp;[]int&nbsp;{ var&nbsp;arr&nbsp;[]intEXIT: for&nbsp;i,&nbsp;&nbsp;:=&nbsp;range&nbsp;nums&nbsp;{ for&nbsp;j,&nbsp;&nbsp;:=&nbsp;range&nbsp;nums&nbsp;{ if&nbsp;(nums[i]+nums[j])&nbsp;==&nbsp;target&nbsp;&amp;&amp;&nbsp;i&nbsp;!=&nbsp;j&nbsp;{ arr&nbsp;=&nbsp;append(arr,&nbsp;i) arr&nbsp;=&nbsp;append(arr,&nbsp;j) break&nbsp;EXIT } } } return&nbsp;arr}]]></content>
       <tags>
         <tag>leetcode</tag>
       </tags>
@@ -198,11 +172,19 @@
       </tags>
   </entry>
   <entry>
-    <title><![CDATA[leetcode-4]]></title>
-    <url>%2F2017%2F03%2F16%2Fleetcode_day5%2F</url>
-    <content type="text"><![CDATA[3.&nbsp;Longest Substring Without Repeating CharactersGiven a string, find the length of the&nbsp;longest substring&nbsp;without repeating characters.Examples:Given&nbsp;&quot;abcabcbb&quot;, the answer is&nbsp;&quot;abc&quot;, which the length is 3.Given&nbsp;&quot;bbbbb&quot;, the answer is&nbsp;&quot;b&quot;, with the length of 1.Given&nbsp;&quot;pwwkew&quot;, the answer is&nbsp;&quot;wke&quot;, with the length of 3. Note that the answer must be a&nbsp;substring,&nbsp;&quot;pwke&quot;&nbsp;is a&nbsp;subsequence&nbsp;and not a substring.func&nbsp;lengthOfLongestSubstring(s&nbsp;string)&nbsp;int&nbsp;{ arr&nbsp;:=&nbsp;make(map[rune]int) start&nbsp;:=&nbsp;0 maxlen&nbsp;:=&nbsp;0 for&nbsp;i,&nbsp;v&nbsp;:=&nbsp;range&nbsp;[]rune(s)&nbsp;{ if&nbsp;pre,&nbsp;ok&nbsp;:=&nbsp;arr[v];&nbsp;ok&nbsp;&amp;&amp;&nbsp;pre&nbsp;&gt;=&nbsp;start&nbsp;{ start&nbsp;=&nbsp;pre&nbsp;+&nbsp;1 } if&nbsp;i-start+1&nbsp;&gt;&nbsp;maxlen&nbsp;{ maxlen&nbsp;=&nbsp;i&nbsp;-&nbsp;start&nbsp;+&nbsp;1 } arr[v]&nbsp;=&nbsp;i } return&nbsp;maxlen}]]></content>
+    <title><![CDATA[day3]]></title>
+    <url>%2F2017%2F03%2F16%2Fleetcode_day3%2F</url>
+    <content type="text"><![CDATA[Binary Tree (Traverse A Tree)Binary Tree Preorder Traversal/*&nbsp;&nbsp;Definition&nbsp;for&nbsp;a&nbsp;binary&nbsp;tree&nbsp;node.&nbsp;&nbsp;type&nbsp;TreeNode&nbsp;struct&nbsp;{&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Val&nbsp;int&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Left&nbsp;TreeNode&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Right&nbsp;TreeNode&nbsp;&nbsp;}&nbsp;/func&nbsp;preorderTraversal(root&nbsp;TreeNode)&nbsp;[]int&nbsp;{ var&nbsp;arr&nbsp;[]int if&nbsp;root&nbsp;==&nbsp;nil&nbsp;{ return&nbsp;arr } arr&nbsp;=&nbsp;append(arr,&nbsp;root.Val) arr1&nbsp;:=&nbsp;preorderTraversal(root.Left) arr&nbsp;=&nbsp;arrmerge(arr,&nbsp;arr1) arr2&nbsp;:=&nbsp;preorderTraversal(root.Right) arr&nbsp;=&nbsp;arrmerge(arr,&nbsp;arr2) return&nbsp;arr}func&nbsp;arrmerge(arr&nbsp;[]int,&nbsp;arr1&nbsp;[]int)&nbsp;[]int&nbsp;{​ for&nbsp;_,&nbsp;v&nbsp;:=&nbsp;range&nbsp;arr1&nbsp;{​ arr&nbsp;=&nbsp;append(arr,&nbsp;v)​ }​ return&nbsp;arr}Binary Tree Inorder Traversalfunc&nbsp;inorderTraversal(root&nbsp;TreeNode)&nbsp;[]int&nbsp;{​ var&nbsp;arr&nbsp;[]int​ if&nbsp;root&nbsp;==&nbsp;nil&nbsp;{​ return&nbsp;arr​ }​ arr1&nbsp;:=&nbsp;inorderTraversal(root.Left)​ arr&nbsp;=&nbsp;arrmerge(arr,&nbsp;arr1)​ arr&nbsp;=&nbsp;append(arr,&nbsp;root.Val)​ arr2&nbsp;:=&nbsp;inorderTraversal(root.Right)​ arr&nbsp;=&nbsp;arrmerge(arr,&nbsp;arr2)​ return&nbsp;arr}Binary Tree Postorder Traversalfunc&nbsp;postorderTraversal(root&nbsp;*TreeNode)&nbsp;[]int&nbsp;{&nbsp;&nbsp;&nbsp;&nbsp;var&nbsp;arr&nbsp;[]int​ if&nbsp;root&nbsp;==&nbsp;nil&nbsp;{​ return&nbsp;arr​ }​ arr1&nbsp;:=&nbsp;postorderTraversal(root.Left)​ arr&nbsp;=&nbsp;arrmerge(arr,&nbsp;arr1)​ arr2&nbsp;:=&nbsp;postorderTraversal(root.Right)​ arr&nbsp;=&nbsp;arrmerge(arr,&nbsp;arr2)&nbsp;&nbsp;&nbsp;&nbsp;arr&nbsp;=&nbsp;append(arr,&nbsp;root.Val)​ return&nbsp;arr}&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;]]></content>
       <tags>
         <tag>leetcode</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[HTTP OPTIONS]]></title>
+    <url>%2F2017%2F03%2F16%2FHTTP%20OPTIONS%2F</url>
+    <content type="text"><![CDATA[幂等和非幂等 执行一次和执行很多次同样的操作是否是一样的 GET/PUT/DELETE 幂等 POST 非幂等]]></content>
+      <tags>
+        <tag>http</tag>
       </tags>
   </entry>
   <entry>
@@ -214,11 +196,27 @@
       </tags>
   </entry>
   <entry>
+    <title><![CDATA[linux安装php扩展]]></title>
+    <url>%2F2017%2F03%2F16%2FLinux%E4%B8%8B%E7%BC%96%E8%AF%91%E5%AE%89%E8%A3%85PHP%E6%89%A9%E5%B1%95%2F</url>
+    <content type="text"><![CDATA[下载扩展&nbsp;http://pecl.php.net/解压扩展 进入解压后的扩展目录 执行…/php/bin/phpize./configure –with-php-config=…/php/bin/php-config根据错误提示安装相应的依赖make &amp;&amp; make install在…/php/lib/extension/no-….目录下会出现.so的文件就说明安装好了到php.ini中增加extension=…/php/lib/ex…/xxx.so重启php]]></content>
+      <tags>
+        <tag>lnmp</tag>
+      </tags>
+  </entry>
+  <entry>
     <title><![CDATA[linux安装php]]></title>
     <url>%2F2017%2F03%2F16%2FLinux%E4%B8%8B%E7%BC%96%E8%AF%91%E5%AE%89%E8%A3%85PHP%2F</url>
     <content type="text"><![CDATA[1、&nbsp;&nbsp;安装依赖库2、&nbsp;&nbsp;yum install gd zlib libxml2 libxml2-devel libjpeg libjpeg-devel libpng libpng-devel3、&nbsp;&nbsp;下载php-5.6.23.tar.bz2，解压4、&nbsp;&nbsp;cd到php解压的目录里5、&nbsp;&nbsp;配置安装的一些参数./configure –prefix=/usr/local/php \–with-gd \–enable-gd-native-ttf \–enable-gd-jis-conv \–with-mysql=mysqlnd \–enable-mysqlnd \–with-pdo-mysql=mysqlnd \–enable-fpm\–with-openssl&nbsp;&nbsp;Curl &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;./configure –prefix=/usr/local/php7 –with-gd –enable-gd-native-ttf –enable-gd-jis-conv –with-mysql=mysqlnd –enable-mysqlnd –with-pdo-mysql=mysqlnd –enable-fpm –with-openssl –enable-mbstring –enable-tokenizer –enable-zip –with-curl&nbsp;&nbsp;enable-fpm是让php作为独立的进程来运行，占用9000端口配置注意&nbsp;可能会报openssl的错误yum install openssl openssl-devel&nbsp;每个参数后的斜杠前是有空格的，斜杠所起的作用是连接上下两行，没有空格两个参数会连到一起就会报错了6、&nbsp;&nbsp;make &amp;&amp;make install这个过程中如果使用小内存的服务器可能出现php error，解决办法:在配置的最后一行加上–disable-fileinfo7、cd /usr/local/phpcp etc/php-fpm.conf.default etc/php-fpm.confcp /usr/local/src/php-5.5.13/php.ini-development ./lib/php.ini7、&nbsp;&nbsp;启动php./sbin/php-fpm&nbsp;&nbsp;/usr/local/php7/lib/php/extensions/no-debug-non-zts-20151012]]></content>
       <tags>
         <tag>lnmp</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[2017.3]]></title>
+    <url>%2F2017%2F03%2F16%2F2017.3%2F</url>
+    <content type="text"><![CDATA[git http://www.runoob.com/w3cnote/git-guide.htmljs编辑器 http://www.cnblogs.com/lhb25/p/html5-wysisyg-inline-editor.htmlJavaEE 注解和XMLhttp://blog.csdn.net/qmw19910301/article/details/52712893]]></content>
+      <tags>
+        <tag>other</tag>
       </tags>
   </entry>
   <entry>
@@ -231,6 +229,17 @@
       </tags>
   </entry>
   <entry>
+    <title><![CDATA[写时复制和引用计数]]></title>
+    <url>%2F2017%2F03%2F16%2F%E5%86%99%E6%97%B6%E5%A4%8D%E5%88%B6%E5%92%8C%E5%BC%95%E7%94%A8%E8%AE%A1%E6%95%B0%2F</url>
+    <content type="text"><![CDATA[http://www.cnblogs.com/phpcoder/p/4462210.html]]></content>
+      <tags>
+        <tag>php</tag>
+        <tag>写时复制</tag>
+        <tag>引用计数</tag>
+        <tag>内存</tag>
+      </tags>
+  </entry>
+  <entry>
     <title><![CDATA[php内置数组排序]]></title>
     <url>%2F2017%2F03%2F16%2FPHP%E5%86%85%E7%BD%AE%E6%95%B0%E7%BB%84%E6%8E%92%E5%BA%8F%E6%96%B9%E6%B3%95%2F</url>
     <content type="text"></content>
@@ -239,76 +248,12 @@
       </tags>
   </entry>
   <entry>
-    <title><![CDATA[lnmp重启]]></title>
-    <url>%2F2017%2F03%2F16%2FNginxPHPMysql%20%E9%87%8D%E5%90%AF%E7%AD%89%E5%91%BD%E4%BB%A4%2F</url>
-    <content type="text"><![CDATA[nginx&nbsp;&nbsp;&nbsp;start：&nbsp;/usr/local/nginx/sbin/nginx&nbsp;&nbsp;stop：&nbsp;/usr/local/nginx/sbin/nginx&nbsp;-s&nbsp;stop&nbsp;&nbsp;reload：&nbsp;/usr/local/nginx/sbin/nginx&nbsp;-s&nbsp;reload&nbsp;&nbsp;#**&nbsp;&nbsp;#php-fpm(fast-cgi)命令&nbsp;&nbsp;&nbsp;start：&nbsp;/usr/local/php/sbin/php-fpm&nbsp;&nbsp;stop：&nbsp;/bin/ps&nbsp;-ef&nbsp;|&nbsp;grep&nbsp;&#39;php-fpm&#39;&nbsp;|&nbsp;grep&nbsp;-v&nbsp;grep&nbsp;|&nbsp;cut&nbsp;-c&nbsp;9-15&nbsp;|&nbsp;xargs&nbsp;kill&nbsp;-9&nbsp;&nbsp;&nbsp;Linux：PHP&nbsp;5.3.3&nbsp;以上版本的php-fpm的重启&nbsp;INT,&nbsp;TERM：立刻终止QUIT：平滑终止USR1：重新打开日志文件USR2：平滑重载所有worker进程并重新载入配置和二进制模块&nbsp;示例：1）php-fpm&nbsp;关闭：kill&nbsp;-INT&nbsp;cat&amp;nbsp;/usr/local/php/var/run/php-fpm.pid&nbsp;2）php-fpm&nbsp;重启：kill&nbsp;-USR2&nbsp;cat&amp;nbsp;/usr/local/php/var/run/php-fpm.pid&nbsp;查看php-fpm进程数：ps&nbsp;aux&nbsp;|&nbsp;grep&nbsp;-c&nbsp;php-fpm&nbsp;#**&nbsp;&nbsp;#mysql命令&nbsp;&nbsp;start：&nbsp;/etc/init.d/mysqld&nbsp;start&nbsp;&nbsp;stop：&nbsp;/etc/init.d/mysqld&nbsp;stop&nbsp;&nbsp;restart：&nbsp;/etc/init.d/mysqld&nbsp;restart&nbsp;&nbsp;#**&nbsp;]]></content>
-      <tags>
-        <tag>lnmp</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title><![CDATA[linux安装mysql]]></title>
-    <url>%2F2017%2F03%2F16%2FLinux%E4%B8%8B%E7%BC%96%E8%AF%91%E5%AE%89%E8%A3%85Mysql%2F</url>
-    <content type="text"><![CDATA[1、mysql 官网下载适合的压缩包，格式为mysql-x.x.xx-linuxxxx.tar.gz2、解压后配置配置帮助 ./configure –help3、groupadd mysqluseradd –g mysql mysqlcd到mysql的解压目录chown –R mysql .chgrp –R mysql .4、./scripts/mysql_install_db –user=mysql如果提示laibaio.1的相关错误yum install libaioso.1 libaio5、把目录权限还给rootchown –R root .chown –R mysql datamkdir /var/run/mysqldchown mysql /var/run/mysqldchgrp mysql /var/run/mysqld6、启动mysql./bin/mysqld_safe –user=mysql &amp;7、连接mysql ./bin/mysql –uroot -p如果报错 建立软连接或者直接将sock文件复制过去建立软连接方法ln /var/lib/mysql/mysql.sock /tmp/mysql.sock8、修改密码update user set Password=password(你想要的密码) where Host=’localhost’ and User= ‘root ‘;delete from user where Password= ‘’;flush privileges;]]></content>
-      <tags>
-        <tag>lnmp</tag>
-      </tags>
-  </entry>
-  <entry>
     <title><![CDATA[安装laravel]]></title>
     <url>%2F2017%2F03%2F16%2F%E5%AE%89%E8%A3%85Laravel%2F</url>
     <content type="text"><![CDATA[一、根据官方文档需要安装几个php的扩展 Openssl/PDO/Mbstring/Tokenizer/XML二、Linux下可以使用Composer来安装Laravel&nbsp; 1.全局安装Composer&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;curl -sS https://getcomposer.org/installer | php&nbsp;&nbsp;&nbsp;&nbsp;mv composer.phar /usr/local/bin/composer&nbsp; &nbsp; &nbsp;解决更新慢的问题&nbsp;&nbsp;&nbsp;&nbsp;composer config repo.packagist composer https://packagist.phpcomposer.com&nbsp;&nbsp;&nbsp;&nbsp;composer –version查看是否安装成功&nbsp; 2.利用Composer安装Laravel&nbsp;&nbsp;&nbsp;&nbsp;composer global require &quot;laravel/installer&quot;&nbsp;&nbsp;&nbsp;&nbsp;cd到$Home/.composer/vendor/bin目录下&nbsp;&nbsp;&nbsp;&nbsp;执行 Laravel new Blog&nbsp; 3.最后利用php的内置服务器&nbsp;&nbsp;&nbsp;&nbsp;php artisan serve一些收获&nbsp; &nbsp;1.Linux方面 .tar.gz通过的是源码安装 ./configure –prefix=/usr/local/php 即指定安装路径 卸载的时候只需要删除这个目录下的东西即可 开机自启动 增加环境变量&nbsp; &nbsp;2.php 的两种运行方式的php.ini有可能是不同的,也就是会出现你的web上面的phpinfo()和你直接用CLI执行的php -m发现扩展的开启情况是不相同的，这个时候就需要你运行CLI和web的时候所用的php.ini是同一个文件&nbsp; &nbsp;3.Laravel 从laraval知道了php有一个内置的服务器。]]></content>
       <tags>
-        <tag>php</tag>
         <tag>laravel</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title><![CDATA[apache]]></title>
-    <url>%2F2017%2F03%2F16%2F%E7%BC%96%E8%AF%91%E5%AE%89%E8%A3%85apache%20%E7%8E%AF%E5%A2%83%E5%8F%98%E9%87%8F%2F</url>
-    <content type="text"><![CDATA[1.下载httpd apr apr-util pcre配置安装apr .configure –with-prefix=/…./apa/apr&nbsp;make &amp;&amp; make install配置安装apr-util .configure –with-prefix=/…./apa/apr-util&nbsp;make &amp;&amp; make install配置安装pcre .configure –with-prefix=/…./local/pcre&nbsp;make &amp;&amp; make install配置安装apache httpd&nbsp;./configure –prefix=/usr/local/apache2 –with-mpm=worker –enable-cache –enable-disk-cache –enable-mem-cache –enable-file-cache –enable-nonportable-atomics –enable-mods-shared=most –enable-so –enable-rewrite –enable-ssl –with-apr=/../apr安装目录 –with-apr-util=/…/apr-util安装目录 –with-pcre=pcre安装目录make &amp;&amp; make install&nbsp;php configure 参数 http://www.mamicode.com/info-detail-32029.html]]></content>
-      <tags>
-        <tag>apache</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title><![CDATA[2017.3]]></title>
-    <url>%2F2017%2F03%2F16%2F2017.3%2F</url>
-    <content type="text"><![CDATA[git http://www.runoob.com/w3cnote/git-guide.htmljs编辑器 http://www.cnblogs.com/lhb25/p/html5-wysisyg-inline-editor.htmlJavaEE 注解和XMLhttp://blog.csdn.net/qmw19910301/article/details/52712893]]></content>
-      <tags>
-        <tag>other</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title><![CDATA[linux安装php扩展]]></title>
-    <url>%2F2017%2F03%2F16%2FLinux%E4%B8%8B%E7%BC%96%E8%AF%91%E5%AE%89%E8%A3%85PHP%E6%89%A9%E5%B1%95%2F</url>
-    <content type="text"><![CDATA[下载扩展&nbsp;http://pecl.php.net/解压扩展 进入解压后的扩展目录 执行…/php/bin/phpize./configure –with-php-config=…/php/bin/php-config根据错误提示安装相应的依赖make &amp;&amp; make install在…/php/lib/extension/no-….目录下会出现.so的文件就说明安装好了到php.ini中增加extension=…/php/lib/ex…/xxx.so重启php]]></content>
-      <tags>
-        <tag>lnmp</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title><![CDATA[面试算法题]]></title>
-    <url>%2F2017%2F03%2F16%2F%E9%9D%A2%E8%AF%95%E7%AE%97%E6%B3%95%E9%A2%98%2F</url>
-    <content type="text"><![CDATA[package&nbsp;main import&nbsp;(&nbsp;&nbsp;&nbsp;&quot;fmt&quot;&nbsp;&nbsp;&nbsp;&quot;strconv&quot;&nbsp;&nbsp;&nbsp;&quot;sort&quot;) func&nbsp;filter(str&nbsp;string)&nbsp;string{&nbsp;&nbsp;&nbsp;//过滤aabbbbbccc&nbsp;为abc&nbsp;&nbsp;&nbsp;var&nbsp;newArr&nbsp;=&nbsp;make(map[rune]int)&nbsp;&nbsp;&nbsp;s&nbsp;:=&nbsp;&quot;&quot; &nbsp;&nbsp;&nbsp;for&nbsp;_,v&nbsp;:=&nbsp;range&nbsp;[]rune(str){&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if&nbsp;newArr[v]&nbsp;==&nbsp;0{&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;newArr[v]&nbsp;=&nbsp;1&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;s&nbsp;+=&nbsp;string(v)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}&nbsp;&nbsp;&nbsp;}&nbsp;&nbsp;&nbsp;return&nbsp;s} func&nbsp;filter2(str&nbsp;string)&nbsp;string{&nbsp;&nbsp;&nbsp;//过滤aaabbbcssss为3a3bc4s&nbsp;&nbsp;&nbsp;var&nbsp;newArr&nbsp;=&nbsp;make(map[rune]int)&nbsp;&nbsp;&nbsp;var&nbsp;sortArr&nbsp;[]string&nbsp;&nbsp;&nbsp;s&nbsp;:=&nbsp;&quot;&quot; &nbsp;&nbsp;&nbsp;for&nbsp;_,v&nbsp;:=&nbsp;range&nbsp;[]rune(str){&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;sortArr&nbsp;=&nbsp;append(sortArr,&nbsp;string(v))&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if&nbsp;newArr[v]&nbsp;==&nbsp;0{&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;newArr[v]&nbsp;=&nbsp;1&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}else{&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;newArr[v]&nbsp;+=&nbsp;1&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}&nbsp;&nbsp;&nbsp;} &nbsp;&nbsp;&nbsp;sort.Strings(sortArr) &nbsp;&nbsp;&nbsp;for&nbsp;i,v&nbsp;:=&nbsp;range&nbsp;newArr{&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if&nbsp;v&nbsp;==&nbsp;1&nbsp;{&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;s&nbsp;+=&nbsp;string(i)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}else{&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;s&nbsp;+=&nbsp;strconv.Itoa(v)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;s&nbsp;+=&nbsp;string(i)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}&nbsp;&nbsp;&nbsp;}&nbsp;&nbsp;&nbsp;return&nbsp;s} func&nbsp;main()&nbsp;{&nbsp;&nbsp;&nbsp;fmt.Println(filter2(&quot;aabccddee&quot;))}go语言的map用for range遍历是随机的key所以如果需要顺序遍历则需要先将key排序]]></content>
-      <tags>
-        <tag>面经</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title><![CDATA[正则]]></title>
-    <url>%2F2017%2F03%2F16%2F%E6%AD%A3%E5%88%99%E3%80%81mb_substr%2F</url>
-    <content type="text"><![CDATA[0x1 爬虫过程遇到需要截取到&lt;span id=&quot;xhxm&quot;&gt;张三同学&lt;/span&gt;里面同学的名称&nbsp; 1.正则解决&nbsp; 2.通过字符串解决0x2 通过正则解决&nbsp; 1.简单解决&nbsp; &lt;span id=&quot;xhxm&quot;&gt;(.)\u540c\u5b66&lt;/span&gt;&nbsp;&nbsp; 2.零宽断言解决&nbsp; &nbsp;&gt;(.)(?=\u540c\u5b66)&nbsp;&nbsp;&nbsp; 这里使用零宽度正预测先行断言(?=exp)&nbsp; 就是找到匹配之前的内容&nbsp;&nbsp; (?&lt;=exp)用来找到匹配之后的东西，称为零宽度正回顾后发断言0x3 通过mb_substr解决 先匹配张三同学,然后截取字符串&nbsp; 因为这里的header是gb2312，所以指定mb_substr的编码为gb2312&nbsp; substr直接处理汉字会造成乱码的问题，可以使用mb_substr指定汉字编码方式gb2312&nbsp;&nbsp; 这样就可以截取到到张三0x4 这不算完&nbsp;]]></content>
-      <tags>
-        <tag>正则</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title><![CDATA[最长不重复子串]]></title>
-    <url>%2F2017%2F03%2F16%2F%E8%AE%A1%E7%AE%97%E4%B8%80%E4%B8%AA%E5%AD%97%E7%AC%A6%E4%B8%B2%E4%B8%AD%E6%9C%80%E5%A4%A7%E4%B8%8D%E9%87%8D%E5%A4%8D%E5%AD%90%E4%B8%B2%E9%95%BF%E5%BA%A6%2F</url>
-    <content type="text"><![CDATA[123456789101112131415161718192021222324252627282930package mainimport ( "fmt ")func maxLen(str string) int &#123; start := 0 maxlen := 0 lastO := make(map[rune]int) for i, v := range []rune(str) &#123; if lastI, ok := lastO[v]; ok &#123; start = lastI + 1 &#125; if (i-start+1 &amp;gt; maxlen) &#123; maxlen = i - start + 1 &#125; lastO[v] = i &#125; return maxlen&#125;func main() &#123; //求字符串最大不重复子串长度 //s:= "Yes哈哈哈! " fmt.Println(maxLen( "abcbcdef ")) fmt.Println(maxLen( "abcdef ")) fmt.Println(maxLen( "aaaaaaa ")) fmt.Println(maxLen( "你说什么 "))&#125;]]></content>
-      <tags>
-        <tag>leetcode</tag>
+        <tag>php</tag>
       </tags>
   </entry>
   <entry>
@@ -321,11 +266,11 @@
       </tags>
   </entry>
   <entry>
-    <title><![CDATA[tomcat war]]></title>
-    <url>%2F2017%2F03%2F16%2FLinux%E4%B8%8B%E5%AE%89%E8%A3%85jdk%20tomcat%20.war%E5%8F%91%E5%B8%83%E9%A1%B9%E7%9B%AE%2F</url>
-    <content type="text"><![CDATA[一、安装JDK 1.下载jdk，注意下载的时候不要下载成html了，这是个坑。。。2.vim /etc/profileJAVA_HOME=/usr/…/jdk解压后的路径PATH=$PATH:$JAVA_HOME/binCLASSPATH=.:$JAVA_HOME/lib/jt.jar:$JAVA_HOME/lib/tools.jarexport JAVA_HOME PATH CLASSPATH:wqsource /etc/profile最后java -version3.下载tomcat，解压进入目录/bin &nbsp; ./startup.sh4.eclipse export 项目为.war格式 选择导出路径 上传到服务器webapps目录下]]></content>
+    <title><![CDATA[lnmp重启]]></title>
+    <url>%2F2017%2F03%2F16%2FNginxPHPMysql%20%E9%87%8D%E5%90%AF%E7%AD%89%E5%91%BD%E4%BB%A4%2F</url>
+    <content type="text"><![CDATA[nginx&nbsp;&nbsp;&nbsp;start：&nbsp;/usr/local/nginx/sbin/nginx&nbsp;&nbsp;stop：&nbsp;/usr/local/nginx/sbin/nginx&nbsp;-s&nbsp;stop&nbsp;&nbsp;reload：&nbsp;/usr/local/nginx/sbin/nginx&nbsp;-s&nbsp;reload&nbsp;&nbsp;#**&nbsp;&nbsp;#php-fpm(fast-cgi)命令&nbsp;&nbsp;&nbsp;start：&nbsp;/usr/local/php/sbin/php-fpm&nbsp;&nbsp;stop：&nbsp;/bin/ps&nbsp;-ef&nbsp;|&nbsp;grep&nbsp;&#39;php-fpm&#39;&nbsp;|&nbsp;grep&nbsp;-v&nbsp;grep&nbsp;|&nbsp;cut&nbsp;-c&nbsp;9-15&nbsp;|&nbsp;xargs&nbsp;kill&nbsp;-9&nbsp;&nbsp;&nbsp;Linux：PHP&nbsp;5.3.3&nbsp;以上版本的php-fpm的重启&nbsp;INT,&nbsp;TERM：立刻终止QUIT：平滑终止USR1：重新打开日志文件USR2：平滑重载所有worker进程并重新载入配置和二进制模块&nbsp;示例：1）php-fpm&nbsp;关闭：kill&nbsp;-INT&nbsp;cat&amp;nbsp;/usr/local/php/var/run/php-fpm.pid&nbsp;2）php-fpm&nbsp;重启：kill&nbsp;-USR2&nbsp;cat&amp;nbsp;/usr/local/php/var/run/php-fpm.pid&nbsp;查看php-fpm进程数：ps&nbsp;aux&nbsp;|&nbsp;grep&nbsp;-c&nbsp;php-fpm&nbsp;#**&nbsp;&nbsp;#mysql命令&nbsp;&nbsp;start：&nbsp;/etc/init.d/mysqld&nbsp;start&nbsp;&nbsp;stop：&nbsp;/etc/init.d/mysqld&nbsp;stop&nbsp;&nbsp;restart：&nbsp;/etc/init.d/mysqld&nbsp;restart&nbsp;&nbsp;#**&nbsp;]]></content>
       <tags>
-        <tag>java</tag>
+        <tag>lnmp</tag>
       </tags>
   </entry>
   <entry>
@@ -334,6 +279,71 @@
     <content type="text"><![CDATA[首先有两种使用方式 1.先在git官网上建立一个git仓库，然后git clone到本地&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 2.直接在本地cd进一个文件夹 git init配置用户名和email&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;git config –global user.name &#39;&#39;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;git config –global user.email xxx@xxx.com简单使用命令 &nbsp;git add .&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; git status&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; git commit -m &quot;The First Upload&quot;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;git push -u origin master&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;]]></content>
       <tags>
         <tag>git</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[正则]]></title>
+    <url>%2F2017%2F03%2F16%2F%E6%AD%A3%E5%88%99%E3%80%81mb_substr%2F</url>
+    <content type="text"><![CDATA[0x1 爬虫过程遇到需要截取到&lt;span id=&quot;xhxm&quot;&gt;张三同学&lt;/span&gt;里面同学的名称&nbsp; 1.正则解决&nbsp; 2.通过字符串解决0x2 通过正则解决&nbsp; 1.简单解决&nbsp; &lt;span id=&quot;xhxm&quot;&gt;(.)\u540c\u5b66&lt;/span&gt;&nbsp;&nbsp; 2.零宽断言解决&nbsp; &nbsp;&gt;(.)(?=\u540c\u5b66)&nbsp;&nbsp;&nbsp; 这里使用零宽度正预测先行断言(?=exp)&nbsp; 就是找到匹配之前的内容&nbsp;&nbsp; (?&lt;=exp)用来找到匹配之后的东西，称为零宽度正回顾后发断言0x3 通过mb_substr解决 先匹配张三同学,然后截取字符串&nbsp; 因为这里的header是gb2312，所以指定mb_substr的编码为gb2312&nbsp; substr直接处理汉字会造成乱码的问题，可以使用mb_substr指定汉字编码方式gb2312&nbsp;&nbsp; 这样就可以截取到到张三0x4 这不算完&nbsp;]]></content>
+      <tags>
+        <tag>正则</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[apache]]></title>
+    <url>%2F2017%2F03%2F16%2F%E7%BC%96%E8%AF%91%E5%AE%89%E8%A3%85apache%20%E7%8E%AF%E5%A2%83%E5%8F%98%E9%87%8F%2F</url>
+    <content type="text"><![CDATA[1.下载httpd apr apr-util pcre配置安装apr .configure –with-prefix=/…./apa/apr&nbsp;make &amp;&amp; make install配置安装apr-util .configure –with-prefix=/…./apa/apr-util&nbsp;make &amp;&amp; make install配置安装pcre .configure –with-prefix=/…./local/pcre&nbsp;make &amp;&amp; make install配置安装apache httpd&nbsp;./configure –prefix=/usr/local/apache2 –with-mpm=worker –enable-cache –enable-disk-cache –enable-mem-cache –enable-file-cache –enable-nonportable-atomics –enable-mods-shared=most –enable-so –enable-rewrite –enable-ssl –with-apr=/../apr安装目录 –with-apr-util=/…/apr-util安装目录 –with-pcre=pcre安装目录make &amp;&amp; make install&nbsp;php configure 参数 http://www.mamicode.com/info-detail-32029.html]]></content>
+      <tags>
+        <tag>apache</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[linux安装mysql]]></title>
+    <url>%2F2017%2F03%2F16%2FLinux%E4%B8%8B%E7%BC%96%E8%AF%91%E5%AE%89%E8%A3%85Mysql%2F</url>
+    <content type="text"><![CDATA[1、mysql 官网下载适合的压缩包，格式为mysql-x.x.xx-linuxxxx.tar.gz2、解压后配置配置帮助 ./configure –help3、groupadd mysqluseradd –g mysql mysqlcd到mysql的解压目录chown –R mysql .chgrp –R mysql .4、./scripts/mysql_install_db –user=mysql如果提示laibaio.1的相关错误yum install libaioso.1 libaio5、把目录权限还给rootchown –R root .chown –R mysql datamkdir /var/run/mysqldchown mysql /var/run/mysqldchgrp mysql /var/run/mysqld6、启动mysql./bin/mysqld_safe –user=mysql &amp;7、连接mysql ./bin/mysql –uroot -p如果报错 建立软连接或者直接将sock文件复制过去建立软连接方法ln /var/lib/mysql/mysql.sock /tmp/mysql.sock8、修改密码update user set Password=password(你想要的密码) where Host=’localhost’ and User= ‘root ‘;delete from user where Password= ‘’;flush privileges;]]></content>
+      <tags>
+        <tag>lnmp</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[最长不重复子串]]></title>
+    <url>%2F2017%2F03%2F16%2F%E8%AE%A1%E7%AE%97%E4%B8%80%E4%B8%AA%E5%AD%97%E7%AC%A6%E4%B8%B2%E4%B8%AD%E6%9C%80%E5%A4%A7%E4%B8%8D%E9%87%8D%E5%A4%8D%E5%AD%90%E4%B8%B2%E9%95%BF%E5%BA%A6%2F</url>
+    <content type="text"><![CDATA[123456789101112131415161718192021222324252627282930package mainimport ( "fmt ")func maxLen(str string) int &#123; start := 0 maxlen := 0 lastO := make(map[rune]int) for i, v := range []rune(str) &#123; if lastI, ok := lastO[v]; ok &#123; start = lastI + 1 &#125; if (i-start+1 &amp;gt; maxlen) &#123; maxlen = i - start + 1 &#125; lastO[v] = i &#125; return maxlen&#125;func main() &#123; //求字符串最大不重复子串长度 //s:= "Yes哈哈哈! " fmt.Println(maxLen( "abcbcdef ")) fmt.Println(maxLen( "abcdef ")) fmt.Println(maxLen( "aaaaaaa ")) fmt.Println(maxLen( "你说什么 "))&#125;]]></content>
+      <tags>
+        <tag>leetcode</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[面试算法题]]></title>
+    <url>%2F2017%2F03%2F16%2F%E9%9D%A2%E8%AF%95%E7%AE%97%E6%B3%95%E9%A2%98%2F</url>
+    <content type="text"><![CDATA[package&nbsp;main import&nbsp;(&nbsp;&nbsp;&nbsp;&quot;fmt&quot;&nbsp;&nbsp;&nbsp;&quot;strconv&quot;&nbsp;&nbsp;&nbsp;&quot;sort&quot;) func&nbsp;filter(str&nbsp;string)&nbsp;string{&nbsp;&nbsp;&nbsp;//过滤aabbbbbccc&nbsp;为abc&nbsp;&nbsp;&nbsp;var&nbsp;newArr&nbsp;=&nbsp;make(map[rune]int)&nbsp;&nbsp;&nbsp;s&nbsp;:=&nbsp;&quot;&quot; &nbsp;&nbsp;&nbsp;for&nbsp;_,v&nbsp;:=&nbsp;range&nbsp;[]rune(str){&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if&nbsp;newArr[v]&nbsp;==&nbsp;0{&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;newArr[v]&nbsp;=&nbsp;1&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;s&nbsp;+=&nbsp;string(v)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}&nbsp;&nbsp;&nbsp;}&nbsp;&nbsp;&nbsp;return&nbsp;s} func&nbsp;filter2(str&nbsp;string)&nbsp;string{&nbsp;&nbsp;&nbsp;//过滤aaabbbcssss为3a3bc4s&nbsp;&nbsp;&nbsp;var&nbsp;newArr&nbsp;=&nbsp;make(map[rune]int)&nbsp;&nbsp;&nbsp;var&nbsp;sortArr&nbsp;[]string&nbsp;&nbsp;&nbsp;s&nbsp;:=&nbsp;&quot;&quot; &nbsp;&nbsp;&nbsp;for&nbsp;_,v&nbsp;:=&nbsp;range&nbsp;[]rune(str){&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;sortArr&nbsp;=&nbsp;append(sortArr,&nbsp;string(v))&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if&nbsp;newArr[v]&nbsp;==&nbsp;0{&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;newArr[v]&nbsp;=&nbsp;1&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}else{&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;newArr[v]&nbsp;+=&nbsp;1&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}&nbsp;&nbsp;&nbsp;} &nbsp;&nbsp;&nbsp;sort.Strings(sortArr) &nbsp;&nbsp;&nbsp;for&nbsp;i,v&nbsp;:=&nbsp;range&nbsp;newArr{&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if&nbsp;v&nbsp;==&nbsp;1&nbsp;{&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;s&nbsp;+=&nbsp;string(i)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}else{&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;s&nbsp;+=&nbsp;strconv.Itoa(v)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;s&nbsp;+=&nbsp;string(i)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}&nbsp;&nbsp;&nbsp;}&nbsp;&nbsp;&nbsp;return&nbsp;s} func&nbsp;main()&nbsp;{&nbsp;&nbsp;&nbsp;fmt.Println(filter2(&quot;aabccddee&quot;))}go语言的map用for range遍历是随机的key所以如果需要顺序遍历则需要先将key排序]]></content>
+      <tags>
+        <tag>面经</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[tomcat war]]></title>
+    <url>%2F2017%2F03%2F16%2FLinux%E4%B8%8B%E5%AE%89%E8%A3%85jdk%20tomcat%20.war%E5%8F%91%E5%B8%83%E9%A1%B9%E7%9B%AE%2F</url>
+    <content type="text"><![CDATA[一、安装JDK 1.下载jdk，注意下载的时候不要下载成html了，这是个坑。。。2.vim /etc/profileJAVA_HOME=/usr/…/jdk解压后的路径PATH=$PATH:$JAVA_HOME/binCLASSPATH=.:$JAVA_HOME/lib/jt.jar:$JAVA_HOME/lib/tools.jarexport JAVA_HOME PATH CLASSPATH:wqsource /etc/profile最后java -version3.下载tomcat，解压进入目录/bin &nbsp; ./startup.sh4.eclipse export 项目为.war格式 选择导出路径 上传到服务器webapps目录下]]></content>
+      <tags>
+        <tag>java</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[依赖注入]]></title>
+    <url>%2F2017%2F03%2F16%2Fdependency-injection%2F</url>
+    <content type="text"><![CDATA[依赖注入(DI)指的就是当你需要实例化的类依赖于其他类的实现的时候；不需要在本类中实例化所依赖的类，而是将所依赖的类通过参数的形式传入 即构造注入(构造函数)和设值注入(set方法);高耦合的反例//高耦合class Apple{​ protected $name = ‘ ‘; public function construct() { $this- &gt;name = ‘Apple ‘; } public function getName() { return $this- &gt;name; }}class Orange{​ protected $name = ‘ ‘; public function construct() { $this- &gt;name = ‘Orange ‘; } public function getName() { return $this- &gt;name; }}class Person{​ protected $likeFood = ‘ ‘; public function construct() { $this- &gt;likeFood = new Orange(); echo ‘这个人喜欢吃 ‘ . $this- &gt;likeFood- &gt;getName(); }}new Person();低耦合注入//低耦合实现interface Fruit{​ public function getName();}class Apple implements Fruit{​ protected $name = ‘ ‘; public function construct() { $this- &gt;name = ‘Apple ‘; } public function getName() { return $this- &gt;name; }}class Orange implements Fruit{​ protected $name = ‘ ‘; public function construct() { $this- &gt;name = ‘Orange ‘; } public function getName() { return $this- &gt;name; }}class Person{​ public $likeFood; public function construct(Fruit $fruit) { echo ‘这个人喜欢吃 ‘ . $fruit- &gt;getName(); }}$apple = new Apple();new Person($apple);]]></content>
+      <tags>
+        <tag>编程思想</tag>
+        <tag>面向对象</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[leetcode-4]]></title>
+    <url>%2F2017%2F03%2F16%2Fleetcode_day5%2F</url>
+    <content type="text"><![CDATA[3.&nbsp;Longest Substring Without Repeating CharactersGiven a string, find the length of the&nbsp;longest substring&nbsp;without repeating characters.Examples:Given&nbsp;&quot;abcabcbb&quot;, the answer is&nbsp;&quot;abc&quot;, which the length is 3.Given&nbsp;&quot;bbbbb&quot;, the answer is&nbsp;&quot;b&quot;, with the length of 1.Given&nbsp;&quot;pwwkew&quot;, the answer is&nbsp;&quot;wke&quot;, with the length of 3. Note that the answer must be a&nbsp;substring,&nbsp;&quot;pwke&quot;&nbsp;is a&nbsp;subsequence&nbsp;and not a substring.func&nbsp;lengthOfLongestSubstring(s&nbsp;string)&nbsp;int&nbsp;{ arr&nbsp;:=&nbsp;make(map[rune]int) start&nbsp;:=&nbsp;0 maxlen&nbsp;:=&nbsp;0 for&nbsp;i,&nbsp;v&nbsp;:=&nbsp;range&nbsp;[]rune(s)&nbsp;{ if&nbsp;pre,&nbsp;ok&nbsp;:=&nbsp;arr[v];&nbsp;ok&nbsp;&amp;&amp;&nbsp;pre&nbsp;&gt;=&nbsp;start&nbsp;{ start&nbsp;=&nbsp;pre&nbsp;+&nbsp;1 } if&nbsp;i-start+1&nbsp;&gt;&nbsp;maxlen&nbsp;{ maxlen&nbsp;=&nbsp;i&nbsp;-&nbsp;start&nbsp;+&nbsp;1 } arr[v]&nbsp;=&nbsp;i } return&nbsp;maxlen}]]></content>
+      <tags>
+        <tag>leetcode</tag>
       </tags>
   </entry>
 </search>
