@@ -1,13 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title><![CDATA[php中的数组和hash表]]></title>
+    <url>%2F2019%2F06%2F02%2Fphp%E4%B8%AD%E7%9A%84hash%E8%A1%A8%2F</url>
+    <content type="text"><![CDATA[php中的数组和hash表什么是hash表 根据设定的哈希函数H(key)和处理冲突的方法将一组关键字映像到一个有限的连续的地址集上，并以关键字在地址集中的“像”作为记录在表中的存储位置，这种表便称作哈希表，这一映像过程称为哈希造表或散列，所得存储位置称哈希地址。 怎么理解呢？为什么需要这样一个结构呢？ 举个例子，我们有一个一维数组来存储34个省份的各种信息，假设存储时候他的key我们如果设置成省份的名称，那么我们就需要a[33]来存储所有的省份 省份 北京 上海 四川 … 广东 天气 晴 晴 晴 … 晴 总人口 xxx人 xxx人 xxx人 … xxx人 那么我们如果想找到四川的信息那我们就得从第一个a[0]的key开始比较直到找到a[x]的key == “四川”,然后取出a[x]里面所保存的内容。hash表怎么做呢？我们通过某个hash函数f(key)把四川转成某个数字来作为它在数组中存储的key，那当我们需要查找它时就直接f(四川)就知道它在数组中的位置，然后使用a[f(四川)]就能够取出来四川下所保存的信息，相当于我们没有经过任何的比较就查找到了四川的所有信息，当然这是理想情况，因为hash函数一定能把每个省份的名称映射成一个单独的key并且不重复不产生冲突吗？如果仅仅为了不重复造成了不能均匀地分布到地址集合中造成空间浪费呢？ 从定义中我们可以看到hash函数和处理冲突的方法就是hash表的核心 hash函数 构造hash函数的方法很多，什么是好的hash函数呢？应该说在能够把关键字集合均匀地映射到整个地址区间，有效减少冲突的函数就是好的hash函数。 构造hash函数的方法有很多：直接定址法/数字分析法/平方取中法/折叠法/除留余数法随机数法 在php中hash函数被称作DJBX33A (Daniel J. Bernstein, Times 33 with Addition) 具体实现如下 12345678910111213141516171819202122232425262728static inline ulong zend_inline_hash_func(const char *arKey, uint nKeyLength)&#123; register ulong hash = 5381; /* variant with the hash unrolled eight times */ for (; nKeyLength &gt;= 8; nKeyLength -= 8) &#123; hash = ((hash &lt;&lt; 5) + hash) + *arKey++; hash = ((hash &lt;&lt; 5) + hash) + *arKey++; hash = ((hash &lt;&lt; 5) + hash) + *arKey++; hash = ((hash &lt;&lt; 5) + hash) + *arKey++; hash = ((hash &lt;&lt; 5) + hash) + *arKey++; hash = ((hash &lt;&lt; 5) + hash) + *arKey++; hash = ((hash &lt;&lt; 5) + hash) + *arKey++; hash = ((hash &lt;&lt; 5) + hash) + *arKey++; &#125; switch (nKeyLength) &#123; case 7: hash = ((hash &lt;&lt; 5) + hash) + *arKey++; /* fallthrough... */ case 6: hash = ((hash &lt;&lt; 5) + hash) + *arKey++; /* fallthrough... */ case 5: hash = ((hash &lt;&lt; 5) + hash) + *arKey++; /* fallthrough... */ case 4: hash = ((hash &lt;&lt; 5) + hash) + *arKey++; /* fallthrough... */ case 3: hash = ((hash &lt;&lt; 5) + hash) + *arKey++; /* fallthrough... */ case 2: hash = ((hash &lt;&lt; 5) + hash) + *arKey++; /* fallthrough... */ case 1: hash = ((hash &lt;&lt; 5) + hash) + *arKey++; break; case 0: break;EMPTY_SWITCH_DEFAULT_CASE() &#125; return hash;&#125; 核心如下 1234567891011unsigned int DJBHash(char *str)&#123; unsigned int hash = 5381; while (*str) &#123; hash += (hash &lt;&lt; 5) + (*str++); &#125; return (hash &amp; 0x7FFFFFFF);&#125; 一个字符串的key经过这个函数之后会返回一个无符号的整型，这个无符号整型就是php会真正存储使用到的key. 处理冲突 冲突可以减少，但是不能避免，所以还必须有处理冲突的方法 开放定址法/再hash法/链地址法 php中采用的是链地址法 php hash表结构图示 上图来自网络，侵删。 这张图比较清晰的展示了你如果在php中hash表的存储结构。 最左侧是hash表的结构体内容 1234567891011121314151617typedef struct _hashtable &#123; uint nTableSize; uint nTableMask; uint nNumOfElements; ulong nNextFreeElement; Bucket *pInternalPointer; /* Used for element traversal */ Bucket *pListHead; Bucket *pListTail; Bucket **arBuckets; dtor_func_t pDestructor; zend_bool persistent; unsigned char nApplyCount; zend_bool bApplyProtection;#if ZEND_DEBUG int inconsistent;#endif&#125; HashTable; 左二列就是上面描述的连续的地址区间，这里面所存储的都是Bucket类型的指针，保存的当然就是每个Bucket的地址。 Bucket就是保存数据的单元 1234567891011typedef struct bucket &#123; ulong h; /* Used for numeric indexing */ uint nKeyLength; void *pData; void *pDataPtr; struct bucket *pListNext; struct bucket *pListLast; struct bucket *pNext; struct bucket *pLast; const char *arKey;&#125; Bucket; 从图中或者从结构体定义中我们可以看到hash表结构体和Bucket结构体定义了很多指针或者是变量来存储Bucket相关的信息或者跟hash表相关的信息。 回到图中，在Bucket1插入之前，php先初始化了_hashtable这样一个结构体，初始化了一个连续的地址空间，里面保存的都是空指针，并且把Bucket **arBuckets;指向指针类型的指针指向了这个连续地址区间的第一个元素的地址。在实际的将这个元素保存到hash表的过程中，先根据hash函数确定了Bucket1应该存储到地址为1的这个位置，于是把地址为1的空指针指向了bucket1，然后插入Bucket2，由于hash函数Bucket2的key对应的地址也是1，于是把Bucket2的pNext指向了Bucket1，把地址为1的指针执行了Bucket2，Bucket3和Bucket1插入的方式同理。 这里只是简要描述了插入的过程而没有说明每一个变量的改变和指针的改变，不然流程太长了。 Bucket里保存的信息的作用 123456789ulong h; /* Used for numeric indexing */ 这里php源码注释说会用到索引数字类型的时候uint nKeyLength; key的长度 void *pData; data相关void *pDataPtr; data相关struct bucket *pListNext; 在整个hashtable中按插入先后顺序的下一个bucket地址struct bucket *pListLast; 在整个hashtable中按插入先后顺序的上一个bucket地址struct bucket *pNext; 在key的hash结果相同的链表中下一个bucket的地址struct bucket *pLast; 在key的hash结果相同的链表中上一个bucket的地址const char *arKey; key 可以看到php的hashtable维护了很多的双向链表，一个是key相同的时候的双向链表，一个是整个hashtable顺序的双向链表，为什么要这么设计呢？ hashtable的链表应该是用于遍历的 而每个hash f(k)相等的时候的链表应该就是服务于元素的增删改查。 再看hashtable里面存储的信息 123456789101112uint nTableSize;uint nTableMask;uint nNumOfElements;ulong nNextFreeElement;Bucket *pInternalPointer; /* Used for element traversal */ 这里php源码注释说会用到元素遍历的时候Bucket *pListHead;Bucket *pListTail;Bucket **arBuckets;dtor_func_t pDestructor;zend_bool persistent;unsigned char nApplyCount;zend_bool bApplyProtection; 这里面保存的变量就跟php数组的操作函数有关系了 当我们使用foreach()来遍历输出一个数组时，他会按照元素的添加先后顺序来输出，怎么做到的呢？Bucket *pInternalPointer;这个指针的作用就体现出来了,首先他的值会跟pListHead一样指向第一个添加的Bucket的地址，然后输出就是 1print *pInternalPointer-&gt;pData-&gt;pDataPtr 输出下一个元素呢 12*pInternalPointer = *pInternalPointer-&gt;pListNextprint *pInternalPointer-&gt;pData-&gt;pDataPtr 一直到*pInternalPointer-&gt;pListNext为null的时候数组遍历就完成了，其他的一些函数 12345reset() *pInternalPointer = *pListHeadend() *pInternalPointer = *pListTailnext() *pInternalPointer = *pInternalPointer-&gt;pListNextprev() *pInternalPointer = *pInternalPointer-&gt;pListLastcurrent() *pInternalPointer]]></content>
+      <tags>
+        <tag>php内核</tag>
+        <tag>hash表</tag>
+        <tag>数组</tag>
+      </tags>
+  </entry>
+  <entry>
     <title><![CDATA[查找和排序算法]]></title>
     <url>%2F2019%2F05%2F31%2F%E6%9F%A5%E6%89%BE%E5%92%8C%E6%8E%92%E5%BA%8F%E7%AE%97%E6%B3%95%2F</url>
     <content type="text"><![CDATA[查找和排序算法查找算法1.顺序查找 2.二分查找 循环实现 123456789101112131415function midSearch($k,$arr)&#123; $left = 0; $right = count($arr); while($left &lt; $right)&#123; $mid = floor(($left + $right)/2); if($arr[$mid] == $k)&#123; return $mid; &#125;else if($arr[$mid] &gt; $k)&#123; $right = $mid - 1; &#125;else&#123; $left = $mid + 1; &#125; &#125; return -1;&#125; 递归实现 12345678910111213141516function binSearch($arr,$left,$right,$key)&#123; if($left &gt; $right)&#123; return -1; &#125;else&#123; $mid = floor(($left+$right)/2); if($key == $arr[$mid])&#123; return $mid; &#125;elseif ($key &lt; $arr[$mid]) &#123; $right = $mid - 1; return binSearch($arr,$left,$right,$key); &#125;else&#123; $left = $mid + 1; return binSearch($arr,$left,$right,$key); &#125; &#125;&#125; 排序算法一.内部排序 先定义一百个0-100整数元素组成的随机数数组和交换函数 123456789101112$n = 100;$a = [];for ($i=0; $i &lt; $n; $i++) &#123; $a[] = rand(0,$n);&#125;function swap(&amp;$arr,$i,$j)&#123; $temp = $arr[$i]; $arr[$i] = $arr[$j]; $arr[$j] = $temp;&#125; 1.冒泡排序 1234567891011function bubbleSort($arr)&#123; $n = count($arr); for($i = 0; $i &lt; $n-1; $i++)&#123; for($j = 0;$j &lt; $n-1-$i; $j++)&#123; if($arr[$j] &gt; $arr[$j+1])&#123; swap($arr,$j,$j+1); &#125; &#125; &#125; return $arr;&#125; 2.选择排序 简单选择排序 123456789101112131415function selectSort($arr)&#123; $n = count($arr); for($i = 0; $i &lt; $n-1; $i++)&#123; $minKey = $i; for($j = $i;$j &lt; $n; $j++)&#123; if($arr[$j] &lt; $arr[$minKey])&#123; $minKey = $j; &#125; &#125; if($i != $minKey)&#123; swap($arr,$i,$minKey); &#125; &#125; return $arr;&#125; 树形选择排序/堆排序 3.插入排序 直接插入排序 1234567891011121314function insertSort($arr)&#123; $n = count($arr); for($i = 1; $i &lt; $n; $i++)&#123; if($arr[$i] &lt; $arr[$i-1])&#123; $temp = $arr[$i]; $j = $i - 1; for($j;$j&gt;=0 &amp;&amp; $arr[$j] &gt; $temp;$j--)&#123; $arr[$j+1] = $arr[$j]; &#125; $arr[$j+1] = $temp; &#125; &#125; return $arr;&#125; 其他插入排序/希尔排序 4.快速排序 1234567891011121314151617181920212223242526function qsort(&amp;$arr, $left, $right)&#123; if($left &gt; $right)&#123; return; &#125; $i = $left; $k = $left; $j = $right; while($i &lt; $j)&#123; while($arr[$j] &gt;= $arr[$k] &amp;&amp; $i &lt; $j) $j--; swap($arr,$j,$k); $k = $j; while($arr[$i] &lt;= $arr[$k] &amp;&amp; $i &lt; $j) $i++; swap($arr,$i,$k); $k = $i; &#125; qsort($arr, $left, $k-1); qsort($arr, $k+1, $right);&#125;$n = count($a);qsort($a, 0, $n-1); 5.归并排序 6.基数排序 多关键字排序/链式基数排序 二.外部排序]]></content>
       <tags>
-        <tag>排序</tag>
         <tag>算法</tag>
         <tag>查找</tag>
+        <tag>排序</tag>
       </tags>
   </entry>
   <entry>
@@ -156,25 +166,17 @@
       </tags>
   </entry>
   <entry>
-    <title><![CDATA[day3]]></title>
-    <url>%2F2017%2F03%2F16%2Fleetcode_day3%2F</url>
-    <content type="text"><![CDATA[Binary Tree (Traverse A Tree)Binary Tree Preorder Traversal/*&nbsp;&nbsp;Definition&nbsp;for&nbsp;a&nbsp;binary&nbsp;tree&nbsp;node.&nbsp;&nbsp;type&nbsp;TreeNode&nbsp;struct&nbsp;{&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Val&nbsp;int&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Left&nbsp;TreeNode&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Right&nbsp;TreeNode&nbsp;&nbsp;}&nbsp;/func&nbsp;preorderTraversal(root&nbsp;TreeNode)&nbsp;[]int&nbsp;{ var&nbsp;arr&nbsp;[]int if&nbsp;root&nbsp;==&nbsp;nil&nbsp;{ return&nbsp;arr } arr&nbsp;=&nbsp;append(arr,&nbsp;root.Val) arr1&nbsp;:=&nbsp;preorderTraversal(root.Left) arr&nbsp;=&nbsp;arrmerge(arr,&nbsp;arr1) arr2&nbsp;:=&nbsp;preorderTraversal(root.Right) arr&nbsp;=&nbsp;arrmerge(arr,&nbsp;arr2) return&nbsp;arr}func&nbsp;arrmerge(arr&nbsp;[]int,&nbsp;arr1&nbsp;[]int)&nbsp;[]int&nbsp;{​ for&nbsp;_,&nbsp;v&nbsp;:=&nbsp;range&nbsp;arr1&nbsp;{​ arr&nbsp;=&nbsp;append(arr,&nbsp;v)​ }​ return&nbsp;arr}Binary Tree Inorder Traversalfunc&nbsp;inorderTraversal(root&nbsp;TreeNode)&nbsp;[]int&nbsp;{​ var&nbsp;arr&nbsp;[]int​ if&nbsp;root&nbsp;==&nbsp;nil&nbsp;{​ return&nbsp;arr​ }​ arr1&nbsp;:=&nbsp;inorderTraversal(root.Left)​ arr&nbsp;=&nbsp;arrmerge(arr,&nbsp;arr1)​ arr&nbsp;=&nbsp;append(arr,&nbsp;root.Val)​ arr2&nbsp;:=&nbsp;inorderTraversal(root.Right)​ arr&nbsp;=&nbsp;arrmerge(arr,&nbsp;arr2)​ return&nbsp;arr}Binary Tree Postorder Traversalfunc&nbsp;postorderTraversal(root&nbsp;*TreeNode)&nbsp;[]int&nbsp;{&nbsp;&nbsp;&nbsp;&nbsp;var&nbsp;arr&nbsp;[]int​ if&nbsp;root&nbsp;==&nbsp;nil&nbsp;{​ return&nbsp;arr​ }​ arr1&nbsp;:=&nbsp;postorderTraversal(root.Left)​ arr&nbsp;=&nbsp;arrmerge(arr,&nbsp;arr1)​ arr2&nbsp;:=&nbsp;postorderTraversal(root.Right)​ arr&nbsp;=&nbsp;arrmerge(arr,&nbsp;arr2)&nbsp;&nbsp;&nbsp;&nbsp;arr&nbsp;=&nbsp;append(arr,&nbsp;root.Val)​ return&nbsp;arr}&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;]]></content>
+    <title><![CDATA[leetcode-2]]></title>
+    <url>%2F2017%2F03%2F16%2Fleetcode_day4%2F</url>
+    <content type="text"><![CDATA[2.&nbsp;Add Two NumbersYou are given two&nbsp;non-empty&nbsp;linked lists representing two non-negative integers. The digits are stored in&nbsp;reverse order&nbsp;and each of their nodes contain a single digit. Add the two numbers and return it as a linked list.You may assume the two numbers do not contain any leading zero, except the number 0 itself.ExampleInput:&nbsp;(2&nbsp;-&gt;&nbsp;4&nbsp;-&gt;&nbsp;3)&nbsp;+&nbsp;(5&nbsp;-&gt;&nbsp;6&nbsp;-&gt;&nbsp;4)Output:&nbsp;7&nbsp;-&gt;&nbsp;0&nbsp;-&gt;&nbsp;8Explanation:&nbsp;342&nbsp;+&nbsp;465&nbsp;=&nbsp;807./*&nbsp;&nbsp;Definition&nbsp;for&nbsp;singly-linked&nbsp;list.&nbsp;&nbsp;type&nbsp;ListNode&nbsp;struct&nbsp;{&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Val&nbsp;int&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Next&nbsp;ListNode&nbsp;&nbsp;}&nbsp;/func&nbsp;addTwoNumbers(l1&nbsp;ListNode,&nbsp;l2&nbsp;ListNode)&nbsp;ListNode&nbsp;{&nbsp;&nbsp;&nbsp;&nbsp;i1&nbsp;:=&nbsp;0 i2&nbsp;:=&nbsp;0 p&nbsp;:=&nbsp;l1 j&nbsp;:=&nbsp;0 for&nbsp;{ if&nbsp;p&nbsp;!=&nbsp;nil&nbsp;{ i1&nbsp;+=&nbsp;p.Val&nbsp;&nbsp;int(math.Pow(float64(10),&nbsp;float64(j))) j++ p&nbsp;=&nbsp;p.Next }&nbsp;else&nbsp;{ break } } j&nbsp;=&nbsp;0 p&nbsp;=&nbsp;l2 for&nbsp;{ if&nbsp;p&nbsp;!=&nbsp;nil&nbsp;{ i2&nbsp;+=&nbsp;p.Val&nbsp;&nbsp;int(math.Pow(float64(10),&nbsp;float64(j))) j++ p&nbsp;=&nbsp;p.Next }&nbsp;else&nbsp;{ break } } revres&nbsp;:=&nbsp;i1&nbsp;+&nbsp;i2&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;fmt.Println(revres) head&nbsp;:=&nbsp;new(ListNode) p&nbsp;=&nbsp;head for&nbsp;{ if&nbsp;revres&nbsp;==&nbsp;0&nbsp;{ break }&nbsp;else&nbsp;{ p.Val&nbsp;=&nbsp;revres&nbsp;%&nbsp;10&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; revres&nbsp;=&nbsp;revres&nbsp;/&nbsp;10&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if&nbsp;revres&nbsp;!=&nbsp;0{&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;node&nbsp;:=&nbsp;new(ListNode) &nbsp;&nbsp;&nbsp;&nbsp;p.Next&nbsp;=&nbsp;node &nbsp;&nbsp;&nbsp;&nbsp;p&nbsp;=&nbsp;p.Next&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;} } }&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;p&nbsp;=&nbsp;l1 for&nbsp;{ if&nbsp;p.Next&nbsp;==&nbsp;nil&nbsp;{ break } fmt.Printf(&quot;%d\t&quot;,&nbsp;p.Val) p&nbsp;=&nbsp;p.Next }&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; return&nbsp;head&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}&nbsp; 后面出现了位数很长的用例，所以换成采用数组来暂存单链表func&nbsp;addTwoNumbers(l1&nbsp;ListNode,&nbsp;l2&nbsp;ListNode)&nbsp;ListNode&nbsp;{ var&nbsp;i1&nbsp;[]int var&nbsp;i2&nbsp;[]int p&nbsp;:=&nbsp;l1 for&nbsp;{ if&nbsp;p&nbsp;!=&nbsp;nil&nbsp;{ i1&nbsp;=&nbsp;append(i1,&nbsp;p.Val) p&nbsp;=&nbsp;p.Next }&nbsp;else&nbsp;{ break } } p&nbsp;=&nbsp;l2 for&nbsp;{ if&nbsp;p&nbsp;!=&nbsp;nil&nbsp;{ i2&nbsp;=&nbsp;append(i2,&nbsp;p.Val) p&nbsp;=&nbsp;p.Next }&nbsp;else&nbsp;{ break } } head&nbsp;:=&nbsp;new(ListNode) p&nbsp;=&nbsp;head lenthi1&nbsp;:=&nbsp;len(i1) lenthi2&nbsp;:=&nbsp;len(i2) if&nbsp;lenthi1&nbsp;!=&nbsp;lenthi2&nbsp;{ if&nbsp;lenthi1&nbsp;&lt;&nbsp;lenthi2&nbsp;{ for&nbsp;i&nbsp;:=&nbsp;0;&nbsp;i&nbsp;&lt;&nbsp;lenthi2-lenthi1;&nbsp;i++&nbsp;{ i1&nbsp;=&nbsp;append(i1,&nbsp;0) } }&nbsp;else&nbsp;{ for&nbsp;i&nbsp;:=&nbsp;0;&nbsp;i&nbsp;&lt;&nbsp;lenthi1-lenthi2;&nbsp;i++&nbsp;{ i2&nbsp;=&nbsp;append(i2,&nbsp;0) } } } lenthi1&nbsp;=&nbsp;len(i1) lenthi2&nbsp;=&nbsp;len(i2) flag&nbsp;:=&nbsp;0 for&nbsp;i,&nbsp;_&nbsp;:=&nbsp;range&nbsp;i1&nbsp;{ sum&nbsp;:=&nbsp;i1[i]&nbsp;+&nbsp;i2[i] if&nbsp;i&nbsp;&lt;&nbsp;lenthi1-1&nbsp;{ if&nbsp;(sum)/10&nbsp;&gt;&nbsp;0&nbsp;{ i1[i+1]&nbsp;+=&nbsp;1 } }&nbsp;else&nbsp;{ if&nbsp;(sum)/10&nbsp;&gt;&nbsp;0&nbsp;{ flag&nbsp;=&nbsp;1 } } p.Val&nbsp;=&nbsp;sum&nbsp;%&nbsp;10 if&nbsp;i&nbsp;&lt;&nbsp;lenthi1-1&nbsp;{ node&nbsp;:=&nbsp;new(ListNode) p.Next&nbsp;=&nbsp;node p&nbsp;=&nbsp;p.Next } } if&nbsp;flag&nbsp;==&nbsp;1&nbsp;{ node&nbsp;:=&nbsp;new(ListNode) node.Val&nbsp;=&nbsp;1 p.Next&nbsp;=&nbsp;node } return&nbsp;head}]]></content>
       <tags>
         <tag>leetcode</tag>
       </tags>
   </entry>
   <entry>
-    <title><![CDATA[linux安装php]]></title>
-    <url>%2F2017%2F03%2F16%2FLinux%E4%B8%8B%E7%BC%96%E8%AF%91%E5%AE%89%E8%A3%85PHP%2F</url>
-    <content type="text"><![CDATA[1、&nbsp;&nbsp;安装依赖库2、&nbsp;&nbsp;yum install gd zlib libxml2 libxml2-devel libjpeg libjpeg-devel libpng libpng-devel3、&nbsp;&nbsp;下载php-5.6.23.tar.bz2，解压4、&nbsp;&nbsp;cd到php解压的目录里5、&nbsp;&nbsp;配置安装的一些参数./configure –prefix=/usr/local/php \–with-gd \–enable-gd-native-ttf \–enable-gd-jis-conv \–with-mysql=mysqlnd \–enable-mysqlnd \–with-pdo-mysql=mysqlnd \–enable-fpm\–with-openssl&nbsp;&nbsp;Curl &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;./configure –prefix=/usr/local/php7 –with-gd –enable-gd-native-ttf –enable-gd-jis-conv –with-mysql=mysqlnd –enable-mysqlnd –with-pdo-mysql=mysqlnd –enable-fpm –with-openssl –enable-mbstring –enable-tokenizer –enable-zip –with-curl&nbsp;&nbsp;enable-fpm是让php作为独立的进程来运行，占用9000端口配置注意&nbsp;可能会报openssl的错误yum install openssl openssl-devel&nbsp;每个参数后的斜杠前是有空格的，斜杠所起的作用是连接上下两行，没有空格两个参数会连到一起就会报错了6、&nbsp;&nbsp;make &amp;&amp;make install这个过程中如果使用小内存的服务器可能出现php error，解决办法:在配置的最后一行加上–disable-fileinfo7、cd /usr/local/phpcp etc/php-fpm.conf.default etc/php-fpm.confcp /usr/local/src/php-5.5.13/php.ini-development ./lib/php.ini7、&nbsp;&nbsp;启动php./sbin/php-fpm&nbsp;&nbsp;/usr/local/php7/lib/php/extensions/no-debug-non-zts-20151012]]></content>
-      <tags>
-        <tag>lnmp</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title><![CDATA[leetcode-2]]></title>
-    <url>%2F2017%2F03%2F16%2Fleetcode_day4%2F</url>
-    <content type="text"><![CDATA[2.&nbsp;Add Two NumbersYou are given two&nbsp;non-empty&nbsp;linked lists representing two non-negative integers. The digits are stored in&nbsp;reverse order&nbsp;and each of their nodes contain a single digit. Add the two numbers and return it as a linked list.You may assume the two numbers do not contain any leading zero, except the number 0 itself.ExampleInput:&nbsp;(2&nbsp;-&gt;&nbsp;4&nbsp;-&gt;&nbsp;3)&nbsp;+&nbsp;(5&nbsp;-&gt;&nbsp;6&nbsp;-&gt;&nbsp;4)Output:&nbsp;7&nbsp;-&gt;&nbsp;0&nbsp;-&gt;&nbsp;8Explanation:&nbsp;342&nbsp;+&nbsp;465&nbsp;=&nbsp;807./*&nbsp;&nbsp;Definition&nbsp;for&nbsp;singly-linked&nbsp;list.&nbsp;&nbsp;type&nbsp;ListNode&nbsp;struct&nbsp;{&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Val&nbsp;int&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Next&nbsp;ListNode&nbsp;&nbsp;}&nbsp;/func&nbsp;addTwoNumbers(l1&nbsp;ListNode,&nbsp;l2&nbsp;ListNode)&nbsp;ListNode&nbsp;{&nbsp;&nbsp;&nbsp;&nbsp;i1&nbsp;:=&nbsp;0 i2&nbsp;:=&nbsp;0 p&nbsp;:=&nbsp;l1 j&nbsp;:=&nbsp;0 for&nbsp;{ if&nbsp;p&nbsp;!=&nbsp;nil&nbsp;{ i1&nbsp;+=&nbsp;p.Val&nbsp;&nbsp;int(math.Pow(float64(10),&nbsp;float64(j))) j++ p&nbsp;=&nbsp;p.Next }&nbsp;else&nbsp;{ break } } j&nbsp;=&nbsp;0 p&nbsp;=&nbsp;l2 for&nbsp;{ if&nbsp;p&nbsp;!=&nbsp;nil&nbsp;{ i2&nbsp;+=&nbsp;p.Val&nbsp;&nbsp;int(math.Pow(float64(10),&nbsp;float64(j))) j++ p&nbsp;=&nbsp;p.Next }&nbsp;else&nbsp;{ break } } revres&nbsp;:=&nbsp;i1&nbsp;+&nbsp;i2&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;fmt.Println(revres) head&nbsp;:=&nbsp;new(ListNode) p&nbsp;=&nbsp;head for&nbsp;{ if&nbsp;revres&nbsp;==&nbsp;0&nbsp;{ break }&nbsp;else&nbsp;{ p.Val&nbsp;=&nbsp;revres&nbsp;%&nbsp;10&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; revres&nbsp;=&nbsp;revres&nbsp;/&nbsp;10&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if&nbsp;revres&nbsp;!=&nbsp;0{&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;node&nbsp;:=&nbsp;new(ListNode) &nbsp;&nbsp;&nbsp;&nbsp;p.Next&nbsp;=&nbsp;node &nbsp;&nbsp;&nbsp;&nbsp;p&nbsp;=&nbsp;p.Next&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;} } }&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;p&nbsp;=&nbsp;l1 for&nbsp;{ if&nbsp;p.Next&nbsp;==&nbsp;nil&nbsp;{ break } fmt.Printf(&quot;%d\t&quot;,&nbsp;p.Val) p&nbsp;=&nbsp;p.Next }&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; return&nbsp;head&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}&nbsp; 后面出现了位数很长的用例，所以换成采用数组来暂存单链表func&nbsp;addTwoNumbers(l1&nbsp;ListNode,&nbsp;l2&nbsp;ListNode)&nbsp;ListNode&nbsp;{ var&nbsp;i1&nbsp;[]int var&nbsp;i2&nbsp;[]int p&nbsp;:=&nbsp;l1 for&nbsp;{ if&nbsp;p&nbsp;!=&nbsp;nil&nbsp;{ i1&nbsp;=&nbsp;append(i1,&nbsp;p.Val) p&nbsp;=&nbsp;p.Next }&nbsp;else&nbsp;{ break } } p&nbsp;=&nbsp;l2 for&nbsp;{ if&nbsp;p&nbsp;!=&nbsp;nil&nbsp;{ i2&nbsp;=&nbsp;append(i2,&nbsp;p.Val) p&nbsp;=&nbsp;p.Next }&nbsp;else&nbsp;{ break } } head&nbsp;:=&nbsp;new(ListNode) p&nbsp;=&nbsp;head lenthi1&nbsp;:=&nbsp;len(i1) lenthi2&nbsp;:=&nbsp;len(i2) if&nbsp;lenthi1&nbsp;!=&nbsp;lenthi2&nbsp;{ if&nbsp;lenthi1&nbsp;&lt;&nbsp;lenthi2&nbsp;{ for&nbsp;i&nbsp;:=&nbsp;0;&nbsp;i&nbsp;&lt;&nbsp;lenthi2-lenthi1;&nbsp;i++&nbsp;{ i1&nbsp;=&nbsp;append(i1,&nbsp;0) } }&nbsp;else&nbsp;{ for&nbsp;i&nbsp;:=&nbsp;0;&nbsp;i&nbsp;&lt;&nbsp;lenthi1-lenthi2;&nbsp;i++&nbsp;{ i2&nbsp;=&nbsp;append(i2,&nbsp;0) } } } lenthi1&nbsp;=&nbsp;len(i1) lenthi2&nbsp;=&nbsp;len(i2) flag&nbsp;:=&nbsp;0 for&nbsp;i,&nbsp;_&nbsp;:=&nbsp;range&nbsp;i1&nbsp;{ sum&nbsp;:=&nbsp;i1[i]&nbsp;+&nbsp;i2[i] if&nbsp;i&nbsp;&lt;&nbsp;lenthi1-1&nbsp;{ if&nbsp;(sum)/10&nbsp;&gt;&nbsp;0&nbsp;{ i1[i+1]&nbsp;+=&nbsp;1 } }&nbsp;else&nbsp;{ if&nbsp;(sum)/10&nbsp;&gt;&nbsp;0&nbsp;{ flag&nbsp;=&nbsp;1 } } p.Val&nbsp;=&nbsp;sum&nbsp;%&nbsp;10 if&nbsp;i&nbsp;&lt;&nbsp;lenthi1-1&nbsp;{ node&nbsp;:=&nbsp;new(ListNode) p.Next&nbsp;=&nbsp;node p&nbsp;=&nbsp;p.Next } } if&nbsp;flag&nbsp;==&nbsp;1&nbsp;{ node&nbsp;:=&nbsp;new(ListNode) node.Val&nbsp;=&nbsp;1 p.Next&nbsp;=&nbsp;node } return&nbsp;head}]]></content>
+    <title><![CDATA[leetcode-1]]></title>
+    <url>%2F2017%2F03%2F16%2Fleetcode_day1%2F</url>
+    <content type="text"><![CDATA[1.&nbsp;Two SumGiven an array of integers, return&nbsp;indices&nbsp;of the two numbers such that they add up to a specific target.You may assume that each input would have&nbsp;exactly&nbsp;one solution, and you may not use the&nbsp;same&nbsp;element twice.Example:Given&nbsp;nums&nbsp;=&nbsp;[2,&nbsp;7,&nbsp;11,&nbsp;15],&nbsp;target&nbsp;=&nbsp;9,Because&nbsp;nums[0]&nbsp;+&nbsp;nums[1]&nbsp;=&nbsp;2&nbsp;+&nbsp;7&nbsp;=&nbsp;9,return&nbsp;[0,&nbsp;1].func&nbsp;twoSum(nums&nbsp;[]int,&nbsp;target&nbsp;int)&nbsp;[]int&nbsp;{ var&nbsp;arr&nbsp;[]intEXIT: for&nbsp;i,&nbsp;&nbsp;:=&nbsp;range&nbsp;nums&nbsp;{ for&nbsp;j,&nbsp;&nbsp;:=&nbsp;range&nbsp;nums&nbsp;{ if&nbsp;(nums[i]+nums[j])&nbsp;==&nbsp;target&nbsp;&amp;&amp;&nbsp;i&nbsp;!=&nbsp;j&nbsp;{ arr&nbsp;=&nbsp;append(arr,&nbsp;i) arr&nbsp;=&nbsp;append(arr,&nbsp;j) break&nbsp;EXIT } } } return&nbsp;arr}]]></content>
       <tags>
         <tag>leetcode</tag>
       </tags>
@@ -188,17 +190,9 @@
       </tags>
   </entry>
   <entry>
-    <title><![CDATA[linux安装mysql]]></title>
-    <url>%2F2017%2F03%2F16%2FLinux%E4%B8%8B%E7%BC%96%E8%AF%91%E5%AE%89%E8%A3%85Mysql%2F</url>
-    <content type="text"><![CDATA[1、mysql 官网下载适合的压缩包，格式为mysql-x.x.xx-linuxxxx.tar.gz2、解压后配置配置帮助 ./configure –help3、groupadd mysqluseradd –g mysql mysqlcd到mysql的解压目录chown –R mysql .chgrp –R mysql .4、./scripts/mysql_install_db –user=mysql如果提示laibaio.1的相关错误yum install libaioso.1 libaio5、把目录权限还给rootchown –R root .chown –R mysql datamkdir /var/run/mysqldchown mysql /var/run/mysqldchgrp mysql /var/run/mysqld6、启动mysql./bin/mysqld_safe –user=mysql &amp;7、连接mysql ./bin/mysql –uroot -p如果报错 建立软连接或者直接将sock文件复制过去建立软连接方法ln /var/lib/mysql/mysql.sock /tmp/mysql.sock8、修改密码update user set Password=password(你想要的密码) where Host=’localhost’ and User= ‘root ‘;delete from user where Password= ‘’;flush privileges;]]></content>
-      <tags>
-        <tag>lnmp</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title><![CDATA[leetcode-1]]></title>
-    <url>%2F2017%2F03%2F16%2Fleetcode_day1%2F</url>
-    <content type="text"><![CDATA[1.&nbsp;Two SumGiven an array of integers, return&nbsp;indices&nbsp;of the two numbers such that they add up to a specific target.You may assume that each input would have&nbsp;exactly&nbsp;one solution, and you may not use the&nbsp;same&nbsp;element twice.Example:Given&nbsp;nums&nbsp;=&nbsp;[2,&nbsp;7,&nbsp;11,&nbsp;15],&nbsp;target&nbsp;=&nbsp;9,Because&nbsp;nums[0]&nbsp;+&nbsp;nums[1]&nbsp;=&nbsp;2&nbsp;+&nbsp;7&nbsp;=&nbsp;9,return&nbsp;[0,&nbsp;1].func&nbsp;twoSum(nums&nbsp;[]int,&nbsp;target&nbsp;int)&nbsp;[]int&nbsp;{ var&nbsp;arr&nbsp;[]intEXIT: for&nbsp;i,&nbsp;&nbsp;:=&nbsp;range&nbsp;nums&nbsp;{ for&nbsp;j,&nbsp;&nbsp;:=&nbsp;range&nbsp;nums&nbsp;{ if&nbsp;(nums[i]+nums[j])&nbsp;==&nbsp;target&nbsp;&amp;&amp;&nbsp;i&nbsp;!=&nbsp;j&nbsp;{ arr&nbsp;=&nbsp;append(arr,&nbsp;i) arr&nbsp;=&nbsp;append(arr,&nbsp;j) break&nbsp;EXIT } } } return&nbsp;arr}]]></content>
+    <title><![CDATA[day3]]></title>
+    <url>%2F2017%2F03%2F16%2Fleetcode_day3%2F</url>
+    <content type="text"><![CDATA[Binary Tree (Traverse A Tree)Binary Tree Preorder Traversal/*&nbsp;&nbsp;Definition&nbsp;for&nbsp;a&nbsp;binary&nbsp;tree&nbsp;node.&nbsp;&nbsp;type&nbsp;TreeNode&nbsp;struct&nbsp;{&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Val&nbsp;int&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Left&nbsp;TreeNode&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Right&nbsp;TreeNode&nbsp;&nbsp;}&nbsp;/func&nbsp;preorderTraversal(root&nbsp;TreeNode)&nbsp;[]int&nbsp;{ var&nbsp;arr&nbsp;[]int if&nbsp;root&nbsp;==&nbsp;nil&nbsp;{ return&nbsp;arr } arr&nbsp;=&nbsp;append(arr,&nbsp;root.Val) arr1&nbsp;:=&nbsp;preorderTraversal(root.Left) arr&nbsp;=&nbsp;arrmerge(arr,&nbsp;arr1) arr2&nbsp;:=&nbsp;preorderTraversal(root.Right) arr&nbsp;=&nbsp;arrmerge(arr,&nbsp;arr2) return&nbsp;arr}func&nbsp;arrmerge(arr&nbsp;[]int,&nbsp;arr1&nbsp;[]int)&nbsp;[]int&nbsp;{​ for&nbsp;_,&nbsp;v&nbsp;:=&nbsp;range&nbsp;arr1&nbsp;{​ arr&nbsp;=&nbsp;append(arr,&nbsp;v)​ }​ return&nbsp;arr}Binary Tree Inorder Traversalfunc&nbsp;inorderTraversal(root&nbsp;TreeNode)&nbsp;[]int&nbsp;{​ var&nbsp;arr&nbsp;[]int​ if&nbsp;root&nbsp;==&nbsp;nil&nbsp;{​ return&nbsp;arr​ }​ arr1&nbsp;:=&nbsp;inorderTraversal(root.Left)​ arr&nbsp;=&nbsp;arrmerge(arr,&nbsp;arr1)​ arr&nbsp;=&nbsp;append(arr,&nbsp;root.Val)​ arr2&nbsp;:=&nbsp;inorderTraversal(root.Right)​ arr&nbsp;=&nbsp;arrmerge(arr,&nbsp;arr2)​ return&nbsp;arr}Binary Tree Postorder Traversalfunc&nbsp;postorderTraversal(root&nbsp;*TreeNode)&nbsp;[]int&nbsp;{&nbsp;&nbsp;&nbsp;&nbsp;var&nbsp;arr&nbsp;[]int​ if&nbsp;root&nbsp;==&nbsp;nil&nbsp;{​ return&nbsp;arr​ }​ arr1&nbsp;:=&nbsp;postorderTraversal(root.Left)​ arr&nbsp;=&nbsp;arrmerge(arr,&nbsp;arr1)​ arr2&nbsp;:=&nbsp;postorderTraversal(root.Right)​ arr&nbsp;=&nbsp;arrmerge(arr,&nbsp;arr2)&nbsp;&nbsp;&nbsp;&nbsp;arr&nbsp;=&nbsp;append(arr,&nbsp;root.Val)​ return&nbsp;arr}&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;]]></content>
       <tags>
         <tag>leetcode</tag>
       </tags>
@@ -217,6 +211,14 @@
     <content type="text"></content>
       <tags>
         <tag>php</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[2017.3]]></title>
+    <url>%2F2017%2F03%2F16%2F2017.3%2F</url>
+    <content type="text"><![CDATA[git http://www.runoob.com/w3cnote/git-guide.htmljs编辑器 http://www.cnblogs.com/lhb25/p/html5-wysisyg-inline-editor.htmlJavaEE 注解和XMLhttp://blog.csdn.net/qmw19910301/article/details/52712893]]></content>
+      <tags>
+        <tag>other</tag>
       </tags>
   </entry>
   <entry>
@@ -248,23 +250,6 @@
       </tags>
   </entry>
   <entry>
-    <title><![CDATA[2017.3]]></title>
-    <url>%2F2017%2F03%2F16%2F2017.3%2F</url>
-    <content type="text"><![CDATA[git http://www.runoob.com/w3cnote/git-guide.htmljs编辑器 http://www.cnblogs.com/lhb25/p/html5-wysisyg-inline-editor.htmlJavaEE 注解和XMLhttp://blog.csdn.net/qmw19910301/article/details/52712893]]></content>
-      <tags>
-        <tag>other</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title><![CDATA[基本排序算法]]></title>
-    <url>%2F2017%2F03%2F16%2F%E6%8E%92%E5%BA%8F%E7%AE%97%E6%B3%95%2F</url>
-    <content type="text"><![CDATA[使用四种基本的排序方法对生成的1000个随机数进行排序，比较执行时间一、冒泡排序123456789101112131415161718192021222324$s=microtime();//记录开始时间for($i=0;$i=1000;$i++)&#123; $a[$i] = mt_rand(0,1000);&#125;//冒泡排序for($j=0;$j&lt;999;$j++)&#123; for($k=0;$k&lt;999-$j;$k++)&#123; if($a[$k]&gt;$a[$k+1])&#123; $temp = $a[$k]; $a[$k] = $a[$k+1]; $a[$k+1] = $temp; &#125; &#125;&#125;for($i=0;$i&lt;1000;$i++)&#123; echo $a[$i].&apos;&apos;;&#125;$e = microtime();//记录结束时间echo &apos;&lt;br/&gt;&apos;;echo $e-$s; 二、简单选择排序123456789for($i=0;$i&lt;999;$i++)&#123; for($j=$i+1;$j&lt;1000;$j++)&#123; if($a[$j]&lt;$a[$i])&#123; $temp = $a[$j]; $a[$j] = $a[$i]; $a[$i] = $temp; &#125; &#125;&#125; 三、直接插入排序12345678910for($i=1;$i&lt;1000;$i++)&#123; if($a[$i]&lt;$a[$i-1])&#123; $j = $i-1; $temp = $a[$i]; for($j;$j&gt;=0&amp;amp;&amp;amp;$a[$j]&gt;$temp;$j--)&#123; $a[$j+1] = $a[$j]; &#125; $a[$j+1] = $temp; &#125;&#125; 四、快速排序123456789101112131415161718192021222324252627function qsort($left,$right)&#123; if($left&gt;$right)&#123; return; &#125; global $a; $i=$left; $j=$right; $key = $i; while($i&lt;$j)&#123; //从右往左找到第一个小于标记的值，交换 while($a[$j]&gt;=$a[$key]&amp;amp;&amp;amp;$j&gt;$i)$j--; $temp = $a[$i]; $a[$i] = $a[$j]; $a[$j] = $temp; $key = $j; //从左往右找到第一个大于标记的值，交换 while($a[$i]&lt;=$a[$key]&amp;amp;&amp;amp;$i&lt;$j)$i++; $temp = $a[$i]; $a[$i] = $a[$j]; $a[$j] = $temp; $key = $i;&#125;//递归调用qsort($left,$i-1);qsort($i+1,$right);qsort(0,999); 多次测试结果冒泡排序0.05~0.07 简单选择0.03~0.06 直接插入0.02~0.04 快速排序0.002~0.007]]></content>
-      <tags>
-        <tag>排序</tag>
-        <tag>算法</tag>
-      </tags>
-  </entry>
-  <entry>
     <title><![CDATA[安装laravel]]></title>
     <url>%2F2017%2F03%2F16%2F%E5%AE%89%E8%A3%85Laravel%2F</url>
     <content type="text"><![CDATA[一、根据官方文档需要安装几个php的扩展 Openssl/PDO/Mbstring/Tokenizer/XML二、Linux下可以使用Composer来安装Laravel&nbsp; 1.全局安装Composer&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;curl -sS https://getcomposer.org/installer | php&nbsp;&nbsp;&nbsp;&nbsp;mv composer.phar /usr/local/bin/composer&nbsp; &nbsp; &nbsp;解决更新慢的问题&nbsp;&nbsp;&nbsp;&nbsp;composer config repo.packagist composer https://packagist.phpcomposer.com&nbsp;&nbsp;&nbsp;&nbsp;composer –version查看是否安装成功&nbsp; 2.利用Composer安装Laravel&nbsp;&nbsp;&nbsp;&nbsp;composer global require &quot;laravel/installer&quot;&nbsp;&nbsp;&nbsp;&nbsp;cd到$Home/.composer/vendor/bin目录下&nbsp;&nbsp;&nbsp;&nbsp;执行 Laravel new Blog&nbsp; 3.最后利用php的内置服务器&nbsp;&nbsp;&nbsp;&nbsp;php artisan serve一些收获&nbsp; &nbsp;1.Linux方面 .tar.gz通过的是源码安装 ./configure –prefix=/usr/local/php 即指定安装路径 卸载的时候只需要删除这个目录下的东西即可 开机自启动 增加环境变量&nbsp; &nbsp;2.php 的两种运行方式的php.ini有可能是不同的,也就是会出现你的web上面的phpinfo()和你直接用CLI执行的php -m发现扩展的开启情况是不相同的，这个时候就需要你运行CLI和web的时候所用的php.ini是同一个文件&nbsp; &nbsp;3.Laravel 从laraval知道了php有一个内置的服务器。]]></content>
@@ -274,51 +259,11 @@
       </tags>
   </entry>
   <entry>
-    <title><![CDATA[linux安装nginx]]></title>
-    <url>%2F2017%2F03%2F16%2FLinux%E4%B8%8B%E7%BC%96%E8%AF%91%E5%AE%89%E8%A3%85Nginx%2F</url>
-    <content type="text"><![CDATA[到nginx.org下载wget http://nginx.org/download/nginx-1.10.0.tar.gz解压压缩包环境配置Cd到解压出来的nginx目录中有configure目录的地方进行环境配置./configure –prefix=/usr/local/nginxⅠ.如果遇到提示缺少pcre库到www.pcre.org下载pcre库，if解压到/usr/local/src/pcre-sourceⅡ.1.6版本以后的版本制定pcre源码目录./configure –prefix=/usr/local/nginx–with-pcre=/usr/local/src/pcre-source之前的版本制定安装目录./configure –prefix=/usr/local/nginx–with-pcre=/usr/pcre4.编译安装 make &amp;&amp; make install5.启动nginx ./sbin/nginx重启./sbin/nginx –s reloadException:如果遇到80端口被httpd(Apache)占了Pkill -9 httpd如果无法访问检查防火墙设置]]></content>
-      <tags>
-        <tag>lnmp</tag>
-      </tags>
-  </entry>
-  <entry>
     <title><![CDATA[tomcat war]]></title>
     <url>%2F2017%2F03%2F16%2FLinux%E4%B8%8B%E5%AE%89%E8%A3%85jdk%20tomcat%20.war%E5%8F%91%E5%B8%83%E9%A1%B9%E7%9B%AE%2F</url>
     <content type="text"><![CDATA[一、安装JDK 1.下载jdk，注意下载的时候不要下载成html了，这是个坑。。。2.vim /etc/profileJAVA_HOME=/usr/…/jdk解压后的路径PATH=$PATH:$JAVA_HOME/binCLASSPATH=.:$JAVA_HOME/lib/jt.jar:$JAVA_HOME/lib/tools.jarexport JAVA_HOME PATH CLASSPATH:wqsource /etc/profile最后java -version3.下载tomcat，解压进入目录/bin &nbsp; ./startup.sh4.eclipse export 项目为.war格式 选择导出路径 上传到服务器webapps目录下]]></content>
       <tags>
         <tag>java</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title><![CDATA[最长不重复子串]]></title>
-    <url>%2F2017%2F03%2F16%2F%E8%AE%A1%E7%AE%97%E4%B8%80%E4%B8%AA%E5%AD%97%E7%AC%A6%E4%B8%B2%E4%B8%AD%E6%9C%80%E5%A4%A7%E4%B8%8D%E9%87%8D%E5%A4%8D%E5%AD%90%E4%B8%B2%E9%95%BF%E5%BA%A6%2F</url>
-    <content type="text"><![CDATA[123456789101112131415161718192021222324252627282930package mainimport ( "fmt ")func maxLen(str string) int &#123; start := 0 maxlen := 0 lastO := make(map[rune]int) for i, v := range []rune(str) &#123; if lastI, ok := lastO[v]; ok &#123; start = lastI + 1 &#125; if (i-start+1 &amp;gt; maxlen) &#123; maxlen = i - start + 1 &#125; lastO[v] = i &#125; return maxlen&#125;func main() &#123; //求字符串最大不重复子串长度 //s:= "Yes哈哈哈! " fmt.Println(maxLen( "abcbcdef ")) fmt.Println(maxLen( "abcdef ")) fmt.Println(maxLen( "aaaaaaa ")) fmt.Println(maxLen( "你说什么 "))&#125;]]></content>
-      <tags>
-        <tag>leetcode</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title><![CDATA[正则]]></title>
-    <url>%2F2017%2F03%2F16%2F%E6%AD%A3%E5%88%99%E3%80%81mb_substr%2F</url>
-    <content type="text"><![CDATA[0x1 爬虫过程遇到需要截取到&lt;span id=&quot;xhxm&quot;&gt;张三同学&lt;/span&gt;里面同学的名称&nbsp; 1.正则解决&nbsp; 2.通过字符串解决0x2 通过正则解决&nbsp; 1.简单解决&nbsp; &lt;span id=&quot;xhxm&quot;&gt;(.)\u540c\u5b66&lt;/span&gt;&nbsp;&nbsp; 2.零宽断言解决&nbsp; &nbsp;&gt;(.)(?=\u540c\u5b66)&nbsp;&nbsp;&nbsp; 这里使用零宽度正预测先行断言(?=exp)&nbsp; 就是找到匹配之前的内容&nbsp;&nbsp; (?&lt;=exp)用来找到匹配之后的东西，称为零宽度正回顾后发断言0x3 通过mb_substr解决 先匹配张三同学,然后截取字符串&nbsp; 因为这里的header是gb2312，所以指定mb_substr的编码为gb2312&nbsp; substr直接处理汉字会造成乱码的问题，可以使用mb_substr指定汉字编码方式gb2312&nbsp;&nbsp; 这样就可以截取到到张三0x4 这不算完&nbsp;]]></content>
-      <tags>
-        <tag>正则</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title><![CDATA[面试算法题]]></title>
-    <url>%2F2017%2F03%2F16%2F%E9%9D%A2%E8%AF%95%E7%AE%97%E6%B3%95%E9%A2%98%2F</url>
-    <content type="text"><![CDATA[package&nbsp;main import&nbsp;(&nbsp;&nbsp;&nbsp;&quot;fmt&quot;&nbsp;&nbsp;&nbsp;&quot;strconv&quot;&nbsp;&nbsp;&nbsp;&quot;sort&quot;) func&nbsp;filter(str&nbsp;string)&nbsp;string{&nbsp;&nbsp;&nbsp;//过滤aabbbbbccc&nbsp;为abc&nbsp;&nbsp;&nbsp;var&nbsp;newArr&nbsp;=&nbsp;make(map[rune]int)&nbsp;&nbsp;&nbsp;s&nbsp;:=&nbsp;&quot;&quot; &nbsp;&nbsp;&nbsp;for&nbsp;_,v&nbsp;:=&nbsp;range&nbsp;[]rune(str){&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if&nbsp;newArr[v]&nbsp;==&nbsp;0{&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;newArr[v]&nbsp;=&nbsp;1&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;s&nbsp;+=&nbsp;string(v)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}&nbsp;&nbsp;&nbsp;}&nbsp;&nbsp;&nbsp;return&nbsp;s} func&nbsp;filter2(str&nbsp;string)&nbsp;string{&nbsp;&nbsp;&nbsp;//过滤aaabbbcssss为3a3bc4s&nbsp;&nbsp;&nbsp;var&nbsp;newArr&nbsp;=&nbsp;make(map[rune]int)&nbsp;&nbsp;&nbsp;var&nbsp;sortArr&nbsp;[]string&nbsp;&nbsp;&nbsp;s&nbsp;:=&nbsp;&quot;&quot; &nbsp;&nbsp;&nbsp;for&nbsp;_,v&nbsp;:=&nbsp;range&nbsp;[]rune(str){&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;sortArr&nbsp;=&nbsp;append(sortArr,&nbsp;string(v))&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if&nbsp;newArr[v]&nbsp;==&nbsp;0{&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;newArr[v]&nbsp;=&nbsp;1&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}else{&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;newArr[v]&nbsp;+=&nbsp;1&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}&nbsp;&nbsp;&nbsp;} &nbsp;&nbsp;&nbsp;sort.Strings(sortArr) &nbsp;&nbsp;&nbsp;for&nbsp;i,v&nbsp;:=&nbsp;range&nbsp;newArr{&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if&nbsp;v&nbsp;==&nbsp;1&nbsp;{&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;s&nbsp;+=&nbsp;string(i)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}else{&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;s&nbsp;+=&nbsp;strconv.Itoa(v)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;s&nbsp;+=&nbsp;string(i)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}&nbsp;&nbsp;&nbsp;}&nbsp;&nbsp;&nbsp;return&nbsp;s} func&nbsp;main()&nbsp;{&nbsp;&nbsp;&nbsp;fmt.Println(filter2(&quot;aabccddee&quot;))}go语言的map用for range遍历是随机的key所以如果需要顺序遍历则需要先将key排序]]></content>
-      <tags>
-        <tag>面经</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title><![CDATA[lnmp重启]]></title>
-    <url>%2F2017%2F03%2F16%2FNginxPHPMysql%20%E9%87%8D%E5%90%AF%E7%AD%89%E5%91%BD%E4%BB%A4%2F</url>
-    <content type="text"><![CDATA[nginx&nbsp;&nbsp;&nbsp;start：&nbsp;/usr/local/nginx/sbin/nginx&nbsp;&nbsp;stop：&nbsp;/usr/local/nginx/sbin/nginx&nbsp;-s&nbsp;stop&nbsp;&nbsp;reload：&nbsp;/usr/local/nginx/sbin/nginx&nbsp;-s&nbsp;reload&nbsp;&nbsp;#**&nbsp;&nbsp;#php-fpm(fast-cgi)命令&nbsp;&nbsp;&nbsp;start：&nbsp;/usr/local/php/sbin/php-fpm&nbsp;&nbsp;stop：&nbsp;/bin/ps&nbsp;-ef&nbsp;|&nbsp;grep&nbsp;&#39;php-fpm&#39;&nbsp;|&nbsp;grep&nbsp;-v&nbsp;grep&nbsp;|&nbsp;cut&nbsp;-c&nbsp;9-15&nbsp;|&nbsp;xargs&nbsp;kill&nbsp;-9&nbsp;&nbsp;&nbsp;Linux：PHP&nbsp;5.3.3&nbsp;以上版本的php-fpm的重启&nbsp;INT,&nbsp;TERM：立刻终止QUIT：平滑终止USR1：重新打开日志文件USR2：平滑重载所有worker进程并重新载入配置和二进制模块&nbsp;示例：1）php-fpm&nbsp;关闭：kill&nbsp;-INT&nbsp;cat&amp;nbsp;/usr/local/php/var/run/php-fpm.pid&nbsp;2）php-fpm&nbsp;重启：kill&nbsp;-USR2&nbsp;cat&amp;nbsp;/usr/local/php/var/run/php-fpm.pid&nbsp;查看php-fpm进程数：ps&nbsp;aux&nbsp;|&nbsp;grep&nbsp;-c&nbsp;php-fpm&nbsp;#**&nbsp;&nbsp;#mysql命令&nbsp;&nbsp;start：&nbsp;/etc/init.d/mysqld&nbsp;start&nbsp;&nbsp;stop：&nbsp;/etc/init.d/mysqld&nbsp;stop&nbsp;&nbsp;restart：&nbsp;/etc/init.d/mysqld&nbsp;restart&nbsp;&nbsp;#**&nbsp;]]></content>
-      <tags>
-        <tag>lnmp</tag>
       </tags>
   </entry>
   <entry>
@@ -331,11 +276,76 @@
       </tags>
   </entry>
   <entry>
+    <title><![CDATA[正则]]></title>
+    <url>%2F2017%2F03%2F16%2F%E6%AD%A3%E5%88%99%E3%80%81mb_substr%2F</url>
+    <content type="text"><![CDATA[0x1 爬虫过程遇到需要截取到&lt;span id=&quot;xhxm&quot;&gt;张三同学&lt;/span&gt;里面同学的名称&nbsp; 1.正则解决&nbsp; 2.通过字符串解决0x2 通过正则解决&nbsp; 1.简单解决&nbsp; &lt;span id=&quot;xhxm&quot;&gt;(.)\u540c\u5b66&lt;/span&gt;&nbsp;&nbsp; 2.零宽断言解决&nbsp; &nbsp;&gt;(.)(?=\u540c\u5b66)&nbsp;&nbsp;&nbsp; 这里使用零宽度正预测先行断言(?=exp)&nbsp; 就是找到匹配之前的内容&nbsp;&nbsp; (?&lt;=exp)用来找到匹配之后的东西，称为零宽度正回顾后发断言0x3 通过mb_substr解决 先匹配张三同学,然后截取字符串&nbsp; 因为这里的header是gb2312，所以指定mb_substr的编码为gb2312&nbsp; substr直接处理汉字会造成乱码的问题，可以使用mb_substr指定汉字编码方式gb2312&nbsp;&nbsp; 这样就可以截取到到张三0x4 这不算完&nbsp;]]></content>
+      <tags>
+        <tag>正则</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[linux安装php]]></title>
+    <url>%2F2017%2F03%2F16%2FLinux%E4%B8%8B%E7%BC%96%E8%AF%91%E5%AE%89%E8%A3%85PHP%2F</url>
+    <content type="text"><![CDATA[1、&nbsp;&nbsp;安装依赖库2、&nbsp;&nbsp;yum install gd zlib libxml2 libxml2-devel libjpeg libjpeg-devel libpng libpng-devel3、&nbsp;&nbsp;下载php-5.6.23.tar.bz2，解压4、&nbsp;&nbsp;cd到php解压的目录里5、&nbsp;&nbsp;配置安装的一些参数./configure –prefix=/usr/local/php \–with-gd \–enable-gd-native-ttf \–enable-gd-jis-conv \–with-mysql=mysqlnd \–enable-mysqlnd \–with-pdo-mysql=mysqlnd \–enable-fpm\–with-openssl&nbsp;&nbsp;Curl &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;./configure –prefix=/usr/local/php7 –with-gd –enable-gd-native-ttf –enable-gd-jis-conv –with-mysql=mysqlnd –enable-mysqlnd –with-pdo-mysql=mysqlnd –enable-fpm –with-openssl –enable-mbstring –enable-tokenizer –enable-zip –with-curl&nbsp;&nbsp;enable-fpm是让php作为独立的进程来运行，占用9000端口配置注意&nbsp;可能会报openssl的错误yum install openssl openssl-devel&nbsp;每个参数后的斜杠前是有空格的，斜杠所起的作用是连接上下两行，没有空格两个参数会连到一起就会报错了6、&nbsp;&nbsp;make &amp;&amp;make install这个过程中如果使用小内存的服务器可能出现php error，解决办法:在配置的最后一行加上–disable-fileinfo7、cd /usr/local/phpcp etc/php-fpm.conf.default etc/php-fpm.confcp /usr/local/src/php-5.5.13/php.ini-development ./lib/php.ini7、&nbsp;&nbsp;启动php./sbin/php-fpm&nbsp;&nbsp;/usr/local/php7/lib/php/extensions/no-debug-non-zts-20151012]]></content>
+      <tags>
+        <tag>lnmp</tag>
+      </tags>
+  </entry>
+  <entry>
     <title><![CDATA[apache]]></title>
     <url>%2F2017%2F03%2F16%2F%E7%BC%96%E8%AF%91%E5%AE%89%E8%A3%85apache%20%E7%8E%AF%E5%A2%83%E5%8F%98%E9%87%8F%2F</url>
     <content type="text"><![CDATA[1.下载httpd apr apr-util pcre配置安装apr .configure –with-prefix=/…./apa/apr&nbsp;make &amp;&amp; make install配置安装apr-util .configure –with-prefix=/…./apa/apr-util&nbsp;make &amp;&amp; make install配置安装pcre .configure –with-prefix=/…./local/pcre&nbsp;make &amp;&amp; make install配置安装apache httpd&nbsp;./configure –prefix=/usr/local/apache2 –with-mpm=worker –enable-cache –enable-disk-cache –enable-mem-cache –enable-file-cache –enable-nonportable-atomics –enable-mods-shared=most –enable-so –enable-rewrite –enable-ssl –with-apr=/../apr安装目录 –with-apr-util=/…/apr-util安装目录 –with-pcre=pcre安装目录make &amp;&amp; make install&nbsp;php configure 参数 http://www.mamicode.com/info-detail-32029.html]]></content>
       <tags>
         <tag>apache</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[面试算法题]]></title>
+    <url>%2F2017%2F03%2F16%2F%E9%9D%A2%E8%AF%95%E7%AE%97%E6%B3%95%E9%A2%98%2F</url>
+    <content type="text"><![CDATA[package&nbsp;main import&nbsp;(&nbsp;&nbsp;&nbsp;&quot;fmt&quot;&nbsp;&nbsp;&nbsp;&quot;strconv&quot;&nbsp;&nbsp;&nbsp;&quot;sort&quot;) func&nbsp;filter(str&nbsp;string)&nbsp;string{&nbsp;&nbsp;&nbsp;//过滤aabbbbbccc&nbsp;为abc&nbsp;&nbsp;&nbsp;var&nbsp;newArr&nbsp;=&nbsp;make(map[rune]int)&nbsp;&nbsp;&nbsp;s&nbsp;:=&nbsp;&quot;&quot; &nbsp;&nbsp;&nbsp;for&nbsp;_,v&nbsp;:=&nbsp;range&nbsp;[]rune(str){&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if&nbsp;newArr[v]&nbsp;==&nbsp;0{&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;newArr[v]&nbsp;=&nbsp;1&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;s&nbsp;+=&nbsp;string(v)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}&nbsp;&nbsp;&nbsp;}&nbsp;&nbsp;&nbsp;return&nbsp;s} func&nbsp;filter2(str&nbsp;string)&nbsp;string{&nbsp;&nbsp;&nbsp;//过滤aaabbbcssss为3a3bc4s&nbsp;&nbsp;&nbsp;var&nbsp;newArr&nbsp;=&nbsp;make(map[rune]int)&nbsp;&nbsp;&nbsp;var&nbsp;sortArr&nbsp;[]string&nbsp;&nbsp;&nbsp;s&nbsp;:=&nbsp;&quot;&quot; &nbsp;&nbsp;&nbsp;for&nbsp;_,v&nbsp;:=&nbsp;range&nbsp;[]rune(str){&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;sortArr&nbsp;=&nbsp;append(sortArr,&nbsp;string(v))&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if&nbsp;newArr[v]&nbsp;==&nbsp;0{&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;newArr[v]&nbsp;=&nbsp;1&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}else{&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;newArr[v]&nbsp;+=&nbsp;1&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}&nbsp;&nbsp;&nbsp;} &nbsp;&nbsp;&nbsp;sort.Strings(sortArr) &nbsp;&nbsp;&nbsp;for&nbsp;i,v&nbsp;:=&nbsp;range&nbsp;newArr{&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if&nbsp;v&nbsp;==&nbsp;1&nbsp;{&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;s&nbsp;+=&nbsp;string(i)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}else{&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;s&nbsp;+=&nbsp;strconv.Itoa(v)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;s&nbsp;+=&nbsp;string(i)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}&nbsp;&nbsp;&nbsp;}&nbsp;&nbsp;&nbsp;return&nbsp;s} func&nbsp;main()&nbsp;{&nbsp;&nbsp;&nbsp;fmt.Println(filter2(&quot;aabccddee&quot;))}go语言的map用for range遍历是随机的key所以如果需要顺序遍历则需要先将key排序]]></content>
+      <tags>
+        <tag>面经</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[最长不重复子串]]></title>
+    <url>%2F2017%2F03%2F16%2F%E8%AE%A1%E7%AE%97%E4%B8%80%E4%B8%AA%E5%AD%97%E7%AC%A6%E4%B8%B2%E4%B8%AD%E6%9C%80%E5%A4%A7%E4%B8%8D%E9%87%8D%E5%A4%8D%E5%AD%90%E4%B8%B2%E9%95%BF%E5%BA%A6%2F</url>
+    <content type="text"><![CDATA[123456789101112131415161718192021222324252627282930package mainimport ( "fmt ")func maxLen(str string) int &#123; start := 0 maxlen := 0 lastO := make(map[rune]int) for i, v := range []rune(str) &#123; if lastI, ok := lastO[v]; ok &#123; start = lastI + 1 &#125; if (i-start+1 &amp;gt; maxlen) &#123; maxlen = i - start + 1 &#125; lastO[v] = i &#125; return maxlen&#125;func main() &#123; //求字符串最大不重复子串长度 //s:= "Yes哈哈哈! " fmt.Println(maxLen( "abcbcdef ")) fmt.Println(maxLen( "abcdef ")) fmt.Println(maxLen( "aaaaaaa ")) fmt.Println(maxLen( "你说什么 "))&#125;]]></content>
+      <tags>
+        <tag>leetcode</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[基本排序算法]]></title>
+    <url>%2F2017%2F03%2F16%2F%E6%8E%92%E5%BA%8F%E7%AE%97%E6%B3%95%2F</url>
+    <content type="text"><![CDATA[使用四种基本的排序方法对生成的1000个随机数进行排序，比较执行时间一、冒泡排序123456789101112131415161718192021222324$s=microtime();//记录开始时间for($i=0;$i=1000;$i++)&#123; $a[$i] = mt_rand(0,1000);&#125;//冒泡排序for($j=0;$j&lt;999;$j++)&#123; for($k=0;$k&lt;999-$j;$k++)&#123; if($a[$k]&gt;$a[$k+1])&#123; $temp = $a[$k]; $a[$k] = $a[$k+1]; $a[$k+1] = $temp; &#125; &#125;&#125;for($i=0;$i&lt;1000;$i++)&#123; echo $a[$i].&apos;&apos;;&#125;$e = microtime();//记录结束时间echo &apos;&lt;br/&gt;&apos;;echo $e-$s; 二、简单选择排序123456789for($i=0;$i&lt;999;$i++)&#123; for($j=$i+1;$j&lt;1000;$j++)&#123; if($a[$j]&lt;$a[$i])&#123; $temp = $a[$j]; $a[$j] = $a[$i]; $a[$i] = $temp; &#125; &#125;&#125; 三、直接插入排序12345678910for($i=1;$i&lt;1000;$i++)&#123; if($a[$i]&lt;$a[$i-1])&#123; $j = $i-1; $temp = $a[$i]; for($j;$j&gt;=0&amp;amp;&amp;amp;$a[$j]&gt;$temp;$j--)&#123; $a[$j+1] = $a[$j]; &#125; $a[$j+1] = $temp; &#125;&#125; 四、快速排序123456789101112131415161718192021222324252627function qsort($left,$right)&#123; if($left&gt;$right)&#123; return; &#125; global $a; $i=$left; $j=$right; $key = $i; while($i&lt;$j)&#123; //从右往左找到第一个小于标记的值，交换 while($a[$j]&gt;=$a[$key]&amp;amp;&amp;amp;$j&gt;$i)$j--; $temp = $a[$i]; $a[$i] = $a[$j]; $a[$j] = $temp; $key = $j; //从左往右找到第一个大于标记的值，交换 while($a[$i]&lt;=$a[$key]&amp;amp;&amp;amp;$i&lt;$j)$i++; $temp = $a[$i]; $a[$i] = $a[$j]; $a[$j] = $temp; $key = $i;&#125;//递归调用qsort($left,$i-1);qsort($i+1,$right);qsort(0,999); 多次测试结果冒泡排序0.05~0.07 简单选择0.03~0.06 直接插入0.02~0.04 快速排序0.002~0.007]]></content>
+      <tags>
+        <tag>算法</tag>
+        <tag>排序</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[linux安装nginx]]></title>
+    <url>%2F2017%2F03%2F16%2FLinux%E4%B8%8B%E7%BC%96%E8%AF%91%E5%AE%89%E8%A3%85Nginx%2F</url>
+    <content type="text"><![CDATA[到nginx.org下载wget http://nginx.org/download/nginx-1.10.0.tar.gz解压压缩包环境配置Cd到解压出来的nginx目录中有configure目录的地方进行环境配置./configure –prefix=/usr/local/nginxⅠ.如果遇到提示缺少pcre库到www.pcre.org下载pcre库，if解压到/usr/local/src/pcre-sourceⅡ.1.6版本以后的版本制定pcre源码目录./configure –prefix=/usr/local/nginx–with-pcre=/usr/local/src/pcre-source之前的版本制定安装目录./configure –prefix=/usr/local/nginx–with-pcre=/usr/pcre4.编译安装 make &amp;&amp; make install5.启动nginx ./sbin/nginx重启./sbin/nginx –s reloadException:如果遇到80端口被httpd(Apache)占了Pkill -9 httpd如果无法访问检查防火墙设置]]></content>
+      <tags>
+        <tag>lnmp</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[lnmp重启]]></title>
+    <url>%2F2017%2F03%2F16%2FNginxPHPMysql%20%E9%87%8D%E5%90%AF%E7%AD%89%E5%91%BD%E4%BB%A4%2F</url>
+    <content type="text"><![CDATA[nginx&nbsp;&nbsp;&nbsp;start：&nbsp;/usr/local/nginx/sbin/nginx&nbsp;&nbsp;stop：&nbsp;/usr/local/nginx/sbin/nginx&nbsp;-s&nbsp;stop&nbsp;&nbsp;reload：&nbsp;/usr/local/nginx/sbin/nginx&nbsp;-s&nbsp;reload&nbsp;&nbsp;#**&nbsp;&nbsp;#php-fpm(fast-cgi)命令&nbsp;&nbsp;&nbsp;start：&nbsp;/usr/local/php/sbin/php-fpm&nbsp;&nbsp;stop：&nbsp;/bin/ps&nbsp;-ef&nbsp;|&nbsp;grep&nbsp;&#39;php-fpm&#39;&nbsp;|&nbsp;grep&nbsp;-v&nbsp;grep&nbsp;|&nbsp;cut&nbsp;-c&nbsp;9-15&nbsp;|&nbsp;xargs&nbsp;kill&nbsp;-9&nbsp;&nbsp;&nbsp;Linux：PHP&nbsp;5.3.3&nbsp;以上版本的php-fpm的重启&nbsp;INT,&nbsp;TERM：立刻终止QUIT：平滑终止USR1：重新打开日志文件USR2：平滑重载所有worker进程并重新载入配置和二进制模块&nbsp;示例：1）php-fpm&nbsp;关闭：kill&nbsp;-INT&nbsp;cat&amp;nbsp;/usr/local/php/var/run/php-fpm.pid&nbsp;2）php-fpm&nbsp;重启：kill&nbsp;-USR2&nbsp;cat&amp;nbsp;/usr/local/php/var/run/php-fpm.pid&nbsp;查看php-fpm进程数：ps&nbsp;aux&nbsp;|&nbsp;grep&nbsp;-c&nbsp;php-fpm&nbsp;#**&nbsp;&nbsp;#mysql命令&nbsp;&nbsp;start：&nbsp;/etc/init.d/mysqld&nbsp;start&nbsp;&nbsp;stop：&nbsp;/etc/init.d/mysqld&nbsp;stop&nbsp;&nbsp;restart：&nbsp;/etc/init.d/mysqld&nbsp;restart&nbsp;&nbsp;#**&nbsp;]]></content>
+      <tags>
+        <tag>lnmp</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[linux安装mysql]]></title>
+    <url>%2F2017%2F03%2F16%2FLinux%E4%B8%8B%E7%BC%96%E8%AF%91%E5%AE%89%E8%A3%85Mysql%2F</url>
+    <content type="text"><![CDATA[1、mysql 官网下载适合的压缩包，格式为mysql-x.x.xx-linuxxxx.tar.gz2、解压后配置配置帮助 ./configure –help3、groupadd mysqluseradd –g mysql mysqlcd到mysql的解压目录chown –R mysql .chgrp –R mysql .4、./scripts/mysql_install_db –user=mysql如果提示laibaio.1的相关错误yum install libaioso.1 libaio5、把目录权限还给rootchown –R root .chown –R mysql datamkdir /var/run/mysqldchown mysql /var/run/mysqldchgrp mysql /var/run/mysqld6、启动mysql./bin/mysqld_safe –user=mysql &amp;7、连接mysql ./bin/mysql –uroot -p如果报错 建立软连接或者直接将sock文件复制过去建立软连接方法ln /var/lib/mysql/mysql.sock /tmp/mysql.sock8、修改密码update user set Password=password(你想要的密码) where Host=’localhost’ and User= ‘root ‘;delete from user where Password= ‘’;flush privileges;]]></content>
+      <tags>
+        <tag>lnmp</tag>
       </tags>
   </entry>
   <entry>
