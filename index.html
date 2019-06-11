@@ -364,7 +364,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/06/02/php中的hash表/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/06/11/一些经验/">
 
     <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
       <meta itemprop="name" content="czhuyu">
@@ -384,7 +384,164 @@
           <h1 class="post-title" itemprop="name headline">
                 
                 
-                <a href="/2019/06/02/php中的hash表/" class="post-title-link" itemprop="http://yoursite.com/index.html">php中的数组和hash表</a>
+                <a href="/2019/06/11/一些经验/" class="post-title-link" itemprop="http://yoursite.com/index.html">一些经验</a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2019-06-11 15:25:42 / 修改时间：16:27:52" itemprop="dateCreated datePublished" datetime="2019-06-11T15:25:42+08:00">2019-06-11</time>
+            
+
+            
+              
+
+              
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h2 id="一些经验"><a href="#一些经验" class="headerlink" title="一些经验"></a>一些经验</h2><p><strong>1.mysql的字段类型int(3)和int(4)</strong></p>
+<p>下面是官方文档的解释</p>
+<p>11.2.5 Numeric Type Attributes</p>
+<p>MySQL supports an extension for optionally specifying the display width of integer data types in<br>parentheses following the base keyword for the type. For example, INT(4) specifies an INT with a<br>display width of four digits. This optional display width may be used by applications to display integer<br>values having a width less than the width specified for the column by left-padding them with spaces.<br>(That is, this width is present in the metadata returned with result sets. Whether it is used is up to the<br>application.)<br>The display width does not constrain the range of values that can be stored in the column. Nor does<br>it prevent values wider than the column display width from being displayed correctly. For example, a<br>column specified as SMALLINT(3) has the usual SMALLINT range of -32768 to 32767, and values<br>outside the range permitted by three digits are displayed in full using more than three digits.<br>When used in conjunction with the optional (nonstandard) ZEROFILL attribute, the default padding of<br>spaces is replaced with zeros. For example, for a column declared as INT(4) ZEROFILL, a value of 5<br>is retrieved as 0005.</p>
+<p>这里的意思大概就是后面的数值代表的是一个显示宽度，当配合zerofill使用时，如果存储1到该字段中，int(3)会返回001而int(4)会返回0001</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; desc sss;</span><br><span class="line">+-------+--------------------------+------+-----+---------+----------------+</span><br><span class="line">| Field | Type                     | Null | Key | Default | Extra          |</span><br><span class="line">+-------+--------------------------+------+-----+---------+----------------+</span><br><span class="line">| id    | int(11) unsigned         | NO   | PRI | NULL    | auto_increment |</span><br><span class="line">| test3 | int(3) unsigned zerofill | NO   |     | NULL    |                |</span><br><span class="line">| test4 | int(4) unsigned zerofill | NO   |     | NULL    |                |</span><br><span class="line">+-------+--------------------------+------+-----+---------+----------------+</span><br><span class="line">3 rows in set (0.01 sec)</span><br><span class="line"></span><br><span class="line">mysql&gt; select * from sss;</span><br><span class="line">+----+-------+-------+</span><br><span class="line">| id | test3 | test4 |</span><br><span class="line">+----+-------+-------+</span><br><span class="line">|  1 |   001 |  0001 |</span><br><span class="line">+----+-------+-------+</span><br><span class="line">1 row in set (0.00 sec)</span><br></pre></td></tr></table></figure>
+<p>需要注意的是，如果使用navicat这个可视化工具来测试这个的话test3和tes4都会返回1而没有填充的0，不知道是bug还是feature.</p>
+<p><strong>2.会输出什么？</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php</span><br><span class="line">    echo $_COOKIE[&apos;username&apos;];</span><br><span class="line">    setcookie(&quot;username&quot;, 111, time()+5);</span><br></pre></td></tr></table></figure>
+<p>第一次请求的结果输出</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Notice: Undefined index: username in xxx.php on line 2</span><br></pre></td></tr></table></figure>
+<p>倒过来呢？</p>
+<pre><code>&lt;?php
+    setcookie(&quot;username&quot;, 111, time()+5);
+    echo $_COOKIE[&apos;username&apos;];
+</code></pre><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">结果肯定是一样的，为什么？因为输出和setcookie在同一个php文件里面，只有下次请求过来的时候php才会把请求头里面的cookie装到$_COOKIE变量里面，所以这两种情况输出的$_COOKIE都会是一个空数组，文档中也有这样一句描述：</span><br><span class="line">一旦设置 Cookie 后，下次打开页面时可以使用 $_COOKIE 读取。 Cookie 值同样也存在于 $_REQUEST。</span><br></pre></td></tr></table></figure>
+
+          
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+       
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/06/02/php中的数组和hash表/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="czhuyu">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="https://avatars2.githubusercontent.com/u/26237984">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="无限进步">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                
+                <a href="/2019/06/02/php中的数组和hash表/" class="post-title-link" itemprop="http://yoursite.com/index.html">php中的数组和hash表</a>
               
             
           </h1>
@@ -426,7 +583,7 @@
                 
                   <span class="post-meta-item-text">更新于</span>
                 
-                <time title="修改时间：2019-06-03 18:37:27" itemprop="dateModified" datetime="2019-06-03T18:37:27+08:00">2019-06-03</time>
+                <time title="修改时间：2019-06-04 11:27:28" itemprop="dateModified" datetime="2019-06-04T11:27:28+08:00">2019-06-04</time>
               
             
           </span>
@@ -510,6 +667,12 @@
 <p>冲突可以减少，但是不能避免，所以还必须有处理冲突的方法</p>
 <p>开放定址法/再hash法/链地址法</p>
 <p>php中采用的是链地址法</p>
+<p>如果冲突太多怎么办？或者恶意冲突呢？在鸟哥的blog里有一篇关于hash冲突的示例</p>
+<p><a href="http://www.laruence.com/2011/12/30/2435.html" target="_blank" rel="noopener">http://www.laruence.com/2011/12/30/2435.html</a></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php</span><br><span class="line">$size = pow(2, 16);</span><br><span class="line"> </span><br><span class="line">$startTime = microtime(true);</span><br><span class="line">$array = array();</span><br><span class="line">for ($key = 0, $maxKey = ($size - 1) * $size; $key &lt;= $maxKey; $key += $size) &#123;</span><br><span class="line">    $array[$key] = 0;</span><br><span class="line">&#125;</span><br><span class="line">$endTime = microtime(true);</span><br><span class="line">echo &apos;插入 &apos;, $size, &apos; 个恶意的元素需要 &apos;, $endTime - $startTime, &apos; 秒&apos;, &quot;\n&quot;;</span><br><span class="line"> </span><br><span class="line">$startTime = microtime(true);</span><br><span class="line">$array = array();</span><br><span class="line">for ($key = 0, $maxKey = $size - 1; $key &lt;= $maxKey; ++$key) &#123;</span><br><span class="line">    $array[$key] = 0;</span><br><span class="line">&#125;</span><br><span class="line">$endTime = microtime(true);</span><br><span class="line">echo &apos;插入 &apos;, $size, &apos; 个普通元素需要 &apos;, $endTime - $startTime, &apos; 秒&apos;, &quot;\n&quot;;</span><br></pre></td></tr></table></figure>
+<p>在我的机器上面运行得到了下面这个结果。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">插入 65536 个恶意的元素需要 29.219798088074 秒</span><br><span class="line">插入 65536 个普通元素需要 0.014147996902466 秒</span><br></pre></td></tr></table></figure>
+<p>可以看到差距确实是很明显的，具体原因就是每个需要插入的key都会产生hash冲突最后整个hash表变成了一个链表。由于这个链表会保持有序，所以每当下一个元素需要插入时，就要遍历去找它应该插入该到链表的那个位置造成了这个问题，而且需要遍历的节点个数是越来越多的。</p>
 <p><strong>php hash表结构图示</strong></p>
 <p><img src="http://www.php-internals.com/images/book/chapt03/03-01-02-zend_hashtable.png" alt=""></p>
 <p>上图来自网络，侵删。</p>
@@ -520,7 +683,7 @@
 <p>Bucket就是保存数据的单元</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">typedef struct bucket &#123;</span><br><span class="line">	ulong h;						/* Used for numeric indexing */</span><br><span class="line">	uint nKeyLength;</span><br><span class="line">	void *pData;</span><br><span class="line">	void *pDataPtr;</span><br><span class="line">	struct bucket *pListNext;</span><br><span class="line">	struct bucket *pListLast;</span><br><span class="line">	struct bucket *pNext;</span><br><span class="line">	struct bucket *pLast;</span><br><span class="line">	const char *arKey;</span><br><span class="line">&#125; Bucket;</span><br></pre></td></tr></table></figure>
 <p>从图中或者从结构体定义中我们可以看到hash表结构体和Bucket结构体定义了很多指针或者是变量来存储Bucket相关的信息或者跟hash表相关的信息。</p>
-<p>回到图中，在Bucket1插入之前，php先初始化了_hashtable这样一个结构体，初始化了一个连续的地址空间，里面保存的都是空指针，并且把Bucket **arBuckets;指向指针类型的指针指向了这个连续地址区间的第一个元素的地址。在实际的将这个元素保存到hash表的过程中，先根据hash函数确定了Bucket1应该存储到地址为1的这个位置，于是把地址为1的空指针指向了bucket1，然后插入Bucket2，由于hash函数Bucket2的key对应的地址也是1，于是把Bucket2的pNext指向了Bucket1，把地址为1的指针执行了Bucket2，Bucket3和Bucket1插入的方式同理。</p>
+<p>回到图中，在Bucket1插入之前，php先初始化了_hashtable这样一个结构体，初始化了一个连续的地址空间，里面保存的都是空指针，并且把Bucket **arBuckets;指向指针类型的指针指向了这个连续地址区间的第一个元素的地址。在实际的将这个元素保存到hash表的过程中，先根据hash函数确定了Bucket1应该存储到地址为1的这个位置，于是把地址为1的空指针指向了bucket1，然后插入Bucket2，由于hash函数Bucket2的key对应的地址也是1，一般来说在每个链hash key的值相同的链表中也是要保持关键词有序的，因为方便查找和添加，于是根据关键词的升序或者降序确定了Bucket2应当插入到Bucket1的前面。把Bucket2的pNext指向了Bucket1，把地址为1的指针执行了Bucket2，Bucket3和Bucket1插入的方式同理。</p>
 <p>这里只是简要描述了插入的过程而没有说明每一个变量的改变和指针的改变，不然流程太长了。</p>
 <p>Bucket里保存的信息的作用</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">ulong h;	/* Used for numeric indexing */ 这里php源码注释说会用到索引数字类型的时候</span><br><span class="line">uint nKeyLength;        key的长度          </span><br><span class="line">void *pData;			data相关</span><br><span class="line">void *pDataPtr;			data相关</span><br><span class="line">struct bucket *pListNext; 在整个hashtable中按插入先后顺序的下一个bucket地址</span><br><span class="line">struct bucket *pListLast; 在整个hashtable中按插入先后顺序的上一个bucket地址</span><br><span class="line">struct bucket *pNext;  在key的hash结果相同的链表中下一个bucket的地址</span><br><span class="line">struct bucket *pLast;  在key的hash结果相同的链表中上一个bucket的地址</span><br><span class="line">const char *arKey;    key</span><br></pre></td></tr></table></figure>
@@ -531,11 +694,11 @@
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">uint nTableSize;</span><br><span class="line">uint nTableMask;</span><br><span class="line">uint nNumOfElements;</span><br><span class="line">ulong nNextFreeElement;</span><br><span class="line">Bucket *pInternalPointer;	/* Used for element traversal */ 这里php源码注释说会用到元素遍历的时候</span><br><span class="line">Bucket *pListHead;</span><br><span class="line">Bucket *pListTail;</span><br><span class="line">Bucket **arBuckets;</span><br><span class="line">dtor_func_t pDestructor;</span><br><span class="line">zend_bool persistent;</span><br><span class="line">unsigned char nApplyCount;</span><br><span class="line">zend_bool bApplyProtection;</span><br></pre></td></tr></table></figure>
 <p>这里面保存的变量就跟php数组的操作函数有关系了</p>
 <p>当我们使用foreach()来遍历输出一个数组时，他会按照元素的添加先后顺序来输出，怎么做到的呢？Bucket *pInternalPointer;这个指针的作用就体现出来了,首先他的值会跟pListHead一样指向第一个添加的Bucket的地址，然后输出就是</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">print *pInternalPointer-&gt;pData-&gt;pDataPtr</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">print pInternalPointer-&gt;pData-&gt;pDataPtr</span><br></pre></td></tr></table></figure>
 <p>输出下一个元素呢</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">*pInternalPointer = *pInternalPointer-&gt;pListNext</span><br><span class="line">print *pInternalPointer-&gt;pData-&gt;pDataPtr</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">pInternalPointer = pInternalPointer-&gt;pListNext</span><br><span class="line">print pInternalPointer-&gt;pData-&gt;pDataPtr</span><br></pre></td></tr></table></figure>
 <p>一直到*pInternalPointer-&gt;pListNext为null的时候数组遍历就完成了，其他的一些函数</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">reset() *pInternalPointer = *pListHead</span><br><span class="line">end() *pInternalPointer = *pListTail</span><br><span class="line">next() *pInternalPointer = *pInternalPointer-&gt;pListNext</span><br><span class="line">prev() *pInternalPointer = *pInternalPointer-&gt;pListLast</span><br><span class="line">current() *pInternalPointer</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">reset() pInternalPointer = pListHead</span><br><span class="line">end() pInternalPointer = pListTail</span><br><span class="line">next() pInternalPointer = pInternalPointer-&gt;pListNext</span><br><span class="line">prev() pInternalPointer = pInternalPointer-&gt;pListLast</span><br><span class="line">current() pInternalPointer</span><br></pre></td></tr></table></figure>
 
           
         
@@ -1046,7 +1209,7 @@ exec_direct=php_optarg;
                 
                   <span class="post-meta-item-text">更新于</span>
                 
-                <time title="修改时间：2019-05-28 15:47:36" itemprop="dateModified" datetime="2019-05-28T15:47:36+08:00">2019-05-28</time>
+                <time title="修改时间：2019-06-04 09:19:17" itemprop="dateModified" datetime="2019-06-04T09:19:17+08:00">2019-06-04</time>
               
             
           </span>
@@ -1112,6 +1275,8 @@ exec_direct=php_optarg;
 <p>最后一步 D ，算法遍历根缓冲区以从那里删除变量容器根(zval roots)， 同时，检查是否有在上一步中被白色标记的变量容器。每个被白色标记的变量容器都被清除。</p>
 <h5 id="2-写时复制"><a href="#2-写时复制" class="headerlink" title="2.写时复制"></a>2.写时复制</h5><p>写时复制并不是PHP独有的</p>
 <h5 id="3-慎用-amp"><a href="#3-慎用-amp" class="headerlink" title="3.慎用&amp;"></a>3.慎用&amp;</h5><h3 id="二-资源管理"><a href="#二-资源管理" class="headerlink" title="二.资源管理"></a>二.资源管理</h3><p><strong>数据库资源为例：</strong><br>​        在java里面，会在try cache的finally结构中调用一个connection.close()去显式地关闭数据库的连接<br>​        在c++里面可以用__destruct析构函数在对象被销毁的时候来做close的操作<br>​        在php中呢？日常开发使用laravel框架的时候好像没注意到这个地方，也没有去显式地调用close方法.但肯定是有close的方法来提前释放掉这个连接的，laravel的数据库操作的实现是基于PDO来做的。<br>​        通过查阅文档<a href="https://www.php.net/manual/zh/pdo.connections.php，连接数据成功后，返回一个" target="_blank" rel="noopener">https://www.php.net/manual/zh/pdo.connections.php，连接数据成功后，返回一个</a> PDO 类的实例给脚本，此连接在 PDO 对象的生存周期中保持活动。要想关闭连接，需要销毁对象以确保所有剩余到它的引用都被删除，可以赋一个 NULL 值给对象变量。如果不明确地这么做，PHP 在脚本结束时会自动关闭连接                                                                                                                                                                                                                                                                                                                                                                                                                                         </p>
+<p>​    那就是说php在脚本结束的时候会去自动清理数据库资源/文件等资源。在工作中我们会用到在后台长期运行的脚本，这种时候我们就需要自己去手动释放资源/内存等。</p>
+<p>​    更详细的在 <a href="http://www.laruence.com/2012/07/25/2662.html" target="_blank" rel="noopener">http://www.laruence.com/2012/07/25/2662.html</a></p>
 <h3 id="三-其他"><a href="#三-其他" class="headerlink" title="三.其他"></a>三.其他</h3><h5 id="1-符号表"><a href="#1-符号表" class="headerlink" title="1.符号表"></a>1.符号表</h5><p><strong>参考资料：</strong></p>
 <p>1.php官方手册</p>
 <p>2.<a href="http://www.php-internals.com/book/?p=chapt06/06-04-00-garbage-collection" target="_blank" rel="noopener">http://www.php-internals.com/book/?p=chapt06/06-04-00-garbage-collection</a></p>
@@ -2044,173 +2209,6 @@ exec_direct=php_optarg;
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/05/18/awk相关/">
-
-    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="czhuyu">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="https://avatars2.githubusercontent.com/u/26237984">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="无限进步">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                
-                <a href="/2019/05/18/awk相关/" class="post-title-link" itemprop="http://yoursite.com/index.html">awk相关</a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-
-            
-            
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-
-              
-                
-              
-
-              <time title="创建时间：2019-05-18 17:33:41" itemprop="dateCreated datePublished" datetime="2019-05-18T17:33:41+08:00">2019-05-18</time>
-            
-
-            
-              
-
-              
-                
-                <span class="post-meta-divider">|</span>
-                
-
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">更新于</span>
-                
-                <time title="修改时间：2019-05-20 22:21:15" itemprop="dateModified" datetime="2019-05-20T22:21:15+08:00">2019-05-20</time>
-              
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h2 id="awk相关"><a href="#awk相关" class="headerlink" title="awk相关"></a>awk相关</h2><ol>
-<li><p>统计nginx access_log中访问频率排前十的ip/URL etc</p>
-<p>awk ‘{print $1}’ access.log | sort | uniq -c | sort -nr -k1 | head -n 10</p>
-<p>sort 让整个文件内容按行排序  相同内容的行会聚集到相邻的位置</p>
-<p>uniq -c  去除重复列并且把重复次数产生新的一列展示到最前面</p>
-<p>sort -nr -k1 把第一列的结果按照数字大小倒序排列</p>
-<p>head -n 10 展示前十条</p>
-<p>根据日志的格式调整print的列即可获取不同结果</p>
-</li>
-<li><p>列出当前目录下的所有文件</p>
-<p>ls -lR |grep -v ^d|awk ‘{print $9}’ |tr -s ‘\n’</p>
-</li>
-<li></li>
-</ol>
-
-          
-        
-      
-    </div>
-
-    
-
-    
-    
-    
-
-    
-
-    
-       
-    
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -2260,7 +2258,7 @@ exec_direct=php_optarg;
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">41</span>
+                    <span class="site-state-item-count">42</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>
@@ -2373,7 +2371,11 @@ exec_direct=php_optarg;
                     
                       
                     
-                    <span class="site-state-item-count">49</span>
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">51</span>
                     <span class="site-state-item-name">标签</span>
                   </a>
                 </div>
