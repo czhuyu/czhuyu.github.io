@@ -409,7 +409,7 @@
                 
               
 
-              <time title="创建时间：2019-06-11 15:25:42 / 修改时间：16:27:52" itemprop="dateCreated datePublished" datetime="2019-06-11T15:25:42+08:00">2019-06-11</time>
+              <time title="创建时间：2019-06-11 15:25:42 / 修改时间：16:30:56" itemprop="dateCreated datePublished" datetime="2019-06-11T15:25:42+08:00">2019-06-11</time>
             
 
             
@@ -464,7 +464,7 @@
 <pre><code>&lt;?php
     setcookie(&quot;username&quot;, 111, time()+5);
     echo $_COOKIE[&apos;username&apos;];
-</code></pre><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">结果肯定是一样的，为什么？因为输出和setcookie在同一个php文件里面，只有下次请求过来的时候php才会把请求头里面的cookie装到$_COOKIE变量里面，所以这两种情况输出的$_COOKIE都会是一个空数组，文档中也有这样一句描述：</span><br><span class="line">一旦设置 Cookie 后，下次打开页面时可以使用 $_COOKIE 读取。 Cookie 值同样也存在于 $_REQUEST。</span><br></pre></td></tr></table></figure>
+</code></pre><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">结果肯定是一样的，为什么？因为输出和setcookie在同一个php文件里面，这次会在响应头里面有set-cookie告诉浏览器存储这个cookie，而只有下次请求过来的时候php才会把请求头里面的cookie装到$_COOKIE变量里面，所以这两种情况输出的$_COOKIE都会是一个空数组，文档中也有这样一句描述：</span><br><span class="line">一旦设置 Cookie 后，下次打开页面时可以使用 $_COOKIE 读取。 Cookie 值同样也存在于 $_REQUEST。</span><br></pre></td></tr></table></figure>
 
           
         
