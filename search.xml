@@ -3,7 +3,7 @@
   <entry>
     <title><![CDATA[一些经验]]></title>
     <url>%2F2019%2F06%2F11%2F%E4%B8%80%E4%BA%9B%E7%BB%8F%E9%AA%8C%2F</url>
-    <content type="text"><![CDATA[一些经验1.mysql的字段类型int(3)和int(4) 下面是官方文档的解释 11.2.5 Numeric Type Attributes MySQL supports an extension for optionally specifying the display width of integer data types inparentheses following the base keyword for the type. For example, INT(4) specifies an INT with adisplay width of four digits. This optional display width may be used by applications to display integervalues having a width less than the width specified for the column by left-padding them with spaces.(That is, this width is present in the metadata returned with result sets. Whether it is used is up to theapplication.)The display width does not constrain the range of values that can be stored in the column. Nor doesit prevent values wider than the column display width from being displayed correctly. For example, acolumn specified as SMALLINT(3) has the usual SMALLINT range of -32768 to 32767, and valuesoutside the range permitted by three digits are displayed in full using more than three digits.When used in conjunction with the optional (nonstandard) ZEROFILL attribute, the default padding ofspaces is replaced with zeros. For example, for a column declared as INT(4) ZEROFILL, a value of 5is retrieved as 0005. 这里的意思大概就是后面的数值代表的是一个显示宽度，当配合zerofill使用时，如果存储1到该字段中，int(3)会返回001而int(4)会返回0001 1234567891011121314151617mysql&gt; desc sss;+-------+--------------------------+------+-----+---------+----------------+| Field | Type | Null | Key | Default | Extra |+-------+--------------------------+------+-----+---------+----------------+| id | int(11) unsigned | NO | PRI | NULL | auto_increment || test3 | int(3) unsigned zerofill | NO | | NULL | || test4 | int(4) unsigned zerofill | NO | | NULL | |+-------+--------------------------+------+-----+---------+----------------+3 rows in set (0.01 sec)mysql&gt; select * from sss;+----+-------+-------+| id | test3 | test4 |+----+-------+-------+| 1 | 001 | 0001 |+----+-------+-------+1 row in set (0.00 sec) 需要注意的是，如果使用navicat这个可视化工具来测试这个的话test3和tes4都会返回1而没有填充的0，不知道是bug还是feature. 2.会输出什么？ 123&lt;?php echo $_COOKIE[&apos;username&apos;]; setcookie(&quot;username&quot;, 111, time()+5); 第一次请求的结果输出 1Notice: Undefined index: username in xxx.php on line 2 倒过来呢？ &lt;?php setcookie(&quot;username&quot;, 111, time()+5); echo $_COOKIE[&apos;username&apos;]; 12结果肯定是一样的，为什么？因为输出和setcookie在同一个php文件里面，这次会在响应头里面有set-cookie告诉浏览器存储这个cookie，而只有下次请求过来的时候php才会把请求头里面的cookie装到$_COOKIE变量里面，所以这两种情况输出的$_COOKIE都会是一个空数组，文档中也有这样一句描述：一旦设置 Cookie 后，下次打开页面时可以使用 $_COOKIE 读取。 Cookie 值同样也存在于 $_REQUEST。 文档中还有这样一句话 1setcookie() 定义了 Cookie，会和剩下的 HTTP 头一起发送给客户端。 和其他 HTTP 头一样，必须在脚本产生任意输出之前发送 Cookie（由于协议的限制）。 请在产生任何输出之前（包括 &lt;html&gt; 和 &lt;head&gt; 或者空格）调用本函数。 但是在测试过程中 123&lt;?php echo 111; setcookie(&quot;username&quot;, 111, time()+5); 上面这个代码的输出并没有什么异常，cookie的设置也成功了。查阅资料发现跟php.ini里面的缓冲区设置有关 php默认设置 1output_buffering = 4096 把ini中的output_buffering设置为0，就是不缓冲输出，返回如下 12111Warning: Cannot modify header information - headers already sent by (output started at index.php:2) in index.php on line 3 只有buffer写满时，才会发送到浏览器。也就是说缓冲区超过4k就会发送到浏览器，如果设置为0，那就没有缓冲区，出现了第一个echo的时候http包已经发送出去了。所以setcookie里面的信息是没有在response header里面的 还有其他办法吗？ ob_start()，这样超过设置的缓冲大小也不会立即发送到浏览器，只有脚本运行完成，或者调用了ob_end_flush方法，才会输出到浏览器。 12345&lt;?php ob_start(); echo 111; setcookie(&quot;username&quot;, 111, time()+5); ob_end_flush();]]></content>
+    <content type="text"><![CDATA[一些经验1.mysql的字段类型int(3)和int(4) 下面是官方文档的解释 11.2.5 Numeric Type Attributes MySQL supports an extension for optionally specifying the display width of integer data types inparentheses following the base keyword for the type. For example, INT(4) specifies an INT with adisplay width of four digits. This optional display width may be used by applications to display integervalues having a width less than the width specified for the column by left-padding them with spaces.(That is, this width is present in the metadata returned with result sets. Whether it is used is up to theapplication.)The display width does not constrain the range of values that can be stored in the column. Nor doesit prevent values wider than the column display width from being displayed correctly. For example, acolumn specified as SMALLINT(3) has the usual SMALLINT range of -32768 to 32767, and valuesoutside the range permitted by three digits are displayed in full using more than three digits.When used in conjunction with the optional (nonstandard) ZEROFILL attribute, the default padding ofspaces is replaced with zeros. For example, for a column declared as INT(4) ZEROFILL, a value of 5is retrieved as 0005. 这里的意思大概就是后面的数值代表的是一个显示宽度，当配合zerofill使用时，如果存储1到该字段中，int(3)会返回001而int(4)会返回0001 1234567891011121314151617mysql&gt; desc sss;+-------+--------------------------+------+-----+---------+----------------+| Field | Type | Null | Key | Default | Extra |+-------+--------------------------+------+-----+---------+----------------+| id | int(11) unsigned | NO | PRI | NULL | auto_increment || test3 | int(3) unsigned zerofill | NO | | NULL | || test4 | int(4) unsigned zerofill | NO | | NULL | |+-------+--------------------------+------+-----+---------+----------------+3 rows in set (0.01 sec)mysql&gt; select * from sss;+----+-------+-------+| id | test3 | test4 |+----+-------+-------+| 1 | 001 | 0001 |+----+-------+-------+1 row in set (0.00 sec) 需要注意的是，如果使用navicat这个可视化工具来测试这个的话test3和tes4都会返回1而没有填充的0，不知道是bug还是feature. 2.会输出什么？ 123&lt;?php echo $_COOKIE[&apos;username&apos;]; setcookie(&quot;username&quot;, 111, time()+5); 第一次请求的结果输出 1Notice: Undefined index: username in xxx.php on line 2 倒过来呢？ &lt;?php setcookie(&quot;username&quot;, 111, time()+5); echo $_COOKIE[&apos;username&apos;]; 12结果肯定是一样的，为什么？因为输出和setcookie在同一个php文件里面，这次会在响应头里面有set-cookie告诉浏览器存储这个cookie，而只有下次请求过来的时候php才会把请求头里面的cookie装到$_COOKIE变量里面，所以这两种情况输出的$_COOKIE都会是一个空数组，文档中也有这样一句描述：一旦设置 Cookie 后，下次打开页面时可以使用 $_COOKIE 读取。 Cookie 值同样也存在于 $_REQUEST。 文档中还有这样一句话 1setcookie() 定义了 Cookie，会和剩下的 HTTP 头一起发送给客户端。 和其他 HTTP 头一样，必须在脚本产生任意输出之前发送 Cookie（由于协议的限制）。 请在产生任何输出之前（包括 &lt;html&gt; 和 &lt;head&gt; 或者空格）调用本函数。 但是在测试过程中 123&lt;?php echo 111; setcookie(&quot;username&quot;, 111, time()+5); 上面这个代码的输出并没有什么异常，cookie的设置也成功了。查阅资料发现跟php.ini里面的缓冲区设置有关 php默认设置 1output_buffering = 4096 把ini中的output_buffering设置为0，就是不缓冲输出，返回如下 12111Warning: Cannot modify header information - headers already sent by (output started at index.php:2) in index.php on line 3 只有buffer写满时，才会发送到浏览器。也就是说缓冲区超过4k就会发送到浏览器，如果设置为0，那就没有缓冲区，出现了第一个echo的时候http包已经发送出去了。所以setcookie里面的信息是没有在response header里面的 还有其他办法吗？ ob_start()，这样超过设置的缓冲大小也不会立即发送到浏览器，这样就会当脚本运行完成，或者调用了ob_flush等清空缓冲区方法之后，才会输出到浏览器。 12345&lt;?php ob_start(); echo 111; setcookie(&quot;username&quot;, 111, time()+5); ob_flush();]]></content>
       <tags>
         <tag>经验</tag>
         <tag>tips</tag>
@@ -24,9 +24,9 @@
     <url>%2F2019%2F05%2F31%2F%E6%9F%A5%E6%89%BE%E5%92%8C%E6%8E%92%E5%BA%8F%E7%AE%97%E6%B3%95%2F</url>
     <content type="text"><![CDATA[查找和排序算法查找算法1.顺序查找 2.二分查找 循环实现 123456789101112131415function midSearch($k,$arr)&#123; $left = 0; $right = count($arr); while($left &lt; $right)&#123; $mid = floor(($left + $right)/2); if($arr[$mid] == $k)&#123; return $mid; &#125;else if($arr[$mid] &gt; $k)&#123; $right = $mid - 1; &#125;else&#123; $left = $mid + 1; &#125; &#125; return -1;&#125; 递归实现 12345678910111213141516function binSearch($arr,$left,$right,$key)&#123; if($left &gt; $right)&#123; return -1; &#125;else&#123; $mid = floor(($left+$right)/2); if($key == $arr[$mid])&#123; return $mid; &#125;elseif ($key &lt; $arr[$mid]) &#123; $right = $mid - 1; return binSearch($arr,$left,$right,$key); &#125;else&#123; $left = $mid + 1; return binSearch($arr,$left,$right,$key); &#125; &#125;&#125; 排序算法一.内部排序 先定义一百个0-100整数元素组成的随机数数组和交换函数 123456789101112$n = 100;$a = [];for ($i=0; $i &lt; $n; $i++) &#123; $a[] = rand(0,$n);&#125;function swap(&amp;$arr,$i,$j)&#123; $temp = $arr[$i]; $arr[$i] = $arr[$j]; $arr[$j] = $temp;&#125; 1.冒泡排序 1234567891011function bubbleSort($arr)&#123; $n = count($arr); for($i = 0; $i &lt; $n-1; $i++)&#123; for($j = 0;$j &lt; $n-1-$i; $j++)&#123; if($arr[$j] &gt; $arr[$j+1])&#123; swap($arr,$j,$j+1); &#125; &#125; &#125; return $arr;&#125; 2.选择排序 简单选择排序 123456789101112131415function selectSort($arr)&#123; $n = count($arr); for($i = 0; $i &lt; $n-1; $i++)&#123; $minKey = $i; for($j = $i;$j &lt; $n; $j++)&#123; if($arr[$j] &lt; $arr[$minKey])&#123; $minKey = $j; &#125; &#125; if($i != $minKey)&#123; swap($arr,$i,$minKey); &#125; &#125; return $arr;&#125; 树形选择排序/堆排序 3.插入排序 直接插入排序 1234567891011121314function insertSort($arr)&#123; $n = count($arr); for($i = 1; $i &lt; $n; $i++)&#123; if($arr[$i] &lt; $arr[$i-1])&#123; $temp = $arr[$i]; $j = $i - 1; for($j;$j&gt;=0 &amp;&amp; $arr[$j] &gt; $temp;$j--)&#123; $arr[$j+1] = $arr[$j]; &#125; $arr[$j+1] = $temp; &#125; &#125; return $arr;&#125; 其他插入排序/希尔排序 4.快速排序 1234567891011121314151617181920212223242526function qsort(&amp;$arr, $left, $right)&#123; if($left &gt; $right)&#123; return; &#125; $i = $left; $k = $left; $j = $right; while($i &lt; $j)&#123; while($arr[$j] &gt;= $arr[$k] &amp;&amp; $i &lt; $j) $j--; swap($arr,$j,$k); $k = $j; while($arr[$i] &lt;= $arr[$k] &amp;&amp; $i &lt; $j) $i++; swap($arr,$i,$k); $k = $i; &#125; qsort($arr, $left, $k-1); qsort($arr, $k+1, $right);&#125;$n = count($a);qsort($a, 0, $n-1); 5.归并排序 6.基数排序 多关键字排序/链式基数排序 二.外部排序]]></content>
       <tags>
+        <tag>排序</tag>
         <tag>算法</tag>
         <tag>查找</tag>
-        <tag>排序</tag>
       </tags>
   </entry>
   <entry>
@@ -167,9 +167,17 @@
       </tags>
   </entry>
   <entry>
-    <title><![CDATA[day3]]></title>
-    <url>%2F2017%2F03%2F16%2Fleetcode_day3%2F</url>
-    <content type="text"><![CDATA[Binary Tree (Traverse A Tree)Binary Tree Preorder Traversal/*&nbsp;&nbsp;Definition&nbsp;for&nbsp;a&nbsp;binary&nbsp;tree&nbsp;node.&nbsp;&nbsp;type&nbsp;TreeNode&nbsp;struct&nbsp;{&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Val&nbsp;int&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Left&nbsp;TreeNode&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Right&nbsp;TreeNode&nbsp;&nbsp;}&nbsp;/func&nbsp;preorderTraversal(root&nbsp;TreeNode)&nbsp;[]int&nbsp;{ var&nbsp;arr&nbsp;[]int if&nbsp;root&nbsp;==&nbsp;nil&nbsp;{ return&nbsp;arr } arr&nbsp;=&nbsp;append(arr,&nbsp;root.Val) arr1&nbsp;:=&nbsp;preorderTraversal(root.Left) arr&nbsp;=&nbsp;arrmerge(arr,&nbsp;arr1) arr2&nbsp;:=&nbsp;preorderTraversal(root.Right) arr&nbsp;=&nbsp;arrmerge(arr,&nbsp;arr2) return&nbsp;arr}func&nbsp;arrmerge(arr&nbsp;[]int,&nbsp;arr1&nbsp;[]int)&nbsp;[]int&nbsp;{​ for&nbsp;_,&nbsp;v&nbsp;:=&nbsp;range&nbsp;arr1&nbsp;{​ arr&nbsp;=&nbsp;append(arr,&nbsp;v)​ }​ return&nbsp;arr}Binary Tree Inorder Traversalfunc&nbsp;inorderTraversal(root&nbsp;TreeNode)&nbsp;[]int&nbsp;{​ var&nbsp;arr&nbsp;[]int​ if&nbsp;root&nbsp;==&nbsp;nil&nbsp;{​ return&nbsp;arr​ }​ arr1&nbsp;:=&nbsp;inorderTraversal(root.Left)​ arr&nbsp;=&nbsp;arrmerge(arr,&nbsp;arr1)​ arr&nbsp;=&nbsp;append(arr,&nbsp;root.Val)​ arr2&nbsp;:=&nbsp;inorderTraversal(root.Right)​ arr&nbsp;=&nbsp;arrmerge(arr,&nbsp;arr2)​ return&nbsp;arr}Binary Tree Postorder Traversalfunc&nbsp;postorderTraversal(root&nbsp;*TreeNode)&nbsp;[]int&nbsp;{&nbsp;&nbsp;&nbsp;&nbsp;var&nbsp;arr&nbsp;[]int​ if&nbsp;root&nbsp;==&nbsp;nil&nbsp;{​ return&nbsp;arr​ }​ arr1&nbsp;:=&nbsp;postorderTraversal(root.Left)​ arr&nbsp;=&nbsp;arrmerge(arr,&nbsp;arr1)​ arr2&nbsp;:=&nbsp;postorderTraversal(root.Right)​ arr&nbsp;=&nbsp;arrmerge(arr,&nbsp;arr2)&nbsp;&nbsp;&nbsp;&nbsp;arr&nbsp;=&nbsp;append(arr,&nbsp;root.Val)​ return&nbsp;arr}&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;]]></content>
+    <title><![CDATA[leetcode-7]]></title>
+    <url>%2F2017%2F03%2F16%2Fleetcode_day2%2F</url>
+    <content type="text"><![CDATA[7.&nbsp;Reverse Integerfunc&nbsp;reverse(x&nbsp;int)&nbsp;int&nbsp;{ s&nbsp;:=&nbsp;strconv.Itoa(x) rs&nbsp;:=&nbsp;&quot;&quot; j&nbsp;:=&nbsp;0 if&nbsp;x&nbsp;&lt;&nbsp;0&nbsp;{ j&nbsp;=&nbsp;1 rs&nbsp;+=&nbsp;&quot;-&quot; } for&nbsp;i&nbsp;:=&nbsp;len(s)&nbsp;-&nbsp;1;&nbsp;i&nbsp;&gt;=&nbsp;j;&nbsp;i–&nbsp;{ rs&nbsp;+=&nbsp;string(s[i]) } rsi,&nbsp;_&nbsp;:=&nbsp;strconv.Atoi(rs) if&nbsp;rsi&nbsp;&gt;&nbsp;(1&lt;&lt;31)&nbsp;||&nbsp;rsi&nbsp;&lt;&nbsp;-(1&nbsp;&lt;&lt;&nbsp;31)&nbsp;{ rsi&nbsp;=&nbsp;0 } return&nbsp;rsi}]]></content>
+      <tags>
+        <tag>leetcode</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[leetcode-1]]></title>
+    <url>%2F2017%2F03%2F16%2Fleetcode_day1%2F</url>
+    <content type="text"><![CDATA[1.&nbsp;Two SumGiven an array of integers, return&nbsp;indices&nbsp;of the two numbers such that they add up to a specific target.You may assume that each input would have&nbsp;exactly&nbsp;one solution, and you may not use the&nbsp;same&nbsp;element twice.Example:Given&nbsp;nums&nbsp;=&nbsp;[2,&nbsp;7,&nbsp;11,&nbsp;15],&nbsp;target&nbsp;=&nbsp;9,Because&nbsp;nums[0]&nbsp;+&nbsp;nums[1]&nbsp;=&nbsp;2&nbsp;+&nbsp;7&nbsp;=&nbsp;9,return&nbsp;[0,&nbsp;1].func&nbsp;twoSum(nums&nbsp;[]int,&nbsp;target&nbsp;int)&nbsp;[]int&nbsp;{ var&nbsp;arr&nbsp;[]intEXIT: for&nbsp;i,&nbsp;&nbsp;:=&nbsp;range&nbsp;nums&nbsp;{ for&nbsp;j,&nbsp;&nbsp;:=&nbsp;range&nbsp;nums&nbsp;{ if&nbsp;(nums[i]+nums[j])&nbsp;==&nbsp;target&nbsp;&amp;&amp;&nbsp;i&nbsp;!=&nbsp;j&nbsp;{ arr&nbsp;=&nbsp;append(arr,&nbsp;i) arr&nbsp;=&nbsp;append(arr,&nbsp;j) break&nbsp;EXIT } } } return&nbsp;arr}]]></content>
       <tags>
         <tag>leetcode</tag>
       </tags>
@@ -183,19 +191,27 @@
       </tags>
   </entry>
   <entry>
-    <title><![CDATA[leetcode-4]]></title>
-    <url>%2F2017%2F03%2F16%2Fleetcode_day5%2F</url>
-    <content type="text"><![CDATA[3.&nbsp;Longest Substring Without Repeating CharactersGiven a string, find the length of the&nbsp;longest substring&nbsp;without repeating characters.Examples:Given&nbsp;&quot;abcabcbb&quot;, the answer is&nbsp;&quot;abc&quot;, which the length is 3.Given&nbsp;&quot;bbbbb&quot;, the answer is&nbsp;&quot;b&quot;, with the length of 1.Given&nbsp;&quot;pwwkew&quot;, the answer is&nbsp;&quot;wke&quot;, with the length of 3. Note that the answer must be a&nbsp;substring,&nbsp;&quot;pwke&quot;&nbsp;is a&nbsp;subsequence&nbsp;and not a substring.func&nbsp;lengthOfLongestSubstring(s&nbsp;string)&nbsp;int&nbsp;{ arr&nbsp;:=&nbsp;make(map[rune]int) start&nbsp;:=&nbsp;0 maxlen&nbsp;:=&nbsp;0 for&nbsp;i,&nbsp;v&nbsp;:=&nbsp;range&nbsp;[]rune(s)&nbsp;{ if&nbsp;pre,&nbsp;ok&nbsp;:=&nbsp;arr[v];&nbsp;ok&nbsp;&amp;&amp;&nbsp;pre&nbsp;&gt;=&nbsp;start&nbsp;{ start&nbsp;=&nbsp;pre&nbsp;+&nbsp;1 } if&nbsp;i-start+1&nbsp;&gt;&nbsp;maxlen&nbsp;{ maxlen&nbsp;=&nbsp;i&nbsp;-&nbsp;start&nbsp;+&nbsp;1 } arr[v]&nbsp;=&nbsp;i } return&nbsp;maxlen}]]></content>
+    <title><![CDATA[linux安装php]]></title>
+    <url>%2F2017%2F03%2F16%2FLinux%E4%B8%8B%E7%BC%96%E8%AF%91%E5%AE%89%E8%A3%85PHP%2F</url>
+    <content type="text"><![CDATA[1、&nbsp;&nbsp;安装依赖库2、&nbsp;&nbsp;yum install gd zlib libxml2 libxml2-devel libjpeg libjpeg-devel libpng libpng-devel3、&nbsp;&nbsp;下载php-5.6.23.tar.bz2，解压4、&nbsp;&nbsp;cd到php解压的目录里5、&nbsp;&nbsp;配置安装的一些参数./configure –prefix=/usr/local/php \–with-gd \–enable-gd-native-ttf \–enable-gd-jis-conv \–with-mysql=mysqlnd \–enable-mysqlnd \–with-pdo-mysql=mysqlnd \–enable-fpm\–with-openssl&nbsp;&nbsp;Curl &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;./configure –prefix=/usr/local/php7 –with-gd –enable-gd-native-ttf –enable-gd-jis-conv –with-mysql=mysqlnd –enable-mysqlnd –with-pdo-mysql=mysqlnd –enable-fpm –with-openssl –enable-mbstring –enable-tokenizer –enable-zip –with-curl&nbsp;&nbsp;enable-fpm是让php作为独立的进程来运行，占用9000端口配置注意&nbsp;可能会报openssl的错误yum install openssl openssl-devel&nbsp;每个参数后的斜杠前是有空格的，斜杠所起的作用是连接上下两行，没有空格两个参数会连到一起就会报错了6、&nbsp;&nbsp;make &amp;&amp;make install这个过程中如果使用小内存的服务器可能出现php error，解决办法:在配置的最后一行加上–disable-fileinfo7、cd /usr/local/phpcp etc/php-fpm.conf.default etc/php-fpm.confcp /usr/local/src/php-5.5.13/php.ini-development ./lib/php.ini7、&nbsp;&nbsp;启动php./sbin/php-fpm&nbsp;&nbsp;/usr/local/php7/lib/php/extensions/no-debug-non-zts-20151012]]></content>
       <tags>
-        <tag>leetcode</tag>
+        <tag>lnmp</tag>
       </tags>
   </entry>
   <entry>
-    <title><![CDATA[HTTP OPTIONS]]></title>
-    <url>%2F2017%2F03%2F16%2FHTTP%20OPTIONS%2F</url>
-    <content type="text"><![CDATA[幂等和非幂等 执行一次和执行很多次同样的操作是否是一样的 GET/PUT/DELETE 幂等 POST 非幂等]]></content>
+    <title><![CDATA[linux安装nginx]]></title>
+    <url>%2F2017%2F03%2F16%2FLinux%E4%B8%8B%E7%BC%96%E8%AF%91%E5%AE%89%E8%A3%85Nginx%2F</url>
+    <content type="text"><![CDATA[到nginx.org下载wget http://nginx.org/download/nginx-1.10.0.tar.gz解压压缩包环境配置Cd到解压出来的nginx目录中有configure目录的地方进行环境配置./configure –prefix=/usr/local/nginxⅠ.如果遇到提示缺少pcre库到www.pcre.org下载pcre库，if解压到/usr/local/src/pcre-sourceⅡ.1.6版本以后的版本制定pcre源码目录./configure –prefix=/usr/local/nginx–with-pcre=/usr/local/src/pcre-source之前的版本制定安装目录./configure –prefix=/usr/local/nginx–with-pcre=/usr/pcre4.编译安装 make &amp;&amp; make install5.启动nginx ./sbin/nginx重启./sbin/nginx –s reloadException:如果遇到80端口被httpd(Apache)占了Pkill -9 httpd如果无法访问检查防火墙设置]]></content>
       <tags>
-        <tag>http</tag>
+        <tag>lnmp</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[day3]]></title>
+    <url>%2F2017%2F03%2F16%2Fleetcode_day3%2F</url>
+    <content type="text"><![CDATA[Binary Tree (Traverse A Tree)Binary Tree Preorder Traversal/*&nbsp;&nbsp;Definition&nbsp;for&nbsp;a&nbsp;binary&nbsp;tree&nbsp;node.&nbsp;&nbsp;type&nbsp;TreeNode&nbsp;struct&nbsp;{&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Val&nbsp;int&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Left&nbsp;TreeNode&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Right&nbsp;TreeNode&nbsp;&nbsp;}&nbsp;/func&nbsp;preorderTraversal(root&nbsp;TreeNode)&nbsp;[]int&nbsp;{ var&nbsp;arr&nbsp;[]int if&nbsp;root&nbsp;==&nbsp;nil&nbsp;{ return&nbsp;arr } arr&nbsp;=&nbsp;append(arr,&nbsp;root.Val) arr1&nbsp;:=&nbsp;preorderTraversal(root.Left) arr&nbsp;=&nbsp;arrmerge(arr,&nbsp;arr1) arr2&nbsp;:=&nbsp;preorderTraversal(root.Right) arr&nbsp;=&nbsp;arrmerge(arr,&nbsp;arr2) return&nbsp;arr}func&nbsp;arrmerge(arr&nbsp;[]int,&nbsp;arr1&nbsp;[]int)&nbsp;[]int&nbsp;{​ for&nbsp;_,&nbsp;v&nbsp;:=&nbsp;range&nbsp;arr1&nbsp;{​ arr&nbsp;=&nbsp;append(arr,&nbsp;v)​ }​ return&nbsp;arr}Binary Tree Inorder Traversalfunc&nbsp;inorderTraversal(root&nbsp;TreeNode)&nbsp;[]int&nbsp;{​ var&nbsp;arr&nbsp;[]int​ if&nbsp;root&nbsp;==&nbsp;nil&nbsp;{​ return&nbsp;arr​ }​ arr1&nbsp;:=&nbsp;inorderTraversal(root.Left)​ arr&nbsp;=&nbsp;arrmerge(arr,&nbsp;arr1)​ arr&nbsp;=&nbsp;append(arr,&nbsp;root.Val)​ arr2&nbsp;:=&nbsp;inorderTraversal(root.Right)​ arr&nbsp;=&nbsp;arrmerge(arr,&nbsp;arr2)​ return&nbsp;arr}Binary Tree Postorder Traversalfunc&nbsp;postorderTraversal(root&nbsp;*TreeNode)&nbsp;[]int&nbsp;{&nbsp;&nbsp;&nbsp;&nbsp;var&nbsp;arr&nbsp;[]int​ if&nbsp;root&nbsp;==&nbsp;nil&nbsp;{​ return&nbsp;arr​ }​ arr1&nbsp;:=&nbsp;postorderTraversal(root.Left)​ arr&nbsp;=&nbsp;arrmerge(arr,&nbsp;arr1)​ arr2&nbsp;:=&nbsp;postorderTraversal(root.Right)​ arr&nbsp;=&nbsp;arrmerge(arr,&nbsp;arr2)&nbsp;&nbsp;&nbsp;&nbsp;arr&nbsp;=&nbsp;append(arr,&nbsp;root.Val)​ return&nbsp;arr}&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;]]></content>
+      <tags>
+        <tag>leetcode</tag>
       </tags>
   </entry>
   <entry>
@@ -207,19 +223,27 @@
       </tags>
   </entry>
   <entry>
-    <title><![CDATA[leetcode-1]]></title>
-    <url>%2F2017%2F03%2F16%2Fleetcode_day1%2F</url>
-    <content type="text"><![CDATA[1.&nbsp;Two SumGiven an array of integers, return&nbsp;indices&nbsp;of the two numbers such that they add up to a specific target.You may assume that each input would have&nbsp;exactly&nbsp;one solution, and you may not use the&nbsp;same&nbsp;element twice.Example:Given&nbsp;nums&nbsp;=&nbsp;[2,&nbsp;7,&nbsp;11,&nbsp;15],&nbsp;target&nbsp;=&nbsp;9,Because&nbsp;nums[0]&nbsp;+&nbsp;nums[1]&nbsp;=&nbsp;2&nbsp;+&nbsp;7&nbsp;=&nbsp;9,return&nbsp;[0,&nbsp;1].func&nbsp;twoSum(nums&nbsp;[]int,&nbsp;target&nbsp;int)&nbsp;[]int&nbsp;{ var&nbsp;arr&nbsp;[]intEXIT: for&nbsp;i,&nbsp;&nbsp;:=&nbsp;range&nbsp;nums&nbsp;{ for&nbsp;j,&nbsp;&nbsp;:=&nbsp;range&nbsp;nums&nbsp;{ if&nbsp;(nums[i]+nums[j])&nbsp;==&nbsp;target&nbsp;&amp;&amp;&nbsp;i&nbsp;!=&nbsp;j&nbsp;{ arr&nbsp;=&nbsp;append(arr,&nbsp;i) arr&nbsp;=&nbsp;append(arr,&nbsp;j) break&nbsp;EXIT } } } return&nbsp;arr}]]></content>
+    <title><![CDATA[HTTP OPTIONS]]></title>
+    <url>%2F2017%2F03%2F16%2FHTTP%20OPTIONS%2F</url>
+    <content type="text"><![CDATA[幂等和非幂等 执行一次和执行很多次同样的操作是否是一样的 GET/PUT/DELETE 幂等 POST 非幂等]]></content>
       <tags>
-        <tag>leetcode</tag>
+        <tag>http</tag>
       </tags>
   </entry>
   <entry>
-    <title><![CDATA[2017.3]]></title>
-    <url>%2F2017%2F03%2F16%2F2017.3%2F</url>
-    <content type="text"><![CDATA[git http://www.runoob.com/w3cnote/git-guide.htmljs编辑器 http://www.cnblogs.com/lhb25/p/html5-wysisyg-inline-editor.htmlJavaEE 注解和XMLhttp://blog.csdn.net/qmw19910301/article/details/52712893]]></content>
+    <title><![CDATA[lnmp重启]]></title>
+    <url>%2F2017%2F03%2F16%2FNginxPHPMysql%20%E9%87%8D%E5%90%AF%E7%AD%89%E5%91%BD%E4%BB%A4%2F</url>
+    <content type="text"><![CDATA[nginx&nbsp;&nbsp;&nbsp;start：&nbsp;/usr/local/nginx/sbin/nginx&nbsp;&nbsp;stop：&nbsp;/usr/local/nginx/sbin/nginx&nbsp;-s&nbsp;stop&nbsp;&nbsp;reload：&nbsp;/usr/local/nginx/sbin/nginx&nbsp;-s&nbsp;reload&nbsp;&nbsp;#**&nbsp;&nbsp;#php-fpm(fast-cgi)命令&nbsp;&nbsp;&nbsp;start：&nbsp;/usr/local/php/sbin/php-fpm&nbsp;&nbsp;stop：&nbsp;/bin/ps&nbsp;-ef&nbsp;|&nbsp;grep&nbsp;&#39;php-fpm&#39;&nbsp;|&nbsp;grep&nbsp;-v&nbsp;grep&nbsp;|&nbsp;cut&nbsp;-c&nbsp;9-15&nbsp;|&nbsp;xargs&nbsp;kill&nbsp;-9&nbsp;&nbsp;&nbsp;Linux：PHP&nbsp;5.3.3&nbsp;以上版本的php-fpm的重启&nbsp;INT,&nbsp;TERM：立刻终止QUIT：平滑终止USR1：重新打开日志文件USR2：平滑重载所有worker进程并重新载入配置和二进制模块&nbsp;示例：1）php-fpm&nbsp;关闭：kill&nbsp;-INT&nbsp;cat&amp;nbsp;/usr/local/php/var/run/php-fpm.pid&nbsp;2）php-fpm&nbsp;重启：kill&nbsp;-USR2&nbsp;cat&amp;nbsp;/usr/local/php/var/run/php-fpm.pid&nbsp;查看php-fpm进程数：ps&nbsp;aux&nbsp;|&nbsp;grep&nbsp;-c&nbsp;php-fpm&nbsp;#**&nbsp;&nbsp;#mysql命令&nbsp;&nbsp;start：&nbsp;/etc/init.d/mysqld&nbsp;start&nbsp;&nbsp;stop：&nbsp;/etc/init.d/mysqld&nbsp;stop&nbsp;&nbsp;restart：&nbsp;/etc/init.d/mysqld&nbsp;restart&nbsp;&nbsp;#**&nbsp;]]></content>
       <tags>
-        <tag>other</tag>
+        <tag>lnmp</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[php内置数组排序]]></title>
+    <url>%2F2017%2F03%2F16%2FPHP%E5%86%85%E7%BD%AE%E6%95%B0%E7%BB%84%E6%8E%92%E5%BA%8F%E6%96%B9%E6%B3%95%2F</url>
+    <content type="text"></content>
+      <tags>
+        <tag>php</tag>
       </tags>
   </entry>
   <entry>
@@ -240,30 +264,11 @@
       </tags>
   </entry>
   <entry>
-    <title><![CDATA[写时复制和引用计数]]></title>
-    <url>%2F2017%2F03%2F16%2F%E5%86%99%E6%97%B6%E5%A4%8D%E5%88%B6%E5%92%8C%E5%BC%95%E7%94%A8%E8%AE%A1%E6%95%B0%2F</url>
-    <content type="text"><![CDATA[http://www.cnblogs.com/phpcoder/p/4462210.html]]></content>
+    <title><![CDATA[tomcat war]]></title>
+    <url>%2F2017%2F03%2F16%2FLinux%E4%B8%8B%E5%AE%89%E8%A3%85jdk%20tomcat%20.war%E5%8F%91%E5%B8%83%E9%A1%B9%E7%9B%AE%2F</url>
+    <content type="text"><![CDATA[一、安装JDK 1.下载jdk，注意下载的时候不要下载成html了，这是个坑。。。2.vim /etc/profileJAVA_HOME=/usr/…/jdk解压后的路径PATH=$PATH:$JAVA_HOME/binCLASSPATH=.:$JAVA_HOME/lib/jt.jar:$JAVA_HOME/lib/tools.jarexport JAVA_HOME PATH CLASSPATH:wqsource /etc/profile最后java -version3.下载tomcat，解压进入目录/bin &nbsp; ./startup.sh4.eclipse export 项目为.war格式 选择导出路径 上传到服务器webapps目录下]]></content>
       <tags>
-        <tag>php</tag>
-        <tag>写时复制</tag>
-        <tag>引用计数</tag>
-        <tag>内存</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title><![CDATA[linux安装php]]></title>
-    <url>%2F2017%2F03%2F16%2FLinux%E4%B8%8B%E7%BC%96%E8%AF%91%E5%AE%89%E8%A3%85PHP%2F</url>
-    <content type="text"><![CDATA[1、&nbsp;&nbsp;安装依赖库2、&nbsp;&nbsp;yum install gd zlib libxml2 libxml2-devel libjpeg libjpeg-devel libpng libpng-devel3、&nbsp;&nbsp;下载php-5.6.23.tar.bz2，解压4、&nbsp;&nbsp;cd到php解压的目录里5、&nbsp;&nbsp;配置安装的一些参数./configure –prefix=/usr/local/php \–with-gd \–enable-gd-native-ttf \–enable-gd-jis-conv \–with-mysql=mysqlnd \–enable-mysqlnd \–with-pdo-mysql=mysqlnd \–enable-fpm\–with-openssl&nbsp;&nbsp;Curl &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;./configure –prefix=/usr/local/php7 –with-gd –enable-gd-native-ttf –enable-gd-jis-conv –with-mysql=mysqlnd –enable-mysqlnd –with-pdo-mysql=mysqlnd –enable-fpm –with-openssl –enable-mbstring –enable-tokenizer –enable-zip –with-curl&nbsp;&nbsp;enable-fpm是让php作为独立的进程来运行，占用9000端口配置注意&nbsp;可能会报openssl的错误yum install openssl openssl-devel&nbsp;每个参数后的斜杠前是有空格的，斜杠所起的作用是连接上下两行，没有空格两个参数会连到一起就会报错了6、&nbsp;&nbsp;make &amp;&amp;make install这个过程中如果使用小内存的服务器可能出现php error，解决办法:在配置的最后一行加上–disable-fileinfo7、cd /usr/local/phpcp etc/php-fpm.conf.default etc/php-fpm.confcp /usr/local/src/php-5.5.13/php.ini-development ./lib/php.ini7、&nbsp;&nbsp;启动php./sbin/php-fpm&nbsp;&nbsp;/usr/local/php7/lib/php/extensions/no-debug-non-zts-20151012]]></content>
-      <tags>
-        <tag>lnmp</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title><![CDATA[php内置数组排序]]></title>
-    <url>%2F2017%2F03%2F16%2FPHP%E5%86%85%E7%BD%AE%E6%95%B0%E7%BB%84%E6%8E%92%E5%BA%8F%E6%96%B9%E6%B3%95%2F</url>
-    <content type="text"></content>
-      <tags>
-        <tag>php</tag>
+        <tag>java</tag>
       </tags>
   </entry>
   <entry>
@@ -276,19 +281,31 @@
       </tags>
   </entry>
   <entry>
-    <title><![CDATA[tomcat war]]></title>
-    <url>%2F2017%2F03%2F16%2FLinux%E4%B8%8B%E5%AE%89%E8%A3%85jdk%20tomcat%20.war%E5%8F%91%E5%B8%83%E9%A1%B9%E7%9B%AE%2F</url>
-    <content type="text"><![CDATA[一、安装JDK 1.下载jdk，注意下载的时候不要下载成html了，这是个坑。。。2.vim /etc/profileJAVA_HOME=/usr/…/jdk解压后的路径PATH=$PATH:$JAVA_HOME/binCLASSPATH=.:$JAVA_HOME/lib/jt.jar:$JAVA_HOME/lib/tools.jarexport JAVA_HOME PATH CLASSPATH:wqsource /etc/profile最后java -version3.下载tomcat，解压进入目录/bin &nbsp; ./startup.sh4.eclipse export 项目为.war格式 选择导出路径 上传到服务器webapps目录下]]></content>
+    <title><![CDATA[写时复制和引用计数]]></title>
+    <url>%2F2017%2F03%2F16%2F%E5%86%99%E6%97%B6%E5%A4%8D%E5%88%B6%E5%92%8C%E5%BC%95%E7%94%A8%E8%AE%A1%E6%95%B0%2F</url>
+    <content type="text"><![CDATA[http://www.cnblogs.com/phpcoder/p/4462210.html]]></content>
       <tags>
-        <tag>java</tag>
+        <tag>php</tag>
+        <tag>写时复制</tag>
+        <tag>引用计数</tag>
+        <tag>内存</tag>
       </tags>
   </entry>
   <entry>
-    <title><![CDATA[lnmp重启]]></title>
-    <url>%2F2017%2F03%2F16%2FNginxPHPMysql%20%E9%87%8D%E5%90%AF%E7%AD%89%E5%91%BD%E4%BB%A4%2F</url>
-    <content type="text"><![CDATA[nginx&nbsp;&nbsp;&nbsp;start：&nbsp;/usr/local/nginx/sbin/nginx&nbsp;&nbsp;stop：&nbsp;/usr/local/nginx/sbin/nginx&nbsp;-s&nbsp;stop&nbsp;&nbsp;reload：&nbsp;/usr/local/nginx/sbin/nginx&nbsp;-s&nbsp;reload&nbsp;&nbsp;#**&nbsp;&nbsp;#php-fpm(fast-cgi)命令&nbsp;&nbsp;&nbsp;start：&nbsp;/usr/local/php/sbin/php-fpm&nbsp;&nbsp;stop：&nbsp;/bin/ps&nbsp;-ef&nbsp;|&nbsp;grep&nbsp;&#39;php-fpm&#39;&nbsp;|&nbsp;grep&nbsp;-v&nbsp;grep&nbsp;|&nbsp;cut&nbsp;-c&nbsp;9-15&nbsp;|&nbsp;xargs&nbsp;kill&nbsp;-9&nbsp;&nbsp;&nbsp;Linux：PHP&nbsp;5.3.3&nbsp;以上版本的php-fpm的重启&nbsp;INT,&nbsp;TERM：立刻终止QUIT：平滑终止USR1：重新打开日志文件USR2：平滑重载所有worker进程并重新载入配置和二进制模块&nbsp;示例：1）php-fpm&nbsp;关闭：kill&nbsp;-INT&nbsp;cat&amp;nbsp;/usr/local/php/var/run/php-fpm.pid&nbsp;2）php-fpm&nbsp;重启：kill&nbsp;-USR2&nbsp;cat&amp;nbsp;/usr/local/php/var/run/php-fpm.pid&nbsp;查看php-fpm进程数：ps&nbsp;aux&nbsp;|&nbsp;grep&nbsp;-c&nbsp;php-fpm&nbsp;#**&nbsp;&nbsp;#mysql命令&nbsp;&nbsp;start：&nbsp;/etc/init.d/mysqld&nbsp;start&nbsp;&nbsp;stop：&nbsp;/etc/init.d/mysqld&nbsp;stop&nbsp;&nbsp;restart：&nbsp;/etc/init.d/mysqld&nbsp;restart&nbsp;&nbsp;#**&nbsp;]]></content>
+    <title><![CDATA[基本排序算法]]></title>
+    <url>%2F2017%2F03%2F16%2F%E6%8E%92%E5%BA%8F%E7%AE%97%E6%B3%95%2F</url>
+    <content type="text"><![CDATA[使用四种基本的排序方法对生成的1000个随机数进行排序，比较执行时间一、冒泡排序123456789101112131415161718192021222324$s=microtime();//记录开始时间for($i=0;$i=1000;$i++)&#123; $a[$i] = mt_rand(0,1000);&#125;//冒泡排序for($j=0;$j&lt;999;$j++)&#123; for($k=0;$k&lt;999-$j;$k++)&#123; if($a[$k]&gt;$a[$k+1])&#123; $temp = $a[$k]; $a[$k] = $a[$k+1]; $a[$k+1] = $temp; &#125; &#125;&#125;for($i=0;$i&lt;1000;$i++)&#123; echo $a[$i].&apos;&apos;;&#125;$e = microtime();//记录结束时间echo &apos;&lt;br/&gt;&apos;;echo $e-$s; 二、简单选择排序123456789for($i=0;$i&lt;999;$i++)&#123; for($j=$i+1;$j&lt;1000;$j++)&#123; if($a[$j]&lt;$a[$i])&#123; $temp = $a[$j]; $a[$j] = $a[$i]; $a[$i] = $temp; &#125; &#125;&#125; 三、直接插入排序12345678910for($i=1;$i&lt;1000;$i++)&#123; if($a[$i]&lt;$a[$i-1])&#123; $j = $i-1; $temp = $a[$i]; for($j;$j&gt;=0&amp;amp;&amp;amp;$a[$j]&gt;$temp;$j--)&#123; $a[$j+1] = $a[$j]; &#125; $a[$j+1] = $temp; &#125;&#125; 四、快速排序123456789101112131415161718192021222324252627function qsort($left,$right)&#123; if($left&gt;$right)&#123; return; &#125; global $a; $i=$left; $j=$right; $key = $i; while($i&lt;$j)&#123; //从右往左找到第一个小于标记的值，交换 while($a[$j]&gt;=$a[$key]&amp;amp;&amp;amp;$j&gt;$i)$j--; $temp = $a[$i]; $a[$i] = $a[$j]; $a[$j] = $temp; $key = $j; //从左往右找到第一个大于标记的值，交换 while($a[$i]&lt;=$a[$key]&amp;amp;&amp;amp;$i&lt;$j)$i++; $temp = $a[$i]; $a[$i] = $a[$j]; $a[$j] = $temp; $key = $i;&#125;//递归调用qsort($left,$i-1);qsort($i+1,$right);qsort(0,999); 多次测试结果冒泡排序0.05~0.07 简单选择0.03~0.06 直接插入0.02~0.04 快速排序0.002~0.007]]></content>
       <tags>
-        <tag>lnmp</tag>
+        <tag>排序</tag>
+        <tag>算法</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[2017.3]]></title>
+    <url>%2F2017%2F03%2F16%2F2017.3%2F</url>
+    <content type="text"><![CDATA[git http://www.runoob.com/w3cnote/git-guide.htmljs编辑器 http://www.cnblogs.com/lhb25/p/html5-wysisyg-inline-editor.htmlJavaEE 注解和XMLhttp://blog.csdn.net/qmw19910301/article/details/52712893]]></content>
+      <tags>
+        <tag>other</tag>
       </tags>
   </entry>
   <entry>
@@ -300,11 +317,11 @@
       </tags>
   </entry>
   <entry>
-    <title><![CDATA[最长不重复子串]]></title>
-    <url>%2F2017%2F03%2F16%2F%E8%AE%A1%E7%AE%97%E4%B8%80%E4%B8%AA%E5%AD%97%E7%AC%A6%E4%B8%B2%E4%B8%AD%E6%9C%80%E5%A4%A7%E4%B8%8D%E9%87%8D%E5%A4%8D%E5%AD%90%E4%B8%B2%E9%95%BF%E5%BA%A6%2F</url>
-    <content type="text"><![CDATA[123456789101112131415161718192021222324252627282930package mainimport ( "fmt ")func maxLen(str string) int &#123; start := 0 maxlen := 0 lastO := make(map[rune]int) for i, v := range []rune(str) &#123; if lastI, ok := lastO[v]; ok &#123; start = lastI + 1 &#125; if (i-start+1 &amp;gt; maxlen) &#123; maxlen = i - start + 1 &#125; lastO[v] = i &#125; return maxlen&#125;func main() &#123; //求字符串最大不重复子串长度 //s:= "Yes哈哈哈! " fmt.Println(maxLen( "abcbcdef ")) fmt.Println(maxLen( "abcdef ")) fmt.Println(maxLen( "aaaaaaa ")) fmt.Println(maxLen( "你说什么 "))&#125;]]></content>
+    <title><![CDATA[apache]]></title>
+    <url>%2F2017%2F03%2F16%2F%E7%BC%96%E8%AF%91%E5%AE%89%E8%A3%85apache%20%E7%8E%AF%E5%A2%83%E5%8F%98%E9%87%8F%2F</url>
+    <content type="text"><![CDATA[1.下载httpd apr apr-util pcre配置安装apr .configure –with-prefix=/…./apa/apr&nbsp;make &amp;&amp; make install配置安装apr-util .configure –with-prefix=/…./apa/apr-util&nbsp;make &amp;&amp; make install配置安装pcre .configure –with-prefix=/…./local/pcre&nbsp;make &amp;&amp; make install配置安装apache httpd&nbsp;./configure –prefix=/usr/local/apache2 –with-mpm=worker –enable-cache –enable-disk-cache –enable-mem-cache –enable-file-cache –enable-nonportable-atomics –enable-mods-shared=most –enable-so –enable-rewrite –enable-ssl –with-apr=/../apr安装目录 –with-apr-util=/…/apr-util安装目录 –with-pcre=pcre安装目录make &amp;&amp; make install&nbsp;php configure 参数 http://www.mamicode.com/info-detail-32029.html]]></content>
       <tags>
-        <tag>leetcode</tag>
+        <tag>apache</tag>
       </tags>
   </entry>
   <entry>
@@ -313,6 +330,14 @@
     <content type="text"><![CDATA[package&nbsp;main import&nbsp;(&nbsp;&nbsp;&nbsp;&quot;fmt&quot;&nbsp;&nbsp;&nbsp;&quot;strconv&quot;&nbsp;&nbsp;&nbsp;&quot;sort&quot;) func&nbsp;filter(str&nbsp;string)&nbsp;string{&nbsp;&nbsp;&nbsp;//过滤aabbbbbccc&nbsp;为abc&nbsp;&nbsp;&nbsp;var&nbsp;newArr&nbsp;=&nbsp;make(map[rune]int)&nbsp;&nbsp;&nbsp;s&nbsp;:=&nbsp;&quot;&quot; &nbsp;&nbsp;&nbsp;for&nbsp;_,v&nbsp;:=&nbsp;range&nbsp;[]rune(str){&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if&nbsp;newArr[v]&nbsp;==&nbsp;0{&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;newArr[v]&nbsp;=&nbsp;1&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;s&nbsp;+=&nbsp;string(v)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}&nbsp;&nbsp;&nbsp;}&nbsp;&nbsp;&nbsp;return&nbsp;s} func&nbsp;filter2(str&nbsp;string)&nbsp;string{&nbsp;&nbsp;&nbsp;//过滤aaabbbcssss为3a3bc4s&nbsp;&nbsp;&nbsp;var&nbsp;newArr&nbsp;=&nbsp;make(map[rune]int)&nbsp;&nbsp;&nbsp;var&nbsp;sortArr&nbsp;[]string&nbsp;&nbsp;&nbsp;s&nbsp;:=&nbsp;&quot;&quot; &nbsp;&nbsp;&nbsp;for&nbsp;_,v&nbsp;:=&nbsp;range&nbsp;[]rune(str){&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;sortArr&nbsp;=&nbsp;append(sortArr,&nbsp;string(v))&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if&nbsp;newArr[v]&nbsp;==&nbsp;0{&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;newArr[v]&nbsp;=&nbsp;1&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}else{&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;newArr[v]&nbsp;+=&nbsp;1&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}&nbsp;&nbsp;&nbsp;} &nbsp;&nbsp;&nbsp;sort.Strings(sortArr) &nbsp;&nbsp;&nbsp;for&nbsp;i,v&nbsp;:=&nbsp;range&nbsp;newArr{&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if&nbsp;v&nbsp;==&nbsp;1&nbsp;{&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;s&nbsp;+=&nbsp;string(i)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}else{&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;s&nbsp;+=&nbsp;strconv.Itoa(v)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;s&nbsp;+=&nbsp;string(i)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}&nbsp;&nbsp;&nbsp;}&nbsp;&nbsp;&nbsp;return&nbsp;s} func&nbsp;main()&nbsp;{&nbsp;&nbsp;&nbsp;fmt.Println(filter2(&quot;aabccddee&quot;))}go语言的map用for range遍历是随机的key所以如果需要顺序遍历则需要先将key排序]]></content>
       <tags>
         <tag>面经</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[最长不重复子串]]></title>
+    <url>%2F2017%2F03%2F16%2F%E8%AE%A1%E7%AE%97%E4%B8%80%E4%B8%AA%E5%AD%97%E7%AC%A6%E4%B8%B2%E4%B8%AD%E6%9C%80%E5%A4%A7%E4%B8%8D%E9%87%8D%E5%A4%8D%E5%AD%90%E4%B8%B2%E9%95%BF%E5%BA%A6%2F</url>
+    <content type="text"><![CDATA[123456789101112131415161718192021222324252627282930package mainimport ( "fmt ")func maxLen(str string) int &#123; start := 0 maxlen := 0 lastO := make(map[rune]int) for i, v := range []rune(str) &#123; if lastI, ok := lastO[v]; ok &#123; start = lastI + 1 &#125; if (i-start+1 &amp;gt; maxlen) &#123; maxlen = i - start + 1 &#125; lastO[v] = i &#125; return maxlen&#125;func main() &#123; //求字符串最大不重复子串长度 //s:= "Yes哈哈哈! " fmt.Println(maxLen( "abcbcdef ")) fmt.Println(maxLen( "abcdef ")) fmt.Println(maxLen( "aaaaaaa ")) fmt.Println(maxLen( "你说什么 "))&#125;]]></content>
+      <tags>
+        <tag>leetcode</tag>
       </tags>
   </entry>
   <entry>
@@ -333,36 +358,11 @@
       </tags>
   </entry>
   <entry>
-    <title><![CDATA[leetcode-7]]></title>
-    <url>%2F2017%2F03%2F16%2Fleetcode_day2%2F</url>
-    <content type="text"><![CDATA[7.&nbsp;Reverse Integerfunc&nbsp;reverse(x&nbsp;int)&nbsp;int&nbsp;{ s&nbsp;:=&nbsp;strconv.Itoa(x) rs&nbsp;:=&nbsp;&quot;&quot; j&nbsp;:=&nbsp;0 if&nbsp;x&nbsp;&lt;&nbsp;0&nbsp;{ j&nbsp;=&nbsp;1 rs&nbsp;+=&nbsp;&quot;-&quot; } for&nbsp;i&nbsp;:=&nbsp;len(s)&nbsp;-&nbsp;1;&nbsp;i&nbsp;&gt;=&nbsp;j;&nbsp;i–&nbsp;{ rs&nbsp;+=&nbsp;string(s[i]) } rsi,&nbsp;_&nbsp;:=&nbsp;strconv.Atoi(rs) if&nbsp;rsi&nbsp;&gt;&nbsp;(1&lt;&lt;31)&nbsp;||&nbsp;rsi&nbsp;&lt;&nbsp;-(1&nbsp;&lt;&lt;&nbsp;31)&nbsp;{ rsi&nbsp;=&nbsp;0 } return&nbsp;rsi}]]></content>
+    <title><![CDATA[leetcode-4]]></title>
+    <url>%2F2017%2F03%2F16%2Fleetcode_day5%2F</url>
+    <content type="text"><![CDATA[3.&nbsp;Longest Substring Without Repeating CharactersGiven a string, find the length of the&nbsp;longest substring&nbsp;without repeating characters.Examples:Given&nbsp;&quot;abcabcbb&quot;, the answer is&nbsp;&quot;abc&quot;, which the length is 3.Given&nbsp;&quot;bbbbb&quot;, the answer is&nbsp;&quot;b&quot;, with the length of 1.Given&nbsp;&quot;pwwkew&quot;, the answer is&nbsp;&quot;wke&quot;, with the length of 3. Note that the answer must be a&nbsp;substring,&nbsp;&quot;pwke&quot;&nbsp;is a&nbsp;subsequence&nbsp;and not a substring.func&nbsp;lengthOfLongestSubstring(s&nbsp;string)&nbsp;int&nbsp;{ arr&nbsp;:=&nbsp;make(map[rune]int) start&nbsp;:=&nbsp;0 maxlen&nbsp;:=&nbsp;0 for&nbsp;i,&nbsp;v&nbsp;:=&nbsp;range&nbsp;[]rune(s)&nbsp;{ if&nbsp;pre,&nbsp;ok&nbsp;:=&nbsp;arr[v];&nbsp;ok&nbsp;&amp;&amp;&nbsp;pre&nbsp;&gt;=&nbsp;start&nbsp;{ start&nbsp;=&nbsp;pre&nbsp;+&nbsp;1 } if&nbsp;i-start+1&nbsp;&gt;&nbsp;maxlen&nbsp;{ maxlen&nbsp;=&nbsp;i&nbsp;-&nbsp;start&nbsp;+&nbsp;1 } arr[v]&nbsp;=&nbsp;i } return&nbsp;maxlen}]]></content>
       <tags>
         <tag>leetcode</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title><![CDATA[linux安装nginx]]></title>
-    <url>%2F2017%2F03%2F16%2FLinux%E4%B8%8B%E7%BC%96%E8%AF%91%E5%AE%89%E8%A3%85Nginx%2F</url>
-    <content type="text"><![CDATA[到nginx.org下载wget http://nginx.org/download/nginx-1.10.0.tar.gz解压压缩包环境配置Cd到解压出来的nginx目录中有configure目录的地方进行环境配置./configure –prefix=/usr/local/nginxⅠ.如果遇到提示缺少pcre库到www.pcre.org下载pcre库，if解压到/usr/local/src/pcre-sourceⅡ.1.6版本以后的版本制定pcre源码目录./configure –prefix=/usr/local/nginx–with-pcre=/usr/local/src/pcre-source之前的版本制定安装目录./configure –prefix=/usr/local/nginx–with-pcre=/usr/pcre4.编译安装 make &amp;&amp; make install5.启动nginx ./sbin/nginx重启./sbin/nginx –s reloadException:如果遇到80端口被httpd(Apache)占了Pkill -9 httpd如果无法访问检查防火墙设置]]></content>
-      <tags>
-        <tag>lnmp</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title><![CDATA[apache]]></title>
-    <url>%2F2017%2F03%2F16%2F%E7%BC%96%E8%AF%91%E5%AE%89%E8%A3%85apache%20%E7%8E%AF%E5%A2%83%E5%8F%98%E9%87%8F%2F</url>
-    <content type="text"><![CDATA[1.下载httpd apr apr-util pcre配置安装apr .configure –with-prefix=/…./apa/apr&nbsp;make &amp;&amp; make install配置安装apr-util .configure –with-prefix=/…./apa/apr-util&nbsp;make &amp;&amp; make install配置安装pcre .configure –with-prefix=/…./local/pcre&nbsp;make &amp;&amp; make install配置安装apache httpd&nbsp;./configure –prefix=/usr/local/apache2 –with-mpm=worker –enable-cache –enable-disk-cache –enable-mem-cache –enable-file-cache –enable-nonportable-atomics –enable-mods-shared=most –enable-so –enable-rewrite –enable-ssl –with-apr=/../apr安装目录 –with-apr-util=/…/apr-util安装目录 –with-pcre=pcre安装目录make &amp;&amp; make install&nbsp;php configure 参数 http://www.mamicode.com/info-detail-32029.html]]></content>
-      <tags>
-        <tag>apache</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title><![CDATA[基本排序算法]]></title>
-    <url>%2F2017%2F03%2F16%2F%E6%8E%92%E5%BA%8F%E7%AE%97%E6%B3%95%2F</url>
-    <content type="text"><![CDATA[使用四种基本的排序方法对生成的1000个随机数进行排序，比较执行时间一、冒泡排序123456789101112131415161718192021222324$s=microtime();//记录开始时间for($i=0;$i=1000;$i++)&#123; $a[$i] = mt_rand(0,1000);&#125;//冒泡排序for($j=0;$j&lt;999;$j++)&#123; for($k=0;$k&lt;999-$j;$k++)&#123; if($a[$k]&gt;$a[$k+1])&#123; $temp = $a[$k]; $a[$k] = $a[$k+1]; $a[$k+1] = $temp; &#125; &#125;&#125;for($i=0;$i&lt;1000;$i++)&#123; echo $a[$i].&apos;&apos;;&#125;$e = microtime();//记录结束时间echo &apos;&lt;br/&gt;&apos;;echo $e-$s; 二、简单选择排序123456789for($i=0;$i&lt;999;$i++)&#123; for($j=$i+1;$j&lt;1000;$j++)&#123; if($a[$j]&lt;$a[$i])&#123; $temp = $a[$j]; $a[$j] = $a[$i]; $a[$i] = $temp; &#125; &#125;&#125; 三、直接插入排序12345678910for($i=1;$i&lt;1000;$i++)&#123; if($a[$i]&lt;$a[$i-1])&#123; $j = $i-1; $temp = $a[$i]; for($j;$j&gt;=0&amp;amp;&amp;amp;$a[$j]&gt;$temp;$j--)&#123; $a[$j+1] = $a[$j]; &#125; $a[$j+1] = $temp; &#125;&#125; 四、快速排序123456789101112131415161718192021222324252627function qsort($left,$right)&#123; if($left&gt;$right)&#123; return; &#125; global $a; $i=$left; $j=$right; $key = $i; while($i&lt;$j)&#123; //从右往左找到第一个小于标记的值，交换 while($a[$j]&gt;=$a[$key]&amp;amp;&amp;amp;$j&gt;$i)$j--; $temp = $a[$i]; $a[$i] = $a[$j]; $a[$j] = $temp; $key = $j; //从左往右找到第一个大于标记的值，交换 while($a[$i]&lt;=$a[$key]&amp;amp;&amp;amp;$i&lt;$j)$i++; $temp = $a[$i]; $a[$i] = $a[$j]; $a[$j] = $temp; $key = $i;&#125;//递归调用qsort($left,$i-1);qsort($i+1,$right);qsort(0,999); 多次测试结果冒泡排序0.05~0.07 简单选择0.03~0.06 直接插入0.02~0.04 快速排序0.002~0.007]]></content>
-      <tags>
-        <tag>算法</tag>
-        <tag>排序</tag>
       </tags>
   </entry>
 </search>

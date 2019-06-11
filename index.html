@@ -409,7 +409,7 @@
                 
               
 
-              <time title="创建时间：2019-06-11 15:25:42 / 修改时间：19:11:13" itemprop="dateCreated datePublished" datetime="2019-06-11T15:25:42+08:00">2019-06-11</time>
+              <time title="创建时间：2019-06-11 15:25:42 / 修改时间：19:17:36" itemprop="dateCreated datePublished" datetime="2019-06-11T15:25:42+08:00">2019-06-11</time>
             
 
             
@@ -476,8 +476,8 @@
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">111</span><br><span class="line">Warning: Cannot modify header information - headers already sent by (output started at index.php:2) in index.php on line 3</span><br></pre></td></tr></table></figure>
 <p>只有buffer写满时，才会发送到浏览器。也就是说缓冲区超过4k就会发送到浏览器，如果设置为0，那就没有缓冲区，出现了第一个echo的时候http包已经发送出去了。所以setcookie里面的信息是没有在response header里面的</p>
 <p>还有其他办法吗？</p>
-<p>ob_start()，这样超过设置的缓冲大小也不会立即发送到浏览器，只有脚本运行完成，或者调用了ob_end_flush方法，才会输出到浏览器。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php</span><br><span class="line">	ob_start();</span><br><span class="line">	echo 111;</span><br><span class="line">	setcookie(&quot;username&quot;, 111, time()+5);</span><br><span class="line">	ob_end_flush();</span><br></pre></td></tr></table></figure>
+<p>ob_start()，这样超过设置的缓冲大小也不会立即发送到浏览器，这样就会当脚本运行完成，或者调用了ob_flush等清空缓冲区方法之后，才会输出到浏览器。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php</span><br><span class="line">	ob_start();</span><br><span class="line">	echo 111;</span><br><span class="line">	setcookie(&quot;username&quot;, 111, time()+5);</span><br><span class="line">	ob_flush();</span><br></pre></td></tr></table></figure>
 
           
         
