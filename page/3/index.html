@@ -517,7 +517,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/03/16/Linux下编译安装PHP/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/03/16/Github/">
 
     <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
       <meta itemprop="name" content="czhuyu">
@@ -537,7 +537,7 @@
           <h1 class="post-title" itemprop="name headline">
                 
                 
-                <a href="/2017/03/16/Linux下编译安装PHP/" class="post-title-link" itemprop="http://yoursite.com/page/3/index.html">linux安装php</a>
+                <a href="/2017/03/16/Github/" class="post-title-link" itemprop="http://yoursite.com/page/3/index.html">git</a>
               
             
           </h1>
@@ -579,7 +579,7 @@
                 
                   <span class="post-meta-item-text">更新于</span>
                 
-                <time title="修改时间：2019-05-20 22:24:40" itemprop="dateModified" datetime="2019-05-20T22:24:40+08:00">2019-05-20</time>
+                <time title="修改时间：2019-05-20 22:22:16" itemprop="dateModified" datetime="2019-05-20T22:22:16+08:00">2019-05-20</time>
               
             
           </span>
@@ -614,7 +614,7 @@
       
         
           
-            <p>1、&nbsp;&nbsp;安装依赖库<br></p><p>2、&nbsp;&nbsp;yum install gd zlib libxml2 libxml2-devel libjpeg libjpeg-devel libpng libpng-devel</p><p>3、&nbsp;&nbsp;下载php-5.6.23.tar.bz2，解压</p><p>4、&nbsp;&nbsp;cd到php解压的目录里</p><p>5、&nbsp;&nbsp;配置安装的一些参数</p><p>./configure –prefix=/usr/local/php \</p><p>–with-gd \</p><p>–enable-gd-native-ttf \</p><p>–enable-gd-jis-conv \</p><p>–with-mysql=mysqlnd \</p><p>–enable-mysqlnd \</p><p>–with-pdo-mysql=mysqlnd \</p><p>–enable-fpm\</p><p>–with-openssl</p><p>&nbsp;</p><p>&nbsp;</p><p>Curl &nbsp;&nbsp;&nbsp;</p><p>&nbsp;</p><p>&nbsp;</p><p>./configure –prefix=/usr/local/php7 –with-gd –enable-gd-native-ttf –enable-gd-jis-conv –with-mysql=mysqlnd –enable-mysqlnd –with-pdo-mysql=mysqlnd –enable-fpm –with-openssl –enable-mbstring –enable-tokenizer –enable-zip –with-curl</p><p>&nbsp;</p><p>&nbsp;</p><p>enable-fpm是让php作为独立的进程来运行，占用9000端口</p><p>配置注意</p><p>&nbsp;</p><p>可能会报openssl的错误</p><p>yum install openssl openssl-devel</p><p>&nbsp;</p><p>每个参数后的斜杠前是有空格的，斜杠所起的作用是连接上下两行，没有空格两个参数会连到一起就会报错了</p><p>6、&nbsp;&nbsp;make &amp;&amp;make install</p><p>这个过程中如果使用小内存的服务器可能出现php error，解决办法:</p><p>在配置的最后一行加上–disable-fileinfo</p><p>7、cd /usr/local/php</p><p>cp etc/php-fpm.conf.default etc/php-fpm.conf</p><p>cp /usr/local/src/php-5.5.13/php.ini-development ./lib/php.ini</p><p>7、&nbsp;&nbsp;启动php</p><p>./sbin/php-fpm</p><p>&nbsp;</p><p>&nbsp;</p><p>/usr/local/php7/lib/php/extensions/no-debug-non-zts-20151012</p><p><br></p>
+            <p>首先有两种使用方式 1.先在git官网上建立一个git仓库，然后git clone到本地<br></p><p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 2.直接在本地cd进一个文件夹 git init<br></p><p>配置用户名和email</p><p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;git config –global user.name &#39;&#39;</p><p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;git config –global user.email <a href="mailto:xxx@xxx.com" target="_blank" rel="noopener">xxx@xxx.com</a></p><p>简单使用命令 &nbsp;git add .</p><p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; git status</p><p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; git commit -m &quot;The First Upload&quot;<br></p><p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;git push -u origin master</p><p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp;</p><p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br></p><p><br></p>
           
         
       
@@ -824,7 +824,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/03/16/leetcode_day3/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/03/16/leetcode_day1/">
 
     <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
       <meta itemprop="name" content="czhuyu">
@@ -844,7 +844,7 @@
           <h1 class="post-title" itemprop="name headline">
                 
                 
-                <a href="/2017/03/16/leetcode_day3/" class="post-title-link" itemprop="http://yoursite.com/page/3/index.html">day3</a>
+                <a href="/2017/03/16/leetcode_day1/" class="post-title-link" itemprop="http://yoursite.com/page/3/index.html">leetcode-1</a>
               
             
           </h1>
@@ -886,7 +886,7 @@
                 
                   <span class="post-meta-item-text">更新于</span>
                 
-                <time title="修改时间：2019-05-20 22:23:32" itemprop="dateModified" datetime="2019-05-20T22:23:32+08:00">2019-05-20</time>
+                <time title="修改时间：2019-05-24 23:54:27" itemprop="dateModified" datetime="2019-05-24T23:54:27+08:00">2019-05-24</time>
               
             
           </span>
@@ -921,7 +921,7 @@
       
         
           
-            <p><strong>Binary Tree (Traverse A Tree)</strong><br></p><p><br></p><p>Binary Tree Preorder Traversal</p><pre class="brush:cpp;toolbar:false">/*<em><br>&nbsp;</em>&nbsp;Definition&nbsp;for&nbsp;a&nbsp;binary&nbsp;tree&nbsp;node.<br>&nbsp;<em>&nbsp;type&nbsp;TreeNode&nbsp;struct&nbsp;{<br>&nbsp;</em>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Val&nbsp;int<br>&nbsp;<em>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Left&nbsp;</em>TreeNode<br>&nbsp;<em>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Right&nbsp;</em>TreeNode<br>&nbsp;<em>&nbsp;}<br>&nbsp;</em>/<br>func&nbsp;preorderTraversal(root&nbsp;<em>TreeNode)&nbsp;[]int&nbsp;{<br>    var&nbsp;arr&nbsp;[]int<br>    if&nbsp;root&nbsp;==&nbsp;nil&nbsp;{<br>        return&nbsp;arr<br>    }<br>    arr&nbsp;=&nbsp;append(arr,&nbsp;root.Val)<br>    arr1&nbsp;:=&nbsp;preorderTraversal(root.Left)<br>    arr&nbsp;=&nbsp;arrmerge(arr,&nbsp;arr1)<br>    arr2&nbsp;:=&nbsp;preorderTraversal(root.Right)<br>    arr&nbsp;=&nbsp;arrmerge(arr,&nbsp;arr2)<br>    return&nbsp;arr<br>}<br><br>func&nbsp;arrmerge(arr&nbsp;[]int,&nbsp;arr1&nbsp;[]int)&nbsp;[]int&nbsp;{<br>​    for&nbsp;_,&nbsp;v&nbsp;:=&nbsp;range&nbsp;arr1&nbsp;{<br>​        arr&nbsp;=&nbsp;append(arr,&nbsp;v)<br>​    }<br>​    return&nbsp;arr<br>}</em></pre><p>Binary Tree Inorder Traversal</p><pre class="brush:cpp;toolbar:false">func&nbsp;inorderTraversal(root&nbsp;TreeNode)&nbsp;[]int&nbsp;{<br>​    var&nbsp;arr&nbsp;[]int<br>​    if&nbsp;root&nbsp;==&nbsp;nil&nbsp;{<br>​        return&nbsp;arr<br>​    }<br>​    arr1&nbsp;:=&nbsp;inorderTraversal(root.Left)<br>​    arr&nbsp;=&nbsp;arrmerge(arr,&nbsp;arr1)<br>​    arr&nbsp;=&nbsp;append(arr,&nbsp;root.Val)<br>​    arr2&nbsp;:=&nbsp;inorderTraversal(root.Right)<br>​    arr&nbsp;=&nbsp;arrmerge(arr,&nbsp;arr2)<br>​    return&nbsp;arr<br>}</pre><p>Binary Tree Postorder Traversal</p><pre class="brush:cpp;toolbar:false">func&nbsp;postorderTraversal(root&nbsp;*TreeNode)&nbsp;[]int&nbsp;{<br>&nbsp;&nbsp;&nbsp;&nbsp;var&nbsp;arr&nbsp;[]int<br>​    if&nbsp;root&nbsp;==&nbsp;nil&nbsp;{<br>​        return&nbsp;arr<br>​    }<br>​    arr1&nbsp;:=&nbsp;postorderTraversal(root.Left)<br>​    arr&nbsp;=&nbsp;arrmerge(arr,&nbsp;arr1)<br>​    arr2&nbsp;:=&nbsp;postorderTraversal(root.Right)<br>​    arr&nbsp;=&nbsp;arrmerge(arr,&nbsp;arr2)<br>&nbsp;&nbsp;&nbsp;&nbsp;arr&nbsp;=&nbsp;append(arr,&nbsp;root.Val)<br>​    return&nbsp;arr<br>}</pre><p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;</p>
+            <p><br></p><p style="box-sizing: border-box; font-family: inherit; font-weight: 500; line-height: 1.1; color: inherit; margin-top: 0px; margin-bottom: 10px; font-size: 24px; display: inline-block; margin-right: 0.5em;">1.&nbsp;Two Sum</p><p style="box-sizing: border-box; margin-top: 0px; margin-bottom: 10px; color: rgb(51, 51, 51); font-family: &quot;Helvetica Neue&quot;, Helvetica, Arial, sans-serif; font-size: 14px; white-space: normal; background-color: rgb(255, 255, 255);">Given an array of integers, return&nbsp;<span style="box-sizing: border-box; font-weight: 700;">indices</span>&nbsp;of the two numbers such that they add up to a specific target.</p><p style="box-sizing: border-box; margin-top: 0px; margin-bottom: 10px; color: rgb(51, 51, 51); font-family: &quot;Helvetica Neue&quot;, Helvetica, Arial, sans-serif; font-size: 14px; white-space: normal; background-color: rgb(255, 255, 255);">You may assume that each input would have&nbsp;<span style="box-sizing: border-box; font-weight: 700;"><em style="box-sizing: border-box;">exactly</em></span>&nbsp;one solution, and you may not use the&nbsp;<em style="box-sizing: border-box;">same</em>&nbsp;element twice.</p><p style="box-sizing: border-box; margin-top: 0px; margin-bottom: 10px; color: rgb(51, 51, 51); font-family: &quot;Helvetica Neue&quot;, Helvetica, Arial, sans-serif; font-size: 14px; white-space: normal; background-color: rgb(255, 255, 255);"><span style="box-sizing: border-box; font-weight: 700;">Example:</span><br></p><pre style="box-sizing: border-box; overflow: auto; font-family: Menlo, Monaco, Consolas, &quot;Courier New&quot;, monospace; font-size: 13px; padding: 9.5px; margin-top: 0px; margin-bottom: 10px; line-height: 1.42857; color: rgb(51, 51, 51); word-break: break-all; word-wrap: break-word; background-color: rgb(245, 245, 245); border: 1px solid rgb(204, 204, 204); border-radius: 4px;">Given&nbsp;nums&nbsp;=&nbsp;[2,&nbsp;7,&nbsp;11,&nbsp;15],&nbsp;target&nbsp;=&nbsp;9,<br>Because&nbsp;nums[0]&nbsp;+&nbsp;nums[1]&nbsp;=&nbsp;2&nbsp;+&nbsp;7&nbsp;=&nbsp;9,<br>return&nbsp;[0,&nbsp;1].</pre><pre class="brush:cpp;toolbar:false">func&nbsp;twoSum(nums&nbsp;[]int,&nbsp;target&nbsp;int)&nbsp;[]int&nbsp;{<br>    var&nbsp;arr&nbsp;[]int<br>EXIT:<br>    for&nbsp;i,&nbsp;<em>&nbsp;:=&nbsp;range&nbsp;nums&nbsp;{<br>        for&nbsp;j,&nbsp;</em>&nbsp;:=&nbsp;range&nbsp;nums&nbsp;{<br>            if&nbsp;(nums[i]+nums[j])&nbsp;==&nbsp;target&nbsp;&amp;&amp;&nbsp;i&nbsp;!=&nbsp;j&nbsp;{<br>                arr&nbsp;=&nbsp;append(arr,&nbsp;i)<br>                arr&nbsp;=&nbsp;append(arr,&nbsp;j)<br>                break&nbsp;EXIT<br>            }<br>        }<br>    }<br>    return&nbsp;arr<br>}</pre><p><br></p>
           
         
       
@@ -977,7 +977,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/03/16/Linux下编译安装PHP扩展/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/03/16/PHP内置数组排序方法/">
 
     <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
       <meta itemprop="name" content="czhuyu">
@@ -997,7 +997,7 @@
           <h1 class="post-title" itemprop="name headline">
                 
                 
-                <a href="/2017/03/16/Linux下编译安装PHP扩展/" class="post-title-link" itemprop="http://yoursite.com/page/3/index.html">linux安装php扩展</a>
+                <a href="/2017/03/16/PHP内置数组排序方法/" class="post-title-link" itemprop="http://yoursite.com/page/3/index.html">php内置数组排序</a>
               
             
           </h1>
@@ -1039,7 +1039,7 @@
                 
                   <span class="post-meta-item-text">更新于</span>
                 
-                <time title="修改时间：2019-05-20 22:24:46" itemprop="dateModified" datetime="2019-05-20T22:24:46+08:00">2019-05-20</time>
+                <time title="修改时间：2019-05-20 22:25:49" itemprop="dateModified" datetime="2019-05-20T22:25:49+08:00">2019-05-20</time>
               
             
           </span>
@@ -1074,7 +1074,467 @@
       
         
           
-            <p>下载扩展&nbsp;<a href="http://pecl.php.net/" target="_blank" rel="noopener">http://pecl.php.net/</a><br></p><p>解压扩展 进入解压后的扩展目录 执行…/php/bin/phpize</p><p>./configure –with-php-config=…/php/bin/php-config</p><p>根据错误提示安装相应的依赖</p><p>make &amp;&amp; make install</p><p>在…/php/lib/extension/no-….目录下会出现.so的文件就说明安装好了</p><p>到php.ini中增加extension=…/php/lib/ex…/xxx.so</p><p>重启php<br></p>
+            
+          
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+       
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/03/16/Linux下编译安装PHP/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="czhuyu">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="https://avatars2.githubusercontent.com/u/26237984">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="无限进步">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                
+                <a href="/2017/03/16/Linux下编译安装PHP/" class="post-title-link" itemprop="http://yoursite.com/page/3/index.html">linux安装php</a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2017-03-16 22:22:56" itemprop="dateCreated datePublished" datetime="2017-03-16T22:22:56+08:00">2017-03-16</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2019-05-20 22:24:40" itemprop="dateModified" datetime="2019-05-20T22:24:40+08:00">2019-05-20</time>
+              
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>1、&nbsp;&nbsp;安装依赖库<br></p><p>2、&nbsp;&nbsp;yum install gd zlib libxml2 libxml2-devel libjpeg libjpeg-devel libpng libpng-devel</p><p>3、&nbsp;&nbsp;下载php-5.6.23.tar.bz2，解压</p><p>4、&nbsp;&nbsp;cd到php解压的目录里</p><p>5、&nbsp;&nbsp;配置安装的一些参数</p><p>./configure –prefix=/usr/local/php \</p><p>–with-gd \</p><p>–enable-gd-native-ttf \</p><p>–enable-gd-jis-conv \</p><p>–with-mysql=mysqlnd \</p><p>–enable-mysqlnd \</p><p>–with-pdo-mysql=mysqlnd \</p><p>–enable-fpm\</p><p>–with-openssl</p><p>&nbsp;</p><p>&nbsp;</p><p>Curl &nbsp;&nbsp;&nbsp;</p><p>&nbsp;</p><p>&nbsp;</p><p>./configure –prefix=/usr/local/php7 –with-gd –enable-gd-native-ttf –enable-gd-jis-conv –with-mysql=mysqlnd –enable-mysqlnd –with-pdo-mysql=mysqlnd –enable-fpm –with-openssl –enable-mbstring –enable-tokenizer –enable-zip –with-curl</p><p>&nbsp;</p><p>&nbsp;</p><p>enable-fpm是让php作为独立的进程来运行，占用9000端口</p><p>配置注意</p><p>&nbsp;</p><p>可能会报openssl的错误</p><p>yum install openssl openssl-devel</p><p>&nbsp;</p><p>每个参数后的斜杠前是有空格的，斜杠所起的作用是连接上下两行，没有空格两个参数会连到一起就会报错了</p><p>6、&nbsp;&nbsp;make &amp;&amp;make install</p><p>这个过程中如果使用小内存的服务器可能出现php error，解决办法:</p><p>在配置的最后一行加上–disable-fileinfo</p><p>7、cd /usr/local/php</p><p>cp etc/php-fpm.conf.default etc/php-fpm.conf</p><p>cp /usr/local/src/php-5.5.13/php.ini-development ./lib/php.ini</p><p>7、&nbsp;&nbsp;启动php</p><p>./sbin/php-fpm</p><p>&nbsp;</p><p>&nbsp;</p><p>/usr/local/php7/lib/php/extensions/no-debug-non-zts-20151012</p><p><br></p>
+          
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+       
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/03/16/一次完整的请求过程/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="czhuyu">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="https://avatars2.githubusercontent.com/u/26237984">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="无限进步">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                
+                <a href="/2017/03/16/一次完整的请求过程/" class="post-title-link" itemprop="http://yoursite.com/page/3/index.html">一次完整的请求过程</a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2017-03-16 22:22:56" itemprop="dateCreated datePublished" datetime="2017-03-16T22:22:56+08:00">2017-03-16</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2019-05-20 22:28:49" itemprop="dateModified" datetime="2019-05-20T22:28:49+08:00">2019-05-20</time>
+              
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p><a href="https://www.cnblogs.com/engeng/articles/5959335.html" target="_blank">浏览器一次完整的请求过程</a><br></p>
+          
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+       
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/03/16/写时复制和引用计数/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="czhuyu">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="https://avatars2.githubusercontent.com/u/26237984">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="无限进步">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                
+                <a href="/2017/03/16/写时复制和引用计数/" class="post-title-link" itemprop="http://yoursite.com/page/3/index.html">写时复制和引用计数</a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2017-03-16 22:22:56" itemprop="dateCreated datePublished" datetime="2017-03-16T22:22:56+08:00">2017-03-16</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2019-05-20 22:28:39" itemprop="dateModified" datetime="2019-05-20T22:28:39+08:00">2019-05-20</time>
+              
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p></p><p><a href="http://www.cnblogs.com/phpcoder/p/4462210.html" target="_blank" title="http://www.cnblogs.com/phpcoder/p/4462210.html">http://www.cnblogs.com/phpcoder/p/4462210.html</a><br></p><audio controls="controls" style="display: none;"></audio><p></p>
+
           
         
       
@@ -1287,7 +1747,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/03/16/NginxPHPMysql 重启等命令/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/03/16/安装Laravel/">
 
     <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
       <meta itemprop="name" content="czhuyu">
@@ -1307,7 +1767,7 @@
           <h1 class="post-title" itemprop="name headline">
                 
                 
-                <a href="/2017/03/16/NginxPHPMysql 重启等命令/" class="post-title-link" itemprop="http://yoursite.com/page/3/index.html">lnmp重启</a>
+                <a href="/2017/03/16/安装Laravel/" class="post-title-link" itemprop="http://yoursite.com/page/3/index.html">安装laravel</a>
               
             
           </h1>
@@ -1349,7 +1809,7 @@
                 
                   <span class="post-meta-item-text">更新于</span>
                 
-                <time title="修改时间：2019-05-20 22:25:38" itemprop="dateModified" datetime="2019-05-20T22:25:38+08:00">2019-05-20</time>
+                <time title="修改时间：2019-05-20 22:26:37" itemprop="dateModified" datetime="2019-05-20T22:26:37+08:00">2019-05-20</time>
               
             
           </span>
@@ -1384,466 +1844,7 @@
       
         
           
-            <p>nginx&nbsp;<br></p><p>&nbsp;&nbsp;</p><p>start：&nbsp;</p><p>/usr/local/nginx/sbin/nginx&nbsp;</p><p>&nbsp;</p><p>stop：&nbsp;</p><p>/usr/local/nginx/sbin/nginx&nbsp;-s&nbsp;stop&nbsp;</p><p>&nbsp;</p><p>reload：&nbsp;</p><p>/usr/local/nginx/sbin/nginx&nbsp;-s&nbsp;reload&nbsp;</p><p>&nbsp;</p><p>#<strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><em>**</em></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong>&nbsp;</p><p>&nbsp;</p><p>#php-fpm(fast-cgi)命令&nbsp;</p><p>&nbsp;&nbsp;</p><p>start：&nbsp;</p><p>/usr/local/php/sbin/php-fpm&nbsp;</p><p>&nbsp;</p><p>stop：&nbsp;</p><p>/bin/ps&nbsp;-ef&nbsp;|&nbsp;grep&nbsp;&#39;php-fpm&#39;&nbsp;|&nbsp;grep&nbsp;-v&nbsp;grep&nbsp;|&nbsp;cut&nbsp;-c&nbsp;9-15&nbsp;|&nbsp;xargs&nbsp;kill&nbsp;-9&nbsp;</p><p>&nbsp;</p><p>&nbsp;</p><p>Linux：PHP&nbsp;5.3.3&nbsp;以上版本的php-fpm的重启</p><p>&nbsp;</p><p>INT,&nbsp;TERM：立刻终止</p><p>QUIT：平滑终止</p><p>USR1：重新打开日志文件</p><p>USR2：平滑重载所有worker进程并重新载入配置和二进制模块</p><p>&nbsp;</p><p>示例：</p><p>1）php-fpm&nbsp;关闭：</p><p>kill&nbsp;-INT&nbsp;<code>cat&amp;nbsp;/usr/local/php/var/run/php-fpm.pid</code></p><p>&nbsp;</p><p>2）php-fpm&nbsp;重启：</p><p>kill&nbsp;-USR2&nbsp;<code>cat&amp;nbsp;/usr/local/php/var/run/php-fpm.pid</code></p><p>&nbsp;</p><p>查看php-fpm进程数：</p><p>ps&nbsp;aux&nbsp;|&nbsp;grep&nbsp;-c&nbsp;php-fpm</p><p>&nbsp;</p><p>#<strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><em>**</em></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong>&nbsp;</p><p>&nbsp;</p><p>#mysql命令&nbsp;</p><p>&nbsp;</p><p>start：&nbsp;</p><p>/etc/init.d/mysqld&nbsp;start&nbsp;</p><p>&nbsp;</p><p>stop：&nbsp;</p><p>/etc/init.d/mysqld&nbsp;stop&nbsp;</p><p>&nbsp;</p><p>restart：&nbsp;</p><p>/etc/init.d/mysqld&nbsp;restart&nbsp;</p><p>&nbsp;</p><p>#<strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><em>**</em></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong>&nbsp;</p><p><br></p>
-          
-        
-      
-    </div>
-
-    
-
-    
-    
-    
-
-    
-
-    
-       
-    
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/03/16/PHP内置数组排序方法/">
-
-    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="czhuyu">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="https://avatars2.githubusercontent.com/u/26237984">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="无限进步">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                
-                <a href="/2017/03/16/PHP内置数组排序方法/" class="post-title-link" itemprop="http://yoursite.com/page/3/index.html">php内置数组排序</a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-
-            
-            
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-
-              
-                
-              
-
-              <time title="创建时间：2017-03-16 22:22:56" itemprop="dateCreated datePublished" datetime="2017-03-16T22:22:56+08:00">2017-03-16</time>
-            
-
-            
-              
-
-              
-                
-                <span class="post-meta-divider">|</span>
-                
-
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">更新于</span>
-                
-                <time title="修改时间：2019-05-20 22:25:49" itemprop="dateModified" datetime="2019-05-20T22:25:49+08:00">2019-05-20</time>
-              
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            
-          
-        
-      
-    </div>
-
-    
-
-    
-    
-    
-
-    
-
-    
-       
-    
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/03/16/Github/">
-
-    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="czhuyu">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="https://avatars2.githubusercontent.com/u/26237984">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="无限进步">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                
-                <a href="/2017/03/16/Github/" class="post-title-link" itemprop="http://yoursite.com/page/3/index.html">git</a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-
-            
-            
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-
-              
-                
-              
-
-              <time title="创建时间：2017-03-16 22:22:56" itemprop="dateCreated datePublished" datetime="2017-03-16T22:22:56+08:00">2017-03-16</time>
-            
-
-            
-              
-
-              
-                
-                <span class="post-meta-divider">|</span>
-                
-
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">更新于</span>
-                
-                <time title="修改时间：2019-05-20 22:22:16" itemprop="dateModified" datetime="2019-05-20T22:22:16+08:00">2019-05-20</time>
-              
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>首先有两种使用方式 1.先在git官网上建立一个git仓库，然后git clone到本地<br></p><p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 2.直接在本地cd进一个文件夹 git init<br></p><p>配置用户名和email</p><p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;git config –global user.name &#39;&#39;</p><p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;git config –global user.email <a href="mailto:xxx@xxx.com" target="_blank" rel="noopener">xxx@xxx.com</a></p><p>简单使用命令 &nbsp;git add .</p><p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; git status</p><p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; git commit -m &quot;The First Upload&quot;<br></p><p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;git push -u origin master</p><p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp;</p><p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br></p><p><br></p>
-          
-        
-      
-    </div>
-
-    
-
-    
-    
-    
-
-    
-
-    
-       
-    
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/03/16/一次完整的请求过程/">
-
-    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="czhuyu">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="https://avatars2.githubusercontent.com/u/26237984">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="无限进步">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                
-                <a href="/2017/03/16/一次完整的请求过程/" class="post-title-link" itemprop="http://yoursite.com/page/3/index.html">一次完整的请求过程</a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-
-            
-            
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-
-              
-                
-              
-
-              <time title="创建时间：2017-03-16 22:22:56" itemprop="dateCreated datePublished" datetime="2017-03-16T22:22:56+08:00">2017-03-16</time>
-            
-
-            
-              
-
-              
-                
-                <span class="post-meta-divider">|</span>
-                
-
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">更新于</span>
-                
-                <time title="修改时间：2019-05-20 22:28:49" itemprop="dateModified" datetime="2019-05-20T22:28:49+08:00">2019-05-20</time>
-              
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p><a href="https://www.cnblogs.com/engeng/articles/5959335.html" target="_blank">浏览器一次完整的请求过程</a><br></p>
+            <p>一、根据官方文档需要安装几个php的扩展 Openssl/PDO/Mbstring/Tokenizer/XML<br></p><p>二、Linux下可以使用Composer来安装Laravel</p><p>&nbsp; 1.全局安装Composer&nbsp;<br></p><p>&nbsp;&nbsp;&nbsp;&nbsp;curl -sS <a href="https://getcomposer.org/installer" target="_blank" rel="noopener">https://getcomposer.org/installer</a> | php<br>&nbsp;&nbsp;&nbsp;&nbsp;mv composer.phar /usr/local/bin/composer<br></p><p>&nbsp; &nbsp; &nbsp;解决更新慢的问题<br></p><p>&nbsp;&nbsp;&nbsp;&nbsp;composer config repo.packagist composer <a href="https://packagist.phpcomposer.com" target="_blank" rel="noopener">https://packagist.phpcomposer.com</a></p><p>&nbsp;&nbsp;&nbsp;&nbsp;composer –version查看是否安装成功</p><p>&nbsp; 2.利用Composer安装Laravel<br></p><p>&nbsp;&nbsp;&nbsp;&nbsp;composer global require &quot;laravel/installer&quot;<br></p><p>&nbsp;&nbsp;&nbsp;&nbsp;cd到$Home/.composer/vendor/bin目录下<br></p><p>&nbsp;&nbsp;&nbsp;&nbsp;执行 Laravel new Blog<br></p><p>&nbsp; 3.最后利用php的内置服务器<br></p><p>&nbsp;&nbsp;&nbsp;&nbsp;php artisan serve<br></p><p><br></p><p>一些收获</p><p>&nbsp; &nbsp;1.Linux方面 .tar.gz通过的是源码安装 ./configure –prefix=/usr/local/php 即指定安装路径 卸载的时候只需要删除这个目录下的东西即可</p><p>　　开机自启动</p><p>　　增加环境变量</p><p>&nbsp; &nbsp;2.php 的两种运行方式的php.ini有可能是不同的,也就是会出现你的web上面的phpinfo()和你直接用CLI执行的php -m发现扩展的开启情况是不相同的，这个时候就需要你运行CLI和web的时候所用的php.ini是同一个文件</p><p>&nbsp; &nbsp;3.Laravel</p><p>　　从laraval知道了php有一个内置的服务器。</p><p><br></p>
           
         
       
