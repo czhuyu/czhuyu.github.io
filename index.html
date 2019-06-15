@@ -364,6 +364,154 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/06/15/leetcode-17/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="czhuyu">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="https://avatars2.githubusercontent.com/u/26237984">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="无限进步">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                
+                <a href="/2019/06/15/leetcode-17/" class="post-title-link" itemprop="http://yoursite.com/index.html">leetcode-17</a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2019-06-15 18:03:57 / 修改时间：18:05:44" itemprop="dateCreated datePublished" datetime="2019-06-15T18:03:57+08:00">2019-06-15</time>
+            
+
+            
+              
+
+              
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>给定一个仅包含数字 2-9 的字符串，返回所有它能表示的字母组合。</p>
+<p>给出数字到字母的映射如下（与电话按键相同）。注意 1 不对应任何字母。</p>
+<p><img src="https://assets.leetcode-cn.com/aliyun-lc-upload/original_images/17_telephone_keypad.png" alt=""></p>
+<p>示例:</p>
+<p>输入：”23”<br>输出：[“ad”, “ae”, “af”, “bd”, “be”, “bf”, “cd”, “ce”, “cf”].</p>
+<p>来源：力扣（LeetCode）<br>链接：<a href="https://leetcode-cn.com/problems/letter-combinations-of-a-phone-number" target="_blank" rel="noopener">https://leetcode-cn.com/problems/letter-combinations-of-a-phone-number</a><br>著作权归领扣网络所有。商业转载请联系官方授权，非商业转载请注明出处。</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">letterCombinations</span><span class="params">(digits <span class="keyword">string</span>)</span> []<span class="title">string</span></span> &#123;</span><br><span class="line">	<span class="keyword">var</span> res []<span class="keyword">string</span></span><br><span class="line">	<span class="keyword">var</span> tmpArr []<span class="keyword">int</span></span><br><span class="line">	phoneMap := [<span class="number">10</span>][<span class="number">4</span>]<span class="keyword">string</span>&#123;</span><br><span class="line">		<span class="number">2</span>: &#123;<span class="string">"a"</span>, <span class="string">"b"</span>, <span class="string">"c"</span>, <span class="string">""</span>&#125;,</span><br><span class="line">		<span class="number">3</span>: &#123;<span class="string">"d"</span>, <span class="string">"e"</span>, <span class="string">"f"</span>, <span class="string">""</span>&#125;,</span><br><span class="line">		<span class="number">4</span>: &#123;<span class="string">"g"</span>, <span class="string">"h"</span>, <span class="string">"i"</span>, <span class="string">""</span>&#125;,</span><br><span class="line">		<span class="number">5</span>: &#123;<span class="string">"j"</span>, <span class="string">"k"</span>, <span class="string">"l"</span>, <span class="string">""</span>&#125;,</span><br><span class="line">		<span class="number">6</span>: &#123;<span class="string">"m"</span>, <span class="string">"n"</span>, <span class="string">"o"</span>, <span class="string">""</span>&#125;,</span><br><span class="line">		<span class="number">7</span>: &#123;<span class="string">"p"</span>, <span class="string">"q"</span>, <span class="string">"r"</span>, <span class="string">"s"</span>&#125;,</span><br><span class="line">		<span class="number">8</span>: &#123;<span class="string">"t"</span>, <span class="string">"u"</span>, <span class="string">"v"</span>, <span class="string">""</span>&#125;,</span><br><span class="line">		<span class="number">9</span>: &#123;<span class="string">"w"</span>, <span class="string">"x"</span>, <span class="string">"y"</span>, <span class="string">"z"</span>&#125;,</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">if</span> digits == <span class="string">""</span> &#123;</span><br><span class="line">		<span class="keyword">return</span> res</span><br><span class="line">	&#125;</span><br><span class="line">	a := <span class="built_in">len</span>(digits)</span><br><span class="line">	digitsInt, _ := strconv.Atoi(digits)</span><br><span class="line">	paramsArr := <span class="built_in">make</span>([][<span class="number">4</span>]<span class="keyword">string</span>, <span class="number">0</span>)</span><br><span class="line">	<span class="keyword">for</span> &#123;</span><br><span class="line">		<span class="keyword">if</span> digitsInt &lt;= <span class="number">0</span> &#123;</span><br><span class="line">			<span class="keyword">break</span></span><br><span class="line">		&#125;</span><br><span class="line">		tmp := digitsInt % <span class="number">10</span></span><br><span class="line">		tmpArr = <span class="built_in">append</span>(tmpArr, tmp)</span><br><span class="line">		digitsInt /= <span class="number">10</span></span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">for</span> k := a<span class="number">-1</span>; k &gt;= <span class="number">0</span>; k-- &#123;</span><br><span class="line">		paramsArr = <span class="built_in">append</span>(paramsArr, phoneMap[tmpArr[k]])</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	resAddress := &amp;res</span><br><span class="line">	recu(paramsArr, <span class="number">0</span>, <span class="string">""</span>, resAddress, a)</span><br><span class="line">	<span class="keyword">return</span> res</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">recu</span><span class="params">(numArr [][4]<span class="keyword">string</span>, flag <span class="keyword">int</span>, str <span class="keyword">string</span>, strAddress *[]<span class="keyword">string</span>, leng <span class="keyword">int</span>)</span></span> &#123;</span><br><span class="line">	<span class="keyword">if</span> flag == leng &#123;</span><br><span class="line">		<span class="keyword">if</span> <span class="built_in">len</span>(str) == leng &#123;</span><br><span class="line">			*strAddress = <span class="built_in">append</span>(*strAddress, str)</span><br><span class="line">		&#125;</span><br><span class="line">	&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">		<span class="keyword">for</span> i := <span class="number">0</span>; i &lt; <span class="number">4</span>; i++ &#123;</span><br><span class="line">			<span class="keyword">if</span> flag == <span class="number">0</span> &#123;</span><br><span class="line">				str = <span class="string">""</span></span><br><span class="line">				<span class="keyword">if</span> numArr[flag][i] == <span class="string">""</span> &#123;</span><br><span class="line">					<span class="keyword">continue</span></span><br><span class="line">				&#125;</span><br><span class="line">			&#125;</span><br><span class="line">			<span class="keyword">if</span> i &gt; <span class="number">0</span> &amp;&amp; <span class="built_in">len</span>(str) &gt; <span class="number">1</span> &#123;</span><br><span class="line">				str = <span class="keyword">string</span>([]<span class="keyword">byte</span>(str)[<span class="number">0</span> : <span class="built_in">len</span>(str)<span class="number">-1</span>])</span><br><span class="line">			&#125;</span><br><span class="line">			str += numArr[flag][i]</span><br><span class="line">			recu(numArr, flag+<span class="number">1</span>, str, strAddress, leng)</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+          
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+       
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/06/11/一些经验/">
 
     <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
@@ -2072,168 +2220,6 @@ exec_direct=php_optarg;
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/05/18/加密相关/">
-
-    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="czhuyu">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="https://avatars2.githubusercontent.com/u/26237984">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="无限进步">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                
-                <a href="/2019/05/18/加密相关/" class="post-title-link" itemprop="http://yoursite.com/index.html">加密相关</a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-
-            
-            
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-
-              
-                
-              
-
-              <time title="创建时间：2019-05-18 17:34:02" itemprop="dateCreated datePublished" datetime="2019-05-18T17:34:02+08:00">2019-05-18</time>
-            
-
-            
-              
-
-              
-                
-                <span class="post-meta-divider">|</span>
-                
-
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">更新于</span>
-                
-                <time title="修改时间：2019-05-20 23:09:58" itemprop="dateModified" datetime="2019-05-20T23:09:58+08:00">2019-05-20</time>
-              
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h2 id="加密相关"><a href="#加密相关" class="headerlink" title="加密相关"></a>加密相关</h2><h4 id="一-对称加密"><a href="#一-对称加密" class="headerlink" title="一.对称加密"></a>一.对称加密</h4><p>1.使用相同的密钥来进行加密解密</p>
-<p>2.优缺点：计算小、加密快/不够安全</p>
-<p>3.eg: AES</p>
-<h4 id="二-非对称加密"><a href="#二-非对称加密" class="headerlink" title="二.非对称加密"></a>二.非对称加密</h4><p>1.公钥和私钥 公钥加密私钥解密/私钥加密公钥解密</p>
-<p>2.优缺点：安全性高/加解密时间长、速度慢</p>
-<p>3.eg:RSA</p>
-<h4 id="三-签名-摘要"><a href="#三-签名-摘要" class="headerlink" title="三.签名/摘要"></a>三.签名/摘要</h4><p>eg:MD5</p>
-<h4 id="四-https"><a href="#四-https" class="headerlink" title="四.https"></a>四.https</h4><p>https使用对称加密和非对称加密同时使用集合两者优点</p>
-<p><img src="http://139.224.239.61/20190520.png" alt="1558364728133"></p>
-
-          
-        
-      
-    </div>
-
-    
-
-    
-    
-    
-
-    
-
-    
-       
-    
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -2283,7 +2269,7 @@ exec_direct=php_optarg;
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">42</span>
+                    <span class="site-state-item-count">43</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>

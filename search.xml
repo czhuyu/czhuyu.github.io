@@ -1,6 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title><![CDATA[leetcode-17]]></title>
+    <url>%2F2019%2F06%2F15%2Fleetcode-17%2F</url>
+    <content type="text"><![CDATA[给定一个仅包含数字 2-9 的字符串，返回所有它能表示的字母组合。 给出数字到字母的映射如下（与电话按键相同）。注意 1 不对应任何字母。 示例: 输入：”23”输出：[“ad”, “ae”, “af”, “bd”, “be”, “bf”, “cd”, “ce”, “cf”]. 来源：力扣（LeetCode）链接：https://leetcode-cn.com/problems/letter-combinations-of-a-phone-number著作权归领扣网络所有。商业转载请联系官方授权，非商业转载请注明出处。 123456789101112131415161718192021222324252627282930313233343536373839404142434445464748495051525354555657func letterCombinations(digits string) []string &#123; var res []string var tmpArr []int phoneMap := [10][4]string&#123; 2: &#123;"a", "b", "c", ""&#125;, 3: &#123;"d", "e", "f", ""&#125;, 4: &#123;"g", "h", "i", ""&#125;, 5: &#123;"j", "k", "l", ""&#125;, 6: &#123;"m", "n", "o", ""&#125;, 7: &#123;"p", "q", "r", "s"&#125;, 8: &#123;"t", "u", "v", ""&#125;, 9: &#123;"w", "x", "y", "z"&#125;, &#125; if digits == "" &#123; return res &#125; a := len(digits) digitsInt, _ := strconv.Atoi(digits) paramsArr := make([][4]string, 0) for &#123; if digitsInt &lt;= 0 &#123; break &#125; tmp := digitsInt % 10 tmpArr = append(tmpArr, tmp) digitsInt /= 10 &#125; for k := a-1; k &gt;= 0; k-- &#123; paramsArr = append(paramsArr, phoneMap[tmpArr[k]]) &#125; resAddress := &amp;res recu(paramsArr, 0, "", resAddress, a) return res&#125;func recu(numArr [][4]string, flag int, str string, strAddress *[]string, leng int) &#123; if flag == leng &#123; if len(str) == leng &#123; *strAddress = append(*strAddress, str) &#125; &#125; else &#123; for i := 0; i &lt; 4; i++ &#123; if flag == 0 &#123; str = "" if numArr[flag][i] == "" &#123; continue &#125; &#125; if i &gt; 0 &amp;&amp; len(str) &gt; 1 &#123; str = string([]byte(str)[0 : len(str)-1]) &#125; str += numArr[flag][i] recu(numArr, flag+1, str, strAddress, leng) &#125; &#125;&#125;]]></content>
+      <tags>
+        <tag>leetcode</tag>
+        <tag>算法</tag>
+      </tags>
+  </entry>
+  <entry>
     <title><![CDATA[一些经验]]></title>
     <url>%2F2019%2F06%2F11%2F%E4%B8%80%E4%BA%9B%E7%BB%8F%E9%AA%8C%2F</url>
     <content type="text"><![CDATA[一些经验1.mysql的字段类型int(3)和int(4) 下面是官方文档的解释 11.2.5 Numeric Type Attributes MySQL supports an extension for optionally specifying the display width of integer data types inparentheses following the base keyword for the type. For example, INT(4) specifies an INT with adisplay width of four digits. This optional display width may be used by applications to display integervalues having a width less than the width specified for the column by left-padding them with spaces.(That is, this width is present in the metadata returned with result sets. Whether it is used is up to theapplication.)The display width does not constrain the range of values that can be stored in the column. Nor doesit prevent values wider than the column display width from being displayed correctly. For example, acolumn specified as SMALLINT(3) has the usual SMALLINT range of -32768 to 32767, and valuesoutside the range permitted by three digits are displayed in full using more than three digits.When used in conjunction with the optional (nonstandard) ZEROFILL attribute, the default padding ofspaces is replaced with zeros. For example, for a column declared as INT(4) ZEROFILL, a value of 5is retrieved as 0005. 这里的意思大概就是后面的数值代表的是一个显示宽度，当配合zerofill使用时，如果存储1到该字段中，int(3)会返回001而int(4)会返回0001 1234567891011121314151617mysql&gt; desc sss;+-------+--------------------------+------+-----+---------+----------------+| Field | Type | Null | Key | Default | Extra |+-------+--------------------------+------+-----+---------+----------------+| id | int(11) unsigned | NO | PRI | NULL | auto_increment || test3 | int(3) unsigned zerofill | NO | | NULL | || test4 | int(4) unsigned zerofill | NO | | NULL | |+-------+--------------------------+------+-----+---------+----------------+3 rows in set (0.01 sec)mysql&gt; select * from sss;+----+-------+-------+| id | test3 | test4 |+----+-------+-------+| 1 | 001 | 0001 |+----+-------+-------+1 row in set (0.00 sec) 需要注意的是，如果使用navicat这个可视化工具来测试这个的话test3和tes4都会返回1而没有填充的0，不知道是bug还是feature. 2.会输出什么？ 123&lt;?php echo $_COOKIE[&apos;username&apos;]; setcookie(&quot;username&quot;, 111, time()+5); 第一次请求的结果输出 1Notice: Undefined index: username in xxx.php on line 2 倒过来呢？ &lt;?php setcookie(&quot;username&quot;, 111, time()+5); echo $_COOKIE[&apos;username&apos;]; 12结果肯定是一样的，为什么？因为输出和setcookie在同一个php文件里面，这次会在响应头里面有set-cookie告诉浏览器存储这个cookie，而只有下次请求过来的时候php才会把请求头里面的cookie装到$_COOKIE变量里面，所以这两种情况输出的$_COOKIE都会是一个空数组，文档中也有这样一句描述：一旦设置 Cookie 后，下次打开页面时可以使用 $_COOKIE 读取。 Cookie 值同样也存在于 $_REQUEST。 文档中还有这样一句话 1setcookie() 定义了 Cookie，会和剩下的 HTTP 头一起发送给客户端。 和其他 HTTP 头一样，必须在脚本产生任意输出之前发送 Cookie（由于协议的限制）。 请在产生任何输出之前（包括 &lt;html&gt; 和 &lt;head&gt; 或者空格）调用本函数。 但是在测试过程中 123&lt;?php echo 111; setcookie(&quot;username&quot;, 111, time()+5); 上面这个代码的输出并没有什么异常，cookie的设置也成功了。查阅资料发现跟php.ini里面的缓冲区设置有关 php默认设置 1output_buffering = 4096 把ini中的output_buffering设置为0，就是不缓冲输出，返回如下 12111Warning: Cannot modify header information - headers already sent by (output started at index.php:2) in index.php on line 3 只有buffer写满时，才会发送到浏览器。也就是说缓冲区超过4k就会发送到浏览器，如果设置为0，那就没有缓冲区，出现了第一个echo的时候http包已经发送出去了。所以setcookie里面的信息是没有在response header里面的 还有其他办法吗？ ob_start()，这样超过设置的缓冲大小也不会立即发送到浏览器，这样就会当脚本运行完成，或者调用了ob_flush等清空缓冲区方法之后，才会输出到浏览器。 12345&lt;?php ob_start(); echo 111; setcookie(&quot;username&quot;, 111, time()+5); ob_flush();]]></content>
@@ -175,17 +184,33 @@
       </tags>
   </entry>
   <entry>
-    <title><![CDATA[leetcode-4]]></title>
-    <url>%2F2017%2F03%2F16%2Fleetcode_day5%2F</url>
-    <content type="text"><![CDATA[3.&nbsp;Longest Substring Without Repeating CharactersGiven a string, find the length of the&nbsp;longest substring&nbsp;without repeating characters.Examples:Given&nbsp;&quot;abcabcbb&quot;, the answer is&nbsp;&quot;abc&quot;, which the length is 3.Given&nbsp;&quot;bbbbb&quot;, the answer is&nbsp;&quot;b&quot;, with the length of 1.Given&nbsp;&quot;pwwkew&quot;, the answer is&nbsp;&quot;wke&quot;, with the length of 3. Note that the answer must be a&nbsp;substring,&nbsp;&quot;pwke&quot;&nbsp;is a&nbsp;subsequence&nbsp;and not a substring.func&nbsp;lengthOfLongestSubstring(s&nbsp;string)&nbsp;int&nbsp;{ arr&nbsp;:=&nbsp;make(map[rune]int) start&nbsp;:=&nbsp;0 maxlen&nbsp;:=&nbsp;0 for&nbsp;i,&nbsp;v&nbsp;:=&nbsp;range&nbsp;[]rune(s)&nbsp;{ if&nbsp;pre,&nbsp;ok&nbsp;:=&nbsp;arr[v];&nbsp;ok&nbsp;&amp;&amp;&nbsp;pre&nbsp;&gt;=&nbsp;start&nbsp;{ start&nbsp;=&nbsp;pre&nbsp;+&nbsp;1 } if&nbsp;i-start+1&nbsp;&gt;&nbsp;maxlen&nbsp;{ maxlen&nbsp;=&nbsp;i&nbsp;-&nbsp;start&nbsp;+&nbsp;1 } arr[v]&nbsp;=&nbsp;i } return&nbsp;maxlen}]]></content>
+    <title><![CDATA[leetcode-2]]></title>
+    <url>%2F2017%2F03%2F16%2Fleetcode_day4%2F</url>
+    <content type="text"><![CDATA[2.&nbsp;Add Two NumbersYou are given two&nbsp;non-empty&nbsp;linked lists representing two non-negative integers. The digits are stored in&nbsp;reverse order&nbsp;and each of their nodes contain a single digit. Add the two numbers and return it as a linked list.You may assume the two numbers do not contain any leading zero, except the number 0 itself.ExampleInput:&nbsp;(2&nbsp;-&gt;&nbsp;4&nbsp;-&gt;&nbsp;3)&nbsp;+&nbsp;(5&nbsp;-&gt;&nbsp;6&nbsp;-&gt;&nbsp;4)Output:&nbsp;7&nbsp;-&gt;&nbsp;0&nbsp;-&gt;&nbsp;8Explanation:&nbsp;342&nbsp;+&nbsp;465&nbsp;=&nbsp;807./*&nbsp;&nbsp;Definition&nbsp;for&nbsp;singly-linked&nbsp;list.&nbsp;&nbsp;type&nbsp;ListNode&nbsp;struct&nbsp;{&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Val&nbsp;int&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Next&nbsp;ListNode&nbsp;&nbsp;}&nbsp;/func&nbsp;addTwoNumbers(l1&nbsp;ListNode,&nbsp;l2&nbsp;ListNode)&nbsp;ListNode&nbsp;{&nbsp;&nbsp;&nbsp;&nbsp;i1&nbsp;:=&nbsp;0 i2&nbsp;:=&nbsp;0 p&nbsp;:=&nbsp;l1 j&nbsp;:=&nbsp;0 for&nbsp;{ if&nbsp;p&nbsp;!=&nbsp;nil&nbsp;{ i1&nbsp;+=&nbsp;p.Val&nbsp;&nbsp;int(math.Pow(float64(10),&nbsp;float64(j))) j++ p&nbsp;=&nbsp;p.Next }&nbsp;else&nbsp;{ break } } j&nbsp;=&nbsp;0 p&nbsp;=&nbsp;l2 for&nbsp;{ if&nbsp;p&nbsp;!=&nbsp;nil&nbsp;{ i2&nbsp;+=&nbsp;p.Val&nbsp;&nbsp;int(math.Pow(float64(10),&nbsp;float64(j))) j++ p&nbsp;=&nbsp;p.Next }&nbsp;else&nbsp;{ break } } revres&nbsp;:=&nbsp;i1&nbsp;+&nbsp;i2&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;fmt.Println(revres) head&nbsp;:=&nbsp;new(ListNode) p&nbsp;=&nbsp;head for&nbsp;{ if&nbsp;revres&nbsp;==&nbsp;0&nbsp;{ break }&nbsp;else&nbsp;{ p.Val&nbsp;=&nbsp;revres&nbsp;%&nbsp;10&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; revres&nbsp;=&nbsp;revres&nbsp;/&nbsp;10&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if&nbsp;revres&nbsp;!=&nbsp;0{&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;node&nbsp;:=&nbsp;new(ListNode) &nbsp;&nbsp;&nbsp;&nbsp;p.Next&nbsp;=&nbsp;node &nbsp;&nbsp;&nbsp;&nbsp;p&nbsp;=&nbsp;p.Next&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;} } }&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;p&nbsp;=&nbsp;l1 for&nbsp;{ if&nbsp;p.Next&nbsp;==&nbsp;nil&nbsp;{ break } fmt.Printf(&quot;%d\t&quot;,&nbsp;p.Val) p&nbsp;=&nbsp;p.Next }&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; return&nbsp;head&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}&nbsp; 后面出现了位数很长的用例，所以换成采用数组来暂存单链表func&nbsp;addTwoNumbers(l1&nbsp;ListNode,&nbsp;l2&nbsp;ListNode)&nbsp;ListNode&nbsp;{ var&nbsp;i1&nbsp;[]int var&nbsp;i2&nbsp;[]int p&nbsp;:=&nbsp;l1 for&nbsp;{ if&nbsp;p&nbsp;!=&nbsp;nil&nbsp;{ i1&nbsp;=&nbsp;append(i1,&nbsp;p.Val) p&nbsp;=&nbsp;p.Next }&nbsp;else&nbsp;{ break } } p&nbsp;=&nbsp;l2 for&nbsp;{ if&nbsp;p&nbsp;!=&nbsp;nil&nbsp;{ i2&nbsp;=&nbsp;append(i2,&nbsp;p.Val) p&nbsp;=&nbsp;p.Next }&nbsp;else&nbsp;{ break } } head&nbsp;:=&nbsp;new(ListNode) p&nbsp;=&nbsp;head lenthi1&nbsp;:=&nbsp;len(i1) lenthi2&nbsp;:=&nbsp;len(i2) if&nbsp;lenthi1&nbsp;!=&nbsp;lenthi2&nbsp;{ if&nbsp;lenthi1&nbsp;&lt;&nbsp;lenthi2&nbsp;{ for&nbsp;i&nbsp;:=&nbsp;0;&nbsp;i&nbsp;&lt;&nbsp;lenthi2-lenthi1;&nbsp;i++&nbsp;{ i1&nbsp;=&nbsp;append(i1,&nbsp;0) } }&nbsp;else&nbsp;{ for&nbsp;i&nbsp;:=&nbsp;0;&nbsp;i&nbsp;&lt;&nbsp;lenthi1-lenthi2;&nbsp;i++&nbsp;{ i2&nbsp;=&nbsp;append(i2,&nbsp;0) } } } lenthi1&nbsp;=&nbsp;len(i1) lenthi2&nbsp;=&nbsp;len(i2) flag&nbsp;:=&nbsp;0 for&nbsp;i,&nbsp;_&nbsp;:=&nbsp;range&nbsp;i1&nbsp;{ sum&nbsp;:=&nbsp;i1[i]&nbsp;+&nbsp;i2[i] if&nbsp;i&nbsp;&lt;&nbsp;lenthi1-1&nbsp;{ if&nbsp;(sum)/10&nbsp;&gt;&nbsp;0&nbsp;{ i1[i+1]&nbsp;+=&nbsp;1 } }&nbsp;else&nbsp;{ if&nbsp;(sum)/10&nbsp;&gt;&nbsp;0&nbsp;{ flag&nbsp;=&nbsp;1 } } p.Val&nbsp;=&nbsp;sum&nbsp;%&nbsp;10 if&nbsp;i&nbsp;&lt;&nbsp;lenthi1-1&nbsp;{ node&nbsp;:=&nbsp;new(ListNode) p.Next&nbsp;=&nbsp;node p&nbsp;=&nbsp;p.Next } } if&nbsp;flag&nbsp;==&nbsp;1&nbsp;{ node&nbsp;:=&nbsp;new(ListNode) node.Val&nbsp;=&nbsp;1 p.Next&nbsp;=&nbsp;node } return&nbsp;head}]]></content>
       <tags>
         <tag>leetcode</tag>
       </tags>
   </entry>
   <entry>
-    <title><![CDATA[leetcode-2]]></title>
-    <url>%2F2017%2F03%2F16%2Fleetcode_day4%2F</url>
-    <content type="text"><![CDATA[2.&nbsp;Add Two NumbersYou are given two&nbsp;non-empty&nbsp;linked lists representing two non-negative integers. The digits are stored in&nbsp;reverse order&nbsp;and each of their nodes contain a single digit. Add the two numbers and return it as a linked list.You may assume the two numbers do not contain any leading zero, except the number 0 itself.ExampleInput:&nbsp;(2&nbsp;-&gt;&nbsp;4&nbsp;-&gt;&nbsp;3)&nbsp;+&nbsp;(5&nbsp;-&gt;&nbsp;6&nbsp;-&gt;&nbsp;4)Output:&nbsp;7&nbsp;-&gt;&nbsp;0&nbsp;-&gt;&nbsp;8Explanation:&nbsp;342&nbsp;+&nbsp;465&nbsp;=&nbsp;807./*&nbsp;&nbsp;Definition&nbsp;for&nbsp;singly-linked&nbsp;list.&nbsp;&nbsp;type&nbsp;ListNode&nbsp;struct&nbsp;{&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Val&nbsp;int&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Next&nbsp;ListNode&nbsp;&nbsp;}&nbsp;/func&nbsp;addTwoNumbers(l1&nbsp;ListNode,&nbsp;l2&nbsp;ListNode)&nbsp;ListNode&nbsp;{&nbsp;&nbsp;&nbsp;&nbsp;i1&nbsp;:=&nbsp;0 i2&nbsp;:=&nbsp;0 p&nbsp;:=&nbsp;l1 j&nbsp;:=&nbsp;0 for&nbsp;{ if&nbsp;p&nbsp;!=&nbsp;nil&nbsp;{ i1&nbsp;+=&nbsp;p.Val&nbsp;&nbsp;int(math.Pow(float64(10),&nbsp;float64(j))) j++ p&nbsp;=&nbsp;p.Next }&nbsp;else&nbsp;{ break } } j&nbsp;=&nbsp;0 p&nbsp;=&nbsp;l2 for&nbsp;{ if&nbsp;p&nbsp;!=&nbsp;nil&nbsp;{ i2&nbsp;+=&nbsp;p.Val&nbsp;&nbsp;int(math.Pow(float64(10),&nbsp;float64(j))) j++ p&nbsp;=&nbsp;p.Next }&nbsp;else&nbsp;{ break } } revres&nbsp;:=&nbsp;i1&nbsp;+&nbsp;i2&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;fmt.Println(revres) head&nbsp;:=&nbsp;new(ListNode) p&nbsp;=&nbsp;head for&nbsp;{ if&nbsp;revres&nbsp;==&nbsp;0&nbsp;{ break }&nbsp;else&nbsp;{ p.Val&nbsp;=&nbsp;revres&nbsp;%&nbsp;10&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; revres&nbsp;=&nbsp;revres&nbsp;/&nbsp;10&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if&nbsp;revres&nbsp;!=&nbsp;0{&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;node&nbsp;:=&nbsp;new(ListNode) &nbsp;&nbsp;&nbsp;&nbsp;p.Next&nbsp;=&nbsp;node &nbsp;&nbsp;&nbsp;&nbsp;p&nbsp;=&nbsp;p.Next&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;} } }&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;p&nbsp;=&nbsp;l1 for&nbsp;{ if&nbsp;p.Next&nbsp;==&nbsp;nil&nbsp;{ break } fmt.Printf(&quot;%d\t&quot;,&nbsp;p.Val) p&nbsp;=&nbsp;p.Next }&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; return&nbsp;head&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}&nbsp; 后面出现了位数很长的用例，所以换成采用数组来暂存单链表func&nbsp;addTwoNumbers(l1&nbsp;ListNode,&nbsp;l2&nbsp;ListNode)&nbsp;ListNode&nbsp;{ var&nbsp;i1&nbsp;[]int var&nbsp;i2&nbsp;[]int p&nbsp;:=&nbsp;l1 for&nbsp;{ if&nbsp;p&nbsp;!=&nbsp;nil&nbsp;{ i1&nbsp;=&nbsp;append(i1,&nbsp;p.Val) p&nbsp;=&nbsp;p.Next }&nbsp;else&nbsp;{ break } } p&nbsp;=&nbsp;l2 for&nbsp;{ if&nbsp;p&nbsp;!=&nbsp;nil&nbsp;{ i2&nbsp;=&nbsp;append(i2,&nbsp;p.Val) p&nbsp;=&nbsp;p.Next }&nbsp;else&nbsp;{ break } } head&nbsp;:=&nbsp;new(ListNode) p&nbsp;=&nbsp;head lenthi1&nbsp;:=&nbsp;len(i1) lenthi2&nbsp;:=&nbsp;len(i2) if&nbsp;lenthi1&nbsp;!=&nbsp;lenthi2&nbsp;{ if&nbsp;lenthi1&nbsp;&lt;&nbsp;lenthi2&nbsp;{ for&nbsp;i&nbsp;:=&nbsp;0;&nbsp;i&nbsp;&lt;&nbsp;lenthi2-lenthi1;&nbsp;i++&nbsp;{ i1&nbsp;=&nbsp;append(i1,&nbsp;0) } }&nbsp;else&nbsp;{ for&nbsp;i&nbsp;:=&nbsp;0;&nbsp;i&nbsp;&lt;&nbsp;lenthi1-lenthi2;&nbsp;i++&nbsp;{ i2&nbsp;=&nbsp;append(i2,&nbsp;0) } } } lenthi1&nbsp;=&nbsp;len(i1) lenthi2&nbsp;=&nbsp;len(i2) flag&nbsp;:=&nbsp;0 for&nbsp;i,&nbsp;_&nbsp;:=&nbsp;range&nbsp;i1&nbsp;{ sum&nbsp;:=&nbsp;i1[i]&nbsp;+&nbsp;i2[i] if&nbsp;i&nbsp;&lt;&nbsp;lenthi1-1&nbsp;{ if&nbsp;(sum)/10&nbsp;&gt;&nbsp;0&nbsp;{ i1[i+1]&nbsp;+=&nbsp;1 } }&nbsp;else&nbsp;{ if&nbsp;(sum)/10&nbsp;&gt;&nbsp;0&nbsp;{ flag&nbsp;=&nbsp;1 } } p.Val&nbsp;=&nbsp;sum&nbsp;%&nbsp;10 if&nbsp;i&nbsp;&lt;&nbsp;lenthi1-1&nbsp;{ node&nbsp;:=&nbsp;new(ListNode) p.Next&nbsp;=&nbsp;node p&nbsp;=&nbsp;p.Next } } if&nbsp;flag&nbsp;==&nbsp;1&nbsp;{ node&nbsp;:=&nbsp;new(ListNode) node.Val&nbsp;=&nbsp;1 p.Next&nbsp;=&nbsp;node } return&nbsp;head}]]></content>
+    <title><![CDATA[HTTP OPTIONS]]></title>
+    <url>%2F2017%2F03%2F16%2FHTTP%20OPTIONS%2F</url>
+    <content type="text"><![CDATA[幂等和非幂等 执行一次和执行很多次同样的操作是否是一样的 GET/PUT/DELETE 幂等 POST 非幂等]]></content>
+      <tags>
+        <tag>http</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[php内置数组排序]]></title>
+    <url>%2F2017%2F03%2F16%2FPHP%E5%86%85%E7%BD%AE%E6%95%B0%E7%BB%84%E6%8E%92%E5%BA%8F%E6%96%B9%E6%B3%95%2F</url>
+    <content type="text"></content>
+      <tags>
+        <tag>php</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[leetcode-1]]></title>
+    <url>%2F2017%2F03%2F16%2Fleetcode_day1%2F</url>
+    <content type="text"><![CDATA[1.&nbsp;Two SumGiven an array of integers, return&nbsp;indices&nbsp;of the two numbers such that they add up to a specific target.You may assume that each input would have&nbsp;exactly&nbsp;one solution, and you may not use the&nbsp;same&nbsp;element twice.Example:Given&nbsp;nums&nbsp;=&nbsp;[2,&nbsp;7,&nbsp;11,&nbsp;15],&nbsp;target&nbsp;=&nbsp;9,Because&nbsp;nums[0]&nbsp;+&nbsp;nums[1]&nbsp;=&nbsp;2&nbsp;+&nbsp;7&nbsp;=&nbsp;9,return&nbsp;[0,&nbsp;1].func&nbsp;twoSum(nums&nbsp;[]int,&nbsp;target&nbsp;int)&nbsp;[]int&nbsp;{ var&nbsp;arr&nbsp;[]intEXIT: for&nbsp;i,&nbsp;&nbsp;:=&nbsp;range&nbsp;nums&nbsp;{ for&nbsp;j,&nbsp;&nbsp;:=&nbsp;range&nbsp;nums&nbsp;{ if&nbsp;(nums[i]+nums[j])&nbsp;==&nbsp;target&nbsp;&amp;&amp;&nbsp;i&nbsp;!=&nbsp;j&nbsp;{ arr&nbsp;=&nbsp;append(arr,&nbsp;i) arr&nbsp;=&nbsp;append(arr,&nbsp;j) break&nbsp;EXIT } } } return&nbsp;arr}]]></content>
       <tags>
         <tag>leetcode</tag>
       </tags>
@@ -199,44 +224,19 @@
       </tags>
   </entry>
   <entry>
+    <title><![CDATA[2017.3]]></title>
+    <url>%2F2017%2F03%2F16%2F2017.3%2F</url>
+    <content type="text"><![CDATA[git http://www.runoob.com/w3cnote/git-guide.htmljs编辑器 http://www.cnblogs.com/lhb25/p/html5-wysisyg-inline-editor.htmlJavaEE 注解和XMLhttp://blog.csdn.net/qmw19910301/article/details/52712893]]></content>
+      <tags>
+        <tag>other</tag>
+      </tags>
+  </entry>
+  <entry>
     <title><![CDATA[linux安装nginx]]></title>
     <url>%2F2017%2F03%2F16%2FLinux%E4%B8%8B%E7%BC%96%E8%AF%91%E5%AE%89%E8%A3%85Nginx%2F</url>
     <content type="text"><![CDATA[到nginx.org下载wget http://nginx.org/download/nginx-1.10.0.tar.gz解压压缩包环境配置Cd到解压出来的nginx目录中有configure目录的地方进行环境配置./configure –prefix=/usr/local/nginxⅠ.如果遇到提示缺少pcre库到www.pcre.org下载pcre库，if解压到/usr/local/src/pcre-sourceⅡ.1.6版本以后的版本制定pcre源码目录./configure –prefix=/usr/local/nginx–with-pcre=/usr/local/src/pcre-source之前的版本制定安装目录./configure –prefix=/usr/local/nginx–with-pcre=/usr/pcre4.编译安装 make &amp;&amp; make install5.启动nginx ./sbin/nginx重启./sbin/nginx –s reloadException:如果遇到80端口被httpd(Apache)占了Pkill -9 httpd如果无法访问检查防火墙设置]]></content>
       <tags>
         <tag>lnmp</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title><![CDATA[leetcode-1]]></title>
-    <url>%2F2017%2F03%2F16%2Fleetcode_day1%2F</url>
-    <content type="text"><![CDATA[1.&nbsp;Two SumGiven an array of integers, return&nbsp;indices&nbsp;of the two numbers such that they add up to a specific target.You may assume that each input would have&nbsp;exactly&nbsp;one solution, and you may not use the&nbsp;same&nbsp;element twice.Example:Given&nbsp;nums&nbsp;=&nbsp;[2,&nbsp;7,&nbsp;11,&nbsp;15],&nbsp;target&nbsp;=&nbsp;9,Because&nbsp;nums[0]&nbsp;+&nbsp;nums[1]&nbsp;=&nbsp;2&nbsp;+&nbsp;7&nbsp;=&nbsp;9,return&nbsp;[0,&nbsp;1].func&nbsp;twoSum(nums&nbsp;[]int,&nbsp;target&nbsp;int)&nbsp;[]int&nbsp;{ var&nbsp;arr&nbsp;[]intEXIT: for&nbsp;i,&nbsp;&nbsp;:=&nbsp;range&nbsp;nums&nbsp;{ for&nbsp;j,&nbsp;&nbsp;:=&nbsp;range&nbsp;nums&nbsp;{ if&nbsp;(nums[i]+nums[j])&nbsp;==&nbsp;target&nbsp;&amp;&amp;&nbsp;i&nbsp;!=&nbsp;j&nbsp;{ arr&nbsp;=&nbsp;append(arr,&nbsp;i) arr&nbsp;=&nbsp;append(arr,&nbsp;j) break&nbsp;EXIT } } } return&nbsp;arr}]]></content>
-      <tags>
-        <tag>leetcode</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title><![CDATA[php内置数组排序]]></title>
-    <url>%2F2017%2F03%2F16%2FPHP%E5%86%85%E7%BD%AE%E6%95%B0%E7%BB%84%E6%8E%92%E5%BA%8F%E6%96%B9%E6%B3%95%2F</url>
-    <content type="text"></content>
-      <tags>
-        <tag>php</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title><![CDATA[linux安装php]]></title>
-    <url>%2F2017%2F03%2F16%2FLinux%E4%B8%8B%E7%BC%96%E8%AF%91%E5%AE%89%E8%A3%85PHP%2F</url>
-    <content type="text"><![CDATA[1、&nbsp;&nbsp;安装依赖库2、&nbsp;&nbsp;yum install gd zlib libxml2 libxml2-devel libjpeg libjpeg-devel libpng libpng-devel3、&nbsp;&nbsp;下载php-5.6.23.tar.bz2，解压4、&nbsp;&nbsp;cd到php解压的目录里5、&nbsp;&nbsp;配置安装的一些参数./configure –prefix=/usr/local/php \–with-gd \–enable-gd-native-ttf \–enable-gd-jis-conv \–with-mysql=mysqlnd \–enable-mysqlnd \–with-pdo-mysql=mysqlnd \–enable-fpm\–with-openssl&nbsp;&nbsp;Curl &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;./configure –prefix=/usr/local/php7 –with-gd –enable-gd-native-ttf –enable-gd-jis-conv –with-mysql=mysqlnd –enable-mysqlnd –with-pdo-mysql=mysqlnd –enable-fpm –with-openssl –enable-mbstring –enable-tokenizer –enable-zip –with-curl&nbsp;&nbsp;enable-fpm是让php作为独立的进程来运行，占用9000端口配置注意&nbsp;可能会报openssl的错误yum install openssl openssl-devel&nbsp;每个参数后的斜杠前是有空格的，斜杠所起的作用是连接上下两行，没有空格两个参数会连到一起就会报错了6、&nbsp;&nbsp;make &amp;&amp;make install这个过程中如果使用小内存的服务器可能出现php error，解决办法:在配置的最后一行加上–disable-fileinfo7、cd /usr/local/phpcp etc/php-fpm.conf.default etc/php-fpm.confcp /usr/local/src/php-5.5.13/php.ini-development ./lib/php.ini7、&nbsp;&nbsp;启动php./sbin/php-fpm&nbsp;&nbsp;/usr/local/php7/lib/php/extensions/no-debug-non-zts-20151012]]></content>
-      <tags>
-        <tag>lnmp</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title><![CDATA[一次完整的请求过程]]></title>
-    <url>%2F2017%2F03%2F16%2F%E4%B8%80%E6%AC%A1%E5%AE%8C%E6%95%B4%E7%9A%84%E8%AF%B7%E6%B1%82%E8%BF%87%E7%A8%8B%2F</url>
-    <content type="text"><![CDATA[浏览器一次完整的请求过程]]></content>
-      <tags>
-        <tag>http</tag>
-        <tag>web</tag>
       </tags>
   </entry>
   <entry>
@@ -251,36 +251,12 @@
       </tags>
   </entry>
   <entry>
-    <title><![CDATA[HTTP OPTIONS]]></title>
-    <url>%2F2017%2F03%2F16%2FHTTP%20OPTIONS%2F</url>
-    <content type="text"><![CDATA[幂等和非幂等 执行一次和执行很多次同样的操作是否是一样的 GET/PUT/DELETE 幂等 POST 非幂等]]></content>
+    <title><![CDATA[一次完整的请求过程]]></title>
+    <url>%2F2017%2F03%2F16%2F%E4%B8%80%E6%AC%A1%E5%AE%8C%E6%95%B4%E7%9A%84%E8%AF%B7%E6%B1%82%E8%BF%87%E7%A8%8B%2F</url>
+    <content type="text"><![CDATA[浏览器一次完整的请求过程]]></content>
       <tags>
         <tag>http</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title><![CDATA[安装laravel]]></title>
-    <url>%2F2017%2F03%2F16%2F%E5%AE%89%E8%A3%85Laravel%2F</url>
-    <content type="text"><![CDATA[一、根据官方文档需要安装几个php的扩展 Openssl/PDO/Mbstring/Tokenizer/XML二、Linux下可以使用Composer来安装Laravel&nbsp; 1.全局安装Composer&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;curl -sS https://getcomposer.org/installer | php&nbsp;&nbsp;&nbsp;&nbsp;mv composer.phar /usr/local/bin/composer&nbsp; &nbsp; &nbsp;解决更新慢的问题&nbsp;&nbsp;&nbsp;&nbsp;composer config repo.packagist composer https://packagist.phpcomposer.com&nbsp;&nbsp;&nbsp;&nbsp;composer –version查看是否安装成功&nbsp; 2.利用Composer安装Laravel&nbsp;&nbsp;&nbsp;&nbsp;composer global require &quot;laravel/installer&quot;&nbsp;&nbsp;&nbsp;&nbsp;cd到$Home/.composer/vendor/bin目录下&nbsp;&nbsp;&nbsp;&nbsp;执行 Laravel new Blog&nbsp; 3.最后利用php的内置服务器&nbsp;&nbsp;&nbsp;&nbsp;php artisan serve一些收获&nbsp; &nbsp;1.Linux方面 .tar.gz通过的是源码安装 ./configure –prefix=/usr/local/php 即指定安装路径 卸载的时候只需要删除这个目录下的东西即可 开机自启动 增加环境变量&nbsp; &nbsp;2.php 的两种运行方式的php.ini有可能是不同的,也就是会出现你的web上面的phpinfo()和你直接用CLI执行的php -m发现扩展的开启情况是不相同的，这个时候就需要你运行CLI和web的时候所用的php.ini是同一个文件&nbsp; &nbsp;3.Laravel 从laraval知道了php有一个内置的服务器。]]></content>
-      <tags>
-        <tag>laravel</tag>
-        <tag>php</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title><![CDATA[lnmp重启]]></title>
-    <url>%2F2017%2F03%2F16%2FNginxPHPMysql%20%E9%87%8D%E5%90%AF%E7%AD%89%E5%91%BD%E4%BB%A4%2F</url>
-    <content type="text"><![CDATA[nginx&nbsp;&nbsp;&nbsp;start：&nbsp;/usr/local/nginx/sbin/nginx&nbsp;&nbsp;stop：&nbsp;/usr/local/nginx/sbin/nginx&nbsp;-s&nbsp;stop&nbsp;&nbsp;reload：&nbsp;/usr/local/nginx/sbin/nginx&nbsp;-s&nbsp;reload&nbsp;&nbsp;#**&nbsp;&nbsp;#php-fpm(fast-cgi)命令&nbsp;&nbsp;&nbsp;start：&nbsp;/usr/local/php/sbin/php-fpm&nbsp;&nbsp;stop：&nbsp;/bin/ps&nbsp;-ef&nbsp;|&nbsp;grep&nbsp;&#39;php-fpm&#39;&nbsp;|&nbsp;grep&nbsp;-v&nbsp;grep&nbsp;|&nbsp;cut&nbsp;-c&nbsp;9-15&nbsp;|&nbsp;xargs&nbsp;kill&nbsp;-9&nbsp;&nbsp;&nbsp;Linux：PHP&nbsp;5.3.3&nbsp;以上版本的php-fpm的重启&nbsp;INT,&nbsp;TERM：立刻终止QUIT：平滑终止USR1：重新打开日志文件USR2：平滑重载所有worker进程并重新载入配置和二进制模块&nbsp;示例：1）php-fpm&nbsp;关闭：kill&nbsp;-INT&nbsp;cat&amp;nbsp;/usr/local/php/var/run/php-fpm.pid&nbsp;2）php-fpm&nbsp;重启：kill&nbsp;-USR2&nbsp;cat&amp;nbsp;/usr/local/php/var/run/php-fpm.pid&nbsp;查看php-fpm进程数：ps&nbsp;aux&nbsp;|&nbsp;grep&nbsp;-c&nbsp;php-fpm&nbsp;#**&nbsp;&nbsp;#mysql命令&nbsp;&nbsp;start：&nbsp;/etc/init.d/mysqld&nbsp;start&nbsp;&nbsp;stop：&nbsp;/etc/init.d/mysqld&nbsp;stop&nbsp;&nbsp;restart：&nbsp;/etc/init.d/mysqld&nbsp;restart&nbsp;&nbsp;#**&nbsp;]]></content>
-      <tags>
-        <tag>lnmp</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title><![CDATA[2017.3]]></title>
-    <url>%2F2017%2F03%2F16%2F2017.3%2F</url>
-    <content type="text"><![CDATA[git http://www.runoob.com/w3cnote/git-guide.htmljs编辑器 http://www.cnblogs.com/lhb25/p/html5-wysisyg-inline-editor.htmlJavaEE 注解和XMLhttp://blog.csdn.net/qmw19910301/article/details/52712893]]></content>
-      <tags>
-        <tag>other</tag>
+        <tag>web</tag>
       </tags>
   </entry>
   <entry>
@@ -292,12 +268,28 @@
       </tags>
   </entry>
   <entry>
-    <title><![CDATA[依赖注入]]></title>
-    <url>%2F2017%2F03%2F16%2Fdependency-injection%2F</url>
-    <content type="text"><![CDATA[依赖注入(DI)指的就是当你需要实例化的类依赖于其他类的实现的时候；不需要在本类中实例化所依赖的类，而是将所依赖的类通过参数的形式传入 即构造注入(构造函数)和设值注入(set方法);高耦合的反例//高耦合class Apple{​ protected $name = ‘ ‘; public function construct() { $this- &gt;name = ‘Apple ‘; } public function getName() { return $this- &gt;name; }}class Orange{​ protected $name = ‘ ‘; public function construct() { $this- &gt;name = ‘Orange ‘; } public function getName() { return $this- &gt;name; }}class Person{​ protected $likeFood = ‘ ‘; public function construct() { $this- &gt;likeFood = new Orange(); echo ‘这个人喜欢吃 ‘ . $this- &gt;likeFood- &gt;getName(); }}new Person();低耦合注入//低耦合实现interface Fruit{​ public function getName();}class Apple implements Fruit{​ protected $name = ‘ ‘; public function construct() { $this- &gt;name = ‘Apple ‘; } public function getName() { return $this- &gt;name; }}class Orange implements Fruit{​ protected $name = ‘ ‘; public function construct() { $this- &gt;name = ‘Orange ‘; } public function getName() { return $this- &gt;name; }}class Person{​ public $likeFood; public function construct(Fruit $fruit) { echo ‘这个人喜欢吃 ‘ . $fruit- &gt;getName(); }}$apple = new Apple();new Person($apple);]]></content>
+    <title><![CDATA[leetcode-4]]></title>
+    <url>%2F2017%2F03%2F16%2Fleetcode_day5%2F</url>
+    <content type="text"><![CDATA[3.&nbsp;Longest Substring Without Repeating CharactersGiven a string, find the length of the&nbsp;longest substring&nbsp;without repeating characters.Examples:Given&nbsp;&quot;abcabcbb&quot;, the answer is&nbsp;&quot;abc&quot;, which the length is 3.Given&nbsp;&quot;bbbbb&quot;, the answer is&nbsp;&quot;b&quot;, with the length of 1.Given&nbsp;&quot;pwwkew&quot;, the answer is&nbsp;&quot;wke&quot;, with the length of 3. Note that the answer must be a&nbsp;substring,&nbsp;&quot;pwke&quot;&nbsp;is a&nbsp;subsequence&nbsp;and not a substring.func&nbsp;lengthOfLongestSubstring(s&nbsp;string)&nbsp;int&nbsp;{ arr&nbsp;:=&nbsp;make(map[rune]int) start&nbsp;:=&nbsp;0 maxlen&nbsp;:=&nbsp;0 for&nbsp;i,&nbsp;v&nbsp;:=&nbsp;range&nbsp;[]rune(s)&nbsp;{ if&nbsp;pre,&nbsp;ok&nbsp;:=&nbsp;arr[v];&nbsp;ok&nbsp;&amp;&amp;&nbsp;pre&nbsp;&gt;=&nbsp;start&nbsp;{ start&nbsp;=&nbsp;pre&nbsp;+&nbsp;1 } if&nbsp;i-start+1&nbsp;&gt;&nbsp;maxlen&nbsp;{ maxlen&nbsp;=&nbsp;i&nbsp;-&nbsp;start&nbsp;+&nbsp;1 } arr[v]&nbsp;=&nbsp;i } return&nbsp;maxlen}]]></content>
       <tags>
-        <tag>编程思想</tag>
-        <tag>面向对象</tag>
+        <tag>leetcode</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[安装laravel]]></title>
+    <url>%2F2017%2F03%2F16%2F%E5%AE%89%E8%A3%85Laravel%2F</url>
+    <content type="text"><![CDATA[一、根据官方文档需要安装几个php的扩展 Openssl/PDO/Mbstring/Tokenizer/XML二、Linux下可以使用Composer来安装Laravel&nbsp; 1.全局安装Composer&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;curl -sS https://getcomposer.org/installer | php&nbsp;&nbsp;&nbsp;&nbsp;mv composer.phar /usr/local/bin/composer&nbsp; &nbsp; &nbsp;解决更新慢的问题&nbsp;&nbsp;&nbsp;&nbsp;composer config repo.packagist composer https://packagist.phpcomposer.com&nbsp;&nbsp;&nbsp;&nbsp;composer –version查看是否安装成功&nbsp; 2.利用Composer安装Laravel&nbsp;&nbsp;&nbsp;&nbsp;composer global require &quot;laravel/installer&quot;&nbsp;&nbsp;&nbsp;&nbsp;cd到$Home/.composer/vendor/bin目录下&nbsp;&nbsp;&nbsp;&nbsp;执行 Laravel new Blog&nbsp; 3.最后利用php的内置服务器&nbsp;&nbsp;&nbsp;&nbsp;php artisan serve一些收获&nbsp; &nbsp;1.Linux方面 .tar.gz通过的是源码安装 ./configure –prefix=/usr/local/php 即指定安装路径 卸载的时候只需要删除这个目录下的东西即可 开机自启动 增加环境变量&nbsp; &nbsp;2.php 的两种运行方式的php.ini有可能是不同的,也就是会出现你的web上面的phpinfo()和你直接用CLI执行的php -m发现扩展的开启情况是不相同的，这个时候就需要你运行CLI和web的时候所用的php.ini是同一个文件&nbsp; &nbsp;3.Laravel 从laraval知道了php有一个内置的服务器。]]></content>
+      <tags>
+        <tag>php</tag>
+        <tag>laravel</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[linux安装php扩展]]></title>
+    <url>%2F2017%2F03%2F16%2FLinux%E4%B8%8B%E7%BC%96%E8%AF%91%E5%AE%89%E8%A3%85PHP%E6%89%A9%E5%B1%95%2F</url>
+    <content type="text"><![CDATA[下载扩展&nbsp;http://pecl.php.net/解压扩展 进入解压后的扩展目录 执行…/php/bin/phpize./configure –with-php-config=…/php/bin/php-config根据错误提示安装相应的依赖make &amp;&amp; make install在…/php/lib/extension/no-….目录下会出现.so的文件就说明安装好了到php.ini中增加extension=…/php/lib/ex…/xxx.so重启php]]></content>
+      <tags>
+        <tag>lnmp</tag>
       </tags>
   </entry>
   <entry>
@@ -309,11 +301,27 @@
       </tags>
   </entry>
   <entry>
+    <title><![CDATA[tomcat war]]></title>
+    <url>%2F2017%2F03%2F16%2FLinux%E4%B8%8B%E5%AE%89%E8%A3%85jdk%20tomcat%20.war%E5%8F%91%E5%B8%83%E9%A1%B9%E7%9B%AE%2F</url>
+    <content type="text"><![CDATA[一、安装JDK 1.下载jdk，注意下载的时候不要下载成html了，这是个坑。。。2.vim /etc/profileJAVA_HOME=/usr/…/jdk解压后的路径PATH=$PATH:$JAVA_HOME/binCLASSPATH=.:$JAVA_HOME/lib/jt.jar:$JAVA_HOME/lib/tools.jarexport JAVA_HOME PATH CLASSPATH:wqsource /etc/profile最后java -version3.下载tomcat，解压进入目录/bin &nbsp; ./startup.sh4.eclipse export 项目为.war格式 选择导出路径 上传到服务器webapps目录下]]></content>
+      <tags>
+        <tag>java</tag>
+      </tags>
+  </entry>
+  <entry>
     <title><![CDATA[最长不重复子串]]></title>
     <url>%2F2017%2F03%2F16%2F%E8%AE%A1%E7%AE%97%E4%B8%80%E4%B8%AA%E5%AD%97%E7%AC%A6%E4%B8%B2%E4%B8%AD%E6%9C%80%E5%A4%A7%E4%B8%8D%E9%87%8D%E5%A4%8D%E5%AD%90%E4%B8%B2%E9%95%BF%E5%BA%A6%2F</url>
     <content type="text"><![CDATA[123456789101112131415161718192021222324252627282930package mainimport ( "fmt ")func maxLen(str string) int &#123; start := 0 maxlen := 0 lastO := make(map[rune]int) for i, v := range []rune(str) &#123; if lastI, ok := lastO[v]; ok &#123; start = lastI + 1 &#125; if (i-start+1 &amp;gt; maxlen) &#123; maxlen = i - start + 1 &#125; lastO[v] = i &#125; return maxlen&#125;func main() &#123; //求字符串最大不重复子串长度 //s:= "Yes哈哈哈! " fmt.Println(maxLen( "abcbcdef ")) fmt.Println(maxLen( "abcdef ")) fmt.Println(maxLen( "aaaaaaa ")) fmt.Println(maxLen( "你说什么 "))&#125;]]></content>
       <tags>
         <tag>leetcode</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[linux安装php]]></title>
+    <url>%2F2017%2F03%2F16%2FLinux%E4%B8%8B%E7%BC%96%E8%AF%91%E5%AE%89%E8%A3%85PHP%2F</url>
+    <content type="text"><![CDATA[1、&nbsp;&nbsp;安装依赖库2、&nbsp;&nbsp;yum install gd zlib libxml2 libxml2-devel libjpeg libjpeg-devel libpng libpng-devel3、&nbsp;&nbsp;下载php-5.6.23.tar.bz2，解压4、&nbsp;&nbsp;cd到php解压的目录里5、&nbsp;&nbsp;配置安装的一些参数./configure –prefix=/usr/local/php \–with-gd \–enable-gd-native-ttf \–enable-gd-jis-conv \–with-mysql=mysqlnd \–enable-mysqlnd \–with-pdo-mysql=mysqlnd \–enable-fpm\–with-openssl&nbsp;&nbsp;Curl &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;./configure –prefix=/usr/local/php7 –with-gd –enable-gd-native-ttf –enable-gd-jis-conv –with-mysql=mysqlnd –enable-mysqlnd –with-pdo-mysql=mysqlnd –enable-fpm –with-openssl –enable-mbstring –enable-tokenizer –enable-zip –with-curl&nbsp;&nbsp;enable-fpm是让php作为独立的进程来运行，占用9000端口配置注意&nbsp;可能会报openssl的错误yum install openssl openssl-devel&nbsp;每个参数后的斜杠前是有空格的，斜杠所起的作用是连接上下两行，没有空格两个参数会连到一起就会报错了6、&nbsp;&nbsp;make &amp;&amp;make install这个过程中如果使用小内存的服务器可能出现php error，解决办法:在配置的最后一行加上–disable-fileinfo7、cd /usr/local/phpcp etc/php-fpm.conf.default etc/php-fpm.confcp /usr/local/src/php-5.5.13/php.ini-development ./lib/php.ini7、&nbsp;&nbsp;启动php./sbin/php-fpm&nbsp;&nbsp;/usr/local/php7/lib/php/extensions/no-debug-non-zts-20151012]]></content>
+      <tags>
+        <tag>lnmp</tag>
       </tags>
   </entry>
   <entry>
@@ -342,19 +350,20 @@
       </tags>
   </entry>
   <entry>
-    <title><![CDATA[tomcat war]]></title>
-    <url>%2F2017%2F03%2F16%2FLinux%E4%B8%8B%E5%AE%89%E8%A3%85jdk%20tomcat%20.war%E5%8F%91%E5%B8%83%E9%A1%B9%E7%9B%AE%2F</url>
-    <content type="text"><![CDATA[一、安装JDK 1.下载jdk，注意下载的时候不要下载成html了，这是个坑。。。2.vim /etc/profileJAVA_HOME=/usr/…/jdk解压后的路径PATH=$PATH:$JAVA_HOME/binCLASSPATH=.:$JAVA_HOME/lib/jt.jar:$JAVA_HOME/lib/tools.jarexport JAVA_HOME PATH CLASSPATH:wqsource /etc/profile最后java -version3.下载tomcat，解压进入目录/bin &nbsp; ./startup.sh4.eclipse export 项目为.war格式 选择导出路径 上传到服务器webapps目录下]]></content>
+    <title><![CDATA[lnmp重启]]></title>
+    <url>%2F2017%2F03%2F16%2FNginxPHPMysql%20%E9%87%8D%E5%90%AF%E7%AD%89%E5%91%BD%E4%BB%A4%2F</url>
+    <content type="text"><![CDATA[nginx&nbsp;&nbsp;&nbsp;start：&nbsp;/usr/local/nginx/sbin/nginx&nbsp;&nbsp;stop：&nbsp;/usr/local/nginx/sbin/nginx&nbsp;-s&nbsp;stop&nbsp;&nbsp;reload：&nbsp;/usr/local/nginx/sbin/nginx&nbsp;-s&nbsp;reload&nbsp;&nbsp;#**&nbsp;&nbsp;#php-fpm(fast-cgi)命令&nbsp;&nbsp;&nbsp;start：&nbsp;/usr/local/php/sbin/php-fpm&nbsp;&nbsp;stop：&nbsp;/bin/ps&nbsp;-ef&nbsp;|&nbsp;grep&nbsp;&#39;php-fpm&#39;&nbsp;|&nbsp;grep&nbsp;-v&nbsp;grep&nbsp;|&nbsp;cut&nbsp;-c&nbsp;9-15&nbsp;|&nbsp;xargs&nbsp;kill&nbsp;-9&nbsp;&nbsp;&nbsp;Linux：PHP&nbsp;5.3.3&nbsp;以上版本的php-fpm的重启&nbsp;INT,&nbsp;TERM：立刻终止QUIT：平滑终止USR1：重新打开日志文件USR2：平滑重载所有worker进程并重新载入配置和二进制模块&nbsp;示例：1）php-fpm&nbsp;关闭：kill&nbsp;-INT&nbsp;cat&amp;nbsp;/usr/local/php/var/run/php-fpm.pid&nbsp;2）php-fpm&nbsp;重启：kill&nbsp;-USR2&nbsp;cat&amp;nbsp;/usr/local/php/var/run/php-fpm.pid&nbsp;查看php-fpm进程数：ps&nbsp;aux&nbsp;|&nbsp;grep&nbsp;-c&nbsp;php-fpm&nbsp;#**&nbsp;&nbsp;#mysql命令&nbsp;&nbsp;start：&nbsp;/etc/init.d/mysqld&nbsp;start&nbsp;&nbsp;stop：&nbsp;/etc/init.d/mysqld&nbsp;stop&nbsp;&nbsp;restart：&nbsp;/etc/init.d/mysqld&nbsp;restart&nbsp;&nbsp;#**&nbsp;]]></content>
       <tags>
-        <tag>java</tag>
+        <tag>lnmp</tag>
       </tags>
   </entry>
   <entry>
-    <title><![CDATA[linux安装php扩展]]></title>
-    <url>%2F2017%2F03%2F16%2FLinux%E4%B8%8B%E7%BC%96%E8%AF%91%E5%AE%89%E8%A3%85PHP%E6%89%A9%E5%B1%95%2F</url>
-    <content type="text"><![CDATA[下载扩展&nbsp;http://pecl.php.net/解压扩展 进入解压后的扩展目录 执行…/php/bin/phpize./configure –with-php-config=…/php/bin/php-config根据错误提示安装相应的依赖make &amp;&amp; make install在…/php/lib/extension/no-….目录下会出现.so的文件就说明安装好了到php.ini中增加extension=…/php/lib/ex…/xxx.so重启php]]></content>
+    <title><![CDATA[依赖注入]]></title>
+    <url>%2F2017%2F03%2F16%2Fdependency-injection%2F</url>
+    <content type="text"><![CDATA[依赖注入(DI)指的就是当你需要实例化的类依赖于其他类的实现的时候；不需要在本类中实例化所依赖的类，而是将所依赖的类通过参数的形式传入 即构造注入(构造函数)和设值注入(set方法);高耦合的反例//高耦合class Apple{​ protected $name = ‘ ‘; public function construct() { $this- &gt;name = ‘Apple ‘; } public function getName() { return $this- &gt;name; }}class Orange{​ protected $name = ‘ ‘; public function construct() { $this- &gt;name = ‘Orange ‘; } public function getName() { return $this- &gt;name; }}class Person{​ protected $likeFood = ‘ ‘; public function construct() { $this- &gt;likeFood = new Orange(); echo ‘这个人喜欢吃 ‘ . $this- &gt;likeFood- &gt;getName(); }}new Person();低耦合注入//低耦合实现interface Fruit{​ public function getName();}class Apple implements Fruit{​ protected $name = ‘ ‘; public function construct() { $this- &gt;name = ‘Apple ‘; } public function getName() { return $this- &gt;name; }}class Orange implements Fruit{​ protected $name = ‘ ‘; public function construct() { $this- &gt;name = ‘Orange ‘; } public function getName() { return $this- &gt;name; }}class Person{​ public $likeFood; public function construct(Fruit $fruit) { echo ‘这个人喜欢吃 ‘ . $fruit- &gt;getName(); }}$apple = new Apple();new Person($apple);]]></content>
       <tags>
-        <tag>lnmp</tag>
+        <tag>编程思想</tag>
+        <tag>面向对象</tag>
       </tags>
   </entry>
   <entry>
