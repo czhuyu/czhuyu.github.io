@@ -366,6 +366,527 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/12/17/Sphinx安装/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="czhuyu">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="https://avatars2.githubusercontent.com/u/26237984">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="无限进步">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                
+                <a href="/2018/12/17/Sphinx安装/" class="post-title-link" itemprop="http://yoursite.com/page/3/index.html">Sphinx安装</a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2018-12-17 22:23:09" itemprop="dateCreated datePublished" datetime="2018-12-17T22:23:09+08:00">2018-12-17</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2019-05-20 22:26:25" itemprop="dateModified" datetime="2019-05-20T22:26:25+08:00">2019-05-20</time>
+              
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>坑<br>1.安装Sphinx报错</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">libsphinx.a(sphinx.o)：在函数‘xmlUnknownEncoding(void*, char const*, XML_Encoding*)’中：</span><br><span class="line">/mnt/Project/src/sphinx/src/sphinx.cpp:29116：对‘libiconv_open’未定义的引用</span><br><span class="line">libsphinx.a(sphinx.o)：在函数‘xmlUnknownEncoding(void*, char const*, XML_Encoding*)’中：</span><br><span class="line">sphinx.cpp:(.text+0x11ce)：对‘libiconv’未定义的引用</span><br><span class="line">sphinx.cpp:(.text+0x11ff)：对‘libiconv_close’未定义的引用</span><br><span class="line">collect2: 错误：ld 返回 1</span><br><span class="line">make[2]: *** [indexer] 错误 1</span><br><span class="line">make[2]: 离开目录“/mnt/Project/src/sphinx/src”</span><br><span class="line">make[1]: *** [all] 错误 2</span><br><span class="line">make[1]: 离开目录“/mnt/Project/src/sphinx/src”</span><br><span class="line">make: *** [all-recursive] 错误 1</span><br></pre></td></tr></table></figure>
+<p>以为是没有安装libiconv，yum安装还是报错 yum -y install libevent libevent-devel</p>
+<p>百度 </p>
+<p>1.编译新增参数（注意这个改的是sphinx的解压包的src下的MakeFile）(推荐)</p>
+<p>​    LIBS = -lm -lexpat -liconv -L/usr/local/lib</p>
+<ol start="2">
+<li>修改configure文件，找到“#define USE_LIBICONV 1”，将注释去掉，并将1改成0。</li>
+</ol>
+<p>两个命令 </p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">/usr/local/sphinx/bin/indexer --all  //根据sphinx.conf的配置生成索引</span><br><span class="line">/usr/local/sphinx/bin/searchd  //启动搜索引擎</span><br></pre></td></tr></table></figure>
+
+          
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+       
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/12/16/Sphinx/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="czhuyu">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="https://avatars2.githubusercontent.com/u/26237984">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="无限进步">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                
+                <a href="/2018/12/16/Sphinx/" class="post-title-link" itemprop="http://yoursite.com/page/3/index.html">Sphinx 2.2.6-release 参考手册</a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2018-12-16 22:23:09" itemprop="dateCreated datePublished" datetime="2018-12-16T22:23:09+08:00">2018-12-16</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2019-04-24 20:17:27" itemprop="dateModified" datetime="2019-04-24T20:17:27+08:00">2019-04-24</time>
+              
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h1 id="Sphinx-2-2-11-release-参考手册"><a href="#Sphinx-2-2-11-release-参考手册" class="headerlink" title="Sphinx 2.2.11-release 参考手册"></a>Sphinx 2.2.11-release 参考手册</h1><p>免费的开源SQL全文搜索引擎</p>
+<p>Copyright © 2001-2014 Andrew Aksyonoff</p>
+<p>Copyright © 2008-2014 Sphinx Technologies Inc, <a href="http://sphinxsearch.com/" target="_blank" rel="noopener">http://sphinxsearch.com</a></p>
+<p>翻译校对 Czhuyu</p>
+<h3 id="第一章-介绍"><a href="#第一章-介绍" class="headerlink" title="第一章. 介绍"></a>第一章. 介绍</h3><h4 id="1-1-关于"><a href="#1-1-关于" class="headerlink" title="1.1. 关于"></a>1.1. 关于</h4><p>sphinx 是一个全文搜索引擎，公开发行于GPL 2.0，商业许可(例如 用于嵌入式)通过需要许可。</p>
+<p>从技术上讲，Sphinx是一个独立的软件包提供快速的全文搜索功能的客户端软件。它特意被设计为跟SQL 数据库一体的去存储数据，并且可以简单地通过脚本语言连接。总之，Sphinx不依赖于任何特殊的数据库功能。</p>
+<p>应用程序可以通过Sphinx的搜索守护进程searchd用以下三种连接方式：a)通过Sphinx自己实现的Mysql的网络协议(使用的一个小的SQL的子集叫做SphinxQL，这是推荐的方式)，b)通过自带的search API(SphinxAPI)或者c)通过Mysql服务的可插拔的存储引擎(SphinxSE)。</p>
+<p>官方的原生SphinxAPI实现了PHP,Perl,Python,Ruby和Java在贡献的包里。API是非常轻量级的所以实现一个新的语言的API只需要几个小时就行。</p>
+<p>从1.10的beta版本开始，Sphinx支持两种不同的后台索引：磁盘后台索引和实时后台索引。磁盘索引支持在线的全文索引重建，但是在线更新只支持非text的(属性)数据。实时索引支持在线的全文索引更新。上个版本只在磁盘索引中支持。</p>
+<p>数据可以加载进磁盘索引用一个所以叫数据源。建立源可以直接从MySQL，PostgreSQL，MSSQL，ODBC compliant 数据库(Oracle等等)或者一个管道在TSV或者一个格式化的XML。新增一个数据源驱动被设计得经可能简单。实时索引，直到1.10beta版本为止，只能用SphinxQL。</p>
+<p>就像名字一样，Sphinx是SQL Phrase Index译解缩写。是的，我知道关于CMU的Sphinx项目。</p>
+<h5 id="1-2-Sphinx特性"><a href="#1-2-Sphinx特性" class="headerlink" title="1.2. Sphinx特性"></a>1.2. Sphinx特性</h5><p>Sphinx特性的关键是</p>
+<ul>
+<li>索引和搜索的高性能</li>
+<li>先进的索引和查询工具(灵活的并且富有特性的文本分词器,查询语言，几个不同的排名模式，等等);</li>
+<li>先进的结果集后处理（SELECT表达式，WHERE,ORDER BY,GROUP BY,HAVING等在文本搜索中）</li>
+<li>可扩展的久经考验地用于数十亿的文档，万亿字节的数据，每秒成千上万的请求。</li>
+<li>方便的集合SQL和XML的数据源，和SphinxQL，SphinxAPI,和SphinxSE搜索接口；</li>
+<li>简单的可伸缩分布式搜索。</li>
+</ul>
+<p>扩大一点，Sphinx：</p>
+<ul>
+<li>拥有很高的索引速度(达到 10-15MB/每秒每个核心在内部基准上)；</li>
+<li>拥有很高的搜索速度（达到150-250/每秒每个核心对阵1,000,000文档，1.2G的数据在内部基准上）</li>
+<li>拥有很高的扩展性(最大的已知的聚集索引超过了3,000,000,000文档，并且最繁忙的巅峰达到了500万次查询每天)</li>
+</ul>
+<h4 id="2-2-编译安装Sphinx"><a href="#2-2-编译安装Sphinx" class="headerlink" title="2.2. 编译安装Sphinx"></a>2.2. 编译安装Sphinx</h4><h5 id="2-2-1-需要的工具"><a href="#2-2-1-需要的工具" class="headerlink" title="2.2.1 需要的工具"></a>2.2.1 需要的工具</h5><p>在unix上，你需要下面的工具来建立和安装Sphinx</p>
+<ul>
+<li>一个用来工作的c++的编译器，GNU gcc和clang是知名的用来工作。</li>
+<li>一个好的make工具，GNU很出名用来工作</li>
+</ul>
+<p>在windows上面，你会需要Microsoft Visual C/C++ Studio .Net 2005 或者以上。其他的编译器/环境也是一样的工作，但目前，你需要手动建立make文件(或者其他环境的特定项目文件)</p>
+<h5 id="2-2-2-在Linux上编译安装"><a href="#2-2-2-在Linux上编译安装" class="headerlink" title="2.2.2. 在Linux上编译安装"></a>2.2.2. 在Linux上编译安装</h5><h4 id="2-6-Sphinx-废弃项目和更改默认的配置"><a href="#2-6-Sphinx-废弃项目和更改默认的配置" class="headerlink" title="2.6. Sphinx 废弃项目和更改默认的配置"></a>2.6. Sphinx 废弃项目和更改默认的配置</h4><p>在2.2.1-beta版本我们决定开始去除一些老的功能，所有的非官方的弃用一段时间。现在我们正式通知你们关于它们。</p>
+<p>修改如下：</p>
+<ul>
+<li>32位的文档id已经被废弃了。我们的二进制发行版本现在默认都在64位的documentid的基础上建立。需要注意的是它们仍然可以用32位ID索引，但是这个支持最后会被移除。事实上，它前一阵子已经被废弃了，但是现在我们只想清除它。我们没有看到用这种方式来节省服务器RAM的任何意义。</li>
+<li>dict=crc现在已经被废弃了。它是一大串约束。最重要的一个是关键词碰撞，并且没有通配符匹配支持。你可以获取更多的有关这些约束从我们的文档。2.7</li>
+</ul>
+<h3 id="第三章-索引"><a href="#第三章-索引" class="headerlink" title="第三章.索引"></a>第三章.索引</h3><h4 id="3-1-数据源"><a href="#3-1-数据源" class="headerlink" title="3.1. 数据源"></a>3.1. 数据源</h4><p>需要被索引的数据可以来自非常不同的源：数据库，简单的文本数据，HTMl文件，邮箱等等。从Sphinx的视角看来，数据的索引是一个结构化文档的合集，每一个合集都会有相同的字段和属性。这一点和SQL相似的地方是每一个SQL的行对应一个文档，每一个列对应文档的字段或者属性。</p>
+<p>由于Sphinx获得的不同的数据来源，需要不同的代码去取得数据然后准备索引。这些代码被称为数据源驱动（简单的说叫驱动或者叫数据源）.</p>
+<p>在写这个文档的时候，现有的驱动有MySQL，PostgreSQL,MS SQL(on Windows),和ODBC.也有一类驱动叫做xmlpipe2，特殊的运行在命令行并且获取数据从它的标准输出中。看3.9 “xmlpipe2 数据源” 章节获取更多信息。在2.2.1的beta版本中tsvpipe和csvpipe数据源也搅入了进来。你可以获取更多信息从3.10”tsvpipe\csvpipe(Tab\Comma Separated Values)数据源”</p>
+<p>索引有很多的数据来源。他们会有序地依照索引的定义规定通过非常相同的流程。所有的文档从这些源产生的灰合并起来就行他们来自单一的数据源。</p>
+<h4 id="3-2-全文本字段"><a href="#3-2-全文本字段" class="headerlink" title="3.2.全文本字段"></a>3.2.全文本字段</h4><p>全文本字段（或者简单说是字段）是文本的内容被Sphinx索引，并且可以（快速地）被关键字搜索。</p>
+<p>字段可以被命名，并且你可以限制你的搜索为一个字段（例如. 只通过”title”） 或者字段的子集（例如”title”和”abstract”）.Sphinx索引支持最大256个字段。但是，在2.0.1-beta版本索引被限制到了32个字段，因为并发在匹配引擎。完全的支持到256个字段在2.0.2-beta版本。</p>
+<p>需要注意的是字段的源内容不会存储到sphinx中。你给Sphinx的文本，全文本索引（一个特殊的数据结构能够快速地被关键字搜索）建立来自于此文本。但是源文本会被丢弃掉。Sphinx假定你已经把这些内容保存到了其他的任何地方。</p>
+<p>还有要说的是，不可能对源文本进行完全的结构重建，因为一些特殊的空格，大小写，标点符号会被丢失在索引的时候。理论上来说只有部分的被结构重建在文本里面，但是这将是一个十分缓慢的过程（尤其是如果CRC字典被使用，甚至不是保存关键字而是它们的hash）</p>
+<h4 id="3-3-属性"><a href="#3-3-属性" class="headerlink" title="3.3. 属性"></a>3.3. 属性</h4><p>属性是每个文档关联的额外的值用来完成额外的过滤和排序在搜索过程中。</p>
+<p>它经常被用于额外的全文索引结果基础不仅是匹配文档ID，rank，而且是其他的每个文档的值。举个例子，有可能需要用日期排序，然后是相关性，或者你需要用指定的价格区间搜索产品，或者筛选出某个作者的文章在你的博客里，或者按月分组。为了有效地做上面的这些事情，Sphinx允许附加一定数量的额外属性为每个文档，并且存储它们的值在全文本中，然后使用存储的值去过滤，排序，分组全文本匹配到的结果就变成了可能。</p>
+<p>属性，不同于字段，不是全文索引。它们存储在索引中，但是他们不能当作全文本进行搜索，企图这样做会导致错误。</p>
+<p>例如，不可能使用匹配表达式@column 1去匹配column为1的文档。如果column是一个熟悉，并且忽略搜索关联性工具。此外，属性返回的结果来自search daemon,而不是索引文本。</p>
+<p>一个比较好的例子就是论坛讨论帖子的表。假定只需要标题和内容去搜索-但是有时候也需要搜索通过作者个子讨论（例如xxxxx）；或者给匹配到的结果按照post_date排序；或者用post_date按月份分组并计算每个组匹配的条数。</p>
+<p>这个可以获得说明所有的提及的列（除了标题和内容，它们是全文本字段）作为属性，索引它们，然后用API调用设置过滤器，排序和分组。这里是一个例子。</p>
+<p><strong>Example sphinx.conf part:</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">...</span><br><span class="line">sql_query = SELECT id, title, content, \</span><br><span class="line">    author_id, forum_id, post_date FROM my_forum_posts</span><br><span class="line">sql_attr_uint = author_id</span><br><span class="line">sql_attr_uint = forum_id</span><br><span class="line">sql_attr_timestamp = post_date</span><br><span class="line">...</span><br></pre></td></tr></table></figure>
+<p><strong>Example application code (in PHP)</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">// only search posts by author whose ID is 123</span><br><span class="line">$cl-&gt;SetFilter ( &quot;author_id&quot;, array ( 123 ) );</span><br><span class="line"></span><br><span class="line">// only search posts in sub-forums 1, 3 and 7</span><br><span class="line">$cl-&gt;SetFilter ( &quot;forum_id&quot;, array ( 1,3,7 ) );</span><br><span class="line"></span><br><span class="line">// sort found posts by posting date in descending order</span><br><span class="line">$cl-&gt;SetSortMode ( SPH_SORT_ATTR_DESC, &quot;post_date&quot; );</span><br></pre></td></tr></table></figure>
+<h3 id="第四章-实时索引"><a href="#第四章-实时索引" class="headerlink" title="第四章. 实时索引"></a>第四章. 实时索引</h3><p>实时索引是一个新的后台让你新增，更新，或者删除文档在飞速中。实时索引在1.10-beta中加入。当你需要查询实时索引的时候你可以使用SphinxAPI,SphinxQL,或者SphinxSE，更新他们只可能通过SphinxQL在现在。完整的SphinxQL参考在第八张章节。</p>
+<h4 id="4-1-实时索引概览"><a href="#4-1-实时索引概览" class="headerlink" title="4.1. 实时索引概览"></a>4.1. 实时索引概览</h4><p>实时索引应该声明在sphinx.conf，就像所有的其他索引类型一样。</p>
+
+          
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+       
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/12/07/hello-world/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="czhuyu">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="https://avatars2.githubusercontent.com/u/26237984">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="无限进步">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                
+                <a href="/2018/12/07/hello-world/" class="post-title-link" itemprop="http://yoursite.com/page/3/index.html">Hello World</a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2018-12-07 23:45:19" itemprop="dateCreated datePublished" datetime="2018-12-07T23:45:19+08:00">2018-12-07</time>
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>Welcome to <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/" target="_blank" rel="noopener">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html" target="_blank" rel="noopener">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues" target="_blank" rel="noopener">GitHub</a>.</p>
+<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo new <span class="string">"My New Post"</span></span><br></pre></td></tr></table></figure>
+<p>More info: <a href="https://hexo.io/docs/writing.html" target="_blank" rel="noopener">Writing</a></p>
+<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
+<p>More info: <a href="https://hexo.io/docs/server.html" target="_blank" rel="noopener">Server</a></p>
+<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
+<p>More info: <a href="https://hexo.io/docs/generating.html" target="_blank" rel="noopener">Generating</a></p>
+<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
+<p>More info: <a href="https://hexo.io/docs/deployment.html" target="_blank" rel="noopener">Deployment</a></p>
+
+          
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+       
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/03/16/Cookie和Session/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -546,7 +1067,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/03/16/leetcode_day3/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/03/16/写时复制和引用计数/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="czhuyu">
@@ -566,7 +1087,7 @@
           <h1 class="post-title" itemprop="name headline">
                 
                 
-                <a href="/2017/03/16/leetcode_day3/" class="post-title-link" itemprop="http://yoursite.com/page/3/index.html">day3</a>
+                <a href="/2017/03/16/写时复制和引用计数/" class="post-title-link" itemprop="http://yoursite.com/page/3/index.html">写时复制和引用计数</a>
               
             
           </h1>
@@ -608,7 +1129,7 @@
                 
                   <span class="post-meta-item-text">更新于</span>
                 
-                <time title="修改时间：2019-05-20 22:23:32" itemprop="dateModified" datetime="2019-05-20T22:23:32+08:00">2019-05-20</time>
+                <time title="修改时间：2019-05-20 22:28:39" itemprop="dateModified" datetime="2019-05-20T22:28:39+08:00">2019-05-20</time>
               
             
           </span>
@@ -643,470 +1164,8 @@
       
         
           
-            <p><strong>Binary Tree (Traverse A Tree)</strong><br></p><p><br></p><p>Binary Tree Preorder Traversal</p><pre class="brush:cpp;toolbar:false">/*<em><br>&nbsp;</em>&nbsp;Definition&nbsp;for&nbsp;a&nbsp;binary&nbsp;tree&nbsp;node.<br>&nbsp;<em>&nbsp;type&nbsp;TreeNode&nbsp;struct&nbsp;{<br>&nbsp;</em>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Val&nbsp;int<br>&nbsp;<em>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Left&nbsp;</em>TreeNode<br>&nbsp;<em>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Right&nbsp;</em>TreeNode<br>&nbsp;<em>&nbsp;}<br>&nbsp;</em>/<br>func&nbsp;preorderTraversal(root&nbsp;<em>TreeNode)&nbsp;[]int&nbsp;{<br>    var&nbsp;arr&nbsp;[]int<br>    if&nbsp;root&nbsp;==&nbsp;nil&nbsp;{<br>        return&nbsp;arr<br>    }<br>    arr&nbsp;=&nbsp;append(arr,&nbsp;root.Val)<br>    arr1&nbsp;:=&nbsp;preorderTraversal(root.Left)<br>    arr&nbsp;=&nbsp;arrmerge(arr,&nbsp;arr1)<br>    arr2&nbsp;:=&nbsp;preorderTraversal(root.Right)<br>    arr&nbsp;=&nbsp;arrmerge(arr,&nbsp;arr2)<br>    return&nbsp;arr<br>}<br><br>func&nbsp;arrmerge(arr&nbsp;[]int,&nbsp;arr1&nbsp;[]int)&nbsp;[]int&nbsp;{<br>​    for&nbsp;_,&nbsp;v&nbsp;:=&nbsp;range&nbsp;arr1&nbsp;{<br>​        arr&nbsp;=&nbsp;append(arr,&nbsp;v)<br>​    }<br>​    return&nbsp;arr<br>}</em></pre><p>Binary Tree Inorder Traversal</p><pre class="brush:cpp;toolbar:false">func&nbsp;inorderTraversal(root&nbsp;TreeNode)&nbsp;[]int&nbsp;{<br>​    var&nbsp;arr&nbsp;[]int<br>​    if&nbsp;root&nbsp;==&nbsp;nil&nbsp;{<br>​        return&nbsp;arr<br>​    }<br>​    arr1&nbsp;:=&nbsp;inorderTraversal(root.Left)<br>​    arr&nbsp;=&nbsp;arrmerge(arr,&nbsp;arr1)<br>​    arr&nbsp;=&nbsp;append(arr,&nbsp;root.Val)<br>​    arr2&nbsp;:=&nbsp;inorderTraversal(root.Right)<br>​    arr&nbsp;=&nbsp;arrmerge(arr,&nbsp;arr2)<br>​    return&nbsp;arr<br>}</pre><p>Binary Tree Postorder Traversal</p><pre class="brush:cpp;toolbar:false">func&nbsp;postorderTraversal(root&nbsp;*TreeNode)&nbsp;[]int&nbsp;{<br>&nbsp;&nbsp;&nbsp;&nbsp;var&nbsp;arr&nbsp;[]int<br>​    if&nbsp;root&nbsp;==&nbsp;nil&nbsp;{<br>​        return&nbsp;arr<br>​    }<br>​    arr1&nbsp;:=&nbsp;postorderTraversal(root.Left)<br>​    arr&nbsp;=&nbsp;arrmerge(arr,&nbsp;arr1)<br>​    arr2&nbsp;:=&nbsp;postorderTraversal(root.Right)<br>​    arr&nbsp;=&nbsp;arrmerge(arr,&nbsp;arr2)<br>&nbsp;&nbsp;&nbsp;&nbsp;arr&nbsp;=&nbsp;append(arr,&nbsp;root.Val)<br>​    return&nbsp;arr<br>}</pre><p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;</p>
-          
-        
-      
-    </div>
+            <p></p><p><a href="http://www.cnblogs.com/phpcoder/p/4462210.html" target="_blank" title="http://www.cnblogs.com/phpcoder/p/4462210.html">http://www.cnblogs.com/phpcoder/p/4462210.html</a><br></p><audio controls="controls" style="display: none;"></audio><p></p>
 
-    
-
-    
-    
-    
-
-    
-
-    
-       
-    
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/03/16/HTTP OPTIONS/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="czhuyu">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="https://avatars2.githubusercontent.com/u/26237984">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="无限进步">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                
-                <a href="/2017/03/16/HTTP OPTIONS/" class="post-title-link" itemprop="http://yoursite.com/page/3/index.html">HTTP OPTIONS</a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-
-            
-            
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-
-              
-                
-              
-
-              <time title="创建时间：2017-03-16 22:22:56" itemprop="dateCreated datePublished" datetime="2017-03-16T22:22:56+08:00">2017-03-16</time>
-            
-
-            
-              
-
-              
-                
-                <span class="post-meta-divider">|</span>
-                
-
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">更新于</span>
-                
-                <time title="修改时间：2019-05-20 22:22:39" itemprop="dateModified" datetime="2019-05-20T22:22:39+08:00">2019-05-20</time>
-              
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>幂等和非幂等</p>
-<p>执行一次和执行很多次同样的操作是否是一样的</p>
-<p>GET/PUT/DELETE 幂等</p>
-<p>POST 非幂等</p>
-
-          
-        
-      
-    </div>
-
-    
-
-    
-    
-    
-
-    
-
-    
-       
-    
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/03/16/leetcode-2/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="czhuyu">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="https://avatars2.githubusercontent.com/u/26237984">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="无限进步">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                
-                <a href="/2017/03/16/leetcode-2/" class="post-title-link" itemprop="http://yoursite.com/page/3/index.html">leetcode-2</a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-
-            
-            
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-
-              
-                
-              
-
-              <time title="创建时间：2017-03-16 22:22:56" itemprop="dateCreated datePublished" datetime="2017-03-16T22:22:56+08:00">2017-03-16</time>
-            
-
-            
-              
-
-              
-                
-                <span class="post-meta-divider">|</span>
-                
-
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">更新于</span>
-                
-                <time title="修改时间：2019-05-24 23:55:30" itemprop="dateModified" datetime="2019-05-24T23:55:30+08:00">2019-05-24</time>
-              
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p><br></p><p style="box-sizing: border-box; font-family: inherit; font-weight: 500; line-height: 1.1; color: inherit; margin-top: 0px; margin-bottom: 10px; font-size: 24px; display: inline-block; margin-right: 0.5em;">2.&nbsp;Add Two Numbers</p><p style="box-sizing: border-box; margin-top: 0px; margin-bottom: 10px; color: rgb(51, 51, 51); font-family: &quot;Helvetica Neue&quot;, Helvetica, Arial, sans-serif; font-size: 14px; white-space: normal; background-color: rgb(255, 255, 255);">You are given two&nbsp;<span style="box-sizing: border-box; font-weight: 700;">non-empty</span>&nbsp;linked lists representing two non-negative integers. The digits are stored in&nbsp;<span style="box-sizing: border-box; font-weight: 700;">reverse order</span>&nbsp;and each of their nodes contain a single digit. Add the two numbers and return it as a linked list.</p><p style="box-sizing: border-box; margin-top: 0px; margin-bottom: 10px; color: rgb(51, 51, 51); font-family: &quot;Helvetica Neue&quot;, Helvetica, Arial, sans-serif; font-size: 14px; white-space: normal; background-color: rgb(255, 255, 255);">You may assume the two numbers do not contain any leading zero, except the number 0 itself.</p><p style="box-sizing: border-box; margin-top: 0px; margin-bottom: 10px; color: rgb(51, 51, 51); font-family: &quot;Helvetica Neue&quot;, Helvetica, Arial, sans-serif; font-size: 14px; white-space: normal; background-color: rgb(255, 255, 255);"><span style="box-sizing: border-box; font-weight: 700;">Example</span></p><pre style="box-sizing: border-box; overflow: auto; font-family: Menlo, Monaco, Consolas, &quot;Courier New&quot;, monospace; font-size: 13px; padding: 9.5px; margin-top: 0px; margin-bottom: 10px; line-height: 1.42857; color: rgb(51, 51, 51); word-break: break-all; word-wrap: break-word; background-color: rgb(245, 245, 245); border: 1px solid rgb(204, 204, 204); border-radius: 4px;">Input:&nbsp;(2&nbsp;-&gt;&nbsp;4&nbsp;-&gt;&nbsp;3)&nbsp;+&nbsp;(5&nbsp;-&gt;&nbsp;6&nbsp;-&gt;&nbsp;4)Output:&nbsp;7&nbsp;-&gt;&nbsp;0&nbsp;-&gt;&nbsp;8Explanation:&nbsp;342&nbsp;+&nbsp;465&nbsp;=&nbsp;807.</pre><p><br></p><pre class="brush:cpp;toolbar:false">/*<em><br>&nbsp;</em>&nbsp;Definition&nbsp;for&nbsp;singly-linked&nbsp;list.<br>&nbsp;<em>&nbsp;type&nbsp;ListNode&nbsp;struct&nbsp;{<br>&nbsp;</em>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Val&nbsp;int<br>&nbsp;<em>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Next&nbsp;</em>ListNode<br>&nbsp;<em>&nbsp;}<br>&nbsp;</em>/<br>func&nbsp;addTwoNumbers(l1&nbsp;<em>ListNode,&nbsp;l2&nbsp;</em>ListNode)&nbsp;<em>ListNode&nbsp;{<br>&nbsp;&nbsp;&nbsp;&nbsp;i1&nbsp;:=&nbsp;0<br>    i2&nbsp;:=&nbsp;0<br>    p&nbsp;:=&nbsp;l1<br>    j&nbsp;:=&nbsp;0<br>    for&nbsp;{<br>        if&nbsp;p&nbsp;!=&nbsp;nil&nbsp;{<br>            i1&nbsp;+=&nbsp;p.Val&nbsp;</em>&nbsp;int(math.Pow(float64(10),&nbsp;float64(j)))<br>            j++<br>            p&nbsp;=&nbsp;p.Next<br>        }&nbsp;else&nbsp;{<br>            break<br>        }<br>    }<br>    j&nbsp;=&nbsp;0<br>    p&nbsp;=&nbsp;l2<br>    for&nbsp;{<br>        if&nbsp;p&nbsp;!=&nbsp;nil&nbsp;{<br>            i2&nbsp;+=&nbsp;p.Val&nbsp;<em>&nbsp;int(math.Pow(float64(10),&nbsp;float64(j)))<br>            j++<br>            p&nbsp;=&nbsp;p.Next<br>        }&nbsp;else&nbsp;{<br>            break<br>        }<br>    }<br>    revres&nbsp;:=&nbsp;i1&nbsp;+&nbsp;i2<br>&nbsp;&nbsp;&nbsp;&nbsp;<br>&nbsp;&nbsp;&nbsp;&nbsp;fmt.Println(revres)<br>    head&nbsp;:=&nbsp;new(ListNode)<br>    p&nbsp;=&nbsp;head<br>    for&nbsp;{<br>        if&nbsp;revres&nbsp;==&nbsp;0&nbsp;{<br>            break<br>        }&nbsp;else&nbsp;{<br>            p.Val&nbsp;=&nbsp;revres&nbsp;%&nbsp;10&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>            revres&nbsp;=&nbsp;revres&nbsp;/&nbsp;10<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if&nbsp;revres&nbsp;!=&nbsp;0{<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;    &nbsp;&nbsp;&nbsp;&nbsp;node&nbsp;:=&nbsp;new(ListNode)<br>            &nbsp;&nbsp;&nbsp;&nbsp;p.Next&nbsp;=&nbsp;node<br>            &nbsp;&nbsp;&nbsp;&nbsp;p&nbsp;=&nbsp;p.Next&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>        }<br>    }<br>&nbsp;&nbsp;&nbsp;&nbsp;<br>&nbsp;&nbsp;&nbsp;&nbsp;<br>&nbsp;&nbsp;&nbsp;&nbsp;p&nbsp;=&nbsp;l1<br>    for&nbsp;{<br>        if&nbsp;p.Next&nbsp;==&nbsp;nil&nbsp;{<br>            break<br>        }<br>        fmt.Printf(&quot;%d\t&quot;,&nbsp;p.Val)<br>        p&nbsp;=&nbsp;p.Next<br>    }<br>&nbsp;&nbsp;&nbsp;&nbsp;<br>&nbsp;&nbsp;&nbsp;&nbsp;<br>    return&nbsp;head<br>&nbsp;&nbsp;&nbsp;&nbsp;<br>&nbsp;&nbsp;&nbsp;&nbsp;<br>}</em></pre><p>&nbsp; 后面出现了位数很长的用例，所以换成采用数组来暂存单链表</p><pre class="brush:cpp;toolbar:false">func&nbsp;addTwoNumbers(l1&nbsp;ListNode,&nbsp;l2&nbsp;<em>ListNode)&nbsp;</em>ListNode&nbsp;{<br>    var&nbsp;i1&nbsp;[]int<br>    var&nbsp;i2&nbsp;[]int<br>    p&nbsp;:=&nbsp;l1<br>    for&nbsp;{<br>        if&nbsp;p&nbsp;!=&nbsp;nil&nbsp;{<br>            i1&nbsp;=&nbsp;append(i1,&nbsp;p.Val)<br>            p&nbsp;=&nbsp;p.Next<br>        }&nbsp;else&nbsp;{<br>            break<br>        }<br>    }<br>    p&nbsp;=&nbsp;l2<br>    for&nbsp;{<br>        if&nbsp;p&nbsp;!=&nbsp;nil&nbsp;{<br>            i2&nbsp;=&nbsp;append(i2,&nbsp;p.Val)<br>            p&nbsp;=&nbsp;p.Next<br>        }&nbsp;else&nbsp;{<br>            break<br>        }<br>    }<br>    head&nbsp;:=&nbsp;new(ListNode)<br>    p&nbsp;=&nbsp;head<br>    lenthi1&nbsp;:=&nbsp;len(i1)<br>    lenthi2&nbsp;:=&nbsp;len(i2)<br>    if&nbsp;lenthi1&nbsp;!=&nbsp;lenthi2&nbsp;{<br>        if&nbsp;lenthi1&nbsp;&lt;&nbsp;lenthi2&nbsp;{<br>            for&nbsp;i&nbsp;:=&nbsp;0;&nbsp;i&nbsp;&lt;&nbsp;lenthi2-lenthi1;&nbsp;i++&nbsp;{<br>                i1&nbsp;=&nbsp;append(i1,&nbsp;0)<br>            }<br>        }&nbsp;else&nbsp;{<br>            for&nbsp;i&nbsp;:=&nbsp;0;&nbsp;i&nbsp;&lt;&nbsp;lenthi1-lenthi2;&nbsp;i++&nbsp;{<br>                i2&nbsp;=&nbsp;append(i2,&nbsp;0)<br>            }<br>        }<br>    }<br>    lenthi1&nbsp;=&nbsp;len(i1)<br>    lenthi2&nbsp;=&nbsp;len(i2)<br>    flag&nbsp;:=&nbsp;0<br>    for&nbsp;i,&nbsp;_&nbsp;:=&nbsp;range&nbsp;i1&nbsp;{<br>        sum&nbsp;:=&nbsp;i1[i]&nbsp;+&nbsp;i2[i]<br>        if&nbsp;i&nbsp;&lt;&nbsp;lenthi1-1&nbsp;{<br>            if&nbsp;(sum)/10&nbsp;&gt;&nbsp;0&nbsp;{<br>                i1[i+1]&nbsp;+=&nbsp;1<br>            }<br>        }&nbsp;else&nbsp;{<br>            if&nbsp;(sum)/10&nbsp;&gt;&nbsp;0&nbsp;{<br>                flag&nbsp;=&nbsp;1<br>            }<br>        }<br>        p.Val&nbsp;=&nbsp;sum&nbsp;%&nbsp;10<br>        if&nbsp;i&nbsp;&lt;&nbsp;lenthi1-1&nbsp;{<br>            node&nbsp;:=&nbsp;new(ListNode)<br>            p.Next&nbsp;=&nbsp;node<br>            p&nbsp;=&nbsp;p.Next<br>        }<br>    }<br>    if&nbsp;flag&nbsp;==&nbsp;1&nbsp;{<br>        node&nbsp;:=&nbsp;new(ListNode)<br>        node.Val&nbsp;=&nbsp;1<br>        p.Next&nbsp;=&nbsp;node<br>    }<br>    return&nbsp;head<br>}</pre><p><br></p>
-          
-        
-      
-    </div>
-
-    
-
-    
-    
-    
-
-    
-
-    
-       
-    
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/03/16/NginxPHPMysql 重启等命令/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="czhuyu">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="https://avatars2.githubusercontent.com/u/26237984">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="无限进步">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                
-                <a href="/2017/03/16/NginxPHPMysql 重启等命令/" class="post-title-link" itemprop="http://yoursite.com/page/3/index.html">lnmp重启</a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-
-            
-            
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-
-              
-                
-              
-
-              <time title="创建时间：2017-03-16 22:22:56" itemprop="dateCreated datePublished" datetime="2017-03-16T22:22:56+08:00">2017-03-16</time>
-            
-
-            
-              
-
-              
-                
-                <span class="post-meta-divider">|</span>
-                
-
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">更新于</span>
-                
-                <time title="修改时间：2019-05-20 22:25:38" itemprop="dateModified" datetime="2019-05-20T22:25:38+08:00">2019-05-20</time>
-              
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>nginx&nbsp;<br></p><p>&nbsp;&nbsp;</p><p>start：&nbsp;</p><p>/usr/local/nginx/sbin/nginx&nbsp;</p><p>&nbsp;</p><p>stop：&nbsp;</p><p>/usr/local/nginx/sbin/nginx&nbsp;-s&nbsp;stop&nbsp;</p><p>&nbsp;</p><p>reload：&nbsp;</p><p>/usr/local/nginx/sbin/nginx&nbsp;-s&nbsp;reload&nbsp;</p><p>&nbsp;</p><p>#<strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><em>**</em></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong>&nbsp;</p><p>&nbsp;</p><p>#php-fpm(fast-cgi)命令&nbsp;</p><p>&nbsp;&nbsp;</p><p>start：&nbsp;</p><p>/usr/local/php/sbin/php-fpm&nbsp;</p><p>&nbsp;</p><p>stop：&nbsp;</p><p>/bin/ps&nbsp;-ef&nbsp;|&nbsp;grep&nbsp;&#39;php-fpm&#39;&nbsp;|&nbsp;grep&nbsp;-v&nbsp;grep&nbsp;|&nbsp;cut&nbsp;-c&nbsp;9-15&nbsp;|&nbsp;xargs&nbsp;kill&nbsp;-9&nbsp;</p><p>&nbsp;</p><p>&nbsp;</p><p>Linux：PHP&nbsp;5.3.3&nbsp;以上版本的php-fpm的重启</p><p>&nbsp;</p><p>INT,&nbsp;TERM：立刻终止</p><p>QUIT：平滑终止</p><p>USR1：重新打开日志文件</p><p>USR2：平滑重载所有worker进程并重新载入配置和二进制模块</p><p>&nbsp;</p><p>示例：</p><p>1）php-fpm&nbsp;关闭：</p><p>kill&nbsp;-INT&nbsp;<code>cat&amp;nbsp;/usr/local/php/var/run/php-fpm.pid</code></p><p>&nbsp;</p><p>2）php-fpm&nbsp;重启：</p><p>kill&nbsp;-USR2&nbsp;<code>cat&amp;nbsp;/usr/local/php/var/run/php-fpm.pid</code></p><p>&nbsp;</p><p>查看php-fpm进程数：</p><p>ps&nbsp;aux&nbsp;|&nbsp;grep&nbsp;-c&nbsp;php-fpm</p><p>&nbsp;</p><p>#<strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><em>**</em></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong>&nbsp;</p><p>&nbsp;</p><p>#mysql命令&nbsp;</p><p>&nbsp;</p><p>start：&nbsp;</p><p>/etc/init.d/mysqld&nbsp;start&nbsp;</p><p>&nbsp;</p><p>stop：&nbsp;</p><p>/etc/init.d/mysqld&nbsp;stop&nbsp;</p><p>&nbsp;</p><p>restart：&nbsp;</p><p>/etc/init.d/mysqld&nbsp;restart&nbsp;</p><p>&nbsp;</p><p>#<strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><em>**</em></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong>&nbsp;</p><p><br></p>
           
         
       
@@ -1315,7 +1374,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/03/16/Github/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/03/16/leetcode-2/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="czhuyu">
@@ -1335,7 +1394,7 @@
           <h1 class="post-title" itemprop="name headline">
                 
                 
-                <a href="/2017/03/16/Github/" class="post-title-link" itemprop="http://yoursite.com/page/3/index.html">git</a>
+                <a href="/2017/03/16/leetcode-2/" class="post-title-link" itemprop="http://yoursite.com/page/3/index.html">leetcode-2</a>
               
             
           </h1>
@@ -1377,7 +1436,7 @@
                 
                   <span class="post-meta-item-text">更新于</span>
                 
-                <time title="修改时间：2019-05-20 22:22:16" itemprop="dateModified" datetime="2019-05-20T22:22:16+08:00">2019-05-20</time>
+                <time title="修改时间：2019-05-24 23:55:30" itemprop="dateModified" datetime="2019-05-24T23:55:30+08:00">2019-05-24</time>
               
             
           </span>
@@ -1412,7 +1471,7 @@
       
         
           
-            <p>首先有两种使用方式 1.先在git官网上建立一个git仓库，然后git clone到本地<br></p><p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 2.直接在本地cd进一个文件夹 git init<br></p><p>配置用户名和email</p><p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;git config –global user.name &#39;&#39;</p><p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;git config –global user.email <a href="mailto:xxx@xxx.com" target="_blank" rel="noopener">xxx@xxx.com</a></p><p>简单使用命令 &nbsp;git add .</p><p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; git status</p><p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; git commit -m &quot;The First Upload&quot;<br></p><p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;git push -u origin master</p><p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp;</p><p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br></p><p><br></p>
+            <p><br></p><p style="box-sizing: border-box; font-family: inherit; font-weight: 500; line-height: 1.1; color: inherit; margin-top: 0px; margin-bottom: 10px; font-size: 24px; display: inline-block; margin-right: 0.5em;">2.&nbsp;Add Two Numbers</p><p style="box-sizing: border-box; margin-top: 0px; margin-bottom: 10px; color: rgb(51, 51, 51); font-family: &quot;Helvetica Neue&quot;, Helvetica, Arial, sans-serif; font-size: 14px; white-space: normal; background-color: rgb(255, 255, 255);">You are given two&nbsp;<span style="box-sizing: border-box; font-weight: 700;">non-empty</span>&nbsp;linked lists representing two non-negative integers. The digits are stored in&nbsp;<span style="box-sizing: border-box; font-weight: 700;">reverse order</span>&nbsp;and each of their nodes contain a single digit. Add the two numbers and return it as a linked list.</p><p style="box-sizing: border-box; margin-top: 0px; margin-bottom: 10px; color: rgb(51, 51, 51); font-family: &quot;Helvetica Neue&quot;, Helvetica, Arial, sans-serif; font-size: 14px; white-space: normal; background-color: rgb(255, 255, 255);">You may assume the two numbers do not contain any leading zero, except the number 0 itself.</p><p style="box-sizing: border-box; margin-top: 0px; margin-bottom: 10px; color: rgb(51, 51, 51); font-family: &quot;Helvetica Neue&quot;, Helvetica, Arial, sans-serif; font-size: 14px; white-space: normal; background-color: rgb(255, 255, 255);"><span style="box-sizing: border-box; font-weight: 700;">Example</span></p><pre style="box-sizing: border-box; overflow: auto; font-family: Menlo, Monaco, Consolas, &quot;Courier New&quot;, monospace; font-size: 13px; padding: 9.5px; margin-top: 0px; margin-bottom: 10px; line-height: 1.42857; color: rgb(51, 51, 51); word-break: break-all; word-wrap: break-word; background-color: rgb(245, 245, 245); border: 1px solid rgb(204, 204, 204); border-radius: 4px;">Input:&nbsp;(2&nbsp;-&gt;&nbsp;4&nbsp;-&gt;&nbsp;3)&nbsp;+&nbsp;(5&nbsp;-&gt;&nbsp;6&nbsp;-&gt;&nbsp;4)Output:&nbsp;7&nbsp;-&gt;&nbsp;0&nbsp;-&gt;&nbsp;8Explanation:&nbsp;342&nbsp;+&nbsp;465&nbsp;=&nbsp;807.</pre><p><br></p><pre class="brush:cpp;toolbar:false">/*<em><br>&nbsp;</em>&nbsp;Definition&nbsp;for&nbsp;singly-linked&nbsp;list.<br>&nbsp;<em>&nbsp;type&nbsp;ListNode&nbsp;struct&nbsp;{<br>&nbsp;</em>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Val&nbsp;int<br>&nbsp;<em>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Next&nbsp;</em>ListNode<br>&nbsp;<em>&nbsp;}<br>&nbsp;</em>/<br>func&nbsp;addTwoNumbers(l1&nbsp;<em>ListNode,&nbsp;l2&nbsp;</em>ListNode)&nbsp;<em>ListNode&nbsp;{<br>&nbsp;&nbsp;&nbsp;&nbsp;i1&nbsp;:=&nbsp;0<br>    i2&nbsp;:=&nbsp;0<br>    p&nbsp;:=&nbsp;l1<br>    j&nbsp;:=&nbsp;0<br>    for&nbsp;{<br>        if&nbsp;p&nbsp;!=&nbsp;nil&nbsp;{<br>            i1&nbsp;+=&nbsp;p.Val&nbsp;</em>&nbsp;int(math.Pow(float64(10),&nbsp;float64(j)))<br>            j++<br>            p&nbsp;=&nbsp;p.Next<br>        }&nbsp;else&nbsp;{<br>            break<br>        }<br>    }<br>    j&nbsp;=&nbsp;0<br>    p&nbsp;=&nbsp;l2<br>    for&nbsp;{<br>        if&nbsp;p&nbsp;!=&nbsp;nil&nbsp;{<br>            i2&nbsp;+=&nbsp;p.Val&nbsp;<em>&nbsp;int(math.Pow(float64(10),&nbsp;float64(j)))<br>            j++<br>            p&nbsp;=&nbsp;p.Next<br>        }&nbsp;else&nbsp;{<br>            break<br>        }<br>    }<br>    revres&nbsp;:=&nbsp;i1&nbsp;+&nbsp;i2<br>&nbsp;&nbsp;&nbsp;&nbsp;<br>&nbsp;&nbsp;&nbsp;&nbsp;fmt.Println(revres)<br>    head&nbsp;:=&nbsp;new(ListNode)<br>    p&nbsp;=&nbsp;head<br>    for&nbsp;{<br>        if&nbsp;revres&nbsp;==&nbsp;0&nbsp;{<br>            break<br>        }&nbsp;else&nbsp;{<br>            p.Val&nbsp;=&nbsp;revres&nbsp;%&nbsp;10&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>            revres&nbsp;=&nbsp;revres&nbsp;/&nbsp;10<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if&nbsp;revres&nbsp;!=&nbsp;0{<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;    &nbsp;&nbsp;&nbsp;&nbsp;node&nbsp;:=&nbsp;new(ListNode)<br>            &nbsp;&nbsp;&nbsp;&nbsp;p.Next&nbsp;=&nbsp;node<br>            &nbsp;&nbsp;&nbsp;&nbsp;p&nbsp;=&nbsp;p.Next&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>        }<br>    }<br>&nbsp;&nbsp;&nbsp;&nbsp;<br>&nbsp;&nbsp;&nbsp;&nbsp;<br>&nbsp;&nbsp;&nbsp;&nbsp;p&nbsp;=&nbsp;l1<br>    for&nbsp;{<br>        if&nbsp;p.Next&nbsp;==&nbsp;nil&nbsp;{<br>            break<br>        }<br>        fmt.Printf(&quot;%d\t&quot;,&nbsp;p.Val)<br>        p&nbsp;=&nbsp;p.Next<br>    }<br>&nbsp;&nbsp;&nbsp;&nbsp;<br>&nbsp;&nbsp;&nbsp;&nbsp;<br>    return&nbsp;head<br>&nbsp;&nbsp;&nbsp;&nbsp;<br>&nbsp;&nbsp;&nbsp;&nbsp;<br>}</em></pre><p>&nbsp; 后面出现了位数很长的用例，所以换成采用数组来暂存单链表</p><pre class="brush:cpp;toolbar:false">func&nbsp;addTwoNumbers(l1&nbsp;ListNode,&nbsp;l2&nbsp;<em>ListNode)&nbsp;</em>ListNode&nbsp;{<br>    var&nbsp;i1&nbsp;[]int<br>    var&nbsp;i2&nbsp;[]int<br>    p&nbsp;:=&nbsp;l1<br>    for&nbsp;{<br>        if&nbsp;p&nbsp;!=&nbsp;nil&nbsp;{<br>            i1&nbsp;=&nbsp;append(i1,&nbsp;p.Val)<br>            p&nbsp;=&nbsp;p.Next<br>        }&nbsp;else&nbsp;{<br>            break<br>        }<br>    }<br>    p&nbsp;=&nbsp;l2<br>    for&nbsp;{<br>        if&nbsp;p&nbsp;!=&nbsp;nil&nbsp;{<br>            i2&nbsp;=&nbsp;append(i2,&nbsp;p.Val)<br>            p&nbsp;=&nbsp;p.Next<br>        }&nbsp;else&nbsp;{<br>            break<br>        }<br>    }<br>    head&nbsp;:=&nbsp;new(ListNode)<br>    p&nbsp;=&nbsp;head<br>    lenthi1&nbsp;:=&nbsp;len(i1)<br>    lenthi2&nbsp;:=&nbsp;len(i2)<br>    if&nbsp;lenthi1&nbsp;!=&nbsp;lenthi2&nbsp;{<br>        if&nbsp;lenthi1&nbsp;&lt;&nbsp;lenthi2&nbsp;{<br>            for&nbsp;i&nbsp;:=&nbsp;0;&nbsp;i&nbsp;&lt;&nbsp;lenthi2-lenthi1;&nbsp;i++&nbsp;{<br>                i1&nbsp;=&nbsp;append(i1,&nbsp;0)<br>            }<br>        }&nbsp;else&nbsp;{<br>            for&nbsp;i&nbsp;:=&nbsp;0;&nbsp;i&nbsp;&lt;&nbsp;lenthi1-lenthi2;&nbsp;i++&nbsp;{<br>                i2&nbsp;=&nbsp;append(i2,&nbsp;0)<br>            }<br>        }<br>    }<br>    lenthi1&nbsp;=&nbsp;len(i1)<br>    lenthi2&nbsp;=&nbsp;len(i2)<br>    flag&nbsp;:=&nbsp;0<br>    for&nbsp;i,&nbsp;_&nbsp;:=&nbsp;range&nbsp;i1&nbsp;{<br>        sum&nbsp;:=&nbsp;i1[i]&nbsp;+&nbsp;i2[i]<br>        if&nbsp;i&nbsp;&lt;&nbsp;lenthi1-1&nbsp;{<br>            if&nbsp;(sum)/10&nbsp;&gt;&nbsp;0&nbsp;{<br>                i1[i+1]&nbsp;+=&nbsp;1<br>            }<br>        }&nbsp;else&nbsp;{<br>            if&nbsp;(sum)/10&nbsp;&gt;&nbsp;0&nbsp;{<br>                flag&nbsp;=&nbsp;1<br>            }<br>        }<br>        p.Val&nbsp;=&nbsp;sum&nbsp;%&nbsp;10<br>        if&nbsp;i&nbsp;&lt;&nbsp;lenthi1-1&nbsp;{<br>            node&nbsp;:=&nbsp;new(ListNode)<br>            p.Next&nbsp;=&nbsp;node<br>            p&nbsp;=&nbsp;p.Next<br>        }<br>    }<br>    if&nbsp;flag&nbsp;==&nbsp;1&nbsp;{<br>        node&nbsp;:=&nbsp;new(ListNode)<br>        node.Val&nbsp;=&nbsp;1<br>        p.Next&nbsp;=&nbsp;node<br>    }<br>    return&nbsp;head<br>}</pre><p><br></p>
           
         
       
@@ -1468,7 +1527,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/03/16/leetcode-1/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/03/16/leetcode-4/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="czhuyu">
@@ -1488,7 +1547,7 @@
           <h1 class="post-title" itemprop="name headline">
                 
                 
-                <a href="/2017/03/16/leetcode-1/" class="post-title-link" itemprop="http://yoursite.com/page/3/index.html">leetcode-1</a>
+                <a href="/2017/03/16/leetcode-4/" class="post-title-link" itemprop="http://yoursite.com/page/3/index.html">leetcode-4</a>
               
             
           </h1>
@@ -1530,7 +1589,7 @@
                 
                   <span class="post-meta-item-text">更新于</span>
                 
-                <time title="修改时间：2019-05-24 23:54:27" itemprop="dateModified" datetime="2019-05-24T23:54:27+08:00">2019-05-24</time>
+                <time title="修改时间：2019-05-24 23:55:43" itemprop="dateModified" datetime="2019-05-24T23:55:43+08:00">2019-05-24</time>
               
             
           </span>
@@ -1565,7 +1624,7 @@
       
         
           
-            <p><br></p><p style="box-sizing: border-box; font-family: inherit; font-weight: 500; line-height: 1.1; color: inherit; margin-top: 0px; margin-bottom: 10px; font-size: 24px; display: inline-block; margin-right: 0.5em;">1.&nbsp;Two Sum</p><p style="box-sizing: border-box; margin-top: 0px; margin-bottom: 10px; color: rgb(51, 51, 51); font-family: &quot;Helvetica Neue&quot;, Helvetica, Arial, sans-serif; font-size: 14px; white-space: normal; background-color: rgb(255, 255, 255);">Given an array of integers, return&nbsp;<span style="box-sizing: border-box; font-weight: 700;">indices</span>&nbsp;of the two numbers such that they add up to a specific target.</p><p style="box-sizing: border-box; margin-top: 0px; margin-bottom: 10px; color: rgb(51, 51, 51); font-family: &quot;Helvetica Neue&quot;, Helvetica, Arial, sans-serif; font-size: 14px; white-space: normal; background-color: rgb(255, 255, 255);">You may assume that each input would have&nbsp;<span style="box-sizing: border-box; font-weight: 700;"><em style="box-sizing: border-box;">exactly</em></span>&nbsp;one solution, and you may not use the&nbsp;<em style="box-sizing: border-box;">same</em>&nbsp;element twice.</p><p style="box-sizing: border-box; margin-top: 0px; margin-bottom: 10px; color: rgb(51, 51, 51); font-family: &quot;Helvetica Neue&quot;, Helvetica, Arial, sans-serif; font-size: 14px; white-space: normal; background-color: rgb(255, 255, 255);"><span style="box-sizing: border-box; font-weight: 700;">Example:</span><br></p><pre style="box-sizing: border-box; overflow: auto; font-family: Menlo, Monaco, Consolas, &quot;Courier New&quot;, monospace; font-size: 13px; padding: 9.5px; margin-top: 0px; margin-bottom: 10px; line-height: 1.42857; color: rgb(51, 51, 51); word-break: break-all; word-wrap: break-word; background-color: rgb(245, 245, 245); border: 1px solid rgb(204, 204, 204); border-radius: 4px;">Given&nbsp;nums&nbsp;=&nbsp;[2,&nbsp;7,&nbsp;11,&nbsp;15],&nbsp;target&nbsp;=&nbsp;9,<br>Because&nbsp;nums[0]&nbsp;+&nbsp;nums[1]&nbsp;=&nbsp;2&nbsp;+&nbsp;7&nbsp;=&nbsp;9,<br>return&nbsp;[0,&nbsp;1].</pre><pre class="brush:cpp;toolbar:false">func&nbsp;twoSum(nums&nbsp;[]int,&nbsp;target&nbsp;int)&nbsp;[]int&nbsp;{<br>    var&nbsp;arr&nbsp;[]int<br>EXIT:<br>    for&nbsp;i,&nbsp;<em>&nbsp;:=&nbsp;range&nbsp;nums&nbsp;{<br>        for&nbsp;j,&nbsp;</em>&nbsp;:=&nbsp;range&nbsp;nums&nbsp;{<br>            if&nbsp;(nums[i]+nums[j])&nbsp;==&nbsp;target&nbsp;&amp;&amp;&nbsp;i&nbsp;!=&nbsp;j&nbsp;{<br>                arr&nbsp;=&nbsp;append(arr,&nbsp;i)<br>                arr&nbsp;=&nbsp;append(arr,&nbsp;j)<br>                break&nbsp;EXIT<br>            }<br>        }<br>    }<br>    return&nbsp;arr<br>}</pre><p><br></p>
+            <p></p><p style="box-sizing: border-box; font-family: inherit; font-weight: 500; line-height: 1.1; color: inherit; margin-top: 0px; margin-bottom: 10px; font-size: 24px; display: inline-block; margin-right: 0.5em;">3.&nbsp;Longest Substring Without Repeating Characters</p><p style="box-sizing: border-box; margin-top: 0px; margin-bottom: 10px; color: rgb(51, 51, 51); font-family: &quot;Helvetica Neue&quot;, Helvetica, Arial, sans-serif; font-size: 14px; white-space: normal; background-color: rgb(255, 255, 255);">Given a string, find the length of the&nbsp;<span style="box-sizing: border-box; font-weight: 700;">longest substring</span>&nbsp;without repeating characters.<br></p><p style="box-sizing: border-box; margin-top: 0px; margin-bottom: 10px; color: rgb(51, 51, 51); font-family: &quot;Helvetica Neue&quot;, Helvetica, Arial, sans-serif; font-size: 14px; white-space: normal; background-color: rgb(255, 255, 255);"><span style="box-sizing: border-box; font-weight: 700;">Examples:</span></p><p style="box-sizing: border-box; margin-top: 0px; margin-bottom: 10px; color: rgb(51, 51, 51); font-family: &quot;Helvetica Neue&quot;, Helvetica, Arial, sans-serif; font-size: 14px; white-space: normal; background-color: rgb(255, 255, 255);">Given&nbsp;<code style="box-sizing: border-box; font-family: Menlo, Monaco, Consolas, &quot;Courier New&quot;, monospace; font-size: 12.6px; padding: 2px 4px; color: rgb(199, 37, 78); background-color: rgb(249, 242, 244); border-radius: 4px;">&quot;abcabcbb&quot;</code>, the answer is&nbsp;<code style="box-sizing: border-box; font-family: Menlo, Monaco, Consolas, &quot;Courier New&quot;, monospace; font-size: 12.6px; padding: 2px 4px; color: rgb(199, 37, 78); background-color: rgb(249, 242, 244); border-radius: 4px;">&quot;abc&quot;</code>, which the length is 3.</p><p style="box-sizing: border-box; margin-top: 0px; margin-bottom: 10px; color: rgb(51, 51, 51); font-family: &quot;Helvetica Neue&quot;, Helvetica, Arial, sans-serif; font-size: 14px; white-space: normal; background-color: rgb(255, 255, 255);">Given&nbsp;<code style="box-sizing: border-box; font-family: Menlo, Monaco, Consolas, &quot;Courier New&quot;, monospace; font-size: 12.6px; padding: 2px 4px; color: rgb(199, 37, 78); background-color: rgb(249, 242, 244); border-radius: 4px;">&quot;bbbbb&quot;</code>, the answer is&nbsp;<code style="box-sizing: border-box; font-family: Menlo, Monaco, Consolas, &quot;Courier New&quot;, monospace; font-size: 12.6px; padding: 2px 4px; color: rgb(199, 37, 78); background-color: rgb(249, 242, 244); border-radius: 4px;">&quot;b&quot;</code>, with the length of 1.</p><p style="box-sizing: border-box; margin-top: 0px; margin-bottom: 10px; color: rgb(51, 51, 51); font-family: &quot;Helvetica Neue&quot;, Helvetica, Arial, sans-serif; font-size: 14px; white-space: normal; background-color: rgb(255, 255, 255);">Given&nbsp;<code style="box-sizing: border-box; font-family: Menlo, Monaco, Consolas, &quot;Courier New&quot;, monospace; font-size: 12.6px; padding: 2px 4px; color: rgb(199, 37, 78); background-color: rgb(249, 242, 244); border-radius: 4px;">&quot;pwwkew&quot;</code>, the answer is&nbsp;<code style="box-sizing: border-box; font-family: Menlo, Monaco, Consolas, &quot;Courier New&quot;, monospace; font-size: 12.6px; padding: 2px 4px; color: rgb(199, 37, 78); background-color: rgb(249, 242, 244); border-radius: 4px;">&quot;wke&quot;</code>, with the length of 3. Note that the answer must be a&nbsp;<span style="box-sizing: border-box; font-weight: 700;">substring</span>,&nbsp;<code style="box-sizing: border-box; font-family: Menlo, Monaco, Consolas, &quot;Courier New&quot;, monospace; font-size: 12.6px; padding: 2px 4px; color: rgb(199, 37, 78); background-color: rgb(249, 242, 244); border-radius: 4px;">&quot;pwke&quot;</code>&nbsp;is a&nbsp;<em style="box-sizing: border-box;">subsequence</em>&nbsp;and not a substring.</p><pre class="brush:cpp;toolbar:false">func&nbsp;lengthOfLongestSubstring(s&nbsp;string)&nbsp;int&nbsp;{<br>    arr&nbsp;:=&nbsp;make(map[rune]int)<br>    start&nbsp;:=&nbsp;0<br>    maxlen&nbsp;:=&nbsp;0<br>    for&nbsp;i,&nbsp;v&nbsp;:=&nbsp;range&nbsp;[]rune(s)&nbsp;{<br>        if&nbsp;pre,&nbsp;ok&nbsp;:=&nbsp;arr[v];&nbsp;ok&nbsp;&amp;&amp;&nbsp;pre&nbsp;&gt;=&nbsp;start&nbsp;{<br>            start&nbsp;=&nbsp;pre&nbsp;+&nbsp;1<br>        }<br>        if&nbsp;i-start+1&nbsp;&gt;&nbsp;maxlen&nbsp;{<br>            maxlen&nbsp;=&nbsp;i&nbsp;-&nbsp;start&nbsp;+&nbsp;1<br>        }<br>        arr[v]&nbsp;=&nbsp;i<br>    }<br>    return&nbsp;maxlen<br>}</pre><p><br></p>
           
         
       
@@ -1621,7 +1680,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/03/16/Linux下编译安装Nginx/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/03/16/leetcode_bin_tree/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="czhuyu">
@@ -1641,7 +1700,7 @@
           <h1 class="post-title" itemprop="name headline">
                 
                 
-                <a href="/2017/03/16/Linux下编译安装Nginx/" class="post-title-link" itemprop="http://yoursite.com/page/3/index.html">linux安装nginx</a>
+                <a href="/2017/03/16/leetcode_bin_tree/" class="post-title-link" itemprop="http://yoursite.com/page/3/index.html">day3</a>
               
             
           </h1>
@@ -1683,7 +1742,7 @@
                 
                   <span class="post-meta-item-text">更新于</span>
                 
-                <time title="修改时间：2019-05-20 22:24:34" itemprop="dateModified" datetime="2019-05-20T22:24:34+08:00">2019-05-20</time>
+                <time title="修改时间：2019-05-20 22:23:32" itemprop="dateModified" datetime="2019-05-20T22:23:32+08:00">2019-05-20</time>
               
             
           </span>
@@ -1718,8 +1777,7 @@
       
         
           
-            <p>到nginx.org下载<br>wget <a href="http://nginx.org/download/nginx-1.10.0.tar.gz" target="_blank" rel="noopener">http://nginx.org/download/nginx-1.10.0.tar.gz</a><br>解压压缩包<br>环境配置<br>Cd到解压出来的nginx目录中有configure目录的地方进行环境配置<br>./configure –prefix=/usr/local/nginx<br>Ⅰ.如果遇到提示缺少pcre库<br>到<a href="http://www.pcre.org下载pcre库，if解压到/usr/local/src/pcre-source" target="_blank" rel="noopener">www.pcre.org下载pcre库，if解压到/usr/local/src/pcre-source</a><br>Ⅱ.1.6版本以后的版本制定pcre源码目录./configure –prefix=/usr/local/nginx<br>–with-pcre=/usr/local/src/pcre-source<br>之前的版本制定安装目录./configure –prefix=/usr/local/nginx<br>–with-pcre=/usr/pcre<br>4.编译安装 make &amp;&amp; make install<br>5.启动nginx ./sbin/nginx<br>重启<br>./sbin/nginx –s reload<br>Exception:如果遇到80端口被httpd(Apache)占了<br>Pkill -9 httpd<br>如果无法访问<br>检查防火墙设置</p>
-
+            <p><strong>Binary Tree (Traverse A Tree)</strong><br></p><p><br></p><p>Binary Tree Preorder Traversal</p><pre class="brush:cpp;toolbar:false">/*<em><br>&nbsp;</em>&nbsp;Definition&nbsp;for&nbsp;a&nbsp;binary&nbsp;tree&nbsp;node.<br>&nbsp;<em>&nbsp;type&nbsp;TreeNode&nbsp;struct&nbsp;{<br>&nbsp;</em>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Val&nbsp;int<br>&nbsp;<em>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Left&nbsp;</em>TreeNode<br>&nbsp;<em>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Right&nbsp;</em>TreeNode<br>&nbsp;<em>&nbsp;}<br>&nbsp;</em>/<br>func&nbsp;preorderTraversal(root&nbsp;<em>TreeNode)&nbsp;[]int&nbsp;{<br>    var&nbsp;arr&nbsp;[]int<br>    if&nbsp;root&nbsp;==&nbsp;nil&nbsp;{<br>        return&nbsp;arr<br>    }<br>    arr&nbsp;=&nbsp;append(arr,&nbsp;root.Val)<br>    arr1&nbsp;:=&nbsp;preorderTraversal(root.Left)<br>    arr&nbsp;=&nbsp;arrmerge(arr,&nbsp;arr1)<br>    arr2&nbsp;:=&nbsp;preorderTraversal(root.Right)<br>    arr&nbsp;=&nbsp;arrmerge(arr,&nbsp;arr2)<br>    return&nbsp;arr<br>}<br><br>func&nbsp;arrmerge(arr&nbsp;[]int,&nbsp;arr1&nbsp;[]int)&nbsp;[]int&nbsp;{<br>​    for&nbsp;_,&nbsp;v&nbsp;:=&nbsp;range&nbsp;arr1&nbsp;{<br>​        arr&nbsp;=&nbsp;append(arr,&nbsp;v)<br>​    }<br>​    return&nbsp;arr<br>}</em></pre><p>Binary Tree Inorder Traversal</p><pre class="brush:cpp;toolbar:false">func&nbsp;inorderTraversal(root&nbsp;TreeNode)&nbsp;[]int&nbsp;{<br>​    var&nbsp;arr&nbsp;[]int<br>​    if&nbsp;root&nbsp;==&nbsp;nil&nbsp;{<br>​        return&nbsp;arr<br>​    }<br>​    arr1&nbsp;:=&nbsp;inorderTraversal(root.Left)<br>​    arr&nbsp;=&nbsp;arrmerge(arr,&nbsp;arr1)<br>​    arr&nbsp;=&nbsp;append(arr,&nbsp;root.Val)<br>​    arr2&nbsp;:=&nbsp;inorderTraversal(root.Right)<br>​    arr&nbsp;=&nbsp;arrmerge(arr,&nbsp;arr2)<br>​    return&nbsp;arr<br>}</pre><p>Binary Tree Postorder Traversal</p><pre class="brush:cpp;toolbar:false">func&nbsp;postorderTraversal(root&nbsp;*TreeNode)&nbsp;[]int&nbsp;{<br>&nbsp;&nbsp;&nbsp;&nbsp;var&nbsp;arr&nbsp;[]int<br>​    if&nbsp;root&nbsp;==&nbsp;nil&nbsp;{<br>​        return&nbsp;arr<br>​    }<br>​    arr1&nbsp;:=&nbsp;postorderTraversal(root.Left)<br>​    arr&nbsp;=&nbsp;arrmerge(arr,&nbsp;arr1)<br>​    arr2&nbsp;:=&nbsp;postorderTraversal(root.Right)<br>​    arr&nbsp;=&nbsp;arrmerge(arr,&nbsp;arr2)<br>&nbsp;&nbsp;&nbsp;&nbsp;arr&nbsp;=&nbsp;append(arr,&nbsp;root.Val)<br>​    return&nbsp;arr<br>}</pre><p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;</p>
           
         
       
@@ -1775,7 +1833,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/03/16/一次完整的请求过程/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/03/16/Linux下编译安装PHP/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="czhuyu">
@@ -1795,7 +1853,7 @@
           <h1 class="post-title" itemprop="name headline">
                 
                 
-                <a href="/2017/03/16/一次完整的请求过程/" class="post-title-link" itemprop="http://yoursite.com/page/3/index.html">一次完整的请求过程</a>
+                <a href="/2017/03/16/Linux下编译安装PHP/" class="post-title-link" itemprop="http://yoursite.com/page/3/index.html">linux安装php</a>
               
             
           </h1>
@@ -1837,7 +1895,7 @@
                 
                   <span class="post-meta-item-text">更新于</span>
                 
-                <time title="修改时间：2019-05-20 22:28:49" itemprop="dateModified" datetime="2019-05-20T22:28:49+08:00">2019-05-20</time>
+                <time title="修改时间：2019-05-20 22:24:40" itemprop="dateModified" datetime="2019-05-20T22:24:40+08:00">2019-05-20</time>
               
             
           </span>
@@ -1872,7 +1930,7 @@
       
         
           
-            <p><a href="https://www.cnblogs.com/engeng/articles/5959335.html" target="_blank">浏览器一次完整的请求过程</a><br></p>
+            <p>1、&nbsp;&nbsp;安装依赖库<br></p><p>2、&nbsp;&nbsp;yum install gd zlib libxml2 libxml2-devel libjpeg libjpeg-devel libpng libpng-devel</p><p>3、&nbsp;&nbsp;下载php-5.6.23.tar.bz2，解压</p><p>4、&nbsp;&nbsp;cd到php解压的目录里</p><p>5、&nbsp;&nbsp;配置安装的一些参数</p><p>./configure –prefix=/usr/local/php \</p><p>–with-gd \</p><p>–enable-gd-native-ttf \</p><p>–enable-gd-jis-conv \</p><p>–with-mysql=mysqlnd \</p><p>–enable-mysqlnd \</p><p>–with-pdo-mysql=mysqlnd \</p><p>–enable-fpm\</p><p>–with-openssl</p><p>&nbsp;</p><p>&nbsp;</p><p>Curl &nbsp;&nbsp;&nbsp;</p><p>&nbsp;</p><p>&nbsp;</p><p>./configure –prefix=/usr/local/php7 –with-gd –enable-gd-native-ttf –enable-gd-jis-conv –with-mysql=mysqlnd –enable-mysqlnd –with-pdo-mysql=mysqlnd –enable-fpm –with-openssl –enable-mbstring –enable-tokenizer –enable-zip –with-curl</p><p>&nbsp;</p><p>&nbsp;</p><p>enable-fpm是让php作为独立的进程来运行，占用9000端口</p><p>配置注意</p><p>&nbsp;</p><p>可能会报openssl的错误</p><p>yum install openssl openssl-devel</p><p>&nbsp;</p><p>每个参数后的斜杠前是有空格的，斜杠所起的作用是连接上下两行，没有空格两个参数会连到一起就会报错了</p><p>6、&nbsp;&nbsp;make &amp;&amp;make install</p><p>这个过程中如果使用小内存的服务器可能出现php error，解决办法:</p><p>在配置的最后一行加上–disable-fileinfo</p><p>7、cd /usr/local/php</p><p>cp etc/php-fpm.conf.default etc/php-fpm.conf</p><p>cp /usr/local/src/php-5.5.13/php.ini-development ./lib/php.ini</p><p>7、&nbsp;&nbsp;启动php</p><p>./sbin/php-fpm</p><p>&nbsp;</p><p>&nbsp;</p><p>/usr/local/php7/lib/php/extensions/no-debug-non-zts-20151012</p><p><br></p>
           
         
       
@@ -1964,7 +2022,7 @@
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">45</span>
+                    <span class="site-state-item-count">48</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>
@@ -2091,7 +2149,9 @@
                     
                       
                     
-                    <span class="site-state-item-count">56</span>
+                      
+                    
+                    <span class="site-state-item-count">57</span>
                     <span class="site-state-item-name">标签</span>
                   </a>
                 </div>

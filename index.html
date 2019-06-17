@@ -364,6 +364,444 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/06/17/leetcode-16/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="czhuyu">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="https://avatars2.githubusercontent.com/u/26237984">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="无限进步">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                
+                <a href="/2019/06/17/leetcode-16/" class="post-title-link" itemprop="http://yoursite.com/index.html">leetcode-16</a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2019-06-17 11:40:08 / 修改时间：11:41:20" itemprop="dateCreated datePublished" datetime="2019-06-17T11:40:08+08:00">2019-06-17</time>
+            
+
+            
+              
+
+              
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>给定一个包括 n 个整数的数组 nums 和 一个目标值 target。找出 nums 中的三个整数，使得它们的和与 target 最接近。返回这三个数的和。假定每组输入只存在唯一答案。</p>
+<p>例如，给定数组 nums = [-1，2，1，-4], 和 target = 1.</p>
+<p>与 target 最接近的三个数的和为 2. (-1 + 2 + 1 = 2).</p>
+<p>来源：力扣（LeetCode）<br>链接：<a href="https://leetcode-cn.com/problems/3sum-closest" target="_blank" rel="noopener">https://leetcode-cn.com/problems/3sum-closest</a><br>著作权归领扣网络所有。商业转载请联系官方授权，非商业转载请注明出处。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line">func threeSumClosest(nums []int, target int) int &#123;</span><br><span class="line">	sort.Ints(nums)</span><br><span class="line">	res := nums[0] + nums[1] + nums[2]</span><br><span class="line">	min := math.Abs(float64(res - target))</span><br><span class="line">	lenN := len(nums)</span><br><span class="line">	for i := 0; i &lt; lenN; i++ &#123;</span><br><span class="line">		left := i + 1</span><br><span class="line">		right := lenN - 1</span><br><span class="line">		for &#123;</span><br><span class="line">			if left &gt;= right &#123;</span><br><span class="line">				break</span><br><span class="line">			&#125;</span><br><span class="line">			sum := nums[i] + nums[left] + nums[right]</span><br><span class="line">			temp := math.Abs(float64(sum - target))</span><br><span class="line">			if temp &lt; min &#123;</span><br><span class="line">				res = sum</span><br><span class="line">				min = temp</span><br><span class="line">			&#125;</span><br><span class="line"></span><br><span class="line">			if sum &gt; target &amp;&amp; left &lt; right &#123;</span><br><span class="line">				right --</span><br><span class="line">			&#125; else if sum &lt; target &amp;&amp; left &lt; right &#123;</span><br><span class="line">				left ++</span><br><span class="line">			&#125; else &#123;</span><br><span class="line">				break</span><br><span class="line">			&#125;</span><br><span class="line"></span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	return res</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+          
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+       
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/06/16/leetcode-47/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="czhuyu">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="https://avatars2.githubusercontent.com/u/26237984">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="无限进步">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                
+                <a href="/2019/06/16/leetcode-47/" class="post-title-link" itemprop="http://yoursite.com/index.html">leetcode-47</a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2019-06-16 15:54:49 / 修改时间：15:57:22" itemprop="dateCreated datePublished" datetime="2019-06-16T15:54:49+08:00">2019-06-16</time>
+            
+
+            
+              
+
+              
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>给定一个可包含重复数字的序列，返回所有不重复的全排列。</p>
+<p>示例:</p>
+<p>输入: [1,1,2]<br>输出:<br>[<br>  [1,1,2],<br>  [1,2,1],<br>  [2,1,1]<br>]</p>
+<p>来源：力扣（LeetCode）<br>链接：<a href="https://leetcode-cn.com/problems/permutations-ii" target="_blank" rel="noopener">https://leetcode-cn.com/problems/permutations-ii</a><br>著作权归领扣网络所有。商业转载请联系官方授权，非商业转载请注明出处。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line">func swap(nums []int, i int, j int) []int &#123;</span><br><span class="line">	temp := nums[i]</span><br><span class="line">	nums[i] = nums[j]</span><br><span class="line">	nums[j] = temp</span><br><span class="line">	return nums</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">func quan(nums []int, flag int, res *[][]int) &#123;</span><br><span class="line">	lenN := len(nums)</span><br><span class="line">	if flag == lenN &#123;</span><br><span class="line">		*res = append(*res, nums)</span><br><span class="line">	&#125; else &#123;</span><br><span class="line">		for i := flag; i &lt; lenN; i++ &#123;</span><br><span class="line">			if nums[i] == nums[flag] &amp;&amp; i != flag &#123;</span><br><span class="line">				continue</span><br><span class="line">			&#125;</span><br><span class="line">			swap(nums, flag, i)</span><br><span class="line">			var temp = make([]int, lenN)</span><br><span class="line">			copy(temp, nums)</span><br><span class="line">			quan(temp, flag+1, res)</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">func permuteUnique(nums []int) [][]int &#123;</span><br><span class="line">	sort.Ints(nums)</span><br><span class="line">	var res [][]int</span><br><span class="line">	p := &amp;res</span><br><span class="line">	quan(nums, 0, p)</span><br><span class="line">	return *p</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+          
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+       
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/06/16/leetcode-46/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="czhuyu">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="https://avatars2.githubusercontent.com/u/26237984">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="无限进步">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                
+                <a href="/2019/06/16/leetcode-46/" class="post-title-link" itemprop="http://yoursite.com/index.html">leetcode-46</a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2019-06-16 15:53:59 / 修改时间：15:56:14" itemprop="dateCreated datePublished" datetime="2019-06-16T15:53:59+08:00">2019-06-16</time>
+            
+
+            
+              
+
+              
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>给定一个没有重复数字的序列，返回其所有可能的全排列。</p>
+<p>示例:</p>
+<p>输入: [1,2,3]<br>输出:<br>[<br>  [1,2,3],<br>  [1,3,2],<br>  [2,1,3],<br>  [2,3,1],<br>  [3,1,2],<br>  [3,2,1]<br>]</p>
+<p>来源：力扣（LeetCode）<br>链接：<a href="https://leetcode-cn.com/problems/permutations" target="_blank" rel="noopener">https://leetcode-cn.com/problems/permutations</a><br>著作权归领扣网络所有。商业转载请联系官方授权，非商业转载请注明出处。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">func swap(nums []int, i int, j int) []int &#123;</span><br><span class="line">	temp := nums[i]</span><br><span class="line">	nums[i] = nums[j]</span><br><span class="line">	nums[j] = temp</span><br><span class="line">	return nums</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">func quan(nums []int, flag int, res *[][]int) &#123;</span><br><span class="line">	lenN := len(nums)</span><br><span class="line">	if flag == lenN &#123;</span><br><span class="line">		*res = append(*res, nums)</span><br><span class="line">	&#125; else &#123;</span><br><span class="line">		for i := flag; i &lt; lenN; i++ &#123;</span><br><span class="line">			swap(nums, flag, i)</span><br><span class="line">			var temp = make([]int, lenN)</span><br><span class="line">			copy(temp, nums)</span><br><span class="line">			quan(temp, flag+1, res)</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">func permute(nums []int) [][]int &#123;</span><br><span class="line">	var res [][]int</span><br><span class="line">	p := &amp;res</span><br><span class="line">	quan(nums, 0, p)</span><br><span class="line">	return *p</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+          
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+       
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/06/16/leetcode-20/">
 
     <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
@@ -1594,510 +2032,6 @@ exec_direct=php_optarg;
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/05/26/php内存管理与资源管理/">
-
-    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="czhuyu">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="https://avatars2.githubusercontent.com/u/26237984">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="无限进步">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                
-                <a href="/2019/05/26/php内存管理与资源管理/" class="post-title-link" itemprop="http://yoursite.com/index.html">php内存管理与资源管理</a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-
-            
-            
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-
-              
-                
-              
-
-              <time title="创建时间：2019-05-26 16:18:56" itemprop="dateCreated datePublished" datetime="2019-05-26T16:18:56+08:00">2019-05-26</time>
-            
-
-            
-              
-
-              
-                
-                <span class="post-meta-divider">|</span>
-                
-
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">更新于</span>
-                
-                <time title="修改时间：2019-06-04 09:19:17" itemprop="dateModified" datetime="2019-06-04T09:19:17+08:00">2019-06-04</time>
-              
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h2 id="php内存管理与资源管理"><a href="#php内存管理与资源管理" class="headerlink" title="php内存管理与资源管理"></a>php内存管理与资源管理</h2><h3 id="一-内存管理"><a href="#一-内存管理" class="headerlink" title="一.内存管理"></a>一.内存管理</h3><h5 id="1-php5-3垃圾回收机制"><a href="#1-php5-3垃圾回收机制" class="headerlink" title="1.php5.3垃圾回收机制"></a>1.php5.3垃圾回收机制</h5><p><strong>引用计数</strong></p>
-<p><a href="https://www.php.net/manual/zh/features.gc.php" target="_blank" rel="noopener">https://www.php.net/manual/zh/features.gc.php</a><br>在c中,<br>​    函数的参数和局部变量保存在栈上  由编译器自动分配释放<br>​    malloc函数分来内存在堆上  需要手动使用free来释放</p>
-<p>在php中,</p>
-<p>每个php变量存在一个叫”zval”的变量容器中。每当一个变量被赋常量值的时候，就会生成下面zval这样的变量容器，一个_zval_struct结构体。而最终垃圾回收销毁的也是这样的变量容器。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">typedef union _zvalue_value &#123;</span><br><span class="line">	long lval;					/* long value */</span><br><span class="line">	double dval;				/* double value */</span><br><span class="line">	struct &#123;</span><br><span class="line">		char *val;</span><br><span class="line">		int len;</span><br><span class="line">	&#125; str;</span><br><span class="line">	HashTable *ht;				/* hash table value */</span><br><span class="line">	zend_object_value obj;</span><br><span class="line">	zend_ast *ast;</span><br><span class="line">&#125; zvalue_value;</span><br><span class="line"></span><br><span class="line">struct _zval_struct &#123;</span><br><span class="line">	/* Variable information */</span><br><span class="line">	zvalue_value value;		/* value */</span><br><span class="line">	zend_uint refcount__gc;</span><br><span class="line">	zend_uchar type;	/* active type */</span><br><span class="line">	zend_uchar is_ref__gc;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
-<p>简单类型的引用计数原理<br>refcount__gc这个就是用以表示指向这个zval变量容器的变量(也称符号即symbol)个数</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php</span><br><span class="line">$a = &quot;new string&quot;;</span><br></pre></td></tr></table></figure>
-<p>因为$a使用了这个变量的容器，所以zval的refcount的值用xdebug_debug_zval打印出来会是</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">a: (refcount=1, is_ref=0)=&apos;new string&apos;</span><br></pre></td></tr></table></figure>
-<p>把一个变量赋值给另一变量将增加引用次数(refcount).，也就当$a被赋值给其他变量的时候这个refcount会增加。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php</span><br><span class="line">$a = &quot;new string&quot;;</span><br><span class="line">$c = $b = $a;</span><br><span class="line">xdebug_debug_zval( &apos;a&apos; );</span><br><span class="line">unset( $b, $c );</span><br><span class="line">xdebug_debug_zval( &apos;a&apos; );</span><br><span class="line">?&gt;</span><br></pre></td></tr></table></figure>
-<p>当然第一个打印出来的a的refcount会是3，当任何关联到某个变量容器的变量离开它的作用域(比如：函数执行结束)，或者对变量调用了函数 <a href="https://www.php.net/manual/zh/function.unset.php" target="_blank" rel="noopener">unset()</a>时，”refcount“就会减1，所以第二个打印出来的a的refcount会是1。变量容器在”refcount“变成0时就被销毁</p>
-<p>垃圾回收是为了解决内存泄露的问题,内存泄露指的是在程序申请了内存使用后而没有释放,最终导致内存消耗殆尽<br>还有个名词叫做内存溢出 指的是只申请了int大的内存空间,却往里面存储long类型的数据。</p>
-<p>这样就能保证不会产生内存泄漏了吗？</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php</span><br><span class="line">    $a = [&apos;one&apos;];</span><br><span class="line">    $a[] = &amp;$a;</span><br><span class="line">    xdebug_debug_zval(&apos;a&apos;);</span><br><span class="line">    unset($a);</span><br><span class="line">    xdebug_debug_zval(&apos;a&apos;);</span><br></pre></td></tr></table></figure>
-<p>第一个xdebug的结果是</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">a:</span><br><span class="line">(refcount=2, is_ref=1),</span><br><span class="line">array (size=2)</span><br><span class="line">  0 =&gt; (refcount=1, is_ref=0),string &apos;one&apos; (length=3)</span><br><span class="line">  1 =&gt; (refcount=2, is_ref=1),</span><br><span class="line">    &amp;array&lt;</span><br></pre></td></tr></table></figure>
-<p>第二个xdebug打印出来的结果会是</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">a: no such symbol</span><br></pre></td></tr></table></figure>
-<p>$a已经不在符号表了，但是数组的refcount变为的是1，还是会导致内存泄漏。这种怎么处理呢？这里就要讲下一个概念了：</p>
-<p><strong>回收周期</strong></p>
-<p>这是php手册中关于回收周期的图</p>
-<p><img src="https://www.php.net/manual/zh/images/12f37b1c6963c1c5c18f30495416a197-gc-algorithm.png" alt=""></p>
-<p>我们使用一个unset操作想清除这个变量所占的内存时（可能只是引用计数减一），会从当前符号的哈希表中删除变量名对应的项， 在所有的操作执行完后，并对从符号表中删除的项调用一个析构函数，临时变量会调用zval_dtor，一般的变量会调用zval_ptr_dtor。</p>
-<p>zval_ptr_dtor会做的事情就是：如果变量的引用计数为1，即减一后引用计数为0，直接清除变量。如果当前变量如果被缓存，则需要清除缓存；如果变量的引用计数大于1，即减一后引用计数大于0，则将变量放入垃圾列表。如果变量存在引用，则去掉其引用。</p>
-<p>垃圾列表满时（10000个gc_root_buffer内存空间），调用gc_collect_cycles函数</p>
-<p>步骤 B ，算法使用深度优先搜索查找所有可能的根，找到后将每个变量容器中的引用计数减1， 为确保不会对同一个变量容器减两次“1”，用灰色标记已减过1的。</p>
-<p>步骤 C ，算法再一次对每个根节点使用深度优先搜索，检查每个变量容器的引用计数。 如果引用计数是 0 ，变量容器用白色来标记。如果引用次数大于0，则恢复在这个点上使用深度优先搜索而将引用计数减1的操作（即引用计数加1）， 然后将它们重新用黑色标记。</p>
-<p>最后一步 D ，算法遍历根缓冲区以从那里删除变量容器根(zval roots)， 同时，检查是否有在上一步中被白色标记的变量容器。每个被白色标记的变量容器都被清除。</p>
-<h5 id="2-写时复制"><a href="#2-写时复制" class="headerlink" title="2.写时复制"></a>2.写时复制</h5><p>写时复制并不是PHP独有的</p>
-<h5 id="3-慎用-amp"><a href="#3-慎用-amp" class="headerlink" title="3.慎用&amp;"></a>3.慎用&amp;</h5><h3 id="二-资源管理"><a href="#二-资源管理" class="headerlink" title="二.资源管理"></a>二.资源管理</h3><p><strong>数据库资源为例：</strong><br>​        在java里面，会在try cache的finally结构中调用一个connection.close()去显式地关闭数据库的连接<br>​        在c++里面可以用__destruct析构函数在对象被销毁的时候来做close的操作<br>​        在php中呢？日常开发使用laravel框架的时候好像没注意到这个地方，也没有去显式地调用close方法.但肯定是有close的方法来提前释放掉这个连接的，laravel的数据库操作的实现是基于PDO来做的。<br>​        通过查阅文档<a href="https://www.php.net/manual/zh/pdo.connections.php，连接数据成功后，返回一个" target="_blank" rel="noopener">https://www.php.net/manual/zh/pdo.connections.php，连接数据成功后，返回一个</a> PDO 类的实例给脚本，此连接在 PDO 对象的生存周期中保持活动。要想关闭连接，需要销毁对象以确保所有剩余到它的引用都被删除，可以赋一个 NULL 值给对象变量。如果不明确地这么做，PHP 在脚本结束时会自动关闭连接                                                                                                                                                                                                                                                                                                                                                                                                                                         </p>
-<p>​    那就是说php在脚本结束的时候会去自动清理数据库资源/文件等资源。在工作中我们会用到在后台长期运行的脚本，这种时候我们就需要自己去手动释放资源/内存等。</p>
-<p>​    更详细的在 <a href="http://www.laruence.com/2012/07/25/2662.html" target="_blank" rel="noopener">http://www.laruence.com/2012/07/25/2662.html</a></p>
-<h3 id="三-其他"><a href="#三-其他" class="headerlink" title="三.其他"></a>三.其他</h3><h5 id="1-符号表"><a href="#1-符号表" class="headerlink" title="1.符号表"></a>1.符号表</h5><p><strong>参考资料：</strong></p>
-<p>1.php官方手册</p>
-<p>2.<a href="http://www.php-internals.com/book/?p=chapt06/06-04-00-garbage-collection" target="_blank" rel="noopener">http://www.php-internals.com/book/?p=chapt06/06-04-00-garbage-collection</a></p>
-
-          
-        
-      
-    </div>
-
-    
-
-    
-    
-    
-
-    
-
-    
-       
-    
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/05/24/leetcode-15/">
-
-    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="czhuyu">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="https://avatars2.githubusercontent.com/u/26237984">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="无限进步">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                
-                <a href="/2019/05/24/leetcode-15/" class="post-title-link" itemprop="http://yoursite.com/index.html">leetcode-15</a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-
-            
-            
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-
-              
-                
-              
-
-              <time title="创建时间：2019-05-24 22:37:52" itemprop="dateCreated datePublished" datetime="2019-05-24T22:37:52+08:00">2019-05-24</time>
-            
-
-            
-              
-
-              
-                
-                <span class="post-meta-divider">|</span>
-                
-
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">更新于</span>
-                
-                <time title="修改时间：2019-06-15 11:31:03" itemprop="dateModified" datetime="2019-06-15T11:31:03+08:00">2019-06-15</time>
-              
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h2 id="leetcode-15"><a href="#leetcode-15" class="headerlink" title="leetcode-15"></a>leetcode-15</h2><p>给定一个包含 <em>n</em> 个整数的数组 <code>nums</code>，判断 <code>nums</code> 中是否存在三个元素 <em>a，b，c ，</em>使得 <em>a + b + c =</em> 0 ？找出所有满足条件且不重复的三元组。</p>
-<p><strong>注意：</strong>答案中不可以包含重复的三元组。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">例如, 给定数组 nums = [-1, 0, 1, 2, -1, -4]，</span><br><span class="line"></span><br><span class="line">满足要求的三元组集合为：</span><br><span class="line">[</span><br><span class="line">  [-1, 0, 1],</span><br><span class="line">  [-1, -1, 2]</span><br><span class="line">]</span><br></pre></td></tr></table></figure>
-<p>解答</p>
-<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">threeSum</span><span class="params">(nums []<span class="keyword">int</span>)</span> [][]<span class="title">int</span></span> &#123;</span><br><span class="line">	sort.Ints(nums)</span><br><span class="line">	lenN := <span class="built_in">len</span>(nums)</span><br><span class="line">	<span class="keyword">var</span> res [][]<span class="keyword">int</span></span><br><span class="line">	<span class="keyword">for</span> i := <span class="number">0</span>; i &lt; lenN; i++ &#123;</span><br><span class="line">		l := i + <span class="number">1</span></span><br><span class="line">		r := lenN - <span class="number">1</span></span><br><span class="line">		<span class="keyword">if</span> i &gt; <span class="number">0</span> &amp;&amp; nums[i] == nums[i<span class="number">-1</span>] &#123;</span><br><span class="line">			<span class="keyword">continue</span></span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">for</span> &#123;</span><br><span class="line">			<span class="keyword">if</span> l &gt;= r &#123;</span><br><span class="line">				<span class="keyword">break</span></span><br><span class="line">			&#125;</span><br><span class="line">			sum := nums[i] + nums[l] + nums[r]</span><br><span class="line">			<span class="keyword">if</span> sum == <span class="number">0</span> &#123;</span><br><span class="line">				tmp := []<span class="keyword">int</span>&#123;nums[i], nums[l], nums[r]&#125;</span><br><span class="line">				res = <span class="built_in">append</span>(res, tmp)</span><br><span class="line">				l += <span class="number">1</span></span><br><span class="line">				r -= <span class="number">1</span></span><br><span class="line">				<span class="keyword">for</span> &#123;</span><br><span class="line">					<span class="keyword">if</span> nums[l] == nums[l<span class="number">-1</span>] &amp;&amp; l &lt; r &#123;</span><br><span class="line">						l += <span class="number">1</span></span><br><span class="line">					&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">						<span class="keyword">break</span></span><br><span class="line">					&#125;</span><br><span class="line">				&#125;</span><br><span class="line">				<span class="keyword">for</span> &#123;</span><br><span class="line">					<span class="keyword">if</span> nums[r] == nums[r+<span class="number">1</span>] &amp;&amp; l &lt; r &#123;</span><br><span class="line">						r -= <span class="number">1</span></span><br><span class="line">					&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">						<span class="keyword">break</span></span><br><span class="line">					&#125;</span><br><span class="line">				&#125;</span><br><span class="line">			&#125; <span class="keyword">else</span> <span class="keyword">if</span> sum &lt; <span class="number">0</span> &#123;</span><br><span class="line">				l += <span class="number">1</span></span><br><span class="line">			&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">				r -= <span class="number">1</span></span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> res</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-          
-        
-      
-    </div>
-
-    
-
-    
-    
-    
-
-    
-
-    
-       
-    
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/05/24/ubuntu/">
-
-    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="czhuyu">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="https://avatars2.githubusercontent.com/u/26237984">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="无限进步">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                
-                <a href="/2019/05/24/ubuntu/" class="post-title-link" itemprop="http://yoursite.com/index.html">ubuntu</a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-
-            
-            
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-
-              
-                
-              
-
-              <time title="创建时间：2019-05-24 11:03:06 / 修改时间：11:29:18" itemprop="dateCreated datePublished" datetime="2019-05-24T11:03:06+08:00">2019-05-24</time>
-            
-
-            
-              
-
-              
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h2 id="淘汰笔记本的利用"><a href="#淘汰笔记本的利用" class="headerlink" title="淘汰笔记本的利用"></a>淘汰笔记本的利用</h2><p>之前用的笔记本是dell5547，由于性能等各方面原因闲置下来了，当时还给它换了块固态硬盘，买的时候还是比较贵的，感觉扔了又比较可惜，于是打算安装个linux发行版在上面做服务器。</p>
-<p><strong>第一个问题是安装什么发行版本，centos还是ubuntu</strong></p>
-<p>​        之前用过最多的还是centos这类的发行版，因为考虑到可以体验下gnome的桌面环境可以使用浏览器/phpstorm啥的再加上……(其实是因为安装centos遇到了显卡驱动的问题反正网上是这么说的，在安装系统时卡住了，搜了很多没有解决)。</p>
-<p>​    对我而言redhat和debain系目前使用上最大的区别就是一个用yum来安装一个用apt-get。</p>
-<p><strong>下载Ubuntu 18.04.2 LTS (long time support?)</strong></p>
-<p><strong>下载ultraiso</strong> 把系统写进u盘（第一步打开镜像iso文件 第二步写入硬盘），什么？要收费？试用30天！</p>
-<p>然后在笔记本开机的时候疯狂摁fn+f12（进入快捷选择启动盘），fn+f2进入boot引导设置界面.dell应该都是这样的，其他机型baidu/google.然后选择u盘，然后图形界面安装完成</p>
-<p><strong>ssh</strong></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">apt-get install openssh-server</span><br><span class="line">service ssh start</span><br></pre></td></tr></table></figure>
-<p><strong>因为是用来作服务器，所以想让它启动就进入命令行模式</strong></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">vim /etc/default/grub</span><br><span class="line">把这行 GRUB_CMDLINE_LINUX_DEFAULT=&quot;quiet splash&quot;</span><br><span class="line">改成   GRUB_CMDLINE_LINUX_DEFAULT=&quot;quiet splash 3&quot;</span><br><span class="line">update-grub</span><br></pre></td></tr></table></figure>
-<p><strong>重启进入命令行模式</strong></p>
-<p><strong>然后把笔记本盖子关上（减小功耗），ssh断了???</strong></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">vim /etc/systemd/logind.conf</span><br><span class="line">	HandleLidSwitch 这个变量是用来控制合上盖子的系统操作的</span><br><span class="line">	我们把它的值改成 &quot;lock&quot;(锁屏)</span><br><span class="line">systemctl restart systemd-logind</span><br></pre></td></tr></table></figure>
-<p>然后就可以让它安静地做一个服务器了，你可以在上面安装lnmp……</p>
-<p><strong>最后一个问题，查看电量</strong></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">find /sys/ -name capacity -exec cat &#123;&#125; \;</span><br></pre></td></tr></table></figure>
-          
-        
-      
-    </div>
-
-    
-
-    
-    
-    
-
-    
-
-    
-       
-    
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -2147,7 +2081,7 @@ exec_direct=php_optarg;
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">45</span>
+                    <span class="site-state-item-count">48</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>
@@ -2274,7 +2208,9 @@ exec_direct=php_optarg;
                     
                       
                     
-                    <span class="site-state-item-count">56</span>
+                      
+                    
+                    <span class="site-state-item-count">57</span>
                     <span class="site-state-item-name">标签</span>
                   </a>
                 </div>

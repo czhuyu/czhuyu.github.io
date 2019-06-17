@@ -364,6 +364,510 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/05/26/php内存管理与资源管理/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="czhuyu">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="https://avatars2.githubusercontent.com/u/26237984">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="无限进步">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                
+                <a href="/2019/05/26/php内存管理与资源管理/" class="post-title-link" itemprop="http://yoursite.com/page/2/index.html">php内存管理与资源管理</a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2019-05-26 16:18:56" itemprop="dateCreated datePublished" datetime="2019-05-26T16:18:56+08:00">2019-05-26</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2019-06-04 09:19:17" itemprop="dateModified" datetime="2019-06-04T09:19:17+08:00">2019-06-04</time>
+              
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h2 id="php内存管理与资源管理"><a href="#php内存管理与资源管理" class="headerlink" title="php内存管理与资源管理"></a>php内存管理与资源管理</h2><h3 id="一-内存管理"><a href="#一-内存管理" class="headerlink" title="一.内存管理"></a>一.内存管理</h3><h5 id="1-php5-3垃圾回收机制"><a href="#1-php5-3垃圾回收机制" class="headerlink" title="1.php5.3垃圾回收机制"></a>1.php5.3垃圾回收机制</h5><p><strong>引用计数</strong></p>
+<p><a href="https://www.php.net/manual/zh/features.gc.php" target="_blank" rel="noopener">https://www.php.net/manual/zh/features.gc.php</a><br>在c中,<br>​    函数的参数和局部变量保存在栈上  由编译器自动分配释放<br>​    malloc函数分来内存在堆上  需要手动使用free来释放</p>
+<p>在php中,</p>
+<p>每个php变量存在一个叫”zval”的变量容器中。每当一个变量被赋常量值的时候，就会生成下面zval这样的变量容器，一个_zval_struct结构体。而最终垃圾回收销毁的也是这样的变量容器。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">typedef union _zvalue_value &#123;</span><br><span class="line">	long lval;					/* long value */</span><br><span class="line">	double dval;				/* double value */</span><br><span class="line">	struct &#123;</span><br><span class="line">		char *val;</span><br><span class="line">		int len;</span><br><span class="line">	&#125; str;</span><br><span class="line">	HashTable *ht;				/* hash table value */</span><br><span class="line">	zend_object_value obj;</span><br><span class="line">	zend_ast *ast;</span><br><span class="line">&#125; zvalue_value;</span><br><span class="line"></span><br><span class="line">struct _zval_struct &#123;</span><br><span class="line">	/* Variable information */</span><br><span class="line">	zvalue_value value;		/* value */</span><br><span class="line">	zend_uint refcount__gc;</span><br><span class="line">	zend_uchar type;	/* active type */</span><br><span class="line">	zend_uchar is_ref__gc;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p>简单类型的引用计数原理<br>refcount__gc这个就是用以表示指向这个zval变量容器的变量(也称符号即symbol)个数</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php</span><br><span class="line">$a = &quot;new string&quot;;</span><br></pre></td></tr></table></figure>
+<p>因为$a使用了这个变量的容器，所以zval的refcount的值用xdebug_debug_zval打印出来会是</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">a: (refcount=1, is_ref=0)=&apos;new string&apos;</span><br></pre></td></tr></table></figure>
+<p>把一个变量赋值给另一变量将增加引用次数(refcount).，也就当$a被赋值给其他变量的时候这个refcount会增加。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php</span><br><span class="line">$a = &quot;new string&quot;;</span><br><span class="line">$c = $b = $a;</span><br><span class="line">xdebug_debug_zval( &apos;a&apos; );</span><br><span class="line">unset( $b, $c );</span><br><span class="line">xdebug_debug_zval( &apos;a&apos; );</span><br><span class="line">?&gt;</span><br></pre></td></tr></table></figure>
+<p>当然第一个打印出来的a的refcount会是3，当任何关联到某个变量容器的变量离开它的作用域(比如：函数执行结束)，或者对变量调用了函数 <a href="https://www.php.net/manual/zh/function.unset.php" target="_blank" rel="noopener">unset()</a>时，”refcount“就会减1，所以第二个打印出来的a的refcount会是1。变量容器在”refcount“变成0时就被销毁</p>
+<p>垃圾回收是为了解决内存泄露的问题,内存泄露指的是在程序申请了内存使用后而没有释放,最终导致内存消耗殆尽<br>还有个名词叫做内存溢出 指的是只申请了int大的内存空间,却往里面存储long类型的数据。</p>
+<p>这样就能保证不会产生内存泄漏了吗？</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php</span><br><span class="line">    $a = [&apos;one&apos;];</span><br><span class="line">    $a[] = &amp;$a;</span><br><span class="line">    xdebug_debug_zval(&apos;a&apos;);</span><br><span class="line">    unset($a);</span><br><span class="line">    xdebug_debug_zval(&apos;a&apos;);</span><br></pre></td></tr></table></figure>
+<p>第一个xdebug的结果是</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">a:</span><br><span class="line">(refcount=2, is_ref=1),</span><br><span class="line">array (size=2)</span><br><span class="line">  0 =&gt; (refcount=1, is_ref=0),string &apos;one&apos; (length=3)</span><br><span class="line">  1 =&gt; (refcount=2, is_ref=1),</span><br><span class="line">    &amp;array&lt;</span><br></pre></td></tr></table></figure>
+<p>第二个xdebug打印出来的结果会是</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">a: no such symbol</span><br></pre></td></tr></table></figure>
+<p>$a已经不在符号表了，但是数组的refcount变为的是1，还是会导致内存泄漏。这种怎么处理呢？这里就要讲下一个概念了：</p>
+<p><strong>回收周期</strong></p>
+<p>这是php手册中关于回收周期的图</p>
+<p><img src="https://www.php.net/manual/zh/images/12f37b1c6963c1c5c18f30495416a197-gc-algorithm.png" alt=""></p>
+<p>我们使用一个unset操作想清除这个变量所占的内存时（可能只是引用计数减一），会从当前符号的哈希表中删除变量名对应的项， 在所有的操作执行完后，并对从符号表中删除的项调用一个析构函数，临时变量会调用zval_dtor，一般的变量会调用zval_ptr_dtor。</p>
+<p>zval_ptr_dtor会做的事情就是：如果变量的引用计数为1，即减一后引用计数为0，直接清除变量。如果当前变量如果被缓存，则需要清除缓存；如果变量的引用计数大于1，即减一后引用计数大于0，则将变量放入垃圾列表。如果变量存在引用，则去掉其引用。</p>
+<p>垃圾列表满时（10000个gc_root_buffer内存空间），调用gc_collect_cycles函数</p>
+<p>步骤 B ，算法使用深度优先搜索查找所有可能的根，找到后将每个变量容器中的引用计数减1， 为确保不会对同一个变量容器减两次“1”，用灰色标记已减过1的。</p>
+<p>步骤 C ，算法再一次对每个根节点使用深度优先搜索，检查每个变量容器的引用计数。 如果引用计数是 0 ，变量容器用白色来标记。如果引用次数大于0，则恢复在这个点上使用深度优先搜索而将引用计数减1的操作（即引用计数加1）， 然后将它们重新用黑色标记。</p>
+<p>最后一步 D ，算法遍历根缓冲区以从那里删除变量容器根(zval roots)， 同时，检查是否有在上一步中被白色标记的变量容器。每个被白色标记的变量容器都被清除。</p>
+<h5 id="2-写时复制"><a href="#2-写时复制" class="headerlink" title="2.写时复制"></a>2.写时复制</h5><p>写时复制并不是PHP独有的</p>
+<h5 id="3-慎用-amp"><a href="#3-慎用-amp" class="headerlink" title="3.慎用&amp;"></a>3.慎用&amp;</h5><h3 id="二-资源管理"><a href="#二-资源管理" class="headerlink" title="二.资源管理"></a>二.资源管理</h3><p><strong>数据库资源为例：</strong><br>​        在java里面，会在try cache的finally结构中调用一个connection.close()去显式地关闭数据库的连接<br>​        在c++里面可以用__destruct析构函数在对象被销毁的时候来做close的操作<br>​        在php中呢？日常开发使用laravel框架的时候好像没注意到这个地方，也没有去显式地调用close方法.但肯定是有close的方法来提前释放掉这个连接的，laravel的数据库操作的实现是基于PDO来做的。<br>​        通过查阅文档<a href="https://www.php.net/manual/zh/pdo.connections.php，连接数据成功后，返回一个" target="_blank" rel="noopener">https://www.php.net/manual/zh/pdo.connections.php，连接数据成功后，返回一个</a> PDO 类的实例给脚本，此连接在 PDO 对象的生存周期中保持活动。要想关闭连接，需要销毁对象以确保所有剩余到它的引用都被删除，可以赋一个 NULL 值给对象变量。如果不明确地这么做，PHP 在脚本结束时会自动关闭连接                                                                                                                                                                                                                                                                                                                                                                                                                                         </p>
+<p>​    那就是说php在脚本结束的时候会去自动清理数据库资源/文件等资源。在工作中我们会用到在后台长期运行的脚本，这种时候我们就需要自己去手动释放资源/内存等。</p>
+<p>​    更详细的在 <a href="http://www.laruence.com/2012/07/25/2662.html" target="_blank" rel="noopener">http://www.laruence.com/2012/07/25/2662.html</a></p>
+<h3 id="三-其他"><a href="#三-其他" class="headerlink" title="三.其他"></a>三.其他</h3><h5 id="1-符号表"><a href="#1-符号表" class="headerlink" title="1.符号表"></a>1.符号表</h5><p><strong>参考资料：</strong></p>
+<p>1.php官方手册</p>
+<p>2.<a href="http://www.php-internals.com/book/?p=chapt06/06-04-00-garbage-collection" target="_blank" rel="noopener">http://www.php-internals.com/book/?p=chapt06/06-04-00-garbage-collection</a></p>
+
+          
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+       
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/05/24/leetcode-15/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="czhuyu">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="https://avatars2.githubusercontent.com/u/26237984">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="无限进步">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                
+                <a href="/2019/05/24/leetcode-15/" class="post-title-link" itemprop="http://yoursite.com/page/2/index.html">leetcode-15</a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2019-05-24 22:37:52" itemprop="dateCreated datePublished" datetime="2019-05-24T22:37:52+08:00">2019-05-24</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2019-06-15 11:31:03" itemprop="dateModified" datetime="2019-06-15T11:31:03+08:00">2019-06-15</time>
+              
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h2 id="leetcode-15"><a href="#leetcode-15" class="headerlink" title="leetcode-15"></a>leetcode-15</h2><p>给定一个包含 <em>n</em> 个整数的数组 <code>nums</code>，判断 <code>nums</code> 中是否存在三个元素 <em>a，b，c ，</em>使得 <em>a + b + c =</em> 0 ？找出所有满足条件且不重复的三元组。</p>
+<p><strong>注意：</strong>答案中不可以包含重复的三元组。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">例如, 给定数组 nums = [-1, 0, 1, 2, -1, -4]，</span><br><span class="line"></span><br><span class="line">满足要求的三元组集合为：</span><br><span class="line">[</span><br><span class="line">  [-1, 0, 1],</span><br><span class="line">  [-1, -1, 2]</span><br><span class="line">]</span><br></pre></td></tr></table></figure>
+<p>解答</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">threeSum</span><span class="params">(nums []<span class="keyword">int</span>)</span> [][]<span class="title">int</span></span> &#123;</span><br><span class="line">	sort.Ints(nums)</span><br><span class="line">	lenN := <span class="built_in">len</span>(nums)</span><br><span class="line">	<span class="keyword">var</span> res [][]<span class="keyword">int</span></span><br><span class="line">	<span class="keyword">for</span> i := <span class="number">0</span>; i &lt; lenN; i++ &#123;</span><br><span class="line">		l := i + <span class="number">1</span></span><br><span class="line">		r := lenN - <span class="number">1</span></span><br><span class="line">		<span class="keyword">if</span> i &gt; <span class="number">0</span> &amp;&amp; nums[i] == nums[i<span class="number">-1</span>] &#123;</span><br><span class="line">			<span class="keyword">continue</span></span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">for</span> &#123;</span><br><span class="line">			<span class="keyword">if</span> l &gt;= r &#123;</span><br><span class="line">				<span class="keyword">break</span></span><br><span class="line">			&#125;</span><br><span class="line">			sum := nums[i] + nums[l] + nums[r]</span><br><span class="line">			<span class="keyword">if</span> sum == <span class="number">0</span> &#123;</span><br><span class="line">				tmp := []<span class="keyword">int</span>&#123;nums[i], nums[l], nums[r]&#125;</span><br><span class="line">				res = <span class="built_in">append</span>(res, tmp)</span><br><span class="line">				l += <span class="number">1</span></span><br><span class="line">				r -= <span class="number">1</span></span><br><span class="line">				<span class="keyword">for</span> &#123;</span><br><span class="line">					<span class="keyword">if</span> nums[l] == nums[l<span class="number">-1</span>] &amp;&amp; l &lt; r &#123;</span><br><span class="line">						l += <span class="number">1</span></span><br><span class="line">					&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">						<span class="keyword">break</span></span><br><span class="line">					&#125;</span><br><span class="line">				&#125;</span><br><span class="line">				<span class="keyword">for</span> &#123;</span><br><span class="line">					<span class="keyword">if</span> nums[r] == nums[r+<span class="number">1</span>] &amp;&amp; l &lt; r &#123;</span><br><span class="line">						r -= <span class="number">1</span></span><br><span class="line">					&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">						<span class="keyword">break</span></span><br><span class="line">					&#125;</span><br><span class="line">				&#125;</span><br><span class="line">			&#125; <span class="keyword">else</span> <span class="keyword">if</span> sum &lt; <span class="number">0</span> &#123;</span><br><span class="line">				l += <span class="number">1</span></span><br><span class="line">			&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">				r -= <span class="number">1</span></span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> res</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+          
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+       
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/05/24/ubuntu/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="czhuyu">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="https://avatars2.githubusercontent.com/u/26237984">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="无限进步">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                
+                <a href="/2019/05/24/ubuntu/" class="post-title-link" itemprop="http://yoursite.com/page/2/index.html">ubuntu</a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2019-05-24 11:03:06 / 修改时间：11:29:18" itemprop="dateCreated datePublished" datetime="2019-05-24T11:03:06+08:00">2019-05-24</time>
+            
+
+            
+              
+
+              
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h2 id="淘汰笔记本的利用"><a href="#淘汰笔记本的利用" class="headerlink" title="淘汰笔记本的利用"></a>淘汰笔记本的利用</h2><p>之前用的笔记本是dell5547，由于性能等各方面原因闲置下来了，当时还给它换了块固态硬盘，买的时候还是比较贵的，感觉扔了又比较可惜，于是打算安装个linux发行版在上面做服务器。</p>
+<p><strong>第一个问题是安装什么发行版本，centos还是ubuntu</strong></p>
+<p>​        之前用过最多的还是centos这类的发行版，因为考虑到可以体验下gnome的桌面环境可以使用浏览器/phpstorm啥的再加上……(其实是因为安装centos遇到了显卡驱动的问题反正网上是这么说的，在安装系统时卡住了，搜了很多没有解决)。</p>
+<p>​    对我而言redhat和debain系目前使用上最大的区别就是一个用yum来安装一个用apt-get。</p>
+<p><strong>下载Ubuntu 18.04.2 LTS (long time support?)</strong></p>
+<p><strong>下载ultraiso</strong> 把系统写进u盘（第一步打开镜像iso文件 第二步写入硬盘），什么？要收费？试用30天！</p>
+<p>然后在笔记本开机的时候疯狂摁fn+f12（进入快捷选择启动盘），fn+f2进入boot引导设置界面.dell应该都是这样的，其他机型baidu/google.然后选择u盘，然后图形界面安装完成</p>
+<p><strong>ssh</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">apt-get install openssh-server</span><br><span class="line">service ssh start</span><br></pre></td></tr></table></figure>
+<p><strong>因为是用来作服务器，所以想让它启动就进入命令行模式</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">vim /etc/default/grub</span><br><span class="line">把这行 GRUB_CMDLINE_LINUX_DEFAULT=&quot;quiet splash&quot;</span><br><span class="line">改成   GRUB_CMDLINE_LINUX_DEFAULT=&quot;quiet splash 3&quot;</span><br><span class="line">update-grub</span><br></pre></td></tr></table></figure>
+<p><strong>重启进入命令行模式</strong></p>
+<p><strong>然后把笔记本盖子关上（减小功耗），ssh断了???</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">vim /etc/systemd/logind.conf</span><br><span class="line">	HandleLidSwitch 这个变量是用来控制合上盖子的系统操作的</span><br><span class="line">	我们把它的值改成 &quot;lock&quot;(锁屏)</span><br><span class="line">systemctl restart systemd-logind</span><br></pre></td></tr></table></figure>
+<p>然后就可以让它安静地做一个服务器了，你可以在上面安装lnmp……</p>
+<p><strong>最后一个问题，查看电量</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">find /sys/ -name capacity -exec cat &#123;&#125; \;</span><br></pre></td></tr></table></figure>
+          
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+       
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/05/21/mysql查询优化/">
 
     <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
@@ -1620,527 +2124,6 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/12/17/Sphinx安装/">
-
-    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="czhuyu">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="https://avatars2.githubusercontent.com/u/26237984">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="无限进步">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                
-                <a href="/2018/12/17/Sphinx安装/" class="post-title-link" itemprop="http://yoursite.com/page/2/index.html">Sphinx安装</a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-
-            
-            
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-
-              
-                
-              
-
-              <time title="创建时间：2018-12-17 22:23:09" itemprop="dateCreated datePublished" datetime="2018-12-17T22:23:09+08:00">2018-12-17</time>
-            
-
-            
-              
-
-              
-                
-                <span class="post-meta-divider">|</span>
-                
-
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">更新于</span>
-                
-                <time title="修改时间：2019-05-20 22:26:25" itemprop="dateModified" datetime="2019-05-20T22:26:25+08:00">2019-05-20</time>
-              
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>坑<br>1.安装Sphinx报错</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">libsphinx.a(sphinx.o)：在函数‘xmlUnknownEncoding(void*, char const*, XML_Encoding*)’中：</span><br><span class="line">/mnt/Project/src/sphinx/src/sphinx.cpp:29116：对‘libiconv_open’未定义的引用</span><br><span class="line">libsphinx.a(sphinx.o)：在函数‘xmlUnknownEncoding(void*, char const*, XML_Encoding*)’中：</span><br><span class="line">sphinx.cpp:(.text+0x11ce)：对‘libiconv’未定义的引用</span><br><span class="line">sphinx.cpp:(.text+0x11ff)：对‘libiconv_close’未定义的引用</span><br><span class="line">collect2: 错误：ld 返回 1</span><br><span class="line">make[2]: *** [indexer] 错误 1</span><br><span class="line">make[2]: 离开目录“/mnt/Project/src/sphinx/src”</span><br><span class="line">make[1]: *** [all] 错误 2</span><br><span class="line">make[1]: 离开目录“/mnt/Project/src/sphinx/src”</span><br><span class="line">make: *** [all-recursive] 错误 1</span><br></pre></td></tr></table></figure>
-<p>以为是没有安装libiconv，yum安装还是报错 yum -y install libevent libevent-devel</p>
-<p>百度 </p>
-<p>1.编译新增参数（注意这个改的是sphinx的解压包的src下的MakeFile）(推荐)</p>
-<p>​    LIBS = -lm -lexpat -liconv -L/usr/local/lib</p>
-<ol start="2">
-<li>修改configure文件，找到“#define USE_LIBICONV 1”，将注释去掉，并将1改成0。</li>
-</ol>
-<p>两个命令 </p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">/usr/local/sphinx/bin/indexer --all  //根据sphinx.conf的配置生成索引</span><br><span class="line">/usr/local/sphinx/bin/searchd  //启动搜索引擎</span><br></pre></td></tr></table></figure>
-
-          
-        
-      
-    </div>
-
-    
-
-    
-    
-    
-
-    
-
-    
-       
-    
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/12/16/Sphinx/">
-
-    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="czhuyu">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="https://avatars2.githubusercontent.com/u/26237984">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="无限进步">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                
-                <a href="/2018/12/16/Sphinx/" class="post-title-link" itemprop="http://yoursite.com/page/2/index.html">Sphinx 2.2.6-release 参考手册</a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-
-            
-            
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-
-              
-                
-              
-
-              <time title="创建时间：2018-12-16 22:23:09" itemprop="dateCreated datePublished" datetime="2018-12-16T22:23:09+08:00">2018-12-16</time>
-            
-
-            
-              
-
-              
-                
-                <span class="post-meta-divider">|</span>
-                
-
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">更新于</span>
-                
-                <time title="修改时间：2019-04-24 20:17:27" itemprop="dateModified" datetime="2019-04-24T20:17:27+08:00">2019-04-24</time>
-              
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h1 id="Sphinx-2-2-11-release-参考手册"><a href="#Sphinx-2-2-11-release-参考手册" class="headerlink" title="Sphinx 2.2.11-release 参考手册"></a>Sphinx 2.2.11-release 参考手册</h1><p>免费的开源SQL全文搜索引擎</p>
-<p>Copyright © 2001-2014 Andrew Aksyonoff</p>
-<p>Copyright © 2008-2014 Sphinx Technologies Inc, <a href="http://sphinxsearch.com/" target="_blank" rel="noopener">http://sphinxsearch.com</a></p>
-<p>翻译校对 Czhuyu</p>
-<h3 id="第一章-介绍"><a href="#第一章-介绍" class="headerlink" title="第一章. 介绍"></a>第一章. 介绍</h3><h4 id="1-1-关于"><a href="#1-1-关于" class="headerlink" title="1.1. 关于"></a>1.1. 关于</h4><p>sphinx 是一个全文搜索引擎，公开发行于GPL 2.0，商业许可(例如 用于嵌入式)通过需要许可。</p>
-<p>从技术上讲，Sphinx是一个独立的软件包提供快速的全文搜索功能的客户端软件。它特意被设计为跟SQL 数据库一体的去存储数据，并且可以简单地通过脚本语言连接。总之，Sphinx不依赖于任何特殊的数据库功能。</p>
-<p>应用程序可以通过Sphinx的搜索守护进程searchd用以下三种连接方式：a)通过Sphinx自己实现的Mysql的网络协议(使用的一个小的SQL的子集叫做SphinxQL，这是推荐的方式)，b)通过自带的search API(SphinxAPI)或者c)通过Mysql服务的可插拔的存储引擎(SphinxSE)。</p>
-<p>官方的原生SphinxAPI实现了PHP,Perl,Python,Ruby和Java在贡献的包里。API是非常轻量级的所以实现一个新的语言的API只需要几个小时就行。</p>
-<p>从1.10的beta版本开始，Sphinx支持两种不同的后台索引：磁盘后台索引和实时后台索引。磁盘索引支持在线的全文索引重建，但是在线更新只支持非text的(属性)数据。实时索引支持在线的全文索引更新。上个版本只在磁盘索引中支持。</p>
-<p>数据可以加载进磁盘索引用一个所以叫数据源。建立源可以直接从MySQL，PostgreSQL，MSSQL，ODBC compliant 数据库(Oracle等等)或者一个管道在TSV或者一个格式化的XML。新增一个数据源驱动被设计得经可能简单。实时索引，直到1.10beta版本为止，只能用SphinxQL。</p>
-<p>就像名字一样，Sphinx是SQL Phrase Index译解缩写。是的，我知道关于CMU的Sphinx项目。</p>
-<h5 id="1-2-Sphinx特性"><a href="#1-2-Sphinx特性" class="headerlink" title="1.2. Sphinx特性"></a>1.2. Sphinx特性</h5><p>Sphinx特性的关键是</p>
-<ul>
-<li>索引和搜索的高性能</li>
-<li>先进的索引和查询工具(灵活的并且富有特性的文本分词器,查询语言，几个不同的排名模式，等等);</li>
-<li>先进的结果集后处理（SELECT表达式，WHERE,ORDER BY,GROUP BY,HAVING等在文本搜索中）</li>
-<li>可扩展的久经考验地用于数十亿的文档，万亿字节的数据，每秒成千上万的请求。</li>
-<li>方便的集合SQL和XML的数据源，和SphinxQL，SphinxAPI,和SphinxSE搜索接口；</li>
-<li>简单的可伸缩分布式搜索。</li>
-</ul>
-<p>扩大一点，Sphinx：</p>
-<ul>
-<li>拥有很高的索引速度(达到 10-15MB/每秒每个核心在内部基准上)；</li>
-<li>拥有很高的搜索速度（达到150-250/每秒每个核心对阵1,000,000文档，1.2G的数据在内部基准上）</li>
-<li>拥有很高的扩展性(最大的已知的聚集索引超过了3,000,000,000文档，并且最繁忙的巅峰达到了500万次查询每天)</li>
-</ul>
-<h4 id="2-2-编译安装Sphinx"><a href="#2-2-编译安装Sphinx" class="headerlink" title="2.2. 编译安装Sphinx"></a>2.2. 编译安装Sphinx</h4><h5 id="2-2-1-需要的工具"><a href="#2-2-1-需要的工具" class="headerlink" title="2.2.1 需要的工具"></a>2.2.1 需要的工具</h5><p>在unix上，你需要下面的工具来建立和安装Sphinx</p>
-<ul>
-<li>一个用来工作的c++的编译器，GNU gcc和clang是知名的用来工作。</li>
-<li>一个好的make工具，GNU很出名用来工作</li>
-</ul>
-<p>在windows上面，你会需要Microsoft Visual C/C++ Studio .Net 2005 或者以上。其他的编译器/环境也是一样的工作，但目前，你需要手动建立make文件(或者其他环境的特定项目文件)</p>
-<h5 id="2-2-2-在Linux上编译安装"><a href="#2-2-2-在Linux上编译安装" class="headerlink" title="2.2.2. 在Linux上编译安装"></a>2.2.2. 在Linux上编译安装</h5><h4 id="2-6-Sphinx-废弃项目和更改默认的配置"><a href="#2-6-Sphinx-废弃项目和更改默认的配置" class="headerlink" title="2.6. Sphinx 废弃项目和更改默认的配置"></a>2.6. Sphinx 废弃项目和更改默认的配置</h4><p>在2.2.1-beta版本我们决定开始去除一些老的功能，所有的非官方的弃用一段时间。现在我们正式通知你们关于它们。</p>
-<p>修改如下：</p>
-<ul>
-<li>32位的文档id已经被废弃了。我们的二进制发行版本现在默认都在64位的documentid的基础上建立。需要注意的是它们仍然可以用32位ID索引，但是这个支持最后会被移除。事实上，它前一阵子已经被废弃了，但是现在我们只想清除它。我们没有看到用这种方式来节省服务器RAM的任何意义。</li>
-<li>dict=crc现在已经被废弃了。它是一大串约束。最重要的一个是关键词碰撞，并且没有通配符匹配支持。你可以获取更多的有关这些约束从我们的文档。2.7</li>
-</ul>
-<h3 id="第三章-索引"><a href="#第三章-索引" class="headerlink" title="第三章.索引"></a>第三章.索引</h3><h4 id="3-1-数据源"><a href="#3-1-数据源" class="headerlink" title="3.1. 数据源"></a>3.1. 数据源</h4><p>需要被索引的数据可以来自非常不同的源：数据库，简单的文本数据，HTMl文件，邮箱等等。从Sphinx的视角看来，数据的索引是一个结构化文档的合集，每一个合集都会有相同的字段和属性。这一点和SQL相似的地方是每一个SQL的行对应一个文档，每一个列对应文档的字段或者属性。</p>
-<p>由于Sphinx获得的不同的数据来源，需要不同的代码去取得数据然后准备索引。这些代码被称为数据源驱动（简单的说叫驱动或者叫数据源）.</p>
-<p>在写这个文档的时候，现有的驱动有MySQL，PostgreSQL,MS SQL(on Windows),和ODBC.也有一类驱动叫做xmlpipe2，特殊的运行在命令行并且获取数据从它的标准输出中。看3.9 “xmlpipe2 数据源” 章节获取更多信息。在2.2.1的beta版本中tsvpipe和csvpipe数据源也搅入了进来。你可以获取更多信息从3.10”tsvpipe\csvpipe(Tab\Comma Separated Values)数据源”</p>
-<p>索引有很多的数据来源。他们会有序地依照索引的定义规定通过非常相同的流程。所有的文档从这些源产生的灰合并起来就行他们来自单一的数据源。</p>
-<h4 id="3-2-全文本字段"><a href="#3-2-全文本字段" class="headerlink" title="3.2.全文本字段"></a>3.2.全文本字段</h4><p>全文本字段（或者简单说是字段）是文本的内容被Sphinx索引，并且可以（快速地）被关键字搜索。</p>
-<p>字段可以被命名，并且你可以限制你的搜索为一个字段（例如. 只通过”title”） 或者字段的子集（例如”title”和”abstract”）.Sphinx索引支持最大256个字段。但是，在2.0.1-beta版本索引被限制到了32个字段，因为并发在匹配引擎。完全的支持到256个字段在2.0.2-beta版本。</p>
-<p>需要注意的是字段的源内容不会存储到sphinx中。你给Sphinx的文本，全文本索引（一个特殊的数据结构能够快速地被关键字搜索）建立来自于此文本。但是源文本会被丢弃掉。Sphinx假定你已经把这些内容保存到了其他的任何地方。</p>
-<p>还有要说的是，不可能对源文本进行完全的结构重建，因为一些特殊的空格，大小写，标点符号会被丢失在索引的时候。理论上来说只有部分的被结构重建在文本里面，但是这将是一个十分缓慢的过程（尤其是如果CRC字典被使用，甚至不是保存关键字而是它们的hash）</p>
-<h4 id="3-3-属性"><a href="#3-3-属性" class="headerlink" title="3.3. 属性"></a>3.3. 属性</h4><p>属性是每个文档关联的额外的值用来完成额外的过滤和排序在搜索过程中。</p>
-<p>它经常被用于额外的全文索引结果基础不仅是匹配文档ID，rank，而且是其他的每个文档的值。举个例子，有可能需要用日期排序，然后是相关性，或者你需要用指定的价格区间搜索产品，或者筛选出某个作者的文章在你的博客里，或者按月分组。为了有效地做上面的这些事情，Sphinx允许附加一定数量的额外属性为每个文档，并且存储它们的值在全文本中，然后使用存储的值去过滤，排序，分组全文本匹配到的结果就变成了可能。</p>
-<p>属性，不同于字段，不是全文索引。它们存储在索引中，但是他们不能当作全文本进行搜索，企图这样做会导致错误。</p>
-<p>例如，不可能使用匹配表达式@column 1去匹配column为1的文档。如果column是一个熟悉，并且忽略搜索关联性工具。此外，属性返回的结果来自search daemon,而不是索引文本。</p>
-<p>一个比较好的例子就是论坛讨论帖子的表。假定只需要标题和内容去搜索-但是有时候也需要搜索通过作者个子讨论（例如xxxxx）；或者给匹配到的结果按照post_date排序；或者用post_date按月份分组并计算每个组匹配的条数。</p>
-<p>这个可以获得说明所有的提及的列（除了标题和内容，它们是全文本字段）作为属性，索引它们，然后用API调用设置过滤器，排序和分组。这里是一个例子。</p>
-<p><strong>Example sphinx.conf part:</strong></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">...</span><br><span class="line">sql_query = SELECT id, title, content, \</span><br><span class="line">    author_id, forum_id, post_date FROM my_forum_posts</span><br><span class="line">sql_attr_uint = author_id</span><br><span class="line">sql_attr_uint = forum_id</span><br><span class="line">sql_attr_timestamp = post_date</span><br><span class="line">...</span><br></pre></td></tr></table></figure>
-<p><strong>Example application code (in PHP)</strong></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">// only search posts by author whose ID is 123</span><br><span class="line">$cl-&gt;SetFilter ( &quot;author_id&quot;, array ( 123 ) );</span><br><span class="line"></span><br><span class="line">// only search posts in sub-forums 1, 3 and 7</span><br><span class="line">$cl-&gt;SetFilter ( &quot;forum_id&quot;, array ( 1,3,7 ) );</span><br><span class="line"></span><br><span class="line">// sort found posts by posting date in descending order</span><br><span class="line">$cl-&gt;SetSortMode ( SPH_SORT_ATTR_DESC, &quot;post_date&quot; );</span><br></pre></td></tr></table></figure>
-<h3 id="第四章-实时索引"><a href="#第四章-实时索引" class="headerlink" title="第四章. 实时索引"></a>第四章. 实时索引</h3><p>实时索引是一个新的后台让你新增，更新，或者删除文档在飞速中。实时索引在1.10-beta中加入。当你需要查询实时索引的时候你可以使用SphinxAPI,SphinxQL,或者SphinxSE，更新他们只可能通过SphinxQL在现在。完整的SphinxQL参考在第八张章节。</p>
-<h4 id="4-1-实时索引概览"><a href="#4-1-实时索引概览" class="headerlink" title="4.1. 实时索引概览"></a>4.1. 实时索引概览</h4><p>实时索引应该声明在sphinx.conf，就像所有的其他索引类型一样。</p>
-
-          
-        
-      
-    </div>
-
-    
-
-    
-    
-    
-
-    
-
-    
-       
-    
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/12/07/hello-world/">
-
-    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="czhuyu">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="https://avatars2.githubusercontent.com/u/26237984">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="无限进步">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                
-                <a href="/2018/12/07/hello-world/" class="post-title-link" itemprop="http://yoursite.com/page/2/index.html">Hello World</a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-
-            
-            
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-
-              
-                
-              
-
-              <time title="创建时间：2018-12-07 23:45:19" itemprop="dateCreated datePublished" datetime="2018-12-07T23:45:19+08:00">2018-12-07</time>
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>Welcome to <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/" target="_blank" rel="noopener">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html" target="_blank" rel="noopener">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues" target="_blank" rel="noopener">GitHub</a>.</p>
-<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo new <span class="string">"My New Post"</span></span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/writing.html" target="_blank" rel="noopener">Writing</a></p>
-<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/server.html" target="_blank" rel="noopener">Server</a></p>
-<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/generating.html" target="_blank" rel="noopener">Generating</a></p>
-<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/deployment.html" target="_blank" rel="noopener">Deployment</a></p>
-
-          
-        
-      
-    </div>
-
-    
-
-    
-    
-    
-
-    
-
-    
-       
-    
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -2190,7 +2173,7 @@
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">45</span>
+                    <span class="site-state-item-count">48</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>
@@ -2317,7 +2300,9 @@
                     
                       
                     
-                    <span class="site-state-item-count">56</span>
+                      
+                    
+                    <span class="site-state-item-count">57</span>
                     <span class="site-state-item-name">标签</span>
                   </a>
                 </div>
