@@ -364,6 +364,220 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/05/27/php-cli/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="czhuyu">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="https://avatars2.githubusercontent.com/u/26237984">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="无限进步">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                
+                <a href="/2019/05/27/php-cli/" class="post-title-link" itemprop="http://yoursite.com/page/2/index.html">php-cli</a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2019-05-27 22:26:52" itemprop="dateCreated datePublished" datetime="2019-05-27T22:26:52+08:00">2019-05-27</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2019-05-28 12:16:02" itemprop="dateModified" datetime="2019-05-28T12:16:02+08:00">2019-05-28</time>
+              
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h2 id="PHP-CLI"><a href="#PHP-CLI" class="headerlink" title="PHP-CLI"></a>PHP-CLI</h2><p>在命令行输入 php -r “echo 111;” 就可以运行php代码并在控制台得到111的输出，那这中间经历了哪些步骤呢？</p>
+<p>从php的github项目中你可以下载到各个版本的源码，这里以5.6.40版本为例</p>
+<p>php在命令行的处理源文件在{PHPSRC}/sapi/php_cli.c中</p>
+<p>首先跟到main函数(在约1203行)</p>
+<p>1378行</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">	zend_first_try &#123;</span><br><span class="line">#ifndef PHP_CLI_WIN32_NO_CONSOLE</span><br><span class="line">		if (sapi_module == &amp;cli_sapi_module) &#123;</span><br><span class="line">#endif</span><br><span class="line">			exit_status = do_cli(argc, argv TSRMLS_CC);</span><br><span class="line">#ifndef PHP_CLI_WIN32_NO_CONSOLE</span><br><span class="line">		&#125; else &#123;</span><br><span class="line">			exit_status = do_cli_server(argc, argv TSRMLS_CC);</span><br><span class="line">		&#125;</span><br><span class="line">#endif</span><br><span class="line">	&#125; zend_end_try();</span><br></pre></td></tr></table></figure>
+<p>这里的do_cli就是具体的实现了，跟到do_cli函数681行</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br></pre></td><td class="code"><pre><span class="line">static int do_cli(int argc, char **argv TSRMLS_DC) /* &#123;&#123;&#123; */</span><br><span class="line">&#123;</span><br><span class="line">	int c;</span><br><span class="line">	......</span><br><span class="line">	char *php_optarg = NULL, *orig_optarg = NULL;</span><br><span class="line">	......</span><br><span class="line"></span><br><span class="line">	zend_try &#123;</span><br><span class="line">	</span><br><span class="line">		CG(in_compilation) = 0; /* not initialized but needed for several options */</span><br><span class="line">		EG(uninitialized_zval_ptr) = NULL;</span><br><span class="line"></span><br><span class="line">		while ((c = php_getopt(argc, argv, OPTIONS, &amp;php_optarg, &amp;php_optind, 0, 2)) != -1) &#123;</span><br><span class="line">zend_try &#123;</span><br><span class="line">	</span><br><span class="line">		CG(in_compilation) = 0; /* not initialized but needed for several options */</span><br><span class="line">		EG(uninitialized_zval_ptr) = NULL;</span><br><span class="line"></span><br><span class="line">		while ((c = php_getopt(argc, argv, OPTIONS, &amp;php_optarg, &amp;php_optind, 0, 2)) != -1) &#123;</span><br><span class="line">			switch (c) &#123;</span><br><span class="line"></span><br><span class="line">			......</span><br><span class="line"></span><br><span class="line">			case &apos;v&apos;: /* show php version &amp; quit */</span><br><span class="line">				php_printf(&quot;PHP %s (%s) (built: %s %s) %s\nCopyright (c) 1997-2016 The PHP Group\n%s&quot;,</span><br><span class="line">					PHP_VERSION, cli_sapi_module.name, __DATE__, __TIME__,</span><br><span class="line">#if ZEND_DEBUG &amp;&amp; defined(HAVE_GCOV)</span><br><span class="line">					&quot;(DEBUG GCOV)&quot;,</span><br><span class="line">#elif ZEND_DEBUG</span><br><span class="line">					&quot;(DEBUG)&quot;,</span><br><span class="line">#elif defined(HAVE_GCOV)</span><br><span class="line">					&quot;(GCOV)&quot;,</span><br><span class="line">#else</span><br><span class="line">					&quot;&quot;,</span><br><span class="line">#endif</span><br><span class="line">					get_zend_version()</span><br><span class="line">				);</span><br><span class="line">				sapi_deactivate(TSRMLS_C);</span><br><span class="line">				goto out;</span><br><span class="line"></span><br><span class="line">            ......</span><br><span class="line">			default:</span><br><span class="line">				break;</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line"></span><br><span class="line">		/* Set some CLI defaults */</span><br><span class="line">		SG(options) |= SAPI_OPTION_NO_CHDIR;</span><br><span class="line"></span><br><span class="line">		php_optind = orig_optind;</span><br><span class="line">		php_optarg = orig_optarg;</span><br><span class="line">		while ((c = php_getopt(argc, argv, OPTIONS, &amp;php_optarg, &amp;php_optind, 0, 2)) != -1) &#123;</span><br><span class="line">			switch (c) &#123;</span><br><span class="line"></span><br><span class="line">			......</span><br><span class="line"></span><br><span class="line">			case &apos;r&apos;: /* run code from command line */</span><br><span class="line">				if (behavior == PHP_MODE_CLI_DIRECT) &#123;</span><br><span class="line">					if (exec_direct || script_file) &#123;</span><br><span class="line">						param_error = &quot;You can use -r only once.\n&quot;;</span><br><span class="line">						break;</span><br><span class="line">					&#125;</span><br><span class="line">				&#125; else if (behavior != PHP_MODE_STANDARD || interactive) &#123;</span><br><span class="line">					param_error = param_mode_conflict;</span><br><span class="line">					break;</span><br><span class="line">				&#125;</span><br><span class="line">				behavior=PHP_MODE_CLI_DIRECT;</span><br><span class="line">				exec_direct=php_optarg;</span><br><span class="line">				break;</span><br><span class="line">			</span><br><span class="line">			......</span><br><span class="line">			default:</span><br><span class="line">				break;</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br></pre></td></tr></table></figure>
+<p>这里就见到了我们经常使用的php -v，然后当然还有php -r。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">static int do_cli(int argc, char **argv TSRMLS_DC) /* &#123;&#123;&#123; */</span><br></pre></td></tr></table></figure>
+<p>这里的argv就是从命令行获取到的内容,我们就跟着这个参数往下查找</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">while ((c = php_getopt(argc, argv, OPTIONS, &amp;php_optarg, &amp;php_optind, 0, 2)) != -1) &#123;</span><br></pre></td></tr></table></figure>
+<p>686行有这样一部操作，然后我们看到当解析出命令行带了-r参数的时候，最主要做了两步操作</p>
+<pre><code>behavior=PHP_MODE_CLI_DIRECT;
+exec_direct=php_optarg;
+</code></pre><p>所以这里传递引用&amp;php_optarg应该已经赋值了</p>
+<p>再往下看会用在什么地方</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">case PHP_MODE_CLI_DIRECT:</span><br><span class="line">	cli_register_file_handles(TSRMLS_C);</span><br><span class="line">	if (zend_eval_string_ex(exec_direct, NULL, &quot;Command line code&quot;, 1 TSRMLS_CC) == FAILURE) &#123;</span><br><span class="line">		exit_status=254;</span><br><span class="line">	&#125;</span><br><span class="line">	break;</span><br></pre></td></tr></table></figure>
+<p>然后把参数exec_direct传给zend_eval_string_ex，这个函数的实现在zend_excute_API.c文件中</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br></pre></td><td class="code"><pre><span class="line">ZEND_API int zend_eval_stringl(char *str, int str_len, zval *retval_ptr, char *string_name TSRMLS_DC) /* &#123;&#123;&#123; */</span><br><span class="line">&#123;</span><br><span class="line">	zval pv;</span><br><span class="line">	zend_op_array *new_op_array;</span><br><span class="line">	zend_op_array *original_active_op_array = EG(active_op_array);</span><br><span class="line">	zend_uint original_compiler_options;</span><br><span class="line">	int retval;</span><br><span class="line"></span><br><span class="line">	if (retval_ptr) &#123;</span><br><span class="line">		Z_STRLEN(pv) = str_len + sizeof(&quot;return ;&quot;) - 1;</span><br><span class="line">		Z_STRVAL(pv) = emalloc(Z_STRLEN(pv) + 1);</span><br><span class="line">		memcpy(Z_STRVAL(pv), &quot;return &quot;, sizeof(&quot;return &quot;) - 1);</span><br><span class="line">		memcpy(Z_STRVAL(pv) + sizeof(&quot;return &quot;) - 1, str, str_len);</span><br><span class="line">		Z_STRVAL(pv)[Z_STRLEN(pv) - 1] = &apos;;&apos;;</span><br><span class="line">		Z_STRVAL(pv)[Z_STRLEN(pv)] = &apos;\0&apos;;</span><br><span class="line">	&#125; else &#123;</span><br><span class="line">		Z_STRLEN(pv) = str_len;</span><br><span class="line">		Z_STRVAL(pv) = str;</span><br><span class="line">	&#125;</span><br><span class="line">	Z_TYPE(pv) = IS_STRING;</span><br><span class="line"></span><br><span class="line">	/*printf(&quot;Evaluating &apos;%s&apos;\n&quot;, pv.value.str.val);*/</span><br><span class="line"></span><br><span class="line">	original_compiler_options = CG(compiler_options);</span><br><span class="line">	CG(compiler_options) = ZEND_COMPILE_DEFAULT_FOR_EVAL;</span><br><span class="line">	new_op_array = zend_compile_string(&amp;pv, string_name TSRMLS_CC);</span><br><span class="line">	CG(compiler_options) = original_compiler_options;</span><br><span class="line"></span><br><span class="line">	if (new_op_array) &#123;</span><br><span class="line">		zval *local_retval_ptr=NULL;</span><br><span class="line">		zval **original_return_value_ptr_ptr = EG(return_value_ptr_ptr);</span><br><span class="line">		zend_op **original_opline_ptr = EG(opline_ptr);</span><br><span class="line">		int orig_interactive = CG(interactive);</span><br><span class="line"></span><br><span class="line">		EG(return_value_ptr_ptr) = &amp;local_retval_ptr;</span><br><span class="line">		EG(active_op_array) = new_op_array;</span><br><span class="line">		EG(no_extensions)=1;</span><br><span class="line">		if (!EG(active_symbol_table)) &#123;</span><br><span class="line">			zend_rebuild_symbol_table(TSRMLS_C);</span><br><span class="line">		&#125;</span><br><span class="line">		CG(interactive) = 0;</span><br><span class="line"></span><br><span class="line">		zend_try &#123;</span><br><span class="line">			zend_execute(new_op_array TSRMLS_CC);</span><br><span class="line">		&#125; zend_catch &#123;</span><br><span class="line">			destroy_op_array(new_op_array TSRMLS_CC);</span><br><span class="line">			efree(new_op_array);</span><br><span class="line">			zend_bailout();</span><br><span class="line">		&#125; zend_end_try();</span><br><span class="line"></span><br><span class="line">		CG(interactive) = orig_interactive;</span><br><span class="line">		if (local_retval_ptr) &#123;</span><br><span class="line">			if (retval_ptr) &#123;</span><br><span class="line">				COPY_PZVAL_TO_ZVAL(*retval_ptr, local_retval_ptr);</span><br><span class="line">			&#125; else &#123;</span><br><span class="line">				zval_ptr_dtor(&amp;local_retval_ptr);</span><br><span class="line">			&#125;</span><br><span class="line">		&#125; else &#123;</span><br><span class="line">			if (retval_ptr) &#123;</span><br><span class="line">				INIT_ZVAL(*retval_ptr);</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line"></span><br><span class="line">		EG(no_extensions)=0;</span><br><span class="line">		EG(opline_ptr) = original_opline_ptr;</span><br><span class="line">		EG(active_op_array) = original_active_op_array;</span><br><span class="line">		destroy_op_array(new_op_array TSRMLS_CC);</span><br><span class="line">		efree(new_op_array);</span><br><span class="line">		EG(return_value_ptr_ptr) = original_return_value_ptr_ptr;</span><br><span class="line">		retval = SUCCESS;</span><br><span class="line">	&#125; else &#123;</span><br><span class="line">		retval = FAILURE;</span><br><span class="line">	&#125;</span><br><span class="line">	if (retval_ptr) &#123;</span><br><span class="line">		zval_dtor(&amp;pv);</span><br><span class="line">	&#125;</span><br><span class="line">	return retval;</span><br><span class="line">&#125;</span><br><span class="line">/* &#125;&#125;&#125; */</span><br><span class="line"></span><br><span class="line">ZEND_API int zend_eval_string(char *str, zval *retval_ptr, char *string_name TSRMLS_DC) /* &#123;&#123;&#123; */</span><br><span class="line">&#123;</span><br><span class="line">	return zend_eval_stringl(str, strlen(str), retval_ptr, string_name TSRMLS_CC);</span><br><span class="line">&#125;</span><br><span class="line">/* &#125;&#125;&#125; */</span><br><span class="line"></span><br><span class="line">ZEND_API int zend_eval_stringl_ex(char *str, int str_len, zval *retval_ptr, char *string_name, int handle_exceptions TSRMLS_DC) /* &#123;&#123;&#123; */</span><br><span class="line">&#123;</span><br><span class="line">	int result;</span><br><span class="line"></span><br><span class="line">	result = zend_eval_stringl(str, str_len, retval_ptr, string_name TSRMLS_CC);</span><br><span class="line">	if (handle_exceptions &amp;&amp; EG(exception)) &#123;</span><br><span class="line">		zend_exception_error(EG(exception), E_ERROR TSRMLS_CC);</span><br><span class="line">		result = FAILURE;</span><br><span class="line">	&#125;</span><br><span class="line">	return result;</span><br><span class="line">&#125;</span><br><span class="line">/* &#125;&#125;&#125; */</span><br></pre></td></tr></table></figure>
+<p>可以看到最后执行的函数就是最上面的zend_eval_stringl</p>
+<p>Z_STRVAL(pv) = str;</p>
+<p>new_op_array = zend_compile_string(&amp;pv, string_name TSRMLS_CC);</p>
+<p>经过词法分析/语法分析</p>
+<p>这里得到的new_op_array应该就是包含了opcode的了</p>
+<p>有一些比较眼熟的东西</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">zend_op_array 这里面会存放需要执行的opcode</span><br><span class="line">EG 和代码的解释相关</span><br><span class="line">CG 和代码的执行相关</span><br><span class="line">zval_dtor</span><br><span class="line">zval_ptr_dtor</span><br></pre></td></tr></table></figure>
+<p>EG 和 CG的定义可以在zend_globals_macros.h中可以找到 macro 宏指令的意思，这里就是C语言里面的特性了。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">/* Compiler */</span><br><span class="line">#ifdef ZTS</span><br><span class="line"># define CG(v) TSRMG(compiler_globals_id, zend_compiler_globals *, v)</span><br><span class="line">int zendparse(void *compiler_globals);</span><br><span class="line">#else</span><br><span class="line"># define CG(v) (compiler_globals.v)</span><br><span class="line">extern ZEND_API struct _zend_compiler_globals compiler_globals;</span><br><span class="line">int zendparse(void);</span><br><span class="line">#endif</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">/* Executor */</span><br><span class="line">#ifdef ZTS</span><br><span class="line"># define EG(v) TSRMG(executor_globals_id, zend_executor_globals *, v)</span><br><span class="line">#else</span><br><span class="line"># define EG(v) (executor_globals.v)</span><br><span class="line">extern ZEND_API zend_executor_globals executor_globals;</span><br><span class="line">#endif</span><br></pre></td></tr></table></figure>
+<p>zval_dtor和zval_ptr_dtor，我们使用一个unset操作想清除这个变量所占的内存时（可能只是引用计数减一），会从当前符号的哈希表中删除变量名对应的项， 在所有的操作执行完后，并对从符号表中删除的项调用一个析构函数，临时变量会调用zval_dtor，一般的变量会调用zval_ptr_dtor。</p>
+<p>zval_ptr_dtor会做的事情就是：如果变量的引用计数为1，即减一后引用计数为0，直接清除变量。如果当前变量如果被缓存，则需要清除缓存；如果变量的引用计数大于1，即减一后引用计数大于0，则将变量放入垃圾列表。如果变量存在引用，则去掉其引用</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">zend_try &#123;</span><br><span class="line">	zend_execute(new_op_array TSRMLS_CC);</span><br><span class="line">&#125; zend_catch &#123;</span><br><span class="line">	destroy_op_array(new_op_array TSRMLS_CC);</span><br><span class="line">	efree(new_op_array);</span><br><span class="line">	zend_bailout();</span><br><span class="line">&#125; zend_end_try();</span><br></pre></td></tr></table></figure>
+<p>这里zend_execute(new_op_array TSRMLS_CC);肯定就是执行new_op_array里面的opcode了。</p>
+<p>跟到{PHPSRC}/Zend/zend_vm_execute.h：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br></pre></td><td class="code"><pre><span class="line">ZEND_API void execute_ex(zend_execute_data *execute_data TSRMLS_DC)</span><br><span class="line">&#123;</span><br><span class="line">	DCL_OPLINE</span><br><span class="line">	zend_bool original_in_execution;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">	original_in_execution = EG(in_execution);</span><br><span class="line">	EG(in_execution) = 1;</span><br><span class="line"></span><br><span class="line">	if (0) &#123;</span><br><span class="line">zend_vm_enter:</span><br><span class="line">		execute_data = i_create_execute_data_from_op_array(EG(active_op_array), 1 TSRMLS_CC);</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	LOAD_REGS();</span><br><span class="line">	LOAD_OPLINE();</span><br><span class="line"></span><br><span class="line">	while (1) &#123;</span><br><span class="line">    	int ret;</span><br><span class="line">#ifdef ZEND_WIN32</span><br><span class="line">		if (EG(timed_out)) &#123;</span><br><span class="line">			zend_timeout(0);</span><br><span class="line">		&#125;</span><br><span class="line">#endif</span><br><span class="line"></span><br><span class="line">		if ((ret = OPLINE-&gt;handler(execute_data TSRMLS_CC)) &gt; 0) &#123;</span><br><span class="line">			switch (ret) &#123;</span><br><span class="line">				case 1:</span><br><span class="line">					EG(in_execution) = original_in_execution;</span><br><span class="line">					return;</span><br><span class="line">				case 2:</span><br><span class="line">					goto zend_vm_enter;</span><br><span class="line">					break;</span><br><span class="line">				case 3:</span><br><span class="line">					execute_data = EG(current_execute_data);</span><br><span class="line">					break;</span><br><span class="line">				default:</span><br><span class="line">					break;</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line"></span><br><span class="line">	&#125;</span><br><span class="line">	zend_error_noreturn(E_ERROR, &quot;Arrived at end of main loop which shouldn&apos;t happen&quot;);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">ZEND_API void zend_execute(zend_op_array *op_array TSRMLS_DC)</span><br><span class="line">&#123;</span><br><span class="line">	if (EG(exception)) &#123;</span><br><span class="line">		return;</span><br><span class="line">	&#125; </span><br><span class="line">	zend_execute_ex(i_create_execute_data_from_op_array(op_array, 0 TSRMLS_CC) TSRMLS_CC);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>通过while(1)来执行从op_array里拿到的opcode进行执行。</p>
+<p>opcode长什么样子呢？</p>
+<p>安装一个php扩展vld <a href="http://pecl.php.net/package/vld" target="_blank" rel="noopener">http://pecl.php.net/package/vld</a></p>
+<p>安装扩展的方式</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">phpize </span><br><span class="line">./configure  make &amp;&amp; make install</span><br><span class="line">把编译出来的动态链接库.so文件加到php.ini配置中</span><br><span class="line">vim /usr/local/php/etc/php.ini </span><br><span class="line">service php-fpm restart</span><br><span class="line">php -ini | grep vld</span><br><span class="line">vld</span><br><span class="line">vld support =&gt; enabled</span><br><span class="line">vld.active =&gt; 0 =&gt; 0</span><br><span class="line">vld.col_sep =&gt; 	 =&gt; 	</span><br><span class="line">vld.dump_paths =&gt; 1 =&gt; 1</span><br><span class="line">vld.execute =&gt; 1 =&gt; 1</span><br><span class="line">vld.format =&gt; 0 =&gt; 0</span><br><span class="line">vld.save_dir =&gt; /tmp =&gt; /tmp</span><br><span class="line">vld.save_paths =&gt; 0 =&gt; 0</span><br><span class="line">vld.skip_append =&gt; 0 =&gt; 0</span><br><span class="line">vld.skip_prepend =&gt; 0 =&gt; 0</span><br><span class="line">vld.verbosity =&gt; 1 =&gt; 1</span><br><span class="line">PWD =&gt; /usr/local/src/vld-0.14.0</span><br><span class="line">_SERVER[&quot;PWD&quot;] =&gt; /usr/local/src/vld-0.14.0</span><br></pre></td></tr></table></figure>
+<p>看到vld support =&gt; enabled就说明安装成功了</p>
+<p>怎么使用呢？<a href="https://derickrethans.nl/projects.html#vld" target="_blank" rel="noopener">https://derickrethans.nl/projects.html#vld</a></p>
+<p>在命令行运行</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">php -r &quot;echo 1111;&quot; -dvld.active=1</span><br></pre></td></tr></table></figure>
+<p>我们得到了这样的结果</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">1111root@czhuyu-Inspiron-5547:~# php -r &quot;echo 1111;&quot; -dvld.active=1</span><br><span class="line">Finding entry points</span><br><span class="line">Branch analysis from position: 0</span><br><span class="line">Jump found. (Code = 62) Position 1 = -2</span><br><span class="line">filename:       Command line code</span><br><span class="line">function name:  (null)</span><br><span class="line">number of ops:  2</span><br><span class="line">compiled vars:  none</span><br><span class="line">line     #* E I O op                           fetch          ext  return  operands</span><br><span class="line">-------------------------------------------------------------------------------------</span><br><span class="line">   1     0  E &gt;   ECHO                                                     1111</span><br><span class="line">         1      &gt; RETURN                                                   null</span><br><span class="line"></span><br><span class="line">branch: #  0; line:     1-    1; sop:     0; eop:     1; out1:  -2</span><br><span class="line">path #1: 0, </span><br><span class="line">1111</span><br></pre></td></tr></table></figure>
+<p>其中关键的部分应该就是这个op列下面的ECHO了</p>
+<p>ECHO对应到源码中执行的操作就是ZEND_ECHO_SPEC_CONST_HANDLER</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">static int ZEND_FASTCALL  ZEND_ECHO_SPEC_CONST_HANDLER(ZEND_OPCODE_HANDLER_ARGS)</span><br><span class="line">&#123;</span><br><span class="line">	USE_OPLINE</span><br><span class="line"></span><br><span class="line">	zval *z;</span><br><span class="line"></span><br><span class="line">	SAVE_OPLINE();</span><br><span class="line">	z = opline-&gt;op1.zv;</span><br><span class="line"></span><br><span class="line">	if (IS_CONST == IS_TMP_VAR &amp;&amp; Z_TYPE_P(z) == IS_OBJECT) &#123;</span><br><span class="line">		INIT_PZVAL(z);</span><br><span class="line">	&#125;</span><br><span class="line">	zend_print_variable(z);</span><br><span class="line"></span><br><span class="line">	CHECK_EXCEPTION();</span><br><span class="line">	ZEND_VM_NEXT_OPCODE();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">ZEND_API int zend_print_variable(zval *var) </span><br><span class="line">&#123;</span><br><span class="line">	return zend_print_zval(var, 0);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">ZEND_API int zend_print_zval(zval *expr, int indent) /* &#123;&#123;&#123; */</span><br><span class="line">&#123;</span><br><span class="line">	return zend_print_zval_ex(zend_write, expr, indent);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">ZEND_API int zend_print_zval_ex(zend_write_func_t write_func, zval *expr, int indent) /* &#123;&#123;&#123; */</span><br><span class="line">&#123;</span><br><span class="line">	zval expr_copy;</span><br><span class="line">	int use_copy;</span><br><span class="line"></span><br><span class="line">	zend_make_printable_zval(expr, &amp;expr_copy, &amp;use_copy);</span><br><span class="line">	if (use_copy) &#123;</span><br><span class="line">		expr = &amp;expr_copy;</span><br><span class="line">	&#125;</span><br><span class="line">	if (Z_STRLEN_P(expr) == 0) &#123; /* optimize away empty strings */</span><br><span class="line">		if (use_copy) &#123;</span><br><span class="line">			zval_dtor(expr);</span><br><span class="line">		&#125;</span><br><span class="line">		return 0;</span><br><span class="line">	&#125;</span><br><span class="line">	write_func(Z_STRVAL_P(expr), Z_STRLEN_P(expr));</span><br><span class="line">	if (use_copy) &#123;</span><br><span class="line">		zval_dtor(expr);</span><br><span class="line">	&#125;</span><br><span class="line">	return Z_STRLEN_P(expr);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这个write_func应该就是执行输出操作了</p>
+<p>最后调用到的就是sapi_cli_single_write</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line">PHP_CLI_API size_t sapi_cli_single_write(const char *str, uint str_length TSRMLS_DC) /* &#123;&#123;&#123; */</span><br><span class="line">&#123;</span><br><span class="line">#ifdef PHP_WRITE_STDOUT</span><br><span class="line">	long ret;</span><br><span class="line">#else</span><br><span class="line">	size_t ret;</span><br><span class="line">#endif</span><br><span class="line"></span><br><span class="line">	if (cli_shell_callbacks.cli_shell_write) &#123;</span><br><span class="line">		size_t shell_wrote;</span><br><span class="line">		shell_wrote = cli_shell_callbacks.cli_shell_write(str, str_length TSRMLS_CC);</span><br><span class="line">		if (shell_wrote &gt; -1) &#123;</span><br><span class="line">			return shell_wrote;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">#ifdef PHP_WRITE_STDOUT</span><br><span class="line">	do &#123;</span><br><span class="line">		ret = write(STDOUT_FILENO, str, str_length);</span><br><span class="line">	&#125; while (ret &lt;= 0 &amp;&amp; errno == EAGAIN &amp;&amp; sapi_cli_select(STDOUT_FILENO TSRMLS_CC));</span><br><span class="line"></span><br><span class="line">	if (ret &lt;= 0) &#123;</span><br><span class="line">		return 0;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	return ret;</span><br><span class="line">#else</span><br><span class="line">	ret = fwrite(str, 1, MIN(str_length, 16384), stdout);</span><br><span class="line">	return ret;</span><br><span class="line">#endif</span><br><span class="line">&#125;</span><br><span class="line">/* &#125;&#125;&#125; */</span><br></pre></td></tr></table></figure>
+<p>我们都知道输出到控制台属于标准输出那肯定就是调用了write这个函数了</p>
+<p>c语言的write函数是可以直接把内容输出到控制台的，至此，一个大概的流程就走完了，当然中间还有很多没有讲得很清楚的地方或许还有有错的地方，需要再看下文档，再梳理完善。</p>
+<p>参考资料</p>
+<ol>
+<li><a href="https://github.com/php/php-src/tree/PHP-5.6.40" target="_blank" rel="noopener">https://github.com/php/php-src/tree/PHP-5.6.40</a></li>
+<li><a href="http://www.php-internals.com/" target="_blank" rel="noopener">http://www.php-internals.com/</a></li>
+</ol>
+
+          
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+       
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/05/26/php内存管理与资源管理/">
 
     <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
@@ -1954,176 +2168,6 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/04/16/nginx&&host/">
-
-    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="czhuyu">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="https://avatars2.githubusercontent.com/u/26237984">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="无限进步">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                
-                <a href="/2019/04/16/nginx&&host/" class="post-title-link" itemprop="http://yoursite.com/page/2/index.html">nginx-host</a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-
-            
-            
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-
-              
-                
-              
-
-              <time title="创建时间：2019-04-16 22:22:56" itemprop="dateCreated datePublished" datetime="2019-04-16T22:22:56+08:00">2019-04-16</time>
-            
-
-            
-              
-
-              
-                
-                <span class="post-meta-divider">|</span>
-                
-
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">更新于</span>
-                
-                <time title="修改时间：2019-05-20 22:33:33" itemprop="dateModified" datetime="2019-05-20T22:33:33+08:00">2019-05-20</time>
-              
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h5 id="记录一次奇怪的响应"><a href="#记录一次奇怪的响应" class="headerlink" title="记录一次奇怪的响应"></a>记录一次奇怪的响应</h5><p>在本地调预发布的一个接口    search.xxx.bz的时候，总是出现一次响应正常一次不正常的现象/搜索无果</p>
-<p>上服务器查找nginx配置</p>
-<p>到conf目录</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">find -type f -name &apos;*.conf&apos;|xargs grep &apos;search.xxx.bz&apos;</span><br></pre></td></tr></table></figure>
-<p>发现一个反向代理配置</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">server &#123;</span><br><span class="line">  listen  80;</span><br><span class="line">  server_name  search.tff.bz;</span><br><span class="line"></span><br><span class="line">  location / &#123;</span><br><span class="line">      proxy_set_header Host $proxy_host;</span><br><span class="line">      proxy_pass http://search.sss.com;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">find -type f -name &apos;*.conf&apos;|xargs grep &apos;search.sss.com&apos;</span><br></pre></td></tr></table></figure>
-<p>正常nginx server 配置</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">server &#123;</span><br><span class="line">    listen 80;</span><br><span class="line">    server_name search.services.sss.com;</span><br><span class="line">    root  /xxxx/public;</span><br><span class="line">    access_log logs/search.sss.com.access.log  main;</span><br><span class="line">    error_log logs/search.sss.com.error.log;</span><br><span class="line">    include laravel;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>无异样</p>
-<p>之前尝试过在本地ping search.sss.com 结果为127.0.0.1无异样</p>
-<p>在机器上curl调接口也没问题</p>
-<p>仔细检查host</p>
-<p>发现有两个配置</p>
-<p>search.sss.com 188.8.8.8</p>
-<p>search.sss.com 127.0.0.1</p>
-<p>猜想nginx 在反向代理解析host 的时候两次分别取了不同的host配置，屏蔽第一个，问题解决。</p>
-
-          
-        
-      
-    </div>
-
-    
-
-    
-    
-    
-
-    
-
-    
-       
-    
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -2173,7 +2217,7 @@
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">48</span>
+                    <span class="site-state-item-count">49</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>
@@ -2302,7 +2346,9 @@
                     
                       
                     
-                    <span class="site-state-item-count">57</span>
+                      
+                    
+                    <span class="site-state-item-count">58</span>
                     <span class="site-state-item-name">标签</span>
                   </a>
                 </div>
