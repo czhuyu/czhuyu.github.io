@@ -108,20 +108,22 @@
 
 
 
-  <meta name="description" content="幂等和非幂等 执行一次和执行很多次同样的操作是否是一样的 GET/PUT/DELETE 幂等 POST 非幂等 301 302 500 502 504">
-<meta name="keywords" content="http">
+  <meta name="description" content="幂等和非幂等 执行一次和执行很多次同样的操作是否是一样的 GET/PUT/DELETE 幂等 POST 非幂等 301 12345678301 Move Permanently 是HTTP协议中的一个状态码（Status Code）。可以简单地理解为该资源已经被永久改变了位置[1]，通常会发送HTTP Location来重定向到正确的新位置。返回301状态码进行跳转被Google认为是将网站地址由">
+<meta name="keywords" content="http,http状态码">
 <meta property="og:type" content="article">
 <meta property="og:title" content="HTTP">
 <meta property="og:url" content="http://yoursite.com/2017/03/16/HTTP OPTIONS/index.html">
 <meta property="og:site_name" content="无限进步">
-<meta property="og:description" content="幂等和非幂等 执行一次和执行很多次同样的操作是否是一样的 GET/PUT/DELETE 幂等 POST 非幂等 301 302 500 502 504">
+<meta property="og:description" content="幂等和非幂等 执行一次和执行很多次同样的操作是否是一样的 GET/PUT/DELETE 幂等 POST 非幂等 301 12345678301 Move Permanently 是HTTP协议中的一个状态码（Status Code）。可以简单地理解为该资源已经被永久改变了位置[1]，通常会发送HTTP Location来重定向到正确的新位置。返回301状态码进行跳转被Google认为是将网站地址由">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2019-06-17T06:34:00.119Z">
+<meta property="og:updated_time" content="2019-06-17T07:23:04.485Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="HTTP">
-<meta name="twitter:description" content="幂等和非幂等 执行一次和执行很多次同样的操作是否是一样的 GET/PUT/DELETE 幂等 POST 非幂等 301 302 500 502 504">
+<meta name="twitter:description" content="幂等和非幂等 执行一次和执行很多次同样的操作是否是一样的 GET/PUT/DELETE 幂等 POST 非幂等 301 12345678301 Move Permanently 是HTTP协议中的一个状态码（Status Code）。可以简单地理解为该资源已经被永久改变了位置[1]，通常会发送HTTP Location来重定向到正确的新位置。返回301状态码进行跳转被Google认为是将网站地址由">
 
 
+
+  <link rel="alternate" href="/rss2.xml" title="无限进步" type="application/atom+xml">
 
 
 
@@ -427,7 +429,7 @@
                 
                   <span class="post-meta-item-text">更新于</span>
                 
-                <time title="修改时间：2019-06-17 14:34:00" itemprop="dateModified" datetime="2019-06-17T14:34:00+08:00">2019-06-17</time>
+                <time title="修改时间：2019-06-17 15:23:04" itemprop="dateModified" datetime="2019-06-17T15:23:04+08:00">2019-06-17</time>
               
             
           </span>
@@ -465,10 +467,17 @@
 <p>GET/PUT/DELETE 幂等</p>
 <p>POST 非幂等</p>
 <p>301</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">301 Move Permanently 是HTTP协议中的一个状态码（Status Code）。可以简单地理解为该资源已经被永久改变了位置[1]，通常会发送HTTP Location来重定向到正确的新位置。</span><br><span class="line"></span><br><span class="line">返回301状态码进行跳转被Google认为是将网站地址由 HTTP 迁移到 HTTPS 的最佳方法。</span><br><span class="line"></span><br><span class="line">被请求的资源已永久移动到新位置，并且将来任何对此资源的引用都应该使用本响应返回的若干个URI之一。如果可能，拥有链接编辑功能的客户端应当自动把请求的地址修改为从服务器反馈回来的地址。[19]除非额外指定，否则这个响应也是可缓存的。</span><br><span class="line">新的永久性的URI应当在响应的Location域中返回。除非这是一个HEAD请求，否则响应的实体中应当包含指向新的URI的超链接及简短说明。</span><br><span class="line">如果这不是一个GET或者HEAD请求，那么浏览器禁止自动进行重定向，除非得到用户的确认，因为请求的条件可能因此发生变化。</span><br><span class="line">注意：对于某些使用HTTP/1.0协议的浏览器，当它们发送的POST请求得到了一个301响应的话，接下来的重定向请求将会变成GET方式。</span><br></pre></td></tr></table></figure>
 <p>302</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">302 Found，原始描述短语为 Moved Temporarily ，是HTTP协议中的一个状态码(Status Code)。可以简单的理解为该资源原本确实存在，但已经被临时改变了位置；换而言之，就是请求的资源暂时驻留在不同的URI下，故而除非特别指定了缓存头部指示，该状态码不可缓存。</span><br><span class="line"></span><br><span class="line">对于服务器，通常会给浏览器发送HTTP Location头部来重定向到新的新位置。</span><br><span class="line"></span><br><span class="line">要求客户端执行临时重定向（原始描述短语为“Moved Temporarily”）。[20]由于这样的重定向是临时的，客户端应当继续向原有地址发送以后的请求。只有在Cache-Control或Expires中进行了指定的情况下，这个响应才是可缓存的。</span><br><span class="line">新的临时性的URI应当在响应的Location域中返回。除非这是一个HEAD请求，否则响应的实体中应当包含指向新的URI的超链接及简短说明。</span><br><span class="line">如果这不是一个GET或者HEAD请求，那么浏览器禁止自动进行重定向，除非得到用户的确认，因为请求的条件可能因此发生变化。</span><br><span class="line">注意：虽然RFC 1945和RFC 2068规范不允许客户端在重定向时改变请求的方法，但是很多现存的浏览器将302响应视作为303响应，并且使用GET方式访问在Location中规定的URI，而无视原先请求的方法。[21]因此状态码303和307被添加了进来，用以明确服务器期待客户端进行何种反应。</span><br></pre></td></tr></table></figure>
 <p>500</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Internal Server Error 通用错误消息，服务器遇到了一个未曾预料的状况，导致了它无法完成对请求的处理。没有给出具体错误信息。</span><br></pre></td></tr></table></figure>
 <p>502</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Bad Gateway 作为网关或者代理工作的服务器尝试执行请求时，从上游服务器接收到无效的响应</span><br></pre></td></tr></table></figure>
 <p>504</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Gateway Timeout 作为网关或者代理工作的服务器尝试执行请求时，未能及时从上游服务器（URI标识出的服务器，例如HTTP、FTP、LDAP）或者辅助服务器（例如DNS）收到响应。[62]</span><br><span class="line">注意：某些代理服务器在DNS查询超时时会返回400或者500错误。</span><br></pre></td></tr></table></figure>
+<p>URI 和 URL</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">URI 是统一资源标识符，而 URL 是统一资源定位符</span><br></pre></td></tr></table></figure>
 
       
     </div>
@@ -494,6 +503,8 @@
           
             <a href="/tags/http/" rel="tag"># http</a>
           
+            <a href="/tags/http状态码/" rel="tag"># http状态码</a>
+          
         </div>
       
 
@@ -515,8 +526,8 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2017/03/16/leetcode-7/" rel="prev" title="leetcode-7">
-                leetcode-7 <i class="fa fa-chevron-right"></i>
+              <a href="/2017/03/16/面试算法题/" rel="prev" title="面试算法题">
+                面试算法题 <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -711,7 +722,9 @@
                     
                       
                     
-                    <span class="site-state-item-count">58</span>
+                      
+                    
+                    <span class="site-state-item-count">59</span>
                     <span class="site-state-item-name">标签</span>
                   </a>
                 </div>
@@ -719,6 +732,13 @@
             </nav>
           
 
+          
+            <div class="feed-link motion-element">
+              <a href="/rss2.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
           
 
           

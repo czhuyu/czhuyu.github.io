@@ -118,6 +118,8 @@
 
 
 
+  <link rel="alternate" href="/rss2.xml" title="无限进步" type="application/atom+xml">
+
 
 
 
@@ -409,12 +411,24 @@
                 
               
 
-              <time title="创建时间：2019-06-17 15:03:34 / 修改时间：15:06:20" itemprop="dateCreated datePublished" datetime="2019-06-17T15:03:34+08:00">2019-06-17</time>
+              <time title="创建时间：2019-06-17 15:03:34" itemprop="dateCreated datePublished" datetime="2019-06-17T15:03:34+08:00">2019-06-17</time>
             
 
             
               
 
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2019-06-28 11:11:32" itemprop="dateModified" datetime="2019-06-28T11:11:32+08:00">2019-06-28</time>
               
             
           </span>
@@ -457,7 +471,14 @@
 <p>进阶：</p>
 <p>你能尝试使用一趟扫描实现吗？</p>
 <p>来源：力扣（LeetCode）<br>链接：<a href="https://leetcode-cn.com/problems/remove-nth-node-from-end-of-list" target="_blank" rel="noopener">https://leetcode-cn.com/problems/remove-nth-node-from-end-of-list</a><br>著作权归领扣网络所有。商业转载请联系官方授权，非商业转载请注明出处。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br></pre></td><td class="code"><pre><span class="line">/**</span><br><span class="line"> * Definition for singly-linked list.</span><br><span class="line"> * type ListNode struct &#123;</span><br><span class="line"> *     Val int</span><br><span class="line"> *     Next *ListNode</span><br><span class="line"> * &#125;</span><br><span class="line"> */</span><br><span class="line">func removeNthFromEnd(head *ListNode, n int) *ListNode &#123;</span><br><span class="line">	count := 1</span><br><span class="line">	i := 1</span><br><span class="line">	p := head</span><br><span class="line">	for &#123;</span><br><span class="line">		if p.Next == nil &#123;</span><br><span class="line">			break</span><br><span class="line">		&#125; else &#123;</span><br><span class="line">			p = p.Next</span><br><span class="line">			count++</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	if count == 1 &#123;</span><br><span class="line">		var empty *ListNode</span><br><span class="line">		return empty</span><br><span class="line">	&#125;</span><br><span class="line">	k := count - n</span><br><span class="line">	if k == 0 &#123;</span><br><span class="line">		return head.Next</span><br><span class="line">	&#125;</span><br><span class="line">	p = head</span><br><span class="line">	for &#123;</span><br><span class="line">		if p.Next == nil &#123;</span><br><span class="line">			break</span><br><span class="line">		&#125; else &#123;</span><br><span class="line">			if i == k &#123;</span><br><span class="line">				p.Next = p.Next.Next</span><br><span class="line">				break</span><br><span class="line">			&#125; else &#123;</span><br><span class="line">				p = p.Next</span><br><span class="line">				i++</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	return head</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>结构体定义</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">/**</span><br><span class="line"> * Definition for singly-linked list.</span><br><span class="line"> * type ListNode struct &#123;</span><br><span class="line"> *     Val int</span><br><span class="line"> *     Next *ListNode</span><br><span class="line"> * &#125;</span><br><span class="line"> */</span><br></pre></td></tr></table></figure>
+<p>实现</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line">func removeNthFromEnd(head *ListNode, n int) *ListNode &#123;</span><br><span class="line">	count := 1</span><br><span class="line">	i := 1</span><br><span class="line">	p := head</span><br><span class="line">	for &#123;</span><br><span class="line">		if p.Next == nil &#123;</span><br><span class="line">			break</span><br><span class="line">		&#125; else &#123;</span><br><span class="line">			p = p.Next</span><br><span class="line">			count++</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	if count == 1 &#123;</span><br><span class="line">		var empty *ListNode</span><br><span class="line">		return empty</span><br><span class="line">	&#125;</span><br><span class="line">	k := count - n</span><br><span class="line">	if k == 0 &#123;</span><br><span class="line">		return head.Next</span><br><span class="line">	&#125;</span><br><span class="line">	p = head</span><br><span class="line">	for &#123;</span><br><span class="line">		if p.Next == nil &#123;</span><br><span class="line">			break</span><br><span class="line">		&#125; else &#123;</span><br><span class="line">			if i == k &#123;</span><br><span class="line">				p.Next = p.Next.Next</span><br><span class="line">				break</span><br><span class="line">			&#125; else &#123;</span><br><span class="line">				p = p.Next</span><br><span class="line">				i++</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	return head</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>上面的写法需要两次遍历才能实现，如果只能一次遍历那么关键就是如何一次遍历就能找到倒数第n个节点呢。</p>
+<p>快慢指针—我们可以使用两个指针，两个指针始终保持n-1的距离开始遍历，当后一个指针到达链表末尾时，前一个指针就恰好是倒数第n个节点</p>
+<p>另外我们这里需要做的是删除第n个节点，我们需要保证两个指针的距离为n。代码如下</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line">func removeNthFromEnd(head *ListNode, n int) *ListNode &#123;</span><br><span class="line">	p := head</span><br><span class="line">	q := head</span><br><span class="line">    flag := 0</span><br><span class="line">	for i := 0; i &lt; n; i++ &#123;</span><br><span class="line">        if q.Next != nil&#123;</span><br><span class="line">		    q = q.Next</span><br><span class="line">            flag ++</span><br><span class="line">        &#125;</span><br><span class="line">	&#125;</span><br><span class="line">    if flag == n-1 &#123;</span><br><span class="line">        return p.Next</span><br><span class="line">    &#125;</span><br><span class="line">	for &#123;</span><br><span class="line">		if q.Next == nil &#123;</span><br><span class="line">            if p == q&#123;</span><br><span class="line">                var empty *ListNode</span><br><span class="line">		        return empty</span><br><span class="line">            &#125;else&#123;</span><br><span class="line">                p.Next = p.Next.Next</span><br><span class="line">                break   </span><br><span class="line">            &#125;</span><br><span class="line">		&#125;</span><br><span class="line">		q = q.Next</span><br><span class="line">		p = p.Next</span><br><span class="line">	&#125;</span><br><span class="line">	return head</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
           
         
@@ -2148,7 +2169,9 @@
                     
                       
                     
-                    <span class="site-state-item-count">58</span>
+                      
+                    
+                    <span class="site-state-item-count">59</span>
                     <span class="site-state-item-name">标签</span>
                   </a>
                 </div>
@@ -2156,6 +2179,13 @@
             </nav>
           
 
+          
+            <div class="feed-link motion-element">
+              <a href="/rss2.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
           
 
           

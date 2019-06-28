@@ -118,6 +118,8 @@
 
 
 
+  <link rel="alternate" href="/rss2.xml" title="无限进步" type="application/atom+xml">
+
 
 
 
@@ -364,466 +366,6 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/03/16/leetcode-2/">
-
-    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="czhuyu">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="https://avatars2.githubusercontent.com/u/26237984">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="无限进步">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                
-                <a href="/2017/03/16/leetcode-2/" class="post-title-link" itemprop="http://yoursite.com/page/5/index.html">leetcode-2</a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-
-            
-            
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-
-              
-                
-              
-
-              <time title="创建时间：2017-03-16 22:22:56" itemprop="dateCreated datePublished" datetime="2017-03-16T22:22:56+08:00">2017-03-16</time>
-            
-
-            
-              
-
-              
-                
-                <span class="post-meta-divider">|</span>
-                
-
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">更新于</span>
-                
-                <time title="修改时间：2019-05-24 23:55:30" itemprop="dateModified" datetime="2019-05-24T23:55:30+08:00">2019-05-24</time>
-              
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p><br></p><p style="box-sizing: border-box; font-family: inherit; font-weight: 500; line-height: 1.1; color: inherit; margin-top: 0px; margin-bottom: 10px; font-size: 24px; display: inline-block; margin-right: 0.5em;">2.&nbsp;Add Two Numbers</p><p style="box-sizing: border-box; margin-top: 0px; margin-bottom: 10px; color: rgb(51, 51, 51); font-family: &quot;Helvetica Neue&quot;, Helvetica, Arial, sans-serif; font-size: 14px; white-space: normal; background-color: rgb(255, 255, 255);">You are given two&nbsp;<span style="box-sizing: border-box; font-weight: 700;">non-empty</span>&nbsp;linked lists representing two non-negative integers. The digits are stored in&nbsp;<span style="box-sizing: border-box; font-weight: 700;">reverse order</span>&nbsp;and each of their nodes contain a single digit. Add the two numbers and return it as a linked list.</p><p style="box-sizing: border-box; margin-top: 0px; margin-bottom: 10px; color: rgb(51, 51, 51); font-family: &quot;Helvetica Neue&quot;, Helvetica, Arial, sans-serif; font-size: 14px; white-space: normal; background-color: rgb(255, 255, 255);">You may assume the two numbers do not contain any leading zero, except the number 0 itself.</p><p style="box-sizing: border-box; margin-top: 0px; margin-bottom: 10px; color: rgb(51, 51, 51); font-family: &quot;Helvetica Neue&quot;, Helvetica, Arial, sans-serif; font-size: 14px; white-space: normal; background-color: rgb(255, 255, 255);"><span style="box-sizing: border-box; font-weight: 700;">Example</span></p><pre style="box-sizing: border-box; overflow: auto; font-family: Menlo, Monaco, Consolas, &quot;Courier New&quot;, monospace; font-size: 13px; padding: 9.5px; margin-top: 0px; margin-bottom: 10px; line-height: 1.42857; color: rgb(51, 51, 51); word-break: break-all; word-wrap: break-word; background-color: rgb(245, 245, 245); border: 1px solid rgb(204, 204, 204); border-radius: 4px;">Input:&nbsp;(2&nbsp;-&gt;&nbsp;4&nbsp;-&gt;&nbsp;3)&nbsp;+&nbsp;(5&nbsp;-&gt;&nbsp;6&nbsp;-&gt;&nbsp;4)Output:&nbsp;7&nbsp;-&gt;&nbsp;0&nbsp;-&gt;&nbsp;8Explanation:&nbsp;342&nbsp;+&nbsp;465&nbsp;=&nbsp;807.</pre><p><br></p><pre class="brush:cpp;toolbar:false">/*<em><br>&nbsp;</em>&nbsp;Definition&nbsp;for&nbsp;singly-linked&nbsp;list.<br>&nbsp;<em>&nbsp;type&nbsp;ListNode&nbsp;struct&nbsp;{<br>&nbsp;</em>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Val&nbsp;int<br>&nbsp;<em>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Next&nbsp;</em>ListNode<br>&nbsp;<em>&nbsp;}<br>&nbsp;</em>/<br>func&nbsp;addTwoNumbers(l1&nbsp;<em>ListNode,&nbsp;l2&nbsp;</em>ListNode)&nbsp;<em>ListNode&nbsp;{<br>&nbsp;&nbsp;&nbsp;&nbsp;i1&nbsp;:=&nbsp;0<br>    i2&nbsp;:=&nbsp;0<br>    p&nbsp;:=&nbsp;l1<br>    j&nbsp;:=&nbsp;0<br>    for&nbsp;{<br>        if&nbsp;p&nbsp;!=&nbsp;nil&nbsp;{<br>            i1&nbsp;+=&nbsp;p.Val&nbsp;</em>&nbsp;int(math.Pow(float64(10),&nbsp;float64(j)))<br>            j++<br>            p&nbsp;=&nbsp;p.Next<br>        }&nbsp;else&nbsp;{<br>            break<br>        }<br>    }<br>    j&nbsp;=&nbsp;0<br>    p&nbsp;=&nbsp;l2<br>    for&nbsp;{<br>        if&nbsp;p&nbsp;!=&nbsp;nil&nbsp;{<br>            i2&nbsp;+=&nbsp;p.Val&nbsp;<em>&nbsp;int(math.Pow(float64(10),&nbsp;float64(j)))<br>            j++<br>            p&nbsp;=&nbsp;p.Next<br>        }&nbsp;else&nbsp;{<br>            break<br>        }<br>    }<br>    revres&nbsp;:=&nbsp;i1&nbsp;+&nbsp;i2<br>&nbsp;&nbsp;&nbsp;&nbsp;<br>&nbsp;&nbsp;&nbsp;&nbsp;fmt.Println(revres)<br>    head&nbsp;:=&nbsp;new(ListNode)<br>    p&nbsp;=&nbsp;head<br>    for&nbsp;{<br>        if&nbsp;revres&nbsp;==&nbsp;0&nbsp;{<br>            break<br>        }&nbsp;else&nbsp;{<br>            p.Val&nbsp;=&nbsp;revres&nbsp;%&nbsp;10&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>            revres&nbsp;=&nbsp;revres&nbsp;/&nbsp;10<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if&nbsp;revres&nbsp;!=&nbsp;0{<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;    &nbsp;&nbsp;&nbsp;&nbsp;node&nbsp;:=&nbsp;new(ListNode)<br>            &nbsp;&nbsp;&nbsp;&nbsp;p.Next&nbsp;=&nbsp;node<br>            &nbsp;&nbsp;&nbsp;&nbsp;p&nbsp;=&nbsp;p.Next&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>        }<br>    }<br>&nbsp;&nbsp;&nbsp;&nbsp;<br>&nbsp;&nbsp;&nbsp;&nbsp;<br>&nbsp;&nbsp;&nbsp;&nbsp;p&nbsp;=&nbsp;l1<br>    for&nbsp;{<br>        if&nbsp;p.Next&nbsp;==&nbsp;nil&nbsp;{<br>            break<br>        }<br>        fmt.Printf(&quot;%d\t&quot;,&nbsp;p.Val)<br>        p&nbsp;=&nbsp;p.Next<br>    }<br>&nbsp;&nbsp;&nbsp;&nbsp;<br>&nbsp;&nbsp;&nbsp;&nbsp;<br>    return&nbsp;head<br>&nbsp;&nbsp;&nbsp;&nbsp;<br>&nbsp;&nbsp;&nbsp;&nbsp;<br>}</em></pre><p>&nbsp; 后面出现了位数很长的用例，所以换成采用数组来暂存单链表</p><pre class="brush:cpp;toolbar:false">func&nbsp;addTwoNumbers(l1&nbsp;ListNode,&nbsp;l2&nbsp;<em>ListNode)&nbsp;</em>ListNode&nbsp;{<br>    var&nbsp;i1&nbsp;[]int<br>    var&nbsp;i2&nbsp;[]int<br>    p&nbsp;:=&nbsp;l1<br>    for&nbsp;{<br>        if&nbsp;p&nbsp;!=&nbsp;nil&nbsp;{<br>            i1&nbsp;=&nbsp;append(i1,&nbsp;p.Val)<br>            p&nbsp;=&nbsp;p.Next<br>        }&nbsp;else&nbsp;{<br>            break<br>        }<br>    }<br>    p&nbsp;=&nbsp;l2<br>    for&nbsp;{<br>        if&nbsp;p&nbsp;!=&nbsp;nil&nbsp;{<br>            i2&nbsp;=&nbsp;append(i2,&nbsp;p.Val)<br>            p&nbsp;=&nbsp;p.Next<br>        }&nbsp;else&nbsp;{<br>            break<br>        }<br>    }<br>    head&nbsp;:=&nbsp;new(ListNode)<br>    p&nbsp;=&nbsp;head<br>    lenthi1&nbsp;:=&nbsp;len(i1)<br>    lenthi2&nbsp;:=&nbsp;len(i2)<br>    if&nbsp;lenthi1&nbsp;!=&nbsp;lenthi2&nbsp;{<br>        if&nbsp;lenthi1&nbsp;&lt;&nbsp;lenthi2&nbsp;{<br>            for&nbsp;i&nbsp;:=&nbsp;0;&nbsp;i&nbsp;&lt;&nbsp;lenthi2-lenthi1;&nbsp;i++&nbsp;{<br>                i1&nbsp;=&nbsp;append(i1,&nbsp;0)<br>            }<br>        }&nbsp;else&nbsp;{<br>            for&nbsp;i&nbsp;:=&nbsp;0;&nbsp;i&nbsp;&lt;&nbsp;lenthi1-lenthi2;&nbsp;i++&nbsp;{<br>                i2&nbsp;=&nbsp;append(i2,&nbsp;0)<br>            }<br>        }<br>    }<br>    lenthi1&nbsp;=&nbsp;len(i1)<br>    lenthi2&nbsp;=&nbsp;len(i2)<br>    flag&nbsp;:=&nbsp;0<br>    for&nbsp;i,&nbsp;_&nbsp;:=&nbsp;range&nbsp;i1&nbsp;{<br>        sum&nbsp;:=&nbsp;i1[i]&nbsp;+&nbsp;i2[i]<br>        if&nbsp;i&nbsp;&lt;&nbsp;lenthi1-1&nbsp;{<br>            if&nbsp;(sum)/10&nbsp;&gt;&nbsp;0&nbsp;{<br>                i1[i+1]&nbsp;+=&nbsp;1<br>            }<br>        }&nbsp;else&nbsp;{<br>            if&nbsp;(sum)/10&nbsp;&gt;&nbsp;0&nbsp;{<br>                flag&nbsp;=&nbsp;1<br>            }<br>        }<br>        p.Val&nbsp;=&nbsp;sum&nbsp;%&nbsp;10<br>        if&nbsp;i&nbsp;&lt;&nbsp;lenthi1-1&nbsp;{<br>            node&nbsp;:=&nbsp;new(ListNode)<br>            p.Next&nbsp;=&nbsp;node<br>            p&nbsp;=&nbsp;p.Next<br>        }<br>    }<br>    if&nbsp;flag&nbsp;==&nbsp;1&nbsp;{<br>        node&nbsp;:=&nbsp;new(ListNode)<br>        node.Val&nbsp;=&nbsp;1<br>        p.Next&nbsp;=&nbsp;node<br>    }<br>    return&nbsp;head<br>}</pre><p><br></p>
-          
-        
-      
-    </div>
-
-    
-
-    
-    
-    
-
-    
-
-    
-       
-    
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/03/16/写时复制和引用计数/">
-
-    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="czhuyu">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="https://avatars2.githubusercontent.com/u/26237984">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="无限进步">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                
-                <a href="/2017/03/16/写时复制和引用计数/" class="post-title-link" itemprop="http://yoursite.com/page/5/index.html">写时复制和引用计数</a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-
-            
-            
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-
-              
-                
-              
-
-              <time title="创建时间：2017-03-16 22:22:56" itemprop="dateCreated datePublished" datetime="2017-03-16T22:22:56+08:00">2017-03-16</time>
-            
-
-            
-              
-
-              
-                
-                <span class="post-meta-divider">|</span>
-                
-
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">更新于</span>
-                
-                <time title="修改时间：2019-05-20 22:28:39" itemprop="dateModified" datetime="2019-05-20T22:28:39+08:00">2019-05-20</time>
-              
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p></p><p><a href="http://www.cnblogs.com/phpcoder/p/4462210.html" target="_blank" title="http://www.cnblogs.com/phpcoder/p/4462210.html">http://www.cnblogs.com/phpcoder/p/4462210.html</a><br></p><audio controls="controls" style="display: none;"></audio><p></p>
-
-          
-        
-      
-    </div>
-
-    
-
-    
-    
-    
-
-    
-
-    
-       
-    
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/03/16/安装Laravel/">
-
-    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="czhuyu">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="https://avatars2.githubusercontent.com/u/26237984">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="无限进步">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                
-                <a href="/2017/03/16/安装Laravel/" class="post-title-link" itemprop="http://yoursite.com/page/5/index.html">安装laravel</a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-
-            
-            
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-
-              
-                
-              
-
-              <time title="创建时间：2017-03-16 22:22:56" itemprop="dateCreated datePublished" datetime="2017-03-16T22:22:56+08:00">2017-03-16</time>
-            
-
-            
-              
-
-              
-                
-                <span class="post-meta-divider">|</span>
-                
-
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">更新于</span>
-                
-                <time title="修改时间：2019-05-20 22:26:37" itemprop="dateModified" datetime="2019-05-20T22:26:37+08:00">2019-05-20</time>
-              
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>一、根据官方文档需要安装几个php的扩展 Openssl/PDO/Mbstring/Tokenizer/XML<br></p><p>二、Linux下可以使用Composer来安装Laravel</p><p>&nbsp; 1.全局安装Composer&nbsp;<br></p><p>&nbsp;&nbsp;&nbsp;&nbsp;curl -sS <a href="https://getcomposer.org/installer" target="_blank" rel="noopener">https://getcomposer.org/installer</a> | php<br>&nbsp;&nbsp;&nbsp;&nbsp;mv composer.phar /usr/local/bin/composer<br></p><p>&nbsp; &nbsp; &nbsp;解决更新慢的问题<br></p><p>&nbsp;&nbsp;&nbsp;&nbsp;composer config repo.packagist composer <a href="https://packagist.phpcomposer.com" target="_blank" rel="noopener">https://packagist.phpcomposer.com</a></p><p>&nbsp;&nbsp;&nbsp;&nbsp;composer –version查看是否安装成功</p><p>&nbsp; 2.利用Composer安装Laravel<br></p><p>&nbsp;&nbsp;&nbsp;&nbsp;composer global require &quot;laravel/installer&quot;<br></p><p>&nbsp;&nbsp;&nbsp;&nbsp;cd到$Home/.composer/vendor/bin目录下<br></p><p>&nbsp;&nbsp;&nbsp;&nbsp;执行 Laravel new Blog<br></p><p>&nbsp; 3.最后利用php的内置服务器<br></p><p>&nbsp;&nbsp;&nbsp;&nbsp;php artisan serve<br></p><p><br></p><p>一些收获</p><p>&nbsp; &nbsp;1.Linux方面 .tar.gz通过的是源码安装 ./configure –prefix=/usr/local/php 即指定安装路径 卸载的时候只需要删除这个目录下的东西即可</p><p>　　开机自启动</p><p>　　增加环境变量</p><p>&nbsp; &nbsp;2.php 的两种运行方式的php.ini有可能是不同的,也就是会出现你的web上面的phpinfo()和你直接用CLI执行的php -m发现扩展的开启情况是不相同的，这个时候就需要你运行CLI和web的时候所用的php.ini是同一个文件</p><p>&nbsp; &nbsp;3.Laravel</p><p>　　从laraval知道了php有一个内置的服务器。</p><p><br></p>
-          
-        
-      
-    </div>
-
-    
-
-    
-    
-    
-
-    
-
-    
-       
-    
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/03/16/排序算法/">
 
     <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
@@ -930,159 +472,6 @@
 <p>直接插入0.02~0.04</p>
 <p>快速排序0.002~0.007</p>
 
-          
-        
-      
-    </div>
-
-    
-
-    
-    
-    
-
-    
-
-    
-       
-    
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/03/16/NginxPHPMysql 重启等命令/">
-
-    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="czhuyu">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="https://avatars2.githubusercontent.com/u/26237984">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="无限进步">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                
-                <a href="/2017/03/16/NginxPHPMysql 重启等命令/" class="post-title-link" itemprop="http://yoursite.com/page/5/index.html">lnmp重启</a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-
-            
-            
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-
-              
-                
-              
-
-              <time title="创建时间：2017-03-16 22:22:56" itemprop="dateCreated datePublished" datetime="2017-03-16T22:22:56+08:00">2017-03-16</time>
-            
-
-            
-              
-
-              
-                
-                <span class="post-meta-divider">|</span>
-                
-
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">更新于</span>
-                
-                <time title="修改时间：2019-05-20 22:25:38" itemprop="dateModified" datetime="2019-05-20T22:25:38+08:00">2019-05-20</time>
-              
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>nginx&nbsp;<br></p><p>&nbsp;&nbsp;</p><p>start：&nbsp;</p><p>/usr/local/nginx/sbin/nginx&nbsp;</p><p>&nbsp;</p><p>stop：&nbsp;</p><p>/usr/local/nginx/sbin/nginx&nbsp;-s&nbsp;stop&nbsp;</p><p>&nbsp;</p><p>reload：&nbsp;</p><p>/usr/local/nginx/sbin/nginx&nbsp;-s&nbsp;reload&nbsp;</p><p>&nbsp;</p><p>#<strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><em>**</em></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong>&nbsp;</p><p>&nbsp;</p><p>#php-fpm(fast-cgi)命令&nbsp;</p><p>&nbsp;&nbsp;</p><p>start：&nbsp;</p><p>/usr/local/php/sbin/php-fpm&nbsp;</p><p>&nbsp;</p><p>stop：&nbsp;</p><p>/bin/ps&nbsp;-ef&nbsp;|&nbsp;grep&nbsp;&#39;php-fpm&#39;&nbsp;|&nbsp;grep&nbsp;-v&nbsp;grep&nbsp;|&nbsp;cut&nbsp;-c&nbsp;9-15&nbsp;|&nbsp;xargs&nbsp;kill&nbsp;-9&nbsp;</p><p>&nbsp;</p><p>&nbsp;</p><p>Linux：PHP&nbsp;5.3.3&nbsp;以上版本的php-fpm的重启</p><p>&nbsp;</p><p>INT,&nbsp;TERM：立刻终止</p><p>QUIT：平滑终止</p><p>USR1：重新打开日志文件</p><p>USR2：平滑重载所有worker进程并重新载入配置和二进制模块</p><p>&nbsp;</p><p>示例：</p><p>1）php-fpm&nbsp;关闭：</p><p>kill&nbsp;-INT&nbsp;<code>cat&amp;nbsp;/usr/local/php/var/run/php-fpm.pid</code></p><p>&nbsp;</p><p>2）php-fpm&nbsp;重启：</p><p>kill&nbsp;-USR2&nbsp;<code>cat&amp;nbsp;/usr/local/php/var/run/php-fpm.pid</code></p><p>&nbsp;</p><p>查看php-fpm进程数：</p><p>ps&nbsp;aux&nbsp;|&nbsp;grep&nbsp;-c&nbsp;php-fpm</p><p>&nbsp;</p><p>#<strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><em>**</em></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong>&nbsp;</p><p>&nbsp;</p><p>#mysql命令&nbsp;</p><p>&nbsp;</p><p>start：&nbsp;</p><p>/etc/init.d/mysqld&nbsp;start&nbsp;</p><p>&nbsp;</p><p>stop：&nbsp;</p><p>/etc/init.d/mysqld&nbsp;stop&nbsp;</p><p>&nbsp;</p><p>restart：&nbsp;</p><p>/etc/init.d/mysqld&nbsp;restart&nbsp;</p><p>&nbsp;</p><p>#<strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><em>**</em></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong>&nbsp;</p><p><br></p>
           
         
       
@@ -1291,6 +680,312 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/03/16/Github/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="czhuyu">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="https://avatars2.githubusercontent.com/u/26237984">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="无限进步">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                
+                <a href="/2017/03/16/Github/" class="post-title-link" itemprop="http://yoursite.com/page/5/index.html">git</a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2017-03-16 22:22:56" itemprop="dateCreated datePublished" datetime="2017-03-16T22:22:56+08:00">2017-03-16</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2019-05-20 22:22:16" itemprop="dateModified" datetime="2019-05-20T22:22:16+08:00">2019-05-20</time>
+              
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>首先有两种使用方式 1.先在git官网上建立一个git仓库，然后git clone到本地<br></p><p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 2.直接在本地cd进一个文件夹 git init<br></p><p>配置用户名和email</p><p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;git config –global user.name &#39;&#39;</p><p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;git config –global user.email <a href="mailto:xxx@xxx.com" target="_blank" rel="noopener">xxx@xxx.com</a></p><p>简单使用命令 &nbsp;git add .</p><p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; git status</p><p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; git commit -m &quot;The First Upload&quot;<br></p><p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;git push -u origin master</p><p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp;</p><p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br></p><p><br></p>
+          
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+       
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/03/16/安装Laravel/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="czhuyu">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="https://avatars2.githubusercontent.com/u/26237984">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="无限进步">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                
+                <a href="/2017/03/16/安装Laravel/" class="post-title-link" itemprop="http://yoursite.com/page/5/index.html">安装laravel</a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2017-03-16 22:22:56" itemprop="dateCreated datePublished" datetime="2017-03-16T22:22:56+08:00">2017-03-16</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2019-05-20 22:26:37" itemprop="dateModified" datetime="2019-05-20T22:26:37+08:00">2019-05-20</time>
+              
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>一、根据官方文档需要安装几个php的扩展 Openssl/PDO/Mbstring/Tokenizer/XML<br></p><p>二、Linux下可以使用Composer来安装Laravel</p><p>&nbsp; 1.全局安装Composer&nbsp;<br></p><p>&nbsp;&nbsp;&nbsp;&nbsp;curl -sS <a href="https://getcomposer.org/installer" target="_blank" rel="noopener">https://getcomposer.org/installer</a> | php<br>&nbsp;&nbsp;&nbsp;&nbsp;mv composer.phar /usr/local/bin/composer<br></p><p>&nbsp; &nbsp; &nbsp;解决更新慢的问题<br></p><p>&nbsp;&nbsp;&nbsp;&nbsp;composer config repo.packagist composer <a href="https://packagist.phpcomposer.com" target="_blank" rel="noopener">https://packagist.phpcomposer.com</a></p><p>&nbsp;&nbsp;&nbsp;&nbsp;composer –version查看是否安装成功</p><p>&nbsp; 2.利用Composer安装Laravel<br></p><p>&nbsp;&nbsp;&nbsp;&nbsp;composer global require &quot;laravel/installer&quot;<br></p><p>&nbsp;&nbsp;&nbsp;&nbsp;cd到$Home/.composer/vendor/bin目录下<br></p><p>&nbsp;&nbsp;&nbsp;&nbsp;执行 Laravel new Blog<br></p><p>&nbsp; 3.最后利用php的内置服务器<br></p><p>&nbsp;&nbsp;&nbsp;&nbsp;php artisan serve<br></p><p><br></p><p>一些收获</p><p>&nbsp; &nbsp;1.Linux方面 .tar.gz通过的是源码安装 ./configure –prefix=/usr/local/php 即指定安装路径 卸载的时候只需要删除这个目录下的东西即可</p><p>　　开机自启动</p><p>　　增加环境变量</p><p>&nbsp; &nbsp;2.php 的两种运行方式的php.ini有可能是不同的,也就是会出现你的web上面的phpinfo()和你直接用CLI执行的php -m发现扩展的开启情况是不相同的，这个时候就需要你运行CLI和web的时候所用的php.ini是同一个文件</p><p>&nbsp; &nbsp;3.Laravel</p><p>　　从laraval知道了php有一个内置的服务器。</p><p><br></p>
+          
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+       
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/03/16/正则、mb_substr/">
 
     <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
@@ -1389,6 +1084,160 @@
         
           
             <p><strong>0x1</strong> 爬虫过程遇到需要截取到&lt;span id=&quot;xhxm&quot;&gt;张三同学&lt;/span&gt;里面同学的名称<br></p><p>&nbsp; 1.正则解决<br></p><p>&nbsp; 2.通过字符串解决<br></p><p><strong>0x2</strong> 通过正则解决</p><p>&nbsp; 1.简单解决</p><p>&nbsp; &lt;span id=&quot;xhxm&quot;&gt;(.<em>)\u540c\u5b66&lt;/span&gt;</em></p><p>&nbsp;<img src="/ueditor/php/upload/image/20170515/1494855697445556.png" title="1494855697445556.png" alt="blob.png"></p><p>&nbsp; 2.零宽断言解决</p><p>&nbsp; &nbsp;&gt;(.)(?=\u540c\u5b66)</p><p>&nbsp;&nbsp;<img src="/ueditor/php/upload/image/20170515/1494856468363010.png" title="1494856468363010.png" alt="blob.png"></p><p>&nbsp; 这里使用零宽度正预测先行断言(?=exp)</p><p>&nbsp; 就是找到匹配之前的内容&nbsp;</p><p>&nbsp; (?&lt;=exp)用来找到匹配之后的东西，称为零宽度正回顾后发断言</p><p><strong>0x3</strong> 通过mb_substr解决 先匹配张三同学,然后截取字符串</p><p>&nbsp; 因为这里的header是gb2312，所以指定mb_substr的编码为gb2312<br></p><p>&nbsp; substr直接处理汉字会造成乱码的问题，可以使用mb_substr指定汉字编码方式gb2312</p><p>&nbsp;<img src="/ueditor/php/upload/image/20170515/1494853756143314.png" title="1494853756143314.png" alt="blob.png"></p><p>&nbsp; 这样就可以截取到到张三<br></p><p><strong>0x4</strong> 这不算完</p><p>&nbsp;<br></p>
+          
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+       
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/03/16/计算一个字符串中最大不重复子串长度/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="czhuyu">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="https://avatars2.githubusercontent.com/u/26237984">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="无限进步">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                
+                <a href="/2017/03/16/计算一个字符串中最大不重复子串长度/" class="post-title-link" itemprop="http://yoursite.com/page/5/index.html">最长不重复子串</a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2017-03-16 22:22:56" itemprop="dateCreated datePublished" datetime="2017-03-16T22:22:56+08:00">2017-03-16</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2019-05-20 22:27:01" itemprop="dateModified" datetime="2019-05-20T22:27:01+08:00">2019-05-20</time>
+              
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> main</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> (</span><br><span class="line">   <span class="string">"fmt "</span></span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">maxLen</span><span class="params">(str <span class="keyword">string</span>)</span> <span class="title">int</span></span> &#123;</span><br><span class="line">  start := <span class="number">0</span></span><br><span class="line">  maxlen := <span class="number">0</span></span><br><span class="line">  lastO := <span class="built_in">make</span>(<span class="keyword">map</span>[<span class="keyword">rune</span>]<span class="keyword">int</span>)</span><br><span class="line">  <span class="keyword">for</span> i, v := <span class="keyword">range</span> []<span class="keyword">rune</span>(str) &#123;</span><br><span class="line">      <span class="keyword">if</span> lastI, ok := lastO[v]; ok &#123;</span><br><span class="line">         start = lastI + <span class="number">1</span></span><br><span class="line">      &#125;</span><br><span class="line">      <span class="keyword">if</span> (i-start+<span class="number">1</span> &amp;gt; maxlen) &#123;</span><br><span class="line">         maxlen = i - start + <span class="number">1</span></span><br><span class="line">      &#125;</span><br><span class="line">      lastO[v] = i</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">return</span> maxlen</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">  <span class="comment">//求字符串最大不重复子串长度</span></span><br><span class="line">  <span class="comment">//s:=  "Yes哈哈哈! "</span></span><br><span class="line">  fmt.Println(maxLen( <span class="string">"abcbcdef "</span>))</span><br><span class="line">  fmt.Println(maxLen( <span class="string">"abcdef "</span>))</span><br><span class="line">  fmt.Println(maxLen( <span class="string">"aaaaaaa "</span>))</span><br><span class="line">  fmt.Println(maxLen( <span class="string">"你说什么 "</span>))</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
           
         
       
@@ -1606,7 +1455,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/03/16/计算一个字符串中最大不重复子串长度/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/03/16/HTTP OPTIONS/">
 
     <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
       <meta itemprop="name" content="czhuyu">
@@ -1626,7 +1475,7 @@
           <h1 class="post-title" itemprop="name headline">
                 
                 
-                <a href="/2017/03/16/计算一个字符串中最大不重复子串长度/" class="post-title-link" itemprop="http://yoursite.com/page/5/index.html">最长不重复子串</a>
+                <a href="/2017/03/16/HTTP OPTIONS/" class="post-title-link" itemprop="http://yoursite.com/page/5/index.html">HTTP</a>
               
             
           </h1>
@@ -1668,7 +1517,7 @@
                 
                   <span class="post-meta-item-text">更新于</span>
                 
-                <time title="修改时间：2019-05-20 22:27:01" itemprop="dateModified" datetime="2019-05-20T22:27:01+08:00">2019-05-20</time>
+                <time title="修改时间：2019-06-17 15:23:04" itemprop="dateModified" datetime="2019-06-17T15:23:04+08:00">2019-06-17</time>
               
             
           </span>
@@ -1703,7 +1552,176 @@
       
         
           
-            <figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> main</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> (</span><br><span class="line">   <span class="string">"fmt "</span></span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">maxLen</span><span class="params">(str <span class="keyword">string</span>)</span> <span class="title">int</span></span> &#123;</span><br><span class="line">  start := <span class="number">0</span></span><br><span class="line">  maxlen := <span class="number">0</span></span><br><span class="line">  lastO := <span class="built_in">make</span>(<span class="keyword">map</span>[<span class="keyword">rune</span>]<span class="keyword">int</span>)</span><br><span class="line">  <span class="keyword">for</span> i, v := <span class="keyword">range</span> []<span class="keyword">rune</span>(str) &#123;</span><br><span class="line">      <span class="keyword">if</span> lastI, ok := lastO[v]; ok &#123;</span><br><span class="line">         start = lastI + <span class="number">1</span></span><br><span class="line">      &#125;</span><br><span class="line">      <span class="keyword">if</span> (i-start+<span class="number">1</span> &amp;gt; maxlen) &#123;</span><br><span class="line">         maxlen = i - start + <span class="number">1</span></span><br><span class="line">      &#125;</span><br><span class="line">      lastO[v] = i</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">return</span> maxlen</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">  <span class="comment">//求字符串最大不重复子串长度</span></span><br><span class="line">  <span class="comment">//s:=  "Yes哈哈哈! "</span></span><br><span class="line">  fmt.Println(maxLen( <span class="string">"abcbcdef "</span>))</span><br><span class="line">  fmt.Println(maxLen( <span class="string">"abcdef "</span>))</span><br><span class="line">  fmt.Println(maxLen( <span class="string">"aaaaaaa "</span>))</span><br><span class="line">  fmt.Println(maxLen( <span class="string">"你说什么 "</span>))</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+            <p>幂等和非幂等</p>
+<p>执行一次和执行很多次同样的操作是否是一样的</p>
+<p>GET/PUT/DELETE 幂等</p>
+<p>POST 非幂等</p>
+<p>301</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">301 Move Permanently 是HTTP协议中的一个状态码（Status Code）。可以简单地理解为该资源已经被永久改变了位置[1]，通常会发送HTTP Location来重定向到正确的新位置。</span><br><span class="line"></span><br><span class="line">返回301状态码进行跳转被Google认为是将网站地址由 HTTP 迁移到 HTTPS 的最佳方法。</span><br><span class="line"></span><br><span class="line">被请求的资源已永久移动到新位置，并且将来任何对此资源的引用都应该使用本响应返回的若干个URI之一。如果可能，拥有链接编辑功能的客户端应当自动把请求的地址修改为从服务器反馈回来的地址。[19]除非额外指定，否则这个响应也是可缓存的。</span><br><span class="line">新的永久性的URI应当在响应的Location域中返回。除非这是一个HEAD请求，否则响应的实体中应当包含指向新的URI的超链接及简短说明。</span><br><span class="line">如果这不是一个GET或者HEAD请求，那么浏览器禁止自动进行重定向，除非得到用户的确认，因为请求的条件可能因此发生变化。</span><br><span class="line">注意：对于某些使用HTTP/1.0协议的浏览器，当它们发送的POST请求得到了一个301响应的话，接下来的重定向请求将会变成GET方式。</span><br></pre></td></tr></table></figure>
+<p>302</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">302 Found，原始描述短语为 Moved Temporarily ，是HTTP协议中的一个状态码(Status Code)。可以简单的理解为该资源原本确实存在，但已经被临时改变了位置；换而言之，就是请求的资源暂时驻留在不同的URI下，故而除非特别指定了缓存头部指示，该状态码不可缓存。</span><br><span class="line"></span><br><span class="line">对于服务器，通常会给浏览器发送HTTP Location头部来重定向到新的新位置。</span><br><span class="line"></span><br><span class="line">要求客户端执行临时重定向（原始描述短语为“Moved Temporarily”）。[20]由于这样的重定向是临时的，客户端应当继续向原有地址发送以后的请求。只有在Cache-Control或Expires中进行了指定的情况下，这个响应才是可缓存的。</span><br><span class="line">新的临时性的URI应当在响应的Location域中返回。除非这是一个HEAD请求，否则响应的实体中应当包含指向新的URI的超链接及简短说明。</span><br><span class="line">如果这不是一个GET或者HEAD请求，那么浏览器禁止自动进行重定向，除非得到用户的确认，因为请求的条件可能因此发生变化。</span><br><span class="line">注意：虽然RFC 1945和RFC 2068规范不允许客户端在重定向时改变请求的方法，但是很多现存的浏览器将302响应视作为303响应，并且使用GET方式访问在Location中规定的URI，而无视原先请求的方法。[21]因此状态码303和307被添加了进来，用以明确服务器期待客户端进行何种反应。</span><br></pre></td></tr></table></figure>
+<p>500</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Internal Server Error 通用错误消息，服务器遇到了一个未曾预料的状况，导致了它无法完成对请求的处理。没有给出具体错误信息。</span><br></pre></td></tr></table></figure>
+<p>502</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Bad Gateway 作为网关或者代理工作的服务器尝试执行请求时，从上游服务器接收到无效的响应</span><br></pre></td></tr></table></figure>
+<p>504</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Gateway Timeout 作为网关或者代理工作的服务器尝试执行请求时，未能及时从上游服务器（URI标识出的服务器，例如HTTP、FTP、LDAP）或者辅助服务器（例如DNS）收到响应。[62]</span><br><span class="line">注意：某些代理服务器在DNS查询超时时会返回400或者500错误。</span><br></pre></td></tr></table></figure>
+<p>URI 和 URL</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">URI 是统一资源标识符，而 URL 是统一资源定位符</span><br></pre></td></tr></table></figure>
+
+          
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+       
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/03/16/2017.3/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="czhuyu">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="https://avatars2.githubusercontent.com/u/26237984">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="无限进步">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                
+                <a href="/2017/03/16/2017.3/" class="post-title-link" itemprop="http://yoursite.com/page/5/index.html">2017.3</a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2017-03-16 22:22:56" itemprop="dateCreated datePublished" datetime="2017-03-16T22:22:56+08:00">2017-03-16</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2019-05-20 22:20:58" itemprop="dateModified" datetime="2019-05-20T22:20:58+08:00">2019-05-20</time>
+              
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>git <a href="http://www.runoob.com/w3cnote/git-guide.html" target="_blank" rel="noopener">http://www.runoob.com/w3cnote/git-guide.html</a><br>js编辑器 <a href="http://www.cnblogs.com/lhb25/p/html5-wysisyg-inline-editor.html" target="_blank" rel="noopener">http://www.cnblogs.com/lhb25/p/html5-wysisyg-inline-editor.html</a><br>JavaEE 注解和XML<a href="http://blog.csdn.net/qmw19910301/article/details/52712893" target="_blank" rel="noopener">http://blog.csdn.net/qmw19910301/article/details/52712893</a></p>
 
           
         
@@ -1925,7 +1943,9 @@
                     
                       
                     
-                    <span class="site-state-item-count">58</span>
+                      
+                    
+                    <span class="site-state-item-count">59</span>
                     <span class="site-state-item-name">标签</span>
                   </a>
                 </div>
@@ -1933,6 +1953,13 @@
             </nav>
           
 
+          
+            <div class="feed-link motion-element">
+              <a href="/rss2.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
           
 
           

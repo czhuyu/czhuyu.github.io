@@ -118,6 +118,8 @@
 
 
 
+  <link rel="alternate" href="/rss2.xml" title="无限进步" type="application/atom+xml" />
+
 
 
 
@@ -1237,7 +1239,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/03/16/leetcode-4/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/03/16/dependency-injection/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="czhuyu">
@@ -1257,7 +1259,7 @@
           <h1 class="post-title" itemprop="name headline">
                 
                 
-                <a href="/2017/03/16/leetcode-4/" class="post-title-link" itemprop="http://yoursite.com/page/3/index.html">leetcode-4</a>
+                <a href="/2017/03/16/dependency-injection/" class="post-title-link" itemprop="http://yoursite.com/page/3/index.html">依赖注入</a>
               
             
           </h1>
@@ -1299,7 +1301,7 @@
                 
                   <span class="post-meta-item-text">更新于</span>
                 
-                <time title="修改时间：2019-05-24 23:55:43" itemprop="dateModified" datetime="2019-05-24T23:55:43+08:00">2019-05-24</time>
+                <time title="修改时间：2019-05-20 22:21:58" itemprop="dateModified" datetime="2019-05-20T22:21:58+08:00">2019-05-20</time>
               
             
           </span>
@@ -1334,7 +1336,7 @@
       
         
           
-            <p></p><p style="box-sizing: border-box; font-family: inherit; font-weight: 500; line-height: 1.1; color: inherit; margin-top: 0px; margin-bottom: 10px; font-size: 24px; display: inline-block; margin-right: 0.5em;">3.&nbsp;Longest Substring Without Repeating Characters</p><p style="box-sizing: border-box; margin-top: 0px; margin-bottom: 10px; color: rgb(51, 51, 51); font-family: &quot;Helvetica Neue&quot;, Helvetica, Arial, sans-serif; font-size: 14px; white-space: normal; background-color: rgb(255, 255, 255);">Given a string, find the length of the&nbsp;<span style="box-sizing: border-box; font-weight: 700;">longest substring</span>&nbsp;without repeating characters.<br></p><p style="box-sizing: border-box; margin-top: 0px; margin-bottom: 10px; color: rgb(51, 51, 51); font-family: &quot;Helvetica Neue&quot;, Helvetica, Arial, sans-serif; font-size: 14px; white-space: normal; background-color: rgb(255, 255, 255);"><span style="box-sizing: border-box; font-weight: 700;">Examples:</span></p><p style="box-sizing: border-box; margin-top: 0px; margin-bottom: 10px; color: rgb(51, 51, 51); font-family: &quot;Helvetica Neue&quot;, Helvetica, Arial, sans-serif; font-size: 14px; white-space: normal; background-color: rgb(255, 255, 255);">Given&nbsp;<code style="box-sizing: border-box; font-family: Menlo, Monaco, Consolas, &quot;Courier New&quot;, monospace; font-size: 12.6px; padding: 2px 4px; color: rgb(199, 37, 78); background-color: rgb(249, 242, 244); border-radius: 4px;">&quot;abcabcbb&quot;</code>, the answer is&nbsp;<code style="box-sizing: border-box; font-family: Menlo, Monaco, Consolas, &quot;Courier New&quot;, monospace; font-size: 12.6px; padding: 2px 4px; color: rgb(199, 37, 78); background-color: rgb(249, 242, 244); border-radius: 4px;">&quot;abc&quot;</code>, which the length is 3.</p><p style="box-sizing: border-box; margin-top: 0px; margin-bottom: 10px; color: rgb(51, 51, 51); font-family: &quot;Helvetica Neue&quot;, Helvetica, Arial, sans-serif; font-size: 14px; white-space: normal; background-color: rgb(255, 255, 255);">Given&nbsp;<code style="box-sizing: border-box; font-family: Menlo, Monaco, Consolas, &quot;Courier New&quot;, monospace; font-size: 12.6px; padding: 2px 4px; color: rgb(199, 37, 78); background-color: rgb(249, 242, 244); border-radius: 4px;">&quot;bbbbb&quot;</code>, the answer is&nbsp;<code style="box-sizing: border-box; font-family: Menlo, Monaco, Consolas, &quot;Courier New&quot;, monospace; font-size: 12.6px; padding: 2px 4px; color: rgb(199, 37, 78); background-color: rgb(249, 242, 244); border-radius: 4px;">&quot;b&quot;</code>, with the length of 1.</p><p style="box-sizing: border-box; margin-top: 0px; margin-bottom: 10px; color: rgb(51, 51, 51); font-family: &quot;Helvetica Neue&quot;, Helvetica, Arial, sans-serif; font-size: 14px; white-space: normal; background-color: rgb(255, 255, 255);">Given&nbsp;<code style="box-sizing: border-box; font-family: Menlo, Monaco, Consolas, &quot;Courier New&quot;, monospace; font-size: 12.6px; padding: 2px 4px; color: rgb(199, 37, 78); background-color: rgb(249, 242, 244); border-radius: 4px;">&quot;pwwkew&quot;</code>, the answer is&nbsp;<code style="box-sizing: border-box; font-family: Menlo, Monaco, Consolas, &quot;Courier New&quot;, monospace; font-size: 12.6px; padding: 2px 4px; color: rgb(199, 37, 78); background-color: rgb(249, 242, 244); border-radius: 4px;">&quot;wke&quot;</code>, with the length of 3. Note that the answer must be a&nbsp;<span style="box-sizing: border-box; font-weight: 700;">substring</span>,&nbsp;<code style="box-sizing: border-box; font-family: Menlo, Monaco, Consolas, &quot;Courier New&quot;, monospace; font-size: 12.6px; padding: 2px 4px; color: rgb(199, 37, 78); background-color: rgb(249, 242, 244); border-radius: 4px;">&quot;pwke&quot;</code>&nbsp;is a&nbsp;<em style="box-sizing: border-box;">subsequence</em>&nbsp;and not a substring.</p><pre class="brush:cpp;toolbar:false">func&nbsp;lengthOfLongestSubstring(s&nbsp;string)&nbsp;int&nbsp;{<br>    arr&nbsp;:=&nbsp;make(map[rune]int)<br>    start&nbsp;:=&nbsp;0<br>    maxlen&nbsp;:=&nbsp;0<br>    for&nbsp;i,&nbsp;v&nbsp;:=&nbsp;range&nbsp;[]rune(s)&nbsp;{<br>        if&nbsp;pre,&nbsp;ok&nbsp;:=&nbsp;arr[v];&nbsp;ok&nbsp;&amp;&amp;&nbsp;pre&nbsp;&gt;=&nbsp;start&nbsp;{<br>            start&nbsp;=&nbsp;pre&nbsp;+&nbsp;1<br>        }<br>        if&nbsp;i-start+1&nbsp;&gt;&nbsp;maxlen&nbsp;{<br>            maxlen&nbsp;=&nbsp;i&nbsp;-&nbsp;start&nbsp;+&nbsp;1<br>        }<br>        arr[v]&nbsp;=&nbsp;i<br>    }<br>    return&nbsp;maxlen<br>}</pre><p><br></p>
+            <p>依赖注入(DI)指的就是当你需要实例化的类依赖于其他类的实现的时候；</p><p>不需要在本类中实例化所依赖的类，而是将所依赖的类通过参数的形式传入 即构造注入(构造函数)和设值注入(set方法);</p><p>高耦合的反例<br></p><pre class="brush:php;toolbar:false">//高耦合<br><br>class Apple<br>{<br>​    protected $name =  ‘ ‘;<br><br>    public function <strong>construct()<br>    {<br>        $this- &gt;name =  ‘Apple ‘;<br>    }<br><br>    public function getName()<br>    {<br>        return $this- &gt;name;<br>    }<br>}<br><br>class Orange<br>{<br>​    protected $name =  ‘ ‘;<br><br>    public function </strong>construct()<br>    {<br>        $this- &gt;name =  ‘Orange ‘;<br>    }<br><br>    public function getName()<br>    {<br>        return $this- &gt;name;<br>    }<br>}<br><br>class Person<br>{<br>​    protected $likeFood =  ‘ ‘;<br><br>    public function <strong>construct()<br>    {<br>        $this- &gt;likeFood = new Orange();<br>        echo  ‘这个人喜欢吃 ‘ . $this- &gt;likeFood- &gt;getName();<br>    }<br>}<br><br>new Person();</strong></pre><p>低耦合注入</p><pre class="brush:php;toolbar:false">//低耦合实现<br>interface Fruit<br>{<br>​    public function getName();<br><br>}<br><br>class Apple implements Fruit<br>{<br>​    protected $name =  ‘ ‘;<br><br>    public function construct()<br>    {<br>        $this- &gt;name =  ‘Apple ‘;<br>    }<br><br>    public function getName()<br>    {<br>        return $this- &gt;name;<br>    }<br>}<br><br>class Orange implements Fruit<br>{<br>​    protected $name =  ‘ ‘;<br><br>    public function <strong>construct()<br>    {<br>        $this- &gt;name =  ‘Orange ‘;<br>    }<br><br>    public function getName()<br>    {<br>        return $this- &gt;name;<br>    }<br>}<br><br>class Person<br>{<br>​    public $likeFood;<br><br>    public function </strong>construct(Fruit $fruit)<br>    {<br>        echo  ‘这个人喜欢吃 ‘ . $fruit- &gt;getName();<br>    }<br>}<br><br>$apple = new Apple();<br>new Person($apple);</pre><p><br></p>
           
         
       
@@ -1390,7 +1392,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/03/16/PHP内置数组排序方法/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/03/16/Linux下编译安装Mysql/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="czhuyu">
@@ -1410,7 +1412,7 @@
           <h1 class="post-title" itemprop="name headline">
                 
                 
-                <a href="/2017/03/16/PHP内置数组排序方法/" class="post-title-link" itemprop="http://yoursite.com/page/3/index.html">php内置数组排序</a>
+                <a href="/2017/03/16/Linux下编译安装Mysql/" class="post-title-link" itemprop="http://yoursite.com/page/3/index.html">linux安装mysql</a>
               
             
           </h1>
@@ -1452,7 +1454,7 @@
                 
                   <span class="post-meta-item-text">更新于</span>
                 
-                <time title="修改时间：2019-05-20 22:25:49" itemprop="dateModified" datetime="2019-05-20T22:25:49+08:00">2019-05-20</time>
+                <time title="修改时间：2019-05-20 22:24:23" itemprop="dateModified" datetime="2019-05-20T22:24:23+08:00">2019-05-20</time>
               
             
           </span>
@@ -1487,7 +1489,8 @@
       
         
           
-            
+            <p>1、mysql   官网下载适合的压缩包，格式为mysql-x.x.xx-linuxxxx.tar.gz<br>2、解压后配置<br>配置帮助  ./configure –help<br>3、groupadd mysql<br>useradd –g mysql mysql<br>cd到mysql的解压目录<br>chown –R mysql .<br>chgrp –R mysql .<br>4、./scripts/mysql_install_db –user=mysql<br>如果提示laibaio.1的相关错误<br>yum install libaioso.1 libaio<br>5、把目录权限还给root<br>chown –R root .<br>chown –R mysql data<br>mkdir /var/run/mysqld<br>chown mysql /var/run/mysqld<br>chgrp mysql /var/run/mysqld<br>6、启动mysql<br>./bin/mysqld_safe –user=mysql &amp;<br>7、连接mysql ./bin/mysql –uroot -p<br>如果报错   建立软连接或者直接将sock文件复制过去<br>建立软连接方法<br>ln /var/lib/mysql/mysql.sock /tmp/mysql.sock<br>8、修改密码<br>update user set Password=password(你想要的密码) where Host=’localhost’ and User=  ‘root  ‘;<br>delete from user where Password=  ‘’;<br>flush privileges;</p>
+
           
         
       
@@ -1696,7 +1699,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/03/16/HTTP OPTIONS/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/03/16/leetcode_bin_tree/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="czhuyu">
@@ -1716,7 +1719,7 @@
           <h1 class="post-title" itemprop="name headline">
                 
                 
-                <a href="/2017/03/16/HTTP OPTIONS/" class="post-title-link" itemprop="http://yoursite.com/page/3/index.html">HTTP</a>
+                <a href="/2017/03/16/leetcode_bin_tree/" class="post-title-link" itemprop="http://yoursite.com/page/3/index.html">day3</a>
               
             
           </h1>
@@ -1758,7 +1761,7 @@
                 
                   <span class="post-meta-item-text">更新于</span>
                 
-                <time title="修改时间：2019-06-17 14:34:00" itemprop="dateModified" datetime="2019-06-17T14:34:00+08:00">2019-06-17</time>
+                <time title="修改时间：2019-05-20 22:23:32" itemprop="dateModified" datetime="2019-05-20T22:23:32+08:00">2019-05-20</time>
               
             
           </span>
@@ -1793,16 +1796,7 @@
       
         
           
-            <p>幂等和非幂等</p>
-<p>执行一次和执行很多次同样的操作是否是一样的</p>
-<p>GET/PUT/DELETE 幂等</p>
-<p>POST 非幂等</p>
-<p>301</p>
-<p>302</p>
-<p>500</p>
-<p>502</p>
-<p>504</p>
-
+            <p><strong>Binary Tree (Traverse A Tree)</strong><br></p><p><br></p><p>Binary Tree Preorder Traversal</p><pre class="brush:cpp;toolbar:false">/*<em><br>&nbsp;</em>&nbsp;Definition&nbsp;for&nbsp;a&nbsp;binary&nbsp;tree&nbsp;node.<br>&nbsp;<em>&nbsp;type&nbsp;TreeNode&nbsp;struct&nbsp;{<br>&nbsp;</em>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Val&nbsp;int<br>&nbsp;<em>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Left&nbsp;</em>TreeNode<br>&nbsp;<em>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Right&nbsp;</em>TreeNode<br>&nbsp;<em>&nbsp;}<br>&nbsp;</em>/<br>func&nbsp;preorderTraversal(root&nbsp;<em>TreeNode)&nbsp;[]int&nbsp;{<br>    var&nbsp;arr&nbsp;[]int<br>    if&nbsp;root&nbsp;==&nbsp;nil&nbsp;{<br>        return&nbsp;arr<br>    }<br>    arr&nbsp;=&nbsp;append(arr,&nbsp;root.Val)<br>    arr1&nbsp;:=&nbsp;preorderTraversal(root.Left)<br>    arr&nbsp;=&nbsp;arrmerge(arr,&nbsp;arr1)<br>    arr2&nbsp;:=&nbsp;preorderTraversal(root.Right)<br>    arr&nbsp;=&nbsp;arrmerge(arr,&nbsp;arr2)<br>    return&nbsp;arr<br>}<br><br>func&nbsp;arrmerge(arr&nbsp;[]int,&nbsp;arr1&nbsp;[]int)&nbsp;[]int&nbsp;{<br>​    for&nbsp;_,&nbsp;v&nbsp;:=&nbsp;range&nbsp;arr1&nbsp;{<br>​        arr&nbsp;=&nbsp;append(arr,&nbsp;v)<br>​    }<br>​    return&nbsp;arr<br>}</em></pre><p>Binary Tree Inorder Traversal</p><pre class="brush:cpp;toolbar:false">func&nbsp;inorderTraversal(root&nbsp;TreeNode)&nbsp;[]int&nbsp;{<br>​    var&nbsp;arr&nbsp;[]int<br>​    if&nbsp;root&nbsp;==&nbsp;nil&nbsp;{<br>​        return&nbsp;arr<br>​    }<br>​    arr1&nbsp;:=&nbsp;inorderTraversal(root.Left)<br>​    arr&nbsp;=&nbsp;arrmerge(arr,&nbsp;arr1)<br>​    arr&nbsp;=&nbsp;append(arr,&nbsp;root.Val)<br>​    arr2&nbsp;:=&nbsp;inorderTraversal(root.Right)<br>​    arr&nbsp;=&nbsp;arrmerge(arr,&nbsp;arr2)<br>​    return&nbsp;arr<br>}</pre><p>Binary Tree Postorder Traversal</p><pre class="brush:cpp;toolbar:false">func&nbsp;postorderTraversal(root&nbsp;*TreeNode)&nbsp;[]int&nbsp;{<br>&nbsp;&nbsp;&nbsp;&nbsp;var&nbsp;arr&nbsp;[]int<br>​    if&nbsp;root&nbsp;==&nbsp;nil&nbsp;{<br>​        return&nbsp;arr<br>​    }<br>​    arr1&nbsp;:=&nbsp;postorderTraversal(root.Left)<br>​    arr&nbsp;=&nbsp;arrmerge(arr,&nbsp;arr1)<br>​    arr2&nbsp;:=&nbsp;postorderTraversal(root.Right)<br>​    arr&nbsp;=&nbsp;arrmerge(arr,&nbsp;arr2)<br>&nbsp;&nbsp;&nbsp;&nbsp;arr&nbsp;=&nbsp;append(arr,&nbsp;root.Val)<br>​    return&nbsp;arr<br>}</pre><p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;</p>
           
         
       
@@ -1858,7 +1852,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/03/16/2017.3/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/03/16/Linux下编译安装PHP/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="czhuyu">
@@ -1878,7 +1872,7 @@
           <h1 class="post-title" itemprop="name headline">
                 
                 
-                <a href="/2017/03/16/2017.3/" class="post-title-link" itemprop="http://yoursite.com/page/3/index.html">2017.3</a>
+                <a href="/2017/03/16/Linux下编译安装PHP/" class="post-title-link" itemprop="http://yoursite.com/page/3/index.html">linux安装php</a>
               
             
           </h1>
@@ -1920,7 +1914,7 @@
                 
                   <span class="post-meta-item-text">更新于</span>
                 
-                <time title="修改时间：2019-05-20 22:20:58" itemprop="dateModified" datetime="2019-05-20T22:20:58+08:00">2019-05-20</time>
+                <time title="修改时间：2019-05-20 22:24:40" itemprop="dateModified" datetime="2019-05-20T22:24:40+08:00">2019-05-20</time>
               
             
           </span>
@@ -1955,8 +1949,7 @@
       
         
           
-            <p>git <a href="http://www.runoob.com/w3cnote/git-guide.html" target="_blank" rel="noopener">http://www.runoob.com/w3cnote/git-guide.html</a><br>js编辑器 <a href="http://www.cnblogs.com/lhb25/p/html5-wysisyg-inline-editor.html" target="_blank" rel="noopener">http://www.cnblogs.com/lhb25/p/html5-wysisyg-inline-editor.html</a><br>JavaEE 注解和XML<a href="http://blog.csdn.net/qmw19910301/article/details/52712893" target="_blank" rel="noopener">http://blog.csdn.net/qmw19910301/article/details/52712893</a></p>
-
+            <p>1、&nbsp;&nbsp;安装依赖库<br></p><p>2、&nbsp;&nbsp;yum install gd zlib libxml2 libxml2-devel libjpeg libjpeg-devel libpng libpng-devel</p><p>3、&nbsp;&nbsp;下载php-5.6.23.tar.bz2，解压</p><p>4、&nbsp;&nbsp;cd到php解压的目录里</p><p>5、&nbsp;&nbsp;配置安装的一些参数</p><p>./configure –prefix=/usr/local/php \</p><p>–with-gd \</p><p>–enable-gd-native-ttf \</p><p>–enable-gd-jis-conv \</p><p>–with-mysql=mysqlnd \</p><p>–enable-mysqlnd \</p><p>–with-pdo-mysql=mysqlnd \</p><p>–enable-fpm\</p><p>–with-openssl</p><p>&nbsp;</p><p>&nbsp;</p><p>Curl &nbsp;&nbsp;&nbsp;</p><p>&nbsp;</p><p>&nbsp;</p><p>./configure –prefix=/usr/local/php7 –with-gd –enable-gd-native-ttf –enable-gd-jis-conv –with-mysql=mysqlnd –enable-mysqlnd –with-pdo-mysql=mysqlnd –enable-fpm –with-openssl –enable-mbstring –enable-tokenizer –enable-zip –with-curl</p><p>&nbsp;</p><p>&nbsp;</p><p>enable-fpm是让php作为独立的进程来运行，占用9000端口</p><p>配置注意</p><p>&nbsp;</p><p>可能会报openssl的错误</p><p>yum install openssl openssl-devel</p><p>&nbsp;</p><p>每个参数后的斜杠前是有空格的，斜杠所起的作用是连接上下两行，没有空格两个参数会连到一起就会报错了</p><p>6、&nbsp;&nbsp;make &amp;&amp;make install</p><p>这个过程中如果使用小内存的服务器可能出现php error，解决办法:</p><p>在配置的最后一行加上–disable-fileinfo</p><p>7、cd /usr/local/php</p><p>cp etc/php-fpm.conf.default etc/php-fpm.conf</p><p>cp /usr/local/src/php-5.5.13/php.ini-development ./lib/php.ini</p><p>7、&nbsp;&nbsp;启动php</p><p>./sbin/php-fpm</p><p>&nbsp;</p><p>&nbsp;</p><p>/usr/local/php7/lib/php/extensions/no-debug-non-zts-20151012</p><p><br></p>
           
         
       
@@ -2179,7 +2172,9 @@
                     
                       
                     
-                    <span class="site-state-item-count">58</span>
+                      
+                    
+                    <span class="site-state-item-count">59</span>
                     <span class="site-state-item-name">标签</span>
                   </a>
                 </div>
@@ -2187,6 +2182,13 @@
             </nav>
           
 
+          
+            <div class="feed-link motion-element">
+              <a href="/rss2.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
           
 
           
