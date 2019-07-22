@@ -366,6 +366,418 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/06/02/php中的数组和hash表/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="czhuyu">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="https://avatars2.githubusercontent.com/u/26237984">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="无限进步">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                
+                <a href="/2019/06/02/php中的数组和hash表/" class="post-title-link" itemprop="http://yoursite.com/page/2/index.html">php中的数组和hash表</a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2019-06-02 17:50:20" itemprop="dateCreated datePublished" datetime="2019-06-02T17:50:20+08:00">2019-06-02</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2019-06-04 11:27:28" itemprop="dateModified" datetime="2019-06-04T11:27:28+08:00">2019-06-04</time>
+              
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h2 id="php中的数组和hash表"><a href="#php中的数组和hash表" class="headerlink" title="php中的数组和hash表"></a>php中的数组和hash表</h2><p>什么是hash表</p>
+<p>根据设定的哈希函数H(key)和处理冲突的方法将一组关键字映像到一个有限的连续的地址集上，并以关键字在地址集中的“像”作为记录在表中的存储位置，这种表便称作哈希表，这一映像过程称为哈希造表或散列，所得存储位置称哈希地址。</p>
+<p>怎么理解呢？为什么需要这样一个结构呢？</p>
+<p>举个例子，我们有一个一维数组来存储34个省份的各种信息，假设存储时候他的key我们如果设置成省份的名称，那么我们就需要a[33]来存储所有的省份</p>
+<table>
+<thead>
+<tr>
+<th>省份</th>
+<th>北京</th>
+<th>上海</th>
+<th>四川</th>
+<th>…</th>
+<th>广东</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>天气</td>
+<td>晴</td>
+<td>晴</td>
+<td>晴</td>
+<td>…</td>
+<td>晴</td>
+</tr>
+<tr>
+<td>总人口</td>
+<td>xxx人</td>
+<td>xxx人</td>
+<td>xxx人</td>
+<td>…</td>
+<td>xxx人</td>
+</tr>
+</tbody>
+</table>
+<p>那么我们如果想找到四川的信息那我们就得从第一个a[0]的key开始比较直到找到a[x]的key == “四川”,然后取出a[x]里面所保存的内容。hash表怎么做呢？我们通过某个hash函数f(key)把四川转成某个数字来作为它在数组中存储的key，那当我们需要查找它时就直接f(四川)就知道它在数组中的位置，然后使用a[f(四川)]就能够取出来四川下所保存的信息，相当于我们没有经过任何的比较就查找到了四川的所有信息，当然这是理想情况，因为hash函数一定能把每个省份的名称映射成一个单独的key并且不重复不产生冲突吗？如果仅仅为了不重复造成了不能均匀地分布到地址集合中造成空间浪费呢？</p>
+<p>从定义中我们可以看到hash函数和处理冲突的方法就是hash表的核心</p>
+<p><strong>hash函数</strong></p>
+<p>构造hash函数的方法很多，什么是好的hash函数呢？应该说在能够把关键字集合均匀地映射到整个地址区间，有效减少冲突的函数就是好的hash函数。</p>
+<p>构造hash函数的方法有很多：直接定址法/数字分析法/平方取中法/折叠法/除留余数法随机数法</p>
+<p>在php中hash函数被称作DJBX33A (Daniel J. Bernstein, Times 33 with Addition)</p>
+<p>具体实现如下</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line">static inline ulong zend_inline_hash_func(const char *arKey, uint nKeyLength)</span><br><span class="line">&#123;</span><br><span class="line">	register ulong hash = 5381;</span><br><span class="line"></span><br><span class="line">	/* variant with the hash unrolled eight times */</span><br><span class="line">	for (; nKeyLength &gt;= 8; nKeyLength -= 8) &#123;</span><br><span class="line">		hash = ((hash &lt;&lt; 5) + hash) + *arKey++;</span><br><span class="line">		hash = ((hash &lt;&lt; 5) + hash) + *arKey++;</span><br><span class="line">		hash = ((hash &lt;&lt; 5) + hash) + *arKey++;</span><br><span class="line">		hash = ((hash &lt;&lt; 5) + hash) + *arKey++;</span><br><span class="line">		hash = ((hash &lt;&lt; 5) + hash) + *arKey++;</span><br><span class="line">		hash = ((hash &lt;&lt; 5) + hash) + *arKey++;</span><br><span class="line">		hash = ((hash &lt;&lt; 5) + hash) + *arKey++;</span><br><span class="line">		hash = ((hash &lt;&lt; 5) + hash) + *arKey++;</span><br><span class="line">	&#125;</span><br><span class="line">	switch (nKeyLength) &#123;</span><br><span class="line">		case 7: hash = ((hash &lt;&lt; 5) + hash) + *arKey++; /* fallthrough... */</span><br><span class="line">		case 6: hash = ((hash &lt;&lt; 5) + hash) + *arKey++; /* fallthrough... */</span><br><span class="line">		case 5: hash = ((hash &lt;&lt; 5) + hash) + *arKey++; /* fallthrough... */</span><br><span class="line">		case 4: hash = ((hash &lt;&lt; 5) + hash) + *arKey++; /* fallthrough... */</span><br><span class="line">		case 3: hash = ((hash &lt;&lt; 5) + hash) + *arKey++; /* fallthrough... */</span><br><span class="line">		case 2: hash = ((hash &lt;&lt; 5) + hash) + *arKey++; /* fallthrough... */</span><br><span class="line">		case 1: hash = ((hash &lt;&lt; 5) + hash) + *arKey++; break;</span><br><span class="line">		case 0: break;</span><br><span class="line">EMPTY_SWITCH_DEFAULT_CASE()</span><br><span class="line">	&#125;</span><br><span class="line">	return hash;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>核心如下</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">unsigned int DJBHash(char *str)</span><br><span class="line">&#123;</span><br><span class="line">    unsigned int hash = 5381;</span><br><span class="line"> </span><br><span class="line">    while (*str)</span><br><span class="line">    &#123;</span><br><span class="line">        hash += (hash &lt;&lt; 5) + (*str++);</span><br><span class="line">    &#125;</span><br><span class="line"> </span><br><span class="line">    return (hash &amp; 0x7FFFFFFF);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>一个字符串的key经过这个函数之后会返回一个无符号的整型，这个无符号整型就是php会真正存储使用到的key.</p>
+<p><strong>处理冲突</strong></p>
+<p>冲突可以减少，但是不能避免，所以还必须有处理冲突的方法</p>
+<p>开放定址法/再hash法/链地址法</p>
+<p>php中采用的是链地址法</p>
+<p>如果冲突太多怎么办？或者恶意冲突呢？在鸟哥的blog里有一篇关于hash冲突的示例</p>
+<p><a href="http://www.laruence.com/2011/12/30/2435.html" target="_blank" rel="noopener">http://www.laruence.com/2011/12/30/2435.html</a></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php</span><br><span class="line">$size = pow(2, 16);</span><br><span class="line"> </span><br><span class="line">$startTime = microtime(true);</span><br><span class="line">$array = array();</span><br><span class="line">for ($key = 0, $maxKey = ($size - 1) * $size; $key &lt;= $maxKey; $key += $size) &#123;</span><br><span class="line">    $array[$key] = 0;</span><br><span class="line">&#125;</span><br><span class="line">$endTime = microtime(true);</span><br><span class="line">echo &apos;插入 &apos;, $size, &apos; 个恶意的元素需要 &apos;, $endTime - $startTime, &apos; 秒&apos;, &quot;\n&quot;;</span><br><span class="line"> </span><br><span class="line">$startTime = microtime(true);</span><br><span class="line">$array = array();</span><br><span class="line">for ($key = 0, $maxKey = $size - 1; $key &lt;= $maxKey; ++$key) &#123;</span><br><span class="line">    $array[$key] = 0;</span><br><span class="line">&#125;</span><br><span class="line">$endTime = microtime(true);</span><br><span class="line">echo &apos;插入 &apos;, $size, &apos; 个普通元素需要 &apos;, $endTime - $startTime, &apos; 秒&apos;, &quot;\n&quot;;</span><br></pre></td></tr></table></figure>
+<p>在我的机器上面运行得到了下面这个结果。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">插入 65536 个恶意的元素需要 29.219798088074 秒</span><br><span class="line">插入 65536 个普通元素需要 0.014147996902466 秒</span><br></pre></td></tr></table></figure>
+<p>可以看到差距确实是很明显的，具体原因就是每个需要插入的key都会产生hash冲突最后整个hash表变成了一个链表。由于这个链表会保持有序，所以每当下一个元素需要插入时，就要遍历去找它应该插入该到链表的那个位置造成了这个问题，而且需要遍历的节点个数是越来越多的。</p>
+<p><strong>php hash表结构图示</strong></p>
+<p><img src="http://www.php-internals.com/images/book/chapt03/03-01-02-zend_hashtable.png" alt=""></p>
+<p>上图来自网络，侵删。</p>
+<p>这张图比较清晰的展示了你如果在php中hash表的存储结构。</p>
+<p>最左侧是hash表的结构体内容</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">typedef struct _hashtable &#123;</span><br><span class="line">	uint nTableSize;</span><br><span class="line">	uint nTableMask;</span><br><span class="line">	uint nNumOfElements;</span><br><span class="line">	ulong nNextFreeElement;</span><br><span class="line">	Bucket *pInternalPointer;	/* Used for element traversal */</span><br><span class="line">	Bucket *pListHead;</span><br><span class="line">	Bucket *pListTail;</span><br><span class="line">	Bucket **arBuckets;</span><br><span class="line">	dtor_func_t pDestructor;</span><br><span class="line">	zend_bool persistent;</span><br><span class="line">	unsigned char nApplyCount;</span><br><span class="line">	zend_bool bApplyProtection;</span><br><span class="line">#if ZEND_DEBUG</span><br><span class="line">	int inconsistent;</span><br><span class="line">#endif</span><br><span class="line">&#125; HashTable;</span><br></pre></td></tr></table></figure>
+<p>左二列就是上面描述的连续的地址区间，这里面所存储的都是Bucket类型的指针，保存的当然就是每个Bucket的地址。</p>
+<p>Bucket就是保存数据的单元</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">typedef struct bucket &#123;</span><br><span class="line">	ulong h;						/* Used for numeric indexing */</span><br><span class="line">	uint nKeyLength;</span><br><span class="line">	void *pData;</span><br><span class="line">	void *pDataPtr;</span><br><span class="line">	struct bucket *pListNext;</span><br><span class="line">	struct bucket *pListLast;</span><br><span class="line">	struct bucket *pNext;</span><br><span class="line">	struct bucket *pLast;</span><br><span class="line">	const char *arKey;</span><br><span class="line">&#125; Bucket;</span><br></pre></td></tr></table></figure>
+<p>从图中或者从结构体定义中我们可以看到hash表结构体和Bucket结构体定义了很多指针或者是变量来存储Bucket相关的信息或者跟hash表相关的信息。</p>
+<p>回到图中，在Bucket1插入之前，php先初始化了_hashtable这样一个结构体，初始化了一个连续的地址空间，里面保存的都是空指针，并且把Bucket **arBuckets;指向指针类型的指针指向了这个连续地址区间的第一个元素的地址。在实际的将这个元素保存到hash表的过程中，先根据hash函数确定了Bucket1应该存储到地址为1的这个位置，于是把地址为1的空指针指向了bucket1，然后插入Bucket2，由于hash函数Bucket2的key对应的地址也是1，一般来说在每个链hash key的值相同的链表中也是要保持关键词有序的，因为方便查找和添加，于是根据关键词的升序或者降序确定了Bucket2应当插入到Bucket1的前面。把Bucket2的pNext指向了Bucket1，把地址为1的指针执行了Bucket2，Bucket3和Bucket1插入的方式同理。</p>
+<p>这里只是简要描述了插入的过程而没有说明每一个变量的改变和指针的改变，不然流程太长了。</p>
+<p>Bucket里保存的信息的作用</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">ulong h;	/* Used for numeric indexing */ 这里php源码注释说会用到索引数字类型的时候</span><br><span class="line">uint nKeyLength;        key的长度          </span><br><span class="line">void *pData;			data相关</span><br><span class="line">void *pDataPtr;			data相关</span><br><span class="line">struct bucket *pListNext; 在整个hashtable中按插入先后顺序的下一个bucket地址</span><br><span class="line">struct bucket *pListLast; 在整个hashtable中按插入先后顺序的上一个bucket地址</span><br><span class="line">struct bucket *pNext;  在key的hash结果相同的链表中下一个bucket的地址</span><br><span class="line">struct bucket *pLast;  在key的hash结果相同的链表中上一个bucket的地址</span><br><span class="line">const char *arKey;    key</span><br></pre></td></tr></table></figure>
+<p>可以看到php的hashtable维护了很多的双向链表，一个是key相同的时候的双向链表，一个是整个hashtable顺序的双向链表，为什么要这么设计呢？</p>
+<p>hashtable的链表应该是用于遍历的</p>
+<p>而每个hash f(k)相等的时候的链表应该就是服务于元素的增删改查。</p>
+<p>再看hashtable里面存储的信息</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">uint nTableSize;</span><br><span class="line">uint nTableMask;</span><br><span class="line">uint nNumOfElements;</span><br><span class="line">ulong nNextFreeElement;</span><br><span class="line">Bucket *pInternalPointer;	/* Used for element traversal */ 这里php源码注释说会用到元素遍历的时候</span><br><span class="line">Bucket *pListHead;</span><br><span class="line">Bucket *pListTail;</span><br><span class="line">Bucket **arBuckets;</span><br><span class="line">dtor_func_t pDestructor;</span><br><span class="line">zend_bool persistent;</span><br><span class="line">unsigned char nApplyCount;</span><br><span class="line">zend_bool bApplyProtection;</span><br></pre></td></tr></table></figure>
+<p>这里面保存的变量就跟php数组的操作函数有关系了</p>
+<p>当我们使用foreach()来遍历输出一个数组时，他会按照元素的添加先后顺序来输出，怎么做到的呢？Bucket *pInternalPointer;这个指针的作用就体现出来了,首先他的值会跟pListHead一样指向第一个添加的Bucket的地址，然后输出就是</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">print pInternalPointer-&gt;pData-&gt;pDataPtr</span><br></pre></td></tr></table></figure>
+<p>输出下一个元素呢</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">pInternalPointer = pInternalPointer-&gt;pListNext</span><br><span class="line">print pInternalPointer-&gt;pData-&gt;pDataPtr</span><br></pre></td></tr></table></figure>
+<p>一直到*pInternalPointer-&gt;pListNext为null的时候数组遍历就完成了，其他的一些函数</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">reset() pInternalPointer = pListHead</span><br><span class="line">end() pInternalPointer = pListTail</span><br><span class="line">next() pInternalPointer = pInternalPointer-&gt;pListNext</span><br><span class="line">prev() pInternalPointer = pInternalPointer-&gt;pListLast</span><br><span class="line">current() pInternalPointer</span><br></pre></td></tr></table></figure>
+
+          
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+       
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/05/31/查找和排序算法/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="czhuyu">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="https://avatars2.githubusercontent.com/u/26237984">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="无限进步">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                
+                <a href="/2019/05/31/查找和排序算法/" class="post-title-link" itemprop="http://yoursite.com/page/2/index.html">查找和排序算法</a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2019-05-31 22:14:07" itemprop="dateCreated datePublished" datetime="2019-05-31T22:14:07+08:00">2019-05-31</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2019-06-01 13:03:47" itemprop="dateModified" datetime="2019-06-01T13:03:47+08:00">2019-06-01</time>
+              
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h2 id="查找和排序算法"><a href="#查找和排序算法" class="headerlink" title="查找和排序算法"></a>查找和排序算法</h2><h4 id="查找算法"><a href="#查找算法" class="headerlink" title="查找算法"></a>查找算法</h4><p>1.顺序查找</p>
+<p>2.二分查找</p>
+<p>循环实现</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">function midSearch($k,$arr)&#123;</span><br><span class="line">	$left = 0;</span><br><span class="line">	$right = count($arr);</span><br><span class="line">	while($left &lt; $right)&#123;</span><br><span class="line">		$mid = floor(($left + $right)/2);</span><br><span class="line">		if($arr[$mid] == $k)&#123;</span><br><span class="line">			return $mid;</span><br><span class="line">		&#125;else if($arr[$mid] &gt; $k)&#123;</span><br><span class="line">			$right = $mid - 1;</span><br><span class="line">		&#125;else&#123;</span><br><span class="line">			$left = $mid + 1;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	return -1;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>递归实现</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">function binSearch($arr,$left,$right,$key)&#123;</span><br><span class="line">	if($left &gt; $right)&#123;</span><br><span class="line">		return -1;</span><br><span class="line">	&#125;else&#123;</span><br><span class="line">		$mid = floor(($left+$right)/2);</span><br><span class="line">		if($key == $arr[$mid])&#123;</span><br><span class="line">			return $mid;</span><br><span class="line">		&#125;elseif ($key &lt; $arr[$mid]) &#123;</span><br><span class="line">			$right = $mid - 1;</span><br><span class="line">			return binSearch($arr,$left,$right,$key);</span><br><span class="line">		&#125;else&#123;</span><br><span class="line">			$left = $mid + 1;</span><br><span class="line">			return binSearch($arr,$left,$right,$key);</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="排序算法"><a href="#排序算法" class="headerlink" title="排序算法"></a>排序算法</h4><p><strong>一.内部排序</strong></p>
+<p>先定义一百个0-100整数元素组成的随机数数组和交换函数</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">$n = 100;</span><br><span class="line">$a = [];</span><br><span class="line"></span><br><span class="line">for ($i=0; $i &lt; $n; $i++) &#123; </span><br><span class="line">	$a[] = rand(0,$n);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">function swap(&amp;$arr,$i,$j)&#123;</span><br><span class="line">	$temp = $arr[$i];</span><br><span class="line">	$arr[$i] = $arr[$j];</span><br><span class="line">	$arr[$j] = $temp;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>1.冒泡排序</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">function bubbleSort($arr)&#123;</span><br><span class="line">	$n = count($arr);</span><br><span class="line">	for($i = 0; $i &lt; $n-1; $i++)&#123;</span><br><span class="line">		for($j = 0;$j &lt; $n-1-$i; $j++)&#123;</span><br><span class="line">			if($arr[$j] &gt; $arr[$j+1])&#123;</span><br><span class="line">				swap($arr,$j,$j+1);</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	return $arr;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>2.选择排序</p>
+<p>简单选择排序</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">function selectSort($arr)&#123;</span><br><span class="line">	$n = count($arr);</span><br><span class="line">	for($i = 0; $i &lt; $n-1; $i++)&#123;</span><br><span class="line">		$minKey = $i;</span><br><span class="line">		for($j = $i;$j &lt; $n; $j++)&#123;</span><br><span class="line">			if($arr[$j] &lt; $arr[$minKey])&#123;</span><br><span class="line">				$minKey = $j;</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">		if($i != $minKey)&#123;</span><br><span class="line">			swap($arr,$i,$minKey);</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	return $arr;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>树形选择排序/堆排序</p>
+<p>3.插入排序</p>
+<p>直接插入排序</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">function insertSort($arr)&#123;</span><br><span class="line">	$n = count($arr);</span><br><span class="line">	for($i = 1; $i &lt; $n; $i++)&#123;</span><br><span class="line">		if($arr[$i] &lt; $arr[$i-1])&#123;</span><br><span class="line">			$temp = $arr[$i];</span><br><span class="line">			$j = $i - 1; </span><br><span class="line">			for($j;$j&gt;=0 &amp;&amp; $arr[$j] &gt; $temp;$j--)&#123;</span><br><span class="line">				$arr[$j+1] = $arr[$j];</span><br><span class="line">			&#125;</span><br><span class="line">			$arr[$j+1] = $temp;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	return $arr;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>其他插入排序/希尔排序</p>
+<p>4.快速排序</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">function qsort(&amp;$arr, $left, $right)&#123;</span><br><span class="line">	if($left &gt; $right)&#123;</span><br><span class="line">		return;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	$i = $left;</span><br><span class="line">	$k = $left;</span><br><span class="line">	$j = $right;</span><br><span class="line"></span><br><span class="line">	while($i &lt; $j)&#123;</span><br><span class="line">		while($arr[$j] &gt;= $arr[$k] &amp;&amp; $i &lt; $j) $j--;</span><br><span class="line">		swap($arr,$j,$k);</span><br><span class="line">		$k = $j;</span><br><span class="line"></span><br><span class="line">		while($arr[$i] &lt;= $arr[$k] &amp;&amp; $i &lt; $j) $i++;</span><br><span class="line">		swap($arr,$i,$k);</span><br><span class="line">		$k = $i;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">	qsort($arr, $left, $k-1);</span><br><span class="line">	qsort($arr, $k+1, $right);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">$n = count($a);</span><br><span class="line">qsort($a, 0, $n-1);</span><br></pre></td></tr></table></figure>
+<p>5.归并排序</p>
+<p>6.基数排序</p>
+<p>多关键字排序/链式基数排序</p>
+<p><strong>二.外部排序</strong></p>
+
+          
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+       
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/05/27/php-cli/">
 
     <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
@@ -1821,360 +2233,11 @@ exec_direct=php_optarg;
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/04/25/MySQL存储引擎和索引结构/">
-
-    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="czhuyu">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="https://avatars2.githubusercontent.com/u/26237984">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="无限进步">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                
-                <a href="/2019/04/25/MySQL存储引擎和索引结构/" class="post-title-link" itemprop="http://yoursite.com/page/2/index.html">MySQL存储引擎和索引结构</a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-
-            
-            
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-
-              
-                
-              
-
-              <time title="创建时间：2019-04-25 21:10:47" itemprop="dateCreated datePublished" datetime="2019-04-25T21:10:47+08:00">2019-04-25</time>
-            
-
-            
-              
-
-              
-                
-                <span class="post-meta-divider">|</span>
-                
-
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">更新于</span>
-                
-                <time title="修改时间：2019-05-21 21:56:03" itemprop="dateModified" datetime="2019-05-21T21:56:03+08:00">2019-05-21</time>
-              
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>一、数据结构</p>
-<p>​    MySQL的索引方法</p>
-<ol>
-<li>B-tree<ol>
-<li>快速查找使用等于不等于条件或者范围（&gt;/&lt;/BETWEEN）条件的情形。</li>
-</ol>
-</li>
-<li>hash<ol>
-<li>只适用于MySQL的MEMORY存储引擎</li>
-</ol>
-</li>
-</ol>
-<p>二、MySQL （5.6为例）不同存储引擎的索引结构差别</p>
-<p>​    这里讨论MySQL两种主要的存储引擎InnoDB 和 MyISAM</p>
-<ol>
-<li>InnoDB<ol>
-<li>每一个InnoDB都会有一个索引叫做聚集索引(<a href="https://dev.mysql.com/doc/refman/5.6/en/glossary.html#glos_clustered_index" target="_blank" rel="noopener">clustered index</a>)，通常这个索引也是主键（primary key），数据文件按主键聚集。每个索引的数据都会存在于此索引结构的树上。</li>
-<li>每一个第二索引(Secondary Indexes)都会有一个字段来存储主键来关联上数据。</li>
-<li>所有的InnoDB索引都是用B-trees,所有的索引记录都存在树的叶子结点。默认索引页大小为16KB。</li>
-</ol>
-</li>
-<li>MyISAM<ol>
-<li>MySQL5.6版本之后默认存储引擎为InnoDB，如果需要MyISAM则需要在建表语句中指定。</li>
-<li>同样支持B-tree索引、不支持聚集索引、不支持HASH索引。采用非聚集索引。</li>
-<li>Primary Key和Secondary Key在结构上是一致的。MyISAM的索引文件不同之处在于Primary Key的key要求是唯一的，而Secondary Key的key可以重复。</li>
-<li>和InnoDB的结构不同之处在于MyISAM的每个索引树的叶子节点存储的是数据的地址，索引文件数据文件分离。</li>
-</ol>
-</li>
-</ol>
-<p>三、BTREE树搜索算法</p>
-<p>四、其他</p>
-
-          
-        
-      
-    </div>
-
-    
-
-    
-    
-    
-
-    
-
-    
-       
-    
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/04/25/redis-内存置换策略/">
-
-    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="czhuyu">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="https://avatars2.githubusercontent.com/u/26237984">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="无限进步">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                
-                <a href="/2019/04/25/redis-内存置换策略/" class="post-title-link" itemprop="http://yoursite.com/page/2/index.html">redis-内存置换策略</a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-
-            
-            
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-
-              
-                
-              
-
-              <time title="创建时间：2019-04-25 21:10:19" itemprop="dateCreated datePublished" datetime="2019-04-25T21:10:19+08:00">2019-04-25</time>
-            
-
-            
-              
-
-              
-                
-                <span class="post-meta-divider">|</span>
-                
-
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">更新于</span>
-                
-                <time title="修改时间：2019-05-20 22:26:13" itemprop="dateModified" datetime="2019-05-20T22:26:13+08:00">2019-05-20</time>
-              
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h1 id="redis"><a href="#redis" class="headerlink" title="redis"></a>redis</h1><p>1.数据类型</p>
-<p>​    k-v string list set zset</p>
-<p>2.redis内存淘汰策略</p>
-<ol>
-<li>超出内存限制报错</li>
-<li>淘汰最近最少未使用</li>
-<li>从设置了过期时间中的键中淘汰最近最少未使用</li>
-<li>随机淘汰</li>
-<li>从设置了过期时间中的键中随机淘汰</li>
-<li>淘汰离过期时间最近的键</li>
-</ol>
-<p>3.redis 持久化策略</p>
-
-          
-        
-      
-    </div>
-
-    
-
-    
-    
-    
-
-    
-
-    
-       
-    
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/"><i class="fa fa-angle-left" aria-label="上一页"></i></a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><span class="space">&hellip;</span><a class="page-number" href="/page/5/">5</a><a class="extend next" rel="next" href="/page/3/"><i class="fa fa-angle-right" aria-label="下一页"></i></a>
+    <a class="extend prev" rel="prev" href="/"><i class="fa fa-angle-left" aria-label="上一页"></i></a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><span class="space">&hellip;</span><a class="page-number" href="/page/6/">6</a><a class="extend next" rel="next" href="/page/3/"><i class="fa fa-angle-right" aria-label="下一页"></i></a>
   </nav>
 
 
@@ -2219,7 +2282,7 @@ exec_direct=php_optarg;
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">49</span>
+                    <span class="site-state-item-count">51</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>
@@ -2352,7 +2415,11 @@ exec_direct=php_optarg;
                     
                       
                     
-                    <span class="site-state-item-count">59</span>
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">61</span>
                     <span class="site-state-item-name">标签</span>
                   </a>
                 </div>

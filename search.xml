@@ -1,6 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title><![CDATA[walk_maze]]></title>
+    <url>%2F2019%2F07%2F22%2Fwalk-maze%2F</url>
+    <content type="text"><![CDATA[基于广度优先算法的 迷宫解法一.输出结果 123456789101112 图 0 0 0 0 0 1 1 1 1 0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0解法 0 1 2 3 4 0 0 0 0 5 0 0 0 0 6 0 0 0 0 7 0 0 0 0 8 第一个二维数组为迷宫地图 0代表可以通行 1代表路障 第二个数组即为迷宫解法 思路 两个二维数组 迷宫图maze 和 到达各点的路径长度mark 把起点装入一个队列quene 取出第一个节点为cur节点，从此节点四个方向走到next节点，即横纵坐标四个方向加减，判断每个方向next节点的坐标，越界/为起点/为障碍/已经记录过 则continue，否则记录下此next节点到队列quene中,并记录到next节点的距离为cur节点存储路径值+1，走完四个方向重复此步骤 当队列为空/到达终点退出。 二.实现 1.文件输入variable 1234565 50 0 0 0 01 1 1 1 00 0 0 1 00 0 0 1 00 0 0 1 0 2.code 123456789101112131415161718192021222324252627282930313233343536373839404142434445464748495051525354555657585960616263646566676869707172737475767778798081828384858687888990919293949596979899100101102103104105106107108109110111112113114115116117118119120package mainimport ( &quot;fmt&quot; &quot;os&quot;)type Point struct &#123; i, j int&#125;func getMap() [][]int &#123; file, err := os.Open(&quot;./variable&quot;) if err != nil &#123; panic(err) &#125; var row, col int fmt.Fscanf(file, &quot;%d %d&quot;, &amp;row, &amp;col) maze := make([][]int, row) for i := range maze &#123; maze[i] = make([]int, col) for j := range maze[i] &#123; fmt.Fscanf(file, &quot;%d&quot;, &amp;maze[i][j]) &#125; &#125; return maze&#125;func (p Point) OneStep(q Point) Point &#123; p.i += q.i p.j += q.j return p&#125;func walkMaze(maze [][]int, start Point, end Point) [][]int &#123; direction := [4]Point&#123;&#123;-1, 0&#125;, &#123;0, -1&#125;, &#123;1, 0&#125;, &#123;0, 1&#125;&#125; var quene []Point mark := make([][]int, len(maze)) for i := range maze &#123; mark[i] = make([]int, len(maze[i])) for j := range maze[i] &#123; mark[i][j] = 0 &#125; &#125; //quene 用于保存可以达到的点 quene = append(quene, start) for &#123; if len(quene) == 0 &#123; break &#125; //走到第一个点 cur := quene[0] quene = quene[1:] if cur == end &#123; break &#125; for _, point := range direction &#123; next := cur.OneStep(point) //是否越界 if next.i &lt; 0 || next.i &gt;= len(maze) &#123; continue &#125; if next.j &lt; 0 || next.j &gt;= len(maze[cur.i]) &#123; continue &#125; //起点 if next == start &#123; continue &#125; //是否障碍 if maze[next.i][next.j] == 1 &#123; continue &#125; //是否走过该点 if mark[next.i][next.j] != 0 &#123; continue &#125; //把下一个能走的点装进队列 quene = append(quene, next) //标记当前点的步数 step := mark[cur.i][cur.j] + 1 mark[next.i][next.j] = step &#125; &#125; return mark&#125;func main() &#123; maze := getMap() route := walkMaze(maze, Point&#123;0, 0&#125;, Point&#123;5, 5&#125;) for i := range maze &#123; for j := range maze[0] &#123; fmt.Printf(&quot;%4d&quot;, maze[i][j]) &#125; fmt.Println() &#125; fmt.Println() for i := range route &#123; for j := range route[0] &#123; fmt.Printf(&quot;%4d&quot;, route[i][j]) &#125; fmt.Println() &#125;&#125;]]></content>
+      <tags>
+        <tag>算法</tag>
+        <tag>广度优先</tag>
+        <tag>golang</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[sso单点登陆]]></title>
+    <url>%2F2019%2F06%2F29%2Fsso%E5%8D%95%E7%82%B9%E7%99%BB%E9%99%86%2F</url>
+    <content type="text"><![CDATA[Single Sign On 单点登陆对于登陆信息，我们一般会使用session并把是否登陆的信息保存到session里面 1.一般网站的大概的登陆流程就是这样 比方说站点是www.sess.com login.php 12session_start();$_SESSION[&apos;login&apos;] = true; profile.php 12345if(isset($_SESSION[&apos;login&apos;] &amp;&amp; $_SESSION[&apos;login&apos;] == true)&#123; echo &apos;登陆了&apos;;&#125;else&#123; echo &apos;没登陆&apos;;&#125; 这中间经历了什么呢？ 当你访问login.php并且登陆成功过后你启动了session，并且往session中保存了login的状态，那么在这次请求的response header里面就会有这样一个东西 1Set-Cookie: PHPSESSID=atdnhrdamp8v5qbfa6gci3mn17; expires=Fri, 28-Jun-2019 19:27:28 GMT; Max-Age=1800; path=/; domain=www.sess.com 当浏览器收到这样的返回过后就会把PHPSESSIONID保存到本地 当你再去访问profile.php的时候，request header里面会有这样的一行 1Cookie: PHPSESSID=atdnhrdamp8v5qbfa6gci3mn17 然后信息就从这里关联上了，php从Cookie传过来的PHPSESSIONID找到对应的session文件，所以取到的内容是登陆状态。 2.如果是我在account.sess1.com登陆了，那www.sess1.com能拿到一样的登陆信息吗，也就是两个站点共享登陆信息。 答案肯定是可以的 这里就要利用cookie的顶级域名功能，也就是当我们保存PHPSESSIONID的时候，我们希望这个cookie的domain是.sess1.com 12session_set_cookie_params(1800 , &apos;/&apos;, &apos;.sess1.com&apos;);session_start(); 在session_start前面加上这一行，两个站点就都可以使用相同的PHPSESSIONID，从而实现共享登陆状态。 问题来了 3.那如果是www.sess1.com和www.sess2.com想要共享登陆信息呢？ cookie是不能跨域的，也就是说我在sess1的PHPSESSONID在sess2是不能拿到的 如何解决呢? CAS流程]]></content>
+  </entry>
+  <entry>
     <title><![CDATA[leetcode-19]]></title>
     <url>%2F2019%2F06%2F17%2Fleetcode-19%2F</url>
     <content type="text"><![CDATA[给定一个链表，删除链表的倒数第 n 个节点，并且返回链表的头结点。 示例： 给定一个链表: 1-&gt;2-&gt;3-&gt;4-&gt;5, 和 n = 2. 当删除了倒数第二个节点后，链表变为 1-&gt;2-&gt;3-&gt;5.说明： 给定的 n 保证是有效的。 进阶： 你能尝试使用一趟扫描实现吗？ 来源：力扣（LeetCode）链接：https://leetcode-cn.com/problems/remove-nth-node-from-end-of-list著作权归领扣网络所有。商业转载请联系官方授权，非商业转载请注明出处。 结构体定义 1234567/** * Definition for singly-linked list. * type ListNode struct &#123; * Val int * Next *ListNode * &#125; */ 实现 123456789101112131415161718192021222324252627282930313233343536func removeNthFromEnd(head *ListNode, n int) *ListNode &#123; count := 1 i := 1 p := head for &#123; if p.Next == nil &#123; break &#125; else &#123; p = p.Next count++ &#125; &#125; if count == 1 &#123; var empty *ListNode return empty &#125; k := count - n if k == 0 &#123; return head.Next &#125; p = head for &#123; if p.Next == nil &#123; break &#125; else &#123; if i == k &#123; p.Next = p.Next.Next break &#125; else &#123; p = p.Next i++ &#125; &#125; &#125; return head&#125; 上面的写法需要两次遍历才能实现，如果只能一次遍历那么关键就是如何一次遍历就能找到倒数第n个节点呢。 快慢指针—我们可以使用两个指针，两个指针始终保持n-1的距离开始遍历，当后一个指针到达链表末尾时，前一个指针就恰好是倒数第n个节点 另外我们这里需要做的是删除第n个节点，我们需要保证两个指针的距离为n。代码如下 12345678910111213141516171819202122232425262728func removeNthFromEnd(head *ListNode, n int) *ListNode &#123; p := head q := head flag := 0 for i := 0; i &lt; n; i++ &#123; if q.Next != nil&#123; q = q.Next flag ++ &#125; &#125; if flag == n-1 &#123; return p.Next &#125; for &#123; if q.Next == nil &#123; if p == q&#123; var empty *ListNode return empty &#125;else&#123; p.Next = p.Next.Next break &#125; &#125; q = q.Next p = p.Next &#125; return head&#125;]]></content>
@@ -48,8 +63,8 @@
       <tags>
         <tag>leetcode</tag>
         <tag>算法</tag>
-        <tag>栈</tag>
         <tag>括号匹配</tag>
+        <tag>栈</tag>
       </tags>
   </entry>
   <entry>
@@ -58,8 +73,8 @@
     <content type="text"><![CDATA[给出 n 代表生成括号的对数，请你写出一个函数，使其能够生成所有可能的并且有效的括号组合。 例如，给出 n = 3，生成结果为： [ “((()))”, “(()())”, “(())()”, “()(())”, “()()()”] 来源：力扣（LeetCode）链接：https://leetcode-cn.com/problems/generate-parentheses著作权归领扣网络所有。商业转载请联系官方授权，非商业转载请注明出处。 1234567891011121314151617181920212223242526272829303132333435363738394041424344454647484950515253545556575859606162636465666768697071727374757677787980818283848586878889909192type stack struct &#123; data []string top int size int&#125;func (s *stack) Push(str string) bool &#123; if s.top &gt; s.size &#123; return false &#125; else &#123; s.data[s.top] = str s.top++ return true &#125;&#125;func (s *stack) Pop() (string, bool) &#123; if s.top == 0 &#123; return &quot;&quot;, false &#125; else &#123; res := s.data[s.top] s.top -- return res, true &#125;&#125;func swap(arr []string, i int, j int) []string &#123; temp := arr[i] arr[i] = arr[j] arr[j] = temp return arr&#125;func qz(arr []string, flag int, res *[][]string) &#123; lenA := len(arr) if flag == lenA &#123; *res = append(*res, arr) &#125; else &#123; for i := flag; i &lt; lenA; i++ &#123; if arr[i] == arr[flag] &amp;&amp; i != flag &#123; continue &#125; arr = swap(arr, flag, i) var temp = make([]string, lenA) copy(temp, arr) qz(temp, flag+1, res) &#125; &#125;&#125;func generateParenthesis(n int) []string &#123; //size := 2 * n var res []string var quan []string for i := 0; i &lt; n; i++ &#123; quan = append(quan, &quot;(&quot;) &#125; for i := 0; i &lt; n; i++ &#123; quan = append(quan, &quot;)&quot;) &#125; var quanz [][]string quanzAddress := &amp;quanz qz(quan, 0, quanzAddress) for _, k := range *quanzAddress &#123; i := 0 v := &quot;&quot; newStack := stack&#123;&#125; newStack.top = 0 newStack.size = 2 * n newStack.data = make([]string, newStack.size) for i, v = range k &#123; if string(v) == &quot;(&quot; &#123; newStack.Push(string(v)) &#125; else &#123; _, err := newStack.Pop() if err == false &#123; break &#125; &#125; &#125; if i == 2*n-1 &#123; s := &quot;&quot; for _, item := range k &#123; s += item &#125; res = append(res, s) &#125; &#125; return res&#125;]]></content>
       <tags>
         <tag>递归</tag>
-        <tag>括号生成</tag>
         <tag>栈</tag>
+        <tag>括号生成</tag>
         <tag>全排列</tag>
       </tags>
   </entry>
@@ -98,8 +113,8 @@
     <content type="text"><![CDATA[查找和排序算法查找算法1.顺序查找 2.二分查找 循环实现 123456789101112131415function midSearch($k,$arr)&#123; $left = 0; $right = count($arr); while($left &lt; $right)&#123; $mid = floor(($left + $right)/2); if($arr[$mid] == $k)&#123; return $mid; &#125;else if($arr[$mid] &gt; $k)&#123; $right = $mid - 1; &#125;else&#123; $left = $mid + 1; &#125; &#125; return -1;&#125; 递归实现 12345678910111213141516function binSearch($arr,$left,$right,$key)&#123; if($left &gt; $right)&#123; return -1; &#125;else&#123; $mid = floor(($left+$right)/2); if($key == $arr[$mid])&#123; return $mid; &#125;elseif ($key &lt; $arr[$mid]) &#123; $right = $mid - 1; return binSearch($arr,$left,$right,$key); &#125;else&#123; $left = $mid + 1; return binSearch($arr,$left,$right,$key); &#125; &#125;&#125; 排序算法一.内部排序 先定义一百个0-100整数元素组成的随机数数组和交换函数 123456789101112$n = 100;$a = [];for ($i=0; $i &lt; $n; $i++) &#123; $a[] = rand(0,$n);&#125;function swap(&amp;$arr,$i,$j)&#123; $temp = $arr[$i]; $arr[$i] = $arr[$j]; $arr[$j] = $temp;&#125; 1.冒泡排序 1234567891011function bubbleSort($arr)&#123; $n = count($arr); for($i = 0; $i &lt; $n-1; $i++)&#123; for($j = 0;$j &lt; $n-1-$i; $j++)&#123; if($arr[$j] &gt; $arr[$j+1])&#123; swap($arr,$j,$j+1); &#125; &#125; &#125; return $arr;&#125; 2.选择排序 简单选择排序 123456789101112131415function selectSort($arr)&#123; $n = count($arr); for($i = 0; $i &lt; $n-1; $i++)&#123; $minKey = $i; for($j = $i;$j &lt; $n; $j++)&#123; if($arr[$j] &lt; $arr[$minKey])&#123; $minKey = $j; &#125; &#125; if($i != $minKey)&#123; swap($arr,$i,$minKey); &#125; &#125; return $arr;&#125; 树形选择排序/堆排序 3.插入排序 直接插入排序 1234567891011121314function insertSort($arr)&#123; $n = count($arr); for($i = 1; $i &lt; $n; $i++)&#123; if($arr[$i] &lt; $arr[$i-1])&#123; $temp = $arr[$i]; $j = $i - 1; for($j;$j&gt;=0 &amp;&amp; $arr[$j] &gt; $temp;$j--)&#123; $arr[$j+1] = $arr[$j]; &#125; $arr[$j+1] = $temp; &#125; &#125; return $arr;&#125; 其他插入排序/希尔排序 4.快速排序 1234567891011121314151617181920212223242526function qsort(&amp;$arr, $left, $right)&#123; if($left &gt; $right)&#123; return; &#125; $i = $left; $k = $left; $j = $right; while($i &lt; $j)&#123; while($arr[$j] &gt;= $arr[$k] &amp;&amp; $i &lt; $j) $j--; swap($arr,$j,$k); $k = $j; while($arr[$i] &lt;= $arr[$k] &amp;&amp; $i &lt; $j) $i++; swap($arr,$i,$k); $k = $i; &#125; qsort($arr, $left, $k-1); qsort($arr, $k+1, $right);&#125;$n = count($a);qsort($a, 0, $n-1); 5.归并排序 6.基数排序 多关键字排序/链式基数排序 二.外部排序]]></content>
       <tags>
         <tag>算法</tag>
-        <tag>排序</tag>
         <tag>查找</tag>
+        <tag>排序</tag>
       </tags>
   </entry>
   <entry>
@@ -249,57 +264,9 @@
       </tags>
   </entry>
   <entry>
-    <title><![CDATA[linux安装mysql]]></title>
-    <url>%2F2017%2F03%2F16%2FLinux%E4%B8%8B%E7%BC%96%E8%AF%91%E5%AE%89%E8%A3%85Mysql%2F</url>
-    <content type="text"><![CDATA[1、mysql 官网下载适合的压缩包，格式为mysql-x.x.xx-linuxxxx.tar.gz2、解压后配置配置帮助 ./configure –help3、groupadd mysqluseradd –g mysql mysqlcd到mysql的解压目录chown –R mysql .chgrp –R mysql .4、./scripts/mysql_install_db –user=mysql如果提示laibaio.1的相关错误yum install libaioso.1 libaio5、把目录权限还给rootchown –R root .chown –R mysql datamkdir /var/run/mysqldchown mysql /var/run/mysqldchgrp mysql /var/run/mysqld6、启动mysql./bin/mysqld_safe –user=mysql &amp;7、连接mysql ./bin/mysql –uroot -p如果报错 建立软连接或者直接将sock文件复制过去建立软连接方法ln /var/lib/mysql/mysql.sock /tmp/mysql.sock8、修改密码update user set Password=password(你想要的密码) where Host=’localhost’ and User= ‘root ‘;delete from user where Password= ‘’;flush privileges;]]></content>
-      <tags>
-        <tag>lnmp</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title><![CDATA[leetcode-7]]></title>
-    <url>%2F2017%2F03%2F16%2Fleetcode-7%2F</url>
-    <content type="text"><![CDATA[7.&nbsp;Reverse Integerfunc&nbsp;reverse(x&nbsp;int)&nbsp;int&nbsp;{ s&nbsp;:=&nbsp;strconv.Itoa(x) rs&nbsp;:=&nbsp;&quot;&quot; j&nbsp;:=&nbsp;0 if&nbsp;x&nbsp;&lt;&nbsp;0&nbsp;{ j&nbsp;=&nbsp;1 rs&nbsp;+=&nbsp;&quot;-&quot; } for&nbsp;i&nbsp;:=&nbsp;len(s)&nbsp;-&nbsp;1;&nbsp;i&nbsp;&gt;=&nbsp;j;&nbsp;i–&nbsp;{ rs&nbsp;+=&nbsp;string(s[i]) } rsi,&nbsp;_&nbsp;:=&nbsp;strconv.Atoi(rs) if&nbsp;rsi&nbsp;&gt;&nbsp;(1&lt;&lt;31)&nbsp;||&nbsp;rsi&nbsp;&lt;&nbsp;-(1&nbsp;&lt;&lt;&nbsp;31)&nbsp;{ rsi&nbsp;=&nbsp;0 } return&nbsp;rsi}]]></content>
-      <tags>
-        <tag>leetcode</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title><![CDATA[day3]]></title>
-    <url>%2F2017%2F03%2F16%2Fleetcode_bin_tree%2F</url>
-    <content type="text"><![CDATA[Binary Tree (Traverse A Tree)Binary Tree Preorder Traversal/*&nbsp;&nbsp;Definition&nbsp;for&nbsp;a&nbsp;binary&nbsp;tree&nbsp;node.&nbsp;&nbsp;type&nbsp;TreeNode&nbsp;struct&nbsp;{&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Val&nbsp;int&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Left&nbsp;TreeNode&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Right&nbsp;TreeNode&nbsp;&nbsp;}&nbsp;/func&nbsp;preorderTraversal(root&nbsp;TreeNode)&nbsp;[]int&nbsp;{ var&nbsp;arr&nbsp;[]int if&nbsp;root&nbsp;==&nbsp;nil&nbsp;{ return&nbsp;arr } arr&nbsp;=&nbsp;append(arr,&nbsp;root.Val) arr1&nbsp;:=&nbsp;preorderTraversal(root.Left) arr&nbsp;=&nbsp;arrmerge(arr,&nbsp;arr1) arr2&nbsp;:=&nbsp;preorderTraversal(root.Right) arr&nbsp;=&nbsp;arrmerge(arr,&nbsp;arr2) return&nbsp;arr}func&nbsp;arrmerge(arr&nbsp;[]int,&nbsp;arr1&nbsp;[]int)&nbsp;[]int&nbsp;{​ for&nbsp;_,&nbsp;v&nbsp;:=&nbsp;range&nbsp;arr1&nbsp;{​ arr&nbsp;=&nbsp;append(arr,&nbsp;v)​ }​ return&nbsp;arr}Binary Tree Inorder Traversalfunc&nbsp;inorderTraversal(root&nbsp;TreeNode)&nbsp;[]int&nbsp;{​ var&nbsp;arr&nbsp;[]int​ if&nbsp;root&nbsp;==&nbsp;nil&nbsp;{​ return&nbsp;arr​ }​ arr1&nbsp;:=&nbsp;inorderTraversal(root.Left)​ arr&nbsp;=&nbsp;arrmerge(arr,&nbsp;arr1)​ arr&nbsp;=&nbsp;append(arr,&nbsp;root.Val)​ arr2&nbsp;:=&nbsp;inorderTraversal(root.Right)​ arr&nbsp;=&nbsp;arrmerge(arr,&nbsp;arr2)​ return&nbsp;arr}Binary Tree Postorder Traversalfunc&nbsp;postorderTraversal(root&nbsp;*TreeNode)&nbsp;[]int&nbsp;{&nbsp;&nbsp;&nbsp;&nbsp;var&nbsp;arr&nbsp;[]int​ if&nbsp;root&nbsp;==&nbsp;nil&nbsp;{​ return&nbsp;arr​ }​ arr1&nbsp;:=&nbsp;postorderTraversal(root.Left)​ arr&nbsp;=&nbsp;arrmerge(arr,&nbsp;arr1)​ arr2&nbsp;:=&nbsp;postorderTraversal(root.Right)​ arr&nbsp;=&nbsp;arrmerge(arr,&nbsp;arr2)&nbsp;&nbsp;&nbsp;&nbsp;arr&nbsp;=&nbsp;append(arr,&nbsp;root.Val)​ return&nbsp;arr}&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;]]></content>
-      <tags>
-        <tag>leetcode</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title><![CDATA[linux安装php]]></title>
-    <url>%2F2017%2F03%2F16%2FLinux%E4%B8%8B%E7%BC%96%E8%AF%91%E5%AE%89%E8%A3%85PHP%2F</url>
-    <content type="text"><![CDATA[1、&nbsp;&nbsp;安装依赖库2、&nbsp;&nbsp;yum install gd zlib libxml2 libxml2-devel libjpeg libjpeg-devel libpng libpng-devel3、&nbsp;&nbsp;下载php-5.6.23.tar.bz2，解压4、&nbsp;&nbsp;cd到php解压的目录里5、&nbsp;&nbsp;配置安装的一些参数./configure –prefix=/usr/local/php \–with-gd \–enable-gd-native-ttf \–enable-gd-jis-conv \–with-mysql=mysqlnd \–enable-mysqlnd \–with-pdo-mysql=mysqlnd \–enable-fpm\–with-openssl&nbsp;&nbsp;Curl &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;./configure –prefix=/usr/local/php7 –with-gd –enable-gd-native-ttf –enable-gd-jis-conv –with-mysql=mysqlnd –enable-mysqlnd –with-pdo-mysql=mysqlnd –enable-fpm –with-openssl –enable-mbstring –enable-tokenizer –enable-zip –with-curl&nbsp;&nbsp;enable-fpm是让php作为独立的进程来运行，占用9000端口配置注意&nbsp;可能会报openssl的错误yum install openssl openssl-devel&nbsp;每个参数后的斜杠前是有空格的，斜杠所起的作用是连接上下两行，没有空格两个参数会连到一起就会报错了6、&nbsp;&nbsp;make &amp;&amp;make install这个过程中如果使用小内存的服务器可能出现php error，解决办法:在配置的最后一行加上–disable-fileinfo7、cd /usr/local/phpcp etc/php-fpm.conf.default etc/php-fpm.confcp /usr/local/src/php-5.5.13/php.ini-development ./lib/php.ini7、&nbsp;&nbsp;启动php./sbin/php-fpm&nbsp;&nbsp;/usr/local/php7/lib/php/extensions/no-debug-non-zts-20151012]]></content>
-      <tags>
-        <tag>lnmp</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title><![CDATA[leetcode-2]]></title>
-    <url>%2F2017%2F03%2F16%2Fleetcode-2%2F</url>
-    <content type="text"><![CDATA[2.&nbsp;Add Two NumbersYou are given two&nbsp;non-empty&nbsp;linked lists representing two non-negative integers. The digits are stored in&nbsp;reverse order&nbsp;and each of their nodes contain a single digit. Add the two numbers and return it as a linked list.You may assume the two numbers do not contain any leading zero, except the number 0 itself.ExampleInput:&nbsp;(2&nbsp;-&gt;&nbsp;4&nbsp;-&gt;&nbsp;3)&nbsp;+&nbsp;(5&nbsp;-&gt;&nbsp;6&nbsp;-&gt;&nbsp;4)Output:&nbsp;7&nbsp;-&gt;&nbsp;0&nbsp;-&gt;&nbsp;8Explanation:&nbsp;342&nbsp;+&nbsp;465&nbsp;=&nbsp;807./*&nbsp;&nbsp;Definition&nbsp;for&nbsp;singly-linked&nbsp;list.&nbsp;&nbsp;type&nbsp;ListNode&nbsp;struct&nbsp;{&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Val&nbsp;int&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Next&nbsp;ListNode&nbsp;&nbsp;}&nbsp;/func&nbsp;addTwoNumbers(l1&nbsp;ListNode,&nbsp;l2&nbsp;ListNode)&nbsp;ListNode&nbsp;{&nbsp;&nbsp;&nbsp;&nbsp;i1&nbsp;:=&nbsp;0 i2&nbsp;:=&nbsp;0 p&nbsp;:=&nbsp;l1 j&nbsp;:=&nbsp;0 for&nbsp;{ if&nbsp;p&nbsp;!=&nbsp;nil&nbsp;{ i1&nbsp;+=&nbsp;p.Val&nbsp;&nbsp;int(math.Pow(float64(10),&nbsp;float64(j))) j++ p&nbsp;=&nbsp;p.Next }&nbsp;else&nbsp;{ break } } j&nbsp;=&nbsp;0 p&nbsp;=&nbsp;l2 for&nbsp;{ if&nbsp;p&nbsp;!=&nbsp;nil&nbsp;{ i2&nbsp;+=&nbsp;p.Val&nbsp;&nbsp;int(math.Pow(float64(10),&nbsp;float64(j))) j++ p&nbsp;=&nbsp;p.Next }&nbsp;else&nbsp;{ break } } revres&nbsp;:=&nbsp;i1&nbsp;+&nbsp;i2&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;fmt.Println(revres) head&nbsp;:=&nbsp;new(ListNode) p&nbsp;=&nbsp;head for&nbsp;{ if&nbsp;revres&nbsp;==&nbsp;0&nbsp;{ break }&nbsp;else&nbsp;{ p.Val&nbsp;=&nbsp;revres&nbsp;%&nbsp;10&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; revres&nbsp;=&nbsp;revres&nbsp;/&nbsp;10&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if&nbsp;revres&nbsp;!=&nbsp;0{&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;node&nbsp;:=&nbsp;new(ListNode) &nbsp;&nbsp;&nbsp;&nbsp;p.Next&nbsp;=&nbsp;node &nbsp;&nbsp;&nbsp;&nbsp;p&nbsp;=&nbsp;p.Next&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;} } }&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;p&nbsp;=&nbsp;l1 for&nbsp;{ if&nbsp;p.Next&nbsp;==&nbsp;nil&nbsp;{ break } fmt.Printf(&quot;%d\t&quot;,&nbsp;p.Val) p&nbsp;=&nbsp;p.Next }&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; return&nbsp;head&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}&nbsp; 后面出现了位数很长的用例，所以换成采用数组来暂存单链表func&nbsp;addTwoNumbers(l1&nbsp;ListNode,&nbsp;l2&nbsp;ListNode)&nbsp;ListNode&nbsp;{ var&nbsp;i1&nbsp;[]int var&nbsp;i2&nbsp;[]int p&nbsp;:=&nbsp;l1 for&nbsp;{ if&nbsp;p&nbsp;!=&nbsp;nil&nbsp;{ i1&nbsp;=&nbsp;append(i1,&nbsp;p.Val) p&nbsp;=&nbsp;p.Next }&nbsp;else&nbsp;{ break } } p&nbsp;=&nbsp;l2 for&nbsp;{ if&nbsp;p&nbsp;!=&nbsp;nil&nbsp;{ i2&nbsp;=&nbsp;append(i2,&nbsp;p.Val) p&nbsp;=&nbsp;p.Next }&nbsp;else&nbsp;{ break } } head&nbsp;:=&nbsp;new(ListNode) p&nbsp;=&nbsp;head lenthi1&nbsp;:=&nbsp;len(i1) lenthi2&nbsp;:=&nbsp;len(i2) if&nbsp;lenthi1&nbsp;!=&nbsp;lenthi2&nbsp;{ if&nbsp;lenthi1&nbsp;&lt;&nbsp;lenthi2&nbsp;{ for&nbsp;i&nbsp;:=&nbsp;0;&nbsp;i&nbsp;&lt;&nbsp;lenthi2-lenthi1;&nbsp;i++&nbsp;{ i1&nbsp;=&nbsp;append(i1,&nbsp;0) } }&nbsp;else&nbsp;{ for&nbsp;i&nbsp;:=&nbsp;0;&nbsp;i&nbsp;&lt;&nbsp;lenthi1-lenthi2;&nbsp;i++&nbsp;{ i2&nbsp;=&nbsp;append(i2,&nbsp;0) } } } lenthi1&nbsp;=&nbsp;len(i1) lenthi2&nbsp;=&nbsp;len(i2) flag&nbsp;:=&nbsp;0 for&nbsp;i,&nbsp;_&nbsp;:=&nbsp;range&nbsp;i1&nbsp;{ sum&nbsp;:=&nbsp;i1[i]&nbsp;+&nbsp;i2[i] if&nbsp;i&nbsp;&lt;&nbsp;lenthi1-1&nbsp;{ if&nbsp;(sum)/10&nbsp;&gt;&nbsp;0&nbsp;{ i1[i+1]&nbsp;+=&nbsp;1 } }&nbsp;else&nbsp;{ if&nbsp;(sum)/10&nbsp;&gt;&nbsp;0&nbsp;{ flag&nbsp;=&nbsp;1 } } p.Val&nbsp;=&nbsp;sum&nbsp;%&nbsp;10 if&nbsp;i&nbsp;&lt;&nbsp;lenthi1-1&nbsp;{ node&nbsp;:=&nbsp;new(ListNode) p.Next&nbsp;=&nbsp;node p&nbsp;=&nbsp;p.Next } } if&nbsp;flag&nbsp;==&nbsp;1&nbsp;{ node&nbsp;:=&nbsp;new(ListNode) node.Val&nbsp;=&nbsp;1 p.Next&nbsp;=&nbsp;node } return&nbsp;head}]]></content>
-      <tags>
-        <tag>leetcode</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title><![CDATA[tomcat war]]></title>
-    <url>%2F2017%2F03%2F16%2FLinux%E4%B8%8B%E5%AE%89%E8%A3%85jdk%20tomcat%20.war%E5%8F%91%E5%B8%83%E9%A1%B9%E7%9B%AE%2F</url>
-    <content type="text"><![CDATA[一、安装JDK 1.下载jdk，注意下载的时候不要下载成html了，这是个坑。。。2.vim /etc/profileJAVA_HOME=/usr/…/jdk解压后的路径PATH=$PATH:$JAVA_HOME/binCLASSPATH=.:$JAVA_HOME/lib/jt.jar:$JAVA_HOME/lib/tools.jarexport JAVA_HOME PATH CLASSPATH:wqsource /etc/profile最后java -version3.下载tomcat，解压进入目录/bin &nbsp; ./startup.sh4.eclipse export 项目为.war格式 选择导出路径 上传到服务器webapps目录下]]></content>
-      <tags>
-        <tag>java</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title><![CDATA[lnmp重启]]></title>
-    <url>%2F2017%2F03%2F16%2FNginxPHPMysql%20%E9%87%8D%E5%90%AF%E7%AD%89%E5%91%BD%E4%BB%A4%2F</url>
-    <content type="text"><![CDATA[nginx&nbsp;&nbsp;&nbsp;start：&nbsp;/usr/local/nginx/sbin/nginx&nbsp;&nbsp;stop：&nbsp;/usr/local/nginx/sbin/nginx&nbsp;-s&nbsp;stop&nbsp;&nbsp;reload：&nbsp;/usr/local/nginx/sbin/nginx&nbsp;-s&nbsp;reload&nbsp;&nbsp;#**&nbsp;&nbsp;#php-fpm(fast-cgi)命令&nbsp;&nbsp;&nbsp;start：&nbsp;/usr/local/php/sbin/php-fpm&nbsp;&nbsp;stop：&nbsp;/bin/ps&nbsp;-ef&nbsp;|&nbsp;grep&nbsp;&#39;php-fpm&#39;&nbsp;|&nbsp;grep&nbsp;-v&nbsp;grep&nbsp;|&nbsp;cut&nbsp;-c&nbsp;9-15&nbsp;|&nbsp;xargs&nbsp;kill&nbsp;-9&nbsp;&nbsp;&nbsp;Linux：PHP&nbsp;5.3.3&nbsp;以上版本的php-fpm的重启&nbsp;INT,&nbsp;TERM：立刻终止QUIT：平滑终止USR1：重新打开日志文件USR2：平滑重载所有worker进程并重新载入配置和二进制模块&nbsp;示例：1）php-fpm&nbsp;关闭：kill&nbsp;-INT&nbsp;cat&amp;nbsp;/usr/local/php/var/run/php-fpm.pid&nbsp;2）php-fpm&nbsp;重启：kill&nbsp;-USR2&nbsp;cat&amp;nbsp;/usr/local/php/var/run/php-fpm.pid&nbsp;查看php-fpm进程数：ps&nbsp;aux&nbsp;|&nbsp;grep&nbsp;-c&nbsp;php-fpm&nbsp;#**&nbsp;&nbsp;#mysql命令&nbsp;&nbsp;start：&nbsp;/etc/init.d/mysqld&nbsp;start&nbsp;&nbsp;stop：&nbsp;/etc/init.d/mysqld&nbsp;stop&nbsp;&nbsp;restart：&nbsp;/etc/init.d/mysqld&nbsp;restart&nbsp;&nbsp;#**&nbsp;]]></content>
+    <title><![CDATA[linux安装nginx]]></title>
+    <url>%2F2017%2F03%2F16%2FLinux%E4%B8%8B%E5%AE%89%E8%A3%85Nginx%2F</url>
+    <content type="text"><![CDATA[1.到nginx.org下载​ wget http://nginx.org/download/nginx-1.10.0.tar.gz2.解压压缩包3.环境配置​ cd到解压出来的nginx目录中有configure目录的地方进行环境配置​ ./configure –prefix=/usr/local/nginx​ (1).如果遇到提示缺少pcre库​ 到www.pcre.org下载pcre库，if解压到/usr/local/src/pcre-source​ (2).1.6版本以后的版本制定pcre源码目录./configure –prefix=/usr/local/nginx​ –with-pcre=/usr/local/src/pcre-source​ 之前的版本制定安装目录./configure –prefix=/usr/local/nginx​ –with-pcre=/usr/pcre4.编译安装 make &amp;&amp; make install5.其他 ​ 启动 nginx ./sbin/nginx​ 重启./sbin/nginx –s reload​ Exception:如果遇到80端口被httpd(Apache)占了​ pkill -9 httpd​ 如果无法访问​ 检查防火墙设置]]></content>
       <tags>
         <tag>lnmp</tag>
       </tags>
@@ -313,11 +280,52 @@
       </tags>
   </entry>
   <entry>
-    <title><![CDATA[leetcode-1]]></title>
-    <url>%2F2017%2F03%2F16%2Fleetcode-1%2F</url>
-    <content type="text"><![CDATA[1.&nbsp;Two SumGiven an array of integers, return&nbsp;indices&nbsp;of the two numbers such that they add up to a specific target.You may assume that each input would have&nbsp;exactly&nbsp;one solution, and you may not use the&nbsp;same&nbsp;element twice.Example:Given&nbsp;nums&nbsp;=&nbsp;[2,&nbsp;7,&nbsp;11,&nbsp;15],&nbsp;target&nbsp;=&nbsp;9,Because&nbsp;nums[0]&nbsp;+&nbsp;nums[1]&nbsp;=&nbsp;2&nbsp;+&nbsp;7&nbsp;=&nbsp;9,return&nbsp;[0,&nbsp;1].func&nbsp;twoSum(nums&nbsp;[]int,&nbsp;target&nbsp;int)&nbsp;[]int&nbsp;{ var&nbsp;arr&nbsp;[]intEXIT: for&nbsp;i,&nbsp;&nbsp;:=&nbsp;range&nbsp;nums&nbsp;{ for&nbsp;j,&nbsp;&nbsp;:=&nbsp;range&nbsp;nums&nbsp;{ if&nbsp;(nums[i]+nums[j])&nbsp;==&nbsp;target&nbsp;&amp;&amp;&nbsp;i&nbsp;!=&nbsp;j&nbsp;{ arr&nbsp;=&nbsp;append(arr,&nbsp;i) arr&nbsp;=&nbsp;append(arr,&nbsp;j) break&nbsp;EXIT } } } return&nbsp;arr}]]></content>
+    <title><![CDATA[linux安装php]]></title>
+    <url>%2F2017%2F03%2F16%2FLinux%E4%B8%8B%E7%BC%96%E8%AF%91%E5%AE%89%E8%A3%85PHP%2F</url>
+    <content type="text"><![CDATA[1、&nbsp;&nbsp;安装依赖库2、&nbsp;&nbsp;yum install gd zlib libxml2 libxml2-devel libjpeg libjpeg-devel libpng libpng-devel3、&nbsp;&nbsp;下载php-5.6.23.tar.bz2，解压4、&nbsp;&nbsp;cd到php解压的目录里5、&nbsp;&nbsp;配置安装的一些参数./configure –prefix=/usr/local/php \–with-gd \–enable-gd-native-ttf \–enable-gd-jis-conv \–with-mysql=mysqlnd \–enable-mysqlnd \–with-pdo-mysql=mysqlnd \–enable-fpm\–with-openssl&nbsp;&nbsp;Curl &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;./configure –prefix=/usr/local/php7 –with-gd –enable-gd-native-ttf –enable-gd-jis-conv –with-mysql=mysqlnd –enable-mysqlnd –with-pdo-mysql=mysqlnd –enable-fpm –with-openssl –enable-mbstring –enable-tokenizer –enable-zip –with-curl&nbsp;&nbsp;enable-fpm是让php作为独立的进程来运行，占用9000端口配置注意&nbsp;可能会报openssl的错误yum install openssl openssl-devel&nbsp;每个参数后的斜杠前是有空格的，斜杠所起的作用是连接上下两行，没有空格两个参数会连到一起就会报错了6、&nbsp;&nbsp;make &amp;&amp;make install这个过程中如果使用小内存的服务器可能出现php error，解决办法:在配置的最后一行加上–disable-fileinfo7、cd /usr/local/phpcp etc/php-fpm.conf.default etc/php-fpm.confcp /usr/local/src/php-5.5.13/php.ini-development ./lib/php.ini7、&nbsp;&nbsp;启动php./sbin/php-fpm&nbsp;&nbsp;/usr/local/php7/lib/php/extensions/no-debug-non-zts-20151012]]></content>
       <tags>
-        <tag>leetcode</tag>
+        <tag>lnmp</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[php内置数组排序]]></title>
+    <url>%2F2017%2F03%2F16%2Fphp%E5%86%85%E7%BD%AE%E6%95%B0%E7%BB%84%E6%8E%92%E5%BA%8F%E6%96%B9%E6%B3%95%2F</url>
+    <content type="text"></content>
+      <tags>
+        <tag>php</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[linux安装mysql]]></title>
+    <url>%2F2017%2F03%2F16%2FLinux%E4%B8%8B%E7%BC%96%E8%AF%91%E5%AE%89%E8%A3%85Mysql%2F</url>
+    <content type="text"><![CDATA[1、mysql 官网下载适合的压缩包，格式为mysql-x.x.xx-linuxxxx.tar.gz2、解压后配置配置帮助 ./configure –help3、groupadd mysqluseradd –g mysql mysqlcd到mysql的解压目录chown –R mysql .chgrp –R mysql .4、./scripts/mysql_install_db –user=mysql如果提示laibaio.1的相关错误yum install libaioso.1 libaio5、把目录权限还给rootchown –R root .chown –R mysql datamkdir /var/run/mysqldchown mysql /var/run/mysqldchgrp mysql /var/run/mysqld6、启动mysql./bin/mysqld_safe –user=mysql &amp;7、连接mysql ./bin/mysql –uroot -p如果报错 建立软连接或者直接将sock文件复制过去建立软连接方法ln /var/lib/mysql/mysql.sock /tmp/mysql.sock8、修改密码update user set Password=password(你想要的密码) where Host=’localhost’ and User= ‘root ‘;delete from user where Password= ‘’;flush privileges;]]></content>
+      <tags>
+        <tag>lnmp</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[2017.3]]></title>
+    <url>%2F2017%2F03%2F16%2F2017.3%2F</url>
+    <content type="text"><![CDATA[git http://www.runoob.com/w3cnote/git-guide.htmljs编辑器 http://www.cnblogs.com/lhb25/p/html5-wysisyg-inline-editor.htmlJavaEE 注解和XMLhttp://blog.csdn.net/qmw19910301/article/details/52712893]]></content>
+      <tags>
+        <tag>other</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[HTTP]]></title>
+    <url>%2F2017%2F03%2F16%2FHTTP%20OPTIONS%2F</url>
+    <content type="text"><![CDATA[幂等和非幂等 执行一次和执行很多次同样的操作是否是一样的 GET/PUT/DELETE 幂等 POST 非幂等 301 12345678301 Move Permanently 是HTTP协议中的一个状态码（Status Code）。可以简单地理解为该资源已经被永久改变了位置[1]，通常会发送HTTP Location来重定向到正确的新位置。返回301状态码进行跳转被Google认为是将网站地址由 HTTP 迁移到 HTTPS 的最佳方法。被请求的资源已永久移动到新位置，并且将来任何对此资源的引用都应该使用本响应返回的若干个URI之一。如果可能，拥有链接编辑功能的客户端应当自动把请求的地址修改为从服务器反馈回来的地址。[19]除非额外指定，否则这个响应也是可缓存的。新的永久性的URI应当在响应的Location域中返回。除非这是一个HEAD请求，否则响应的实体中应当包含指向新的URI的超链接及简短说明。如果这不是一个GET或者HEAD请求，那么浏览器禁止自动进行重定向，除非得到用户的确认，因为请求的条件可能因此发生变化。注意：对于某些使用HTTP/1.0协议的浏览器，当它们发送的POST请求得到了一个301响应的话，接下来的重定向请求将会变成GET方式。 302 12345678302 Found，原始描述短语为 Moved Temporarily ，是HTTP协议中的一个状态码(Status Code)。可以简单的理解为该资源原本确实存在，但已经被临时改变了位置；换而言之，就是请求的资源暂时驻留在不同的URI下，故而除非特别指定了缓存头部指示，该状态码不可缓存。对于服务器，通常会给浏览器发送HTTP Location头部来重定向到新的新位置。要求客户端执行临时重定向（原始描述短语为“Moved Temporarily”）。[20]由于这样的重定向是临时的，客户端应当继续向原有地址发送以后的请求。只有在Cache-Control或Expires中进行了指定的情况下，这个响应才是可缓存的。新的临时性的URI应当在响应的Location域中返回。除非这是一个HEAD请求，否则响应的实体中应当包含指向新的URI的超链接及简短说明。如果这不是一个GET或者HEAD请求，那么浏览器禁止自动进行重定向，除非得到用户的确认，因为请求的条件可能因此发生变化。注意：虽然RFC 1945和RFC 2068规范不允许客户端在重定向时改变请求的方法，但是很多现存的浏览器将302响应视作为303响应，并且使用GET方式访问在Location中规定的URI，而无视原先请求的方法。[21]因此状态码303和307被添加了进来，用以明确服务器期待客户端进行何种反应。 500 1Internal Server Error 通用错误消息，服务器遇到了一个未曾预料的状况，导致了它无法完成对请求的处理。没有给出具体错误信息。 502 1Bad Gateway 作为网关或者代理工作的服务器尝试执行请求时，从上游服务器接收到无效的响应 504 12Gateway Timeout 作为网关或者代理工作的服务器尝试执行请求时，未能及时从上游服务器（URI标识出的服务器，例如HTTP、FTP、LDAP）或者辅助服务器（例如DNS）收到响应。[62]注意：某些代理服务器在DNS查询超时时会返回400或者500错误。 URI 和 URL 1URI 是统一资源标识符，而 URL 是统一资源定位符]]></content>
+      <tags>
+        <tag>http</tag>
+        <tag>http状态码</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[git]]></title>
+    <url>%2F2017%2F03%2F16%2FGithub%2F</url>
+    <content type="text"><![CDATA[首先有两种使用方式 1.先在git官网上建立一个git仓库，然后git clone到本地&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 2.直接在本地cd进一个文件夹 git init配置用户名和email&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;git config –global user.name &#39;&#39;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;git config –global user.email xxx@xxx.com简单使用命令 &nbsp;git add .&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; git status&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; git commit -m &quot;The First Upload&quot;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;git push -u origin master&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;]]></content>
+      <tags>
+        <tag>git</tag>
       </tags>
   </entry>
   <entry>
@@ -349,19 +357,60 @@
       </tags>
   </entry>
   <entry>
-    <title><![CDATA[linux安装nginx]]></title>
-    <url>%2F2017%2F03%2F16%2FLinux%E4%B8%8B%E5%AE%89%E8%A3%85Nginx%2F</url>
-    <content type="text"><![CDATA[1.到nginx.org下载​ wget http://nginx.org/download/nginx-1.10.0.tar.gz2.解压压缩包3.环境配置​ cd到解压出来的nginx目录中有configure目录的地方进行环境配置​ ./configure –prefix=/usr/local/nginx​ (1).如果遇到提示缺少pcre库​ 到www.pcre.org下载pcre库，if解压到/usr/local/src/pcre-source​ (2).1.6版本以后的版本制定pcre源码目录./configure –prefix=/usr/local/nginx​ –with-pcre=/usr/local/src/pcre-source​ 之前的版本制定安装目录./configure –prefix=/usr/local/nginx​ –with-pcre=/usr/pcre4.编译安装 make &amp;&amp; make install5.其他 ​ 启动 nginx ./sbin/nginx​ 重启./sbin/nginx –s reload​ Exception:如果遇到80端口被httpd(Apache)占了​ pkill -9 httpd​ 如果无法访问​ 检查防火墙设置]]></content>
+    <title><![CDATA[leetcode-1]]></title>
+    <url>%2F2017%2F03%2F16%2Fleetcode-1%2F</url>
+    <content type="text"><![CDATA[1.&nbsp;Two SumGiven an array of integers, return&nbsp;indices&nbsp;of the two numbers such that they add up to a specific target.You may assume that each input would have&nbsp;exactly&nbsp;one solution, and you may not use the&nbsp;same&nbsp;element twice.Example:Given&nbsp;nums&nbsp;=&nbsp;[2,&nbsp;7,&nbsp;11,&nbsp;15],&nbsp;target&nbsp;=&nbsp;9,Because&nbsp;nums[0]&nbsp;+&nbsp;nums[1]&nbsp;=&nbsp;2&nbsp;+&nbsp;7&nbsp;=&nbsp;9,return&nbsp;[0,&nbsp;1].func&nbsp;twoSum(nums&nbsp;[]int,&nbsp;target&nbsp;int)&nbsp;[]int&nbsp;{ var&nbsp;arr&nbsp;[]intEXIT: for&nbsp;i,&nbsp;&nbsp;:=&nbsp;range&nbsp;nums&nbsp;{ for&nbsp;j,&nbsp;&nbsp;:=&nbsp;range&nbsp;nums&nbsp;{ if&nbsp;(nums[i]+nums[j])&nbsp;==&nbsp;target&nbsp;&amp;&amp;&nbsp;i&nbsp;!=&nbsp;j&nbsp;{ arr&nbsp;=&nbsp;append(arr,&nbsp;i) arr&nbsp;=&nbsp;append(arr,&nbsp;j) break&nbsp;EXIT } } } return&nbsp;arr}]]></content>
       <tags>
-        <tag>lnmp</tag>
+        <tag>leetcode</tag>
       </tags>
   </entry>
   <entry>
-    <title><![CDATA[php内置数组排序]]></title>
-    <url>%2F2017%2F03%2F16%2Fphp%E5%86%85%E7%BD%AE%E6%95%B0%E7%BB%84%E6%8E%92%E5%BA%8F%E6%96%B9%E6%B3%95%2F</url>
-    <content type="text"></content>
+    <title><![CDATA[安装laravel]]></title>
+    <url>%2F2017%2F03%2F16%2F%E5%AE%89%E8%A3%85Laravel%2F</url>
+    <content type="text"><![CDATA[一、根据官方文档需要安装几个php的扩展 Openssl/PDO/Mbstring/Tokenizer/XML二、Linux下可以使用Composer来安装Laravel&nbsp; 1.全局安装Composer&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;curl -sS https://getcomposer.org/installer | php&nbsp;&nbsp;&nbsp;&nbsp;mv composer.phar /usr/local/bin/composer&nbsp; &nbsp; &nbsp;解决更新慢的问题&nbsp;&nbsp;&nbsp;&nbsp;composer config repo.packagist composer https://packagist.phpcomposer.com&nbsp;&nbsp;&nbsp;&nbsp;composer –version查看是否安装成功&nbsp; 2.利用Composer安装Laravel&nbsp;&nbsp;&nbsp;&nbsp;composer global require &quot;laravel/installer&quot;&nbsp;&nbsp;&nbsp;&nbsp;cd到$Home/.composer/vendor/bin目录下&nbsp;&nbsp;&nbsp;&nbsp;执行 Laravel new Blog&nbsp; 3.最后利用php的内置服务器&nbsp;&nbsp;&nbsp;&nbsp;php artisan serve一些收获&nbsp; &nbsp;1.Linux方面 .tar.gz通过的是源码安装 ./configure –prefix=/usr/local/php 即指定安装路径 卸载的时候只需要删除这个目录下的东西即可 开机自启动 增加环境变量&nbsp; &nbsp;2.php 的两种运行方式的php.ini有可能是不同的,也就是会出现你的web上面的phpinfo()和你直接用CLI执行的php -m发现扩展的开启情况是不相同的，这个时候就需要你运行CLI和web的时候所用的php.ini是同一个文件&nbsp; &nbsp;3.Laravel 从laraval知道了php有一个内置的服务器。]]></content>
       <tags>
+        <tag>laravel</tag>
         <tag>php</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[day3]]></title>
+    <url>%2F2017%2F03%2F16%2Fleetcode_bin_tree%2F</url>
+    <content type="text"><![CDATA[Binary Tree (Traverse A Tree)Binary Tree Preorder Traversal/*&nbsp;&nbsp;Definition&nbsp;for&nbsp;a&nbsp;binary&nbsp;tree&nbsp;node.&nbsp;&nbsp;type&nbsp;TreeNode&nbsp;struct&nbsp;{&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Val&nbsp;int&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Left&nbsp;TreeNode&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Right&nbsp;TreeNode&nbsp;&nbsp;}&nbsp;/func&nbsp;preorderTraversal(root&nbsp;TreeNode)&nbsp;[]int&nbsp;{ var&nbsp;arr&nbsp;[]int if&nbsp;root&nbsp;==&nbsp;nil&nbsp;{ return&nbsp;arr } arr&nbsp;=&nbsp;append(arr,&nbsp;root.Val) arr1&nbsp;:=&nbsp;preorderTraversal(root.Left) arr&nbsp;=&nbsp;arrmerge(arr,&nbsp;arr1) arr2&nbsp;:=&nbsp;preorderTraversal(root.Right) arr&nbsp;=&nbsp;arrmerge(arr,&nbsp;arr2) return&nbsp;arr}func&nbsp;arrmerge(arr&nbsp;[]int,&nbsp;arr1&nbsp;[]int)&nbsp;[]int&nbsp;{​ for&nbsp;_,&nbsp;v&nbsp;:=&nbsp;range&nbsp;arr1&nbsp;{​ arr&nbsp;=&nbsp;append(arr,&nbsp;v)​ }​ return&nbsp;arr}Binary Tree Inorder Traversalfunc&nbsp;inorderTraversal(root&nbsp;TreeNode)&nbsp;[]int&nbsp;{​ var&nbsp;arr&nbsp;[]int​ if&nbsp;root&nbsp;==&nbsp;nil&nbsp;{​ return&nbsp;arr​ }​ arr1&nbsp;:=&nbsp;inorderTraversal(root.Left)​ arr&nbsp;=&nbsp;arrmerge(arr,&nbsp;arr1)​ arr&nbsp;=&nbsp;append(arr,&nbsp;root.Val)​ arr2&nbsp;:=&nbsp;inorderTraversal(root.Right)​ arr&nbsp;=&nbsp;arrmerge(arr,&nbsp;arr2)​ return&nbsp;arr}Binary Tree Postorder Traversalfunc&nbsp;postorderTraversal(root&nbsp;*TreeNode)&nbsp;[]int&nbsp;{&nbsp;&nbsp;&nbsp;&nbsp;var&nbsp;arr&nbsp;[]int​ if&nbsp;root&nbsp;==&nbsp;nil&nbsp;{​ return&nbsp;arr​ }​ arr1&nbsp;:=&nbsp;postorderTraversal(root.Left)​ arr&nbsp;=&nbsp;arrmerge(arr,&nbsp;arr1)​ arr2&nbsp;:=&nbsp;postorderTraversal(root.Right)​ arr&nbsp;=&nbsp;arrmerge(arr,&nbsp;arr2)&nbsp;&nbsp;&nbsp;&nbsp;arr&nbsp;=&nbsp;append(arr,&nbsp;root.Val)​ return&nbsp;arr}&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;]]></content>
+      <tags>
+        <tag>leetcode</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[leetcode-7]]></title>
+    <url>%2F2017%2F03%2F16%2Fleetcode-7%2F</url>
+    <content type="text"><![CDATA[7.&nbsp;Reverse Integerfunc&nbsp;reverse(x&nbsp;int)&nbsp;int&nbsp;{ s&nbsp;:=&nbsp;strconv.Itoa(x) rs&nbsp;:=&nbsp;&quot;&quot; j&nbsp;:=&nbsp;0 if&nbsp;x&nbsp;&lt;&nbsp;0&nbsp;{ j&nbsp;=&nbsp;1 rs&nbsp;+=&nbsp;&quot;-&quot; } for&nbsp;i&nbsp;:=&nbsp;len(s)&nbsp;-&nbsp;1;&nbsp;i&nbsp;&gt;=&nbsp;j;&nbsp;i–&nbsp;{ rs&nbsp;+=&nbsp;string(s[i]) } rsi,&nbsp;_&nbsp;:=&nbsp;strconv.Atoi(rs) if&nbsp;rsi&nbsp;&gt;&nbsp;(1&lt;&lt;31)&nbsp;||&nbsp;rsi&nbsp;&lt;&nbsp;-(1&nbsp;&lt;&lt;&nbsp;31)&nbsp;{ rsi&nbsp;=&nbsp;0 } return&nbsp;rsi}]]></content>
+      <tags>
+        <tag>leetcode</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[最长不重复子串]]></title>
+    <url>%2F2017%2F03%2F16%2F%E8%AE%A1%E7%AE%97%E4%B8%80%E4%B8%AA%E5%AD%97%E7%AC%A6%E4%B8%B2%E4%B8%AD%E6%9C%80%E5%A4%A7%E4%B8%8D%E9%87%8D%E5%A4%8D%E5%AD%90%E4%B8%B2%E9%95%BF%E5%BA%A6%2F</url>
+    <content type="text"><![CDATA[123456789101112131415161718192021222324252627282930package mainimport ( "fmt ")func maxLen(str string) int &#123; start := 0 maxlen := 0 lastO := make(map[rune]int) for i, v := range []rune(str) &#123; if lastI, ok := lastO[v]; ok &#123; start = lastI + 1 &#125; if (i-start+1 &amp;gt; maxlen) &#123; maxlen = i - start + 1 &#125; lastO[v] = i &#125; return maxlen&#125;func main() &#123; //求字符串最大不重复子串长度 //s:= "Yes哈哈哈! " fmt.Println(maxLen( "abcbcdef ")) fmt.Println(maxLen( "abcdef ")) fmt.Println(maxLen( "aaaaaaa ")) fmt.Println(maxLen( "你说什么 "))&#125;]]></content>
+      <tags>
+        <tag>leetcode</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[正则]]></title>
+    <url>%2F2017%2F03%2F16%2F%E6%AD%A3%E5%88%99%E3%80%81mb_substr%2F</url>
+    <content type="text"><![CDATA[0x1 爬虫过程遇到需要截取到&lt;span id=&quot;xhxm&quot;&gt;张三同学&lt;/span&gt;里面同学的名称&nbsp; 1.正则解决&nbsp; 2.通过字符串解决0x2 通过正则解决&nbsp; 1.简单解决&nbsp; &lt;span id=&quot;xhxm&quot;&gt;(.)\u540c\u5b66&lt;/span&gt;&nbsp;&nbsp; 2.零宽断言解决&nbsp; &nbsp;&gt;(.)(?=\u540c\u5b66)&nbsp;&nbsp;&nbsp; 这里使用零宽度正预测先行断言(?=exp)&nbsp; 就是找到匹配之前的内容&nbsp;&nbsp; (?&lt;=exp)用来找到匹配之后的东西，称为零宽度正回顾后发断言0x3 通过mb_substr解决 先匹配张三同学,然后截取字符串&nbsp; 因为这里的header是gb2312，所以指定mb_substr的编码为gb2312&nbsp; substr直接处理汉字会造成乱码的问题，可以使用mb_substr指定汉字编码方式gb2312&nbsp;&nbsp; 这样就可以截取到到张三0x4 这不算完&nbsp;]]></content>
+      <tags>
+        <tag>正则</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[面试算法题]]></title>
+    <url>%2F2017%2F03%2F16%2F%E9%9D%A2%E8%AF%95%E7%AE%97%E6%B3%95%E9%A2%98%2F</url>
+    <content type="text"><![CDATA[package&nbsp;main import&nbsp;(&nbsp;&nbsp;&nbsp;&quot;fmt&quot;&nbsp;&nbsp;&nbsp;&quot;strconv&quot;&nbsp;&nbsp;&nbsp;&quot;sort&quot;) func&nbsp;filter(str&nbsp;string)&nbsp;string{&nbsp;&nbsp;&nbsp;//过滤aabbbbbccc&nbsp;为abc&nbsp;&nbsp;&nbsp;var&nbsp;newArr&nbsp;=&nbsp;make(map[rune]int)&nbsp;&nbsp;&nbsp;s&nbsp;:=&nbsp;&quot;&quot; &nbsp;&nbsp;&nbsp;for&nbsp;_,v&nbsp;:=&nbsp;range&nbsp;[]rune(str){&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if&nbsp;newArr[v]&nbsp;==&nbsp;0{&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;newArr[v]&nbsp;=&nbsp;1&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;s&nbsp;+=&nbsp;string(v)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}&nbsp;&nbsp;&nbsp;}&nbsp;&nbsp;&nbsp;return&nbsp;s} func&nbsp;filter2(str&nbsp;string)&nbsp;string{&nbsp;&nbsp;&nbsp;//过滤aaabbbcssss为3a3bc4s&nbsp;&nbsp;&nbsp;var&nbsp;newArr&nbsp;=&nbsp;make(map[rune]int)&nbsp;&nbsp;&nbsp;var&nbsp;sortArr&nbsp;[]string&nbsp;&nbsp;&nbsp;s&nbsp;:=&nbsp;&quot;&quot; &nbsp;&nbsp;&nbsp;for&nbsp;_,v&nbsp;:=&nbsp;range&nbsp;[]rune(str){&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;sortArr&nbsp;=&nbsp;append(sortArr,&nbsp;string(v))&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if&nbsp;newArr[v]&nbsp;==&nbsp;0{&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;newArr[v]&nbsp;=&nbsp;1&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}else{&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;newArr[v]&nbsp;+=&nbsp;1&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}&nbsp;&nbsp;&nbsp;} &nbsp;&nbsp;&nbsp;sort.Strings(sortArr) &nbsp;&nbsp;&nbsp;for&nbsp;i,v&nbsp;:=&nbsp;range&nbsp;newArr{&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if&nbsp;v&nbsp;==&nbsp;1&nbsp;{&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;s&nbsp;+=&nbsp;string(i)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}else{&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;s&nbsp;+=&nbsp;strconv.Itoa(v)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;s&nbsp;+=&nbsp;string(i)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}&nbsp;&nbsp;&nbsp;}&nbsp;&nbsp;&nbsp;return&nbsp;s} func&nbsp;main()&nbsp;{&nbsp;&nbsp;&nbsp;fmt.Println(filter2(&quot;aabccddee&quot;))}go语言的map用for range遍历是随机的key所以如果需要顺序遍历则需要先将key排序]]></content>
+      <tags>
+        <tag>面经</tag>
       </tags>
   </entry>
   <entry>
@@ -382,61 +431,27 @@
       </tags>
   </entry>
   <entry>
-    <title><![CDATA[git]]></title>
-    <url>%2F2017%2F03%2F16%2FGithub%2F</url>
-    <content type="text"><![CDATA[首先有两种使用方式 1.先在git官网上建立一个git仓库，然后git clone到本地&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 2.直接在本地cd进一个文件夹 git init配置用户名和email&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;git config –global user.name &#39;&#39;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;git config –global user.email xxx@xxx.com简单使用命令 &nbsp;git add .&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; git status&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; git commit -m &quot;The First Upload&quot;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;git push -u origin master&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;]]></content>
+    <title><![CDATA[tomcat war]]></title>
+    <url>%2F2017%2F03%2F16%2FLinux%E4%B8%8B%E5%AE%89%E8%A3%85jdk%20tomcat%20.war%E5%8F%91%E5%B8%83%E9%A1%B9%E7%9B%AE%2F</url>
+    <content type="text"><![CDATA[一、安装JDK 1.下载jdk，注意下载的时候不要下载成html了，这是个坑。。。2.vim /etc/profileJAVA_HOME=/usr/…/jdk解压后的路径PATH=$PATH:$JAVA_HOME/binCLASSPATH=.:$JAVA_HOME/lib/jt.jar:$JAVA_HOME/lib/tools.jarexport JAVA_HOME PATH CLASSPATH:wqsource /etc/profile最后java -version3.下载tomcat，解压进入目录/bin &nbsp; ./startup.sh4.eclipse export 项目为.war格式 选择导出路径 上传到服务器webapps目录下]]></content>
       <tags>
-        <tag>git</tag>
+        <tag>java</tag>
       </tags>
   </entry>
   <entry>
-    <title><![CDATA[安装laravel]]></title>
-    <url>%2F2017%2F03%2F16%2F%E5%AE%89%E8%A3%85Laravel%2F</url>
-    <content type="text"><![CDATA[一、根据官方文档需要安装几个php的扩展 Openssl/PDO/Mbstring/Tokenizer/XML二、Linux下可以使用Composer来安装Laravel&nbsp; 1.全局安装Composer&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;curl -sS https://getcomposer.org/installer | php&nbsp;&nbsp;&nbsp;&nbsp;mv composer.phar /usr/local/bin/composer&nbsp; &nbsp; &nbsp;解决更新慢的问题&nbsp;&nbsp;&nbsp;&nbsp;composer config repo.packagist composer https://packagist.phpcomposer.com&nbsp;&nbsp;&nbsp;&nbsp;composer –version查看是否安装成功&nbsp; 2.利用Composer安装Laravel&nbsp;&nbsp;&nbsp;&nbsp;composer global require &quot;laravel/installer&quot;&nbsp;&nbsp;&nbsp;&nbsp;cd到$Home/.composer/vendor/bin目录下&nbsp;&nbsp;&nbsp;&nbsp;执行 Laravel new Blog&nbsp; 3.最后利用php的内置服务器&nbsp;&nbsp;&nbsp;&nbsp;php artisan serve一些收获&nbsp; &nbsp;1.Linux方面 .tar.gz通过的是源码安装 ./configure –prefix=/usr/local/php 即指定安装路径 卸载的时候只需要删除这个目录下的东西即可 开机自启动 增加环境变量&nbsp; &nbsp;2.php 的两种运行方式的php.ini有可能是不同的,也就是会出现你的web上面的phpinfo()和你直接用CLI执行的php -m发现扩展的开启情况是不相同的，这个时候就需要你运行CLI和web的时候所用的php.ini是同一个文件&nbsp; &nbsp;3.Laravel 从laraval知道了php有一个内置的服务器。]]></content>
+    <title><![CDATA[lnmp重启]]></title>
+    <url>%2F2017%2F03%2F16%2FNginxPHPMysql%20%E9%87%8D%E5%90%AF%E7%AD%89%E5%91%BD%E4%BB%A4%2F</url>
+    <content type="text"><![CDATA[nginx&nbsp;&nbsp;&nbsp;start：&nbsp;/usr/local/nginx/sbin/nginx&nbsp;&nbsp;stop：&nbsp;/usr/local/nginx/sbin/nginx&nbsp;-s&nbsp;stop&nbsp;&nbsp;reload：&nbsp;/usr/local/nginx/sbin/nginx&nbsp;-s&nbsp;reload&nbsp;&nbsp;#**&nbsp;&nbsp;#php-fpm(fast-cgi)命令&nbsp;&nbsp;&nbsp;start：&nbsp;/usr/local/php/sbin/php-fpm&nbsp;&nbsp;stop：&nbsp;/bin/ps&nbsp;-ef&nbsp;|&nbsp;grep&nbsp;&#39;php-fpm&#39;&nbsp;|&nbsp;grep&nbsp;-v&nbsp;grep&nbsp;|&nbsp;cut&nbsp;-c&nbsp;9-15&nbsp;|&nbsp;xargs&nbsp;kill&nbsp;-9&nbsp;&nbsp;&nbsp;Linux：PHP&nbsp;5.3.3&nbsp;以上版本的php-fpm的重启&nbsp;INT,&nbsp;TERM：立刻终止QUIT：平滑终止USR1：重新打开日志文件USR2：平滑重载所有worker进程并重新载入配置和二进制模块&nbsp;示例：1）php-fpm&nbsp;关闭：kill&nbsp;-INT&nbsp;cat&amp;nbsp;/usr/local/php/var/run/php-fpm.pid&nbsp;2）php-fpm&nbsp;重启：kill&nbsp;-USR2&nbsp;cat&amp;nbsp;/usr/local/php/var/run/php-fpm.pid&nbsp;查看php-fpm进程数：ps&nbsp;aux&nbsp;|&nbsp;grep&nbsp;-c&nbsp;php-fpm&nbsp;#**&nbsp;&nbsp;#mysql命令&nbsp;&nbsp;start：&nbsp;/etc/init.d/mysqld&nbsp;start&nbsp;&nbsp;stop：&nbsp;/etc/init.d/mysqld&nbsp;stop&nbsp;&nbsp;restart：&nbsp;/etc/init.d/mysqld&nbsp;restart&nbsp;&nbsp;#**&nbsp;]]></content>
       <tags>
-        <tag>laravel</tag>
-        <tag>php</tag>
+        <tag>lnmp</tag>
       </tags>
   </entry>
   <entry>
-    <title><![CDATA[正则]]></title>
-    <url>%2F2017%2F03%2F16%2F%E6%AD%A3%E5%88%99%E3%80%81mb_substr%2F</url>
-    <content type="text"><![CDATA[0x1 爬虫过程遇到需要截取到&lt;span id=&quot;xhxm&quot;&gt;张三同学&lt;/span&gt;里面同学的名称&nbsp; 1.正则解决&nbsp; 2.通过字符串解决0x2 通过正则解决&nbsp; 1.简单解决&nbsp; &lt;span id=&quot;xhxm&quot;&gt;(.)\u540c\u5b66&lt;/span&gt;&nbsp;&nbsp; 2.零宽断言解决&nbsp; &nbsp;&gt;(.)(?=\u540c\u5b66)&nbsp;&nbsp;&nbsp; 这里使用零宽度正预测先行断言(?=exp)&nbsp; 就是找到匹配之前的内容&nbsp;&nbsp; (?&lt;=exp)用来找到匹配之后的东西，称为零宽度正回顾后发断言0x3 通过mb_substr解决 先匹配张三同学,然后截取字符串&nbsp; 因为这里的header是gb2312，所以指定mb_substr的编码为gb2312&nbsp; substr直接处理汉字会造成乱码的问题，可以使用mb_substr指定汉字编码方式gb2312&nbsp;&nbsp; 这样就可以截取到到张三0x4 这不算完&nbsp;]]></content>
-      <tags>
-        <tag>正则</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title><![CDATA[最长不重复子串]]></title>
-    <url>%2F2017%2F03%2F16%2F%E8%AE%A1%E7%AE%97%E4%B8%80%E4%B8%AA%E5%AD%97%E7%AC%A6%E4%B8%B2%E4%B8%AD%E6%9C%80%E5%A4%A7%E4%B8%8D%E9%87%8D%E5%A4%8D%E5%AD%90%E4%B8%B2%E9%95%BF%E5%BA%A6%2F</url>
-    <content type="text"><![CDATA[123456789101112131415161718192021222324252627282930package mainimport ( "fmt ")func maxLen(str string) int &#123; start := 0 maxlen := 0 lastO := make(map[rune]int) for i, v := range []rune(str) &#123; if lastI, ok := lastO[v]; ok &#123; start = lastI + 1 &#125; if (i-start+1 &amp;gt; maxlen) &#123; maxlen = i - start + 1 &#125; lastO[v] = i &#125; return maxlen&#125;func main() &#123; //求字符串最大不重复子串长度 //s:= "Yes哈哈哈! " fmt.Println(maxLen( "abcbcdef ")) fmt.Println(maxLen( "abcdef ")) fmt.Println(maxLen( "aaaaaaa ")) fmt.Println(maxLen( "你说什么 "))&#125;]]></content>
+    <title><![CDATA[leetcode-2]]></title>
+    <url>%2F2017%2F03%2F16%2Fleetcode-2%2F</url>
+    <content type="text"><![CDATA[2.&nbsp;Add Two NumbersYou are given two&nbsp;non-empty&nbsp;linked lists representing two non-negative integers. The digits are stored in&nbsp;reverse order&nbsp;and each of their nodes contain a single digit. Add the two numbers and return it as a linked list.You may assume the two numbers do not contain any leading zero, except the number 0 itself.ExampleInput:&nbsp;(2&nbsp;-&gt;&nbsp;4&nbsp;-&gt;&nbsp;3)&nbsp;+&nbsp;(5&nbsp;-&gt;&nbsp;6&nbsp;-&gt;&nbsp;4)Output:&nbsp;7&nbsp;-&gt;&nbsp;0&nbsp;-&gt;&nbsp;8Explanation:&nbsp;342&nbsp;+&nbsp;465&nbsp;=&nbsp;807./*&nbsp;&nbsp;Definition&nbsp;for&nbsp;singly-linked&nbsp;list.&nbsp;&nbsp;type&nbsp;ListNode&nbsp;struct&nbsp;{&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Val&nbsp;int&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Next&nbsp;ListNode&nbsp;&nbsp;}&nbsp;/func&nbsp;addTwoNumbers(l1&nbsp;ListNode,&nbsp;l2&nbsp;ListNode)&nbsp;ListNode&nbsp;{&nbsp;&nbsp;&nbsp;&nbsp;i1&nbsp;:=&nbsp;0 i2&nbsp;:=&nbsp;0 p&nbsp;:=&nbsp;l1 j&nbsp;:=&nbsp;0 for&nbsp;{ if&nbsp;p&nbsp;!=&nbsp;nil&nbsp;{ i1&nbsp;+=&nbsp;p.Val&nbsp;&nbsp;int(math.Pow(float64(10),&nbsp;float64(j))) j++ p&nbsp;=&nbsp;p.Next }&nbsp;else&nbsp;{ break } } j&nbsp;=&nbsp;0 p&nbsp;=&nbsp;l2 for&nbsp;{ if&nbsp;p&nbsp;!=&nbsp;nil&nbsp;{ i2&nbsp;+=&nbsp;p.Val&nbsp;&nbsp;int(math.Pow(float64(10),&nbsp;float64(j))) j++ p&nbsp;=&nbsp;p.Next }&nbsp;else&nbsp;{ break } } revres&nbsp;:=&nbsp;i1&nbsp;+&nbsp;i2&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;fmt.Println(revres) head&nbsp;:=&nbsp;new(ListNode) p&nbsp;=&nbsp;head for&nbsp;{ if&nbsp;revres&nbsp;==&nbsp;0&nbsp;{ break }&nbsp;else&nbsp;{ p.Val&nbsp;=&nbsp;revres&nbsp;%&nbsp;10&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; revres&nbsp;=&nbsp;revres&nbsp;/&nbsp;10&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if&nbsp;revres&nbsp;!=&nbsp;0{&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;node&nbsp;:=&nbsp;new(ListNode) &nbsp;&nbsp;&nbsp;&nbsp;p.Next&nbsp;=&nbsp;node &nbsp;&nbsp;&nbsp;&nbsp;p&nbsp;=&nbsp;p.Next&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;} } }&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;p&nbsp;=&nbsp;l1 for&nbsp;{ if&nbsp;p.Next&nbsp;==&nbsp;nil&nbsp;{ break } fmt.Printf(&quot;%d\t&quot;,&nbsp;p.Val) p&nbsp;=&nbsp;p.Next }&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; return&nbsp;head&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}&nbsp; 后面出现了位数很长的用例，所以换成采用数组来暂存单链表func&nbsp;addTwoNumbers(l1&nbsp;ListNode,&nbsp;l2&nbsp;ListNode)&nbsp;ListNode&nbsp;{ var&nbsp;i1&nbsp;[]int var&nbsp;i2&nbsp;[]int p&nbsp;:=&nbsp;l1 for&nbsp;{ if&nbsp;p&nbsp;!=&nbsp;nil&nbsp;{ i1&nbsp;=&nbsp;append(i1,&nbsp;p.Val) p&nbsp;=&nbsp;p.Next }&nbsp;else&nbsp;{ break } } p&nbsp;=&nbsp;l2 for&nbsp;{ if&nbsp;p&nbsp;!=&nbsp;nil&nbsp;{ i2&nbsp;=&nbsp;append(i2,&nbsp;p.Val) p&nbsp;=&nbsp;p.Next }&nbsp;else&nbsp;{ break } } head&nbsp;:=&nbsp;new(ListNode) p&nbsp;=&nbsp;head lenthi1&nbsp;:=&nbsp;len(i1) lenthi2&nbsp;:=&nbsp;len(i2) if&nbsp;lenthi1&nbsp;!=&nbsp;lenthi2&nbsp;{ if&nbsp;lenthi1&nbsp;&lt;&nbsp;lenthi2&nbsp;{ for&nbsp;i&nbsp;:=&nbsp;0;&nbsp;i&nbsp;&lt;&nbsp;lenthi2-lenthi1;&nbsp;i++&nbsp;{ i1&nbsp;=&nbsp;append(i1,&nbsp;0) } }&nbsp;else&nbsp;{ for&nbsp;i&nbsp;:=&nbsp;0;&nbsp;i&nbsp;&lt;&nbsp;lenthi1-lenthi2;&nbsp;i++&nbsp;{ i2&nbsp;=&nbsp;append(i2,&nbsp;0) } } } lenthi1&nbsp;=&nbsp;len(i1) lenthi2&nbsp;=&nbsp;len(i2) flag&nbsp;:=&nbsp;0 for&nbsp;i,&nbsp;_&nbsp;:=&nbsp;range&nbsp;i1&nbsp;{ sum&nbsp;:=&nbsp;i1[i]&nbsp;+&nbsp;i2[i] if&nbsp;i&nbsp;&lt;&nbsp;lenthi1-1&nbsp;{ if&nbsp;(sum)/10&nbsp;&gt;&nbsp;0&nbsp;{ i1[i+1]&nbsp;+=&nbsp;1 } }&nbsp;else&nbsp;{ if&nbsp;(sum)/10&nbsp;&gt;&nbsp;0&nbsp;{ flag&nbsp;=&nbsp;1 } } p.Val&nbsp;=&nbsp;sum&nbsp;%&nbsp;10 if&nbsp;i&nbsp;&lt;&nbsp;lenthi1-1&nbsp;{ node&nbsp;:=&nbsp;new(ListNode) p.Next&nbsp;=&nbsp;node p&nbsp;=&nbsp;p.Next } } if&nbsp;flag&nbsp;==&nbsp;1&nbsp;{ node&nbsp;:=&nbsp;new(ListNode) node.Val&nbsp;=&nbsp;1 p.Next&nbsp;=&nbsp;node } return&nbsp;head}]]></content>
       <tags>
         <tag>leetcode</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title><![CDATA[面试算法题]]></title>
-    <url>%2F2017%2F03%2F16%2F%E9%9D%A2%E8%AF%95%E7%AE%97%E6%B3%95%E9%A2%98%2F</url>
-    <content type="text"><![CDATA[package&nbsp;main import&nbsp;(&nbsp;&nbsp;&nbsp;&quot;fmt&quot;&nbsp;&nbsp;&nbsp;&quot;strconv&quot;&nbsp;&nbsp;&nbsp;&quot;sort&quot;) func&nbsp;filter(str&nbsp;string)&nbsp;string{&nbsp;&nbsp;&nbsp;//过滤aabbbbbccc&nbsp;为abc&nbsp;&nbsp;&nbsp;var&nbsp;newArr&nbsp;=&nbsp;make(map[rune]int)&nbsp;&nbsp;&nbsp;s&nbsp;:=&nbsp;&quot;&quot; &nbsp;&nbsp;&nbsp;for&nbsp;_,v&nbsp;:=&nbsp;range&nbsp;[]rune(str){&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if&nbsp;newArr[v]&nbsp;==&nbsp;0{&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;newArr[v]&nbsp;=&nbsp;1&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;s&nbsp;+=&nbsp;string(v)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}&nbsp;&nbsp;&nbsp;}&nbsp;&nbsp;&nbsp;return&nbsp;s} func&nbsp;filter2(str&nbsp;string)&nbsp;string{&nbsp;&nbsp;&nbsp;//过滤aaabbbcssss为3a3bc4s&nbsp;&nbsp;&nbsp;var&nbsp;newArr&nbsp;=&nbsp;make(map[rune]int)&nbsp;&nbsp;&nbsp;var&nbsp;sortArr&nbsp;[]string&nbsp;&nbsp;&nbsp;s&nbsp;:=&nbsp;&quot;&quot; &nbsp;&nbsp;&nbsp;for&nbsp;_,v&nbsp;:=&nbsp;range&nbsp;[]rune(str){&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;sortArr&nbsp;=&nbsp;append(sortArr,&nbsp;string(v))&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if&nbsp;newArr[v]&nbsp;==&nbsp;0{&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;newArr[v]&nbsp;=&nbsp;1&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}else{&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;newArr[v]&nbsp;+=&nbsp;1&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}&nbsp;&nbsp;&nbsp;} &nbsp;&nbsp;&nbsp;sort.Strings(sortArr) &nbsp;&nbsp;&nbsp;for&nbsp;i,v&nbsp;:=&nbsp;range&nbsp;newArr{&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if&nbsp;v&nbsp;==&nbsp;1&nbsp;{&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;s&nbsp;+=&nbsp;string(i)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}else{&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;s&nbsp;+=&nbsp;strconv.Itoa(v)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;s&nbsp;+=&nbsp;string(i)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}&nbsp;&nbsp;&nbsp;}&nbsp;&nbsp;&nbsp;return&nbsp;s} func&nbsp;main()&nbsp;{&nbsp;&nbsp;&nbsp;fmt.Println(filter2(&quot;aabccddee&quot;))}go语言的map用for range遍历是随机的key所以如果需要顺序遍历则需要先将key排序]]></content>
-      <tags>
-        <tag>面经</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title><![CDATA[HTTP]]></title>
-    <url>%2F2017%2F03%2F16%2FHTTP%20OPTIONS%2F</url>
-    <content type="text"><![CDATA[幂等和非幂等 执行一次和执行很多次同样的操作是否是一样的 GET/PUT/DELETE 幂等 POST 非幂等 301 12345678301 Move Permanently 是HTTP协议中的一个状态码（Status Code）。可以简单地理解为该资源已经被永久改变了位置[1]，通常会发送HTTP Location来重定向到正确的新位置。返回301状态码进行跳转被Google认为是将网站地址由 HTTP 迁移到 HTTPS 的最佳方法。被请求的资源已永久移动到新位置，并且将来任何对此资源的引用都应该使用本响应返回的若干个URI之一。如果可能，拥有链接编辑功能的客户端应当自动把请求的地址修改为从服务器反馈回来的地址。[19]除非额外指定，否则这个响应也是可缓存的。新的永久性的URI应当在响应的Location域中返回。除非这是一个HEAD请求，否则响应的实体中应当包含指向新的URI的超链接及简短说明。如果这不是一个GET或者HEAD请求，那么浏览器禁止自动进行重定向，除非得到用户的确认，因为请求的条件可能因此发生变化。注意：对于某些使用HTTP/1.0协议的浏览器，当它们发送的POST请求得到了一个301响应的话，接下来的重定向请求将会变成GET方式。 302 12345678302 Found，原始描述短语为 Moved Temporarily ，是HTTP协议中的一个状态码(Status Code)。可以简单的理解为该资源原本确实存在，但已经被临时改变了位置；换而言之，就是请求的资源暂时驻留在不同的URI下，故而除非特别指定了缓存头部指示，该状态码不可缓存。对于服务器，通常会给浏览器发送HTTP Location头部来重定向到新的新位置。要求客户端执行临时重定向（原始描述短语为“Moved Temporarily”）。[20]由于这样的重定向是临时的，客户端应当继续向原有地址发送以后的请求。只有在Cache-Control或Expires中进行了指定的情况下，这个响应才是可缓存的。新的临时性的URI应当在响应的Location域中返回。除非这是一个HEAD请求，否则响应的实体中应当包含指向新的URI的超链接及简短说明。如果这不是一个GET或者HEAD请求，那么浏览器禁止自动进行重定向，除非得到用户的确认，因为请求的条件可能因此发生变化。注意：虽然RFC 1945和RFC 2068规范不允许客户端在重定向时改变请求的方法，但是很多现存的浏览器将302响应视作为303响应，并且使用GET方式访问在Location中规定的URI，而无视原先请求的方法。[21]因此状态码303和307被添加了进来，用以明确服务器期待客户端进行何种反应。 500 1Internal Server Error 通用错误消息，服务器遇到了一个未曾预料的状况，导致了它无法完成对请求的处理。没有给出具体错误信息。 502 1Bad Gateway 作为网关或者代理工作的服务器尝试执行请求时，从上游服务器接收到无效的响应 504 12Gateway Timeout 作为网关或者代理工作的服务器尝试执行请求时，未能及时从上游服务器（URI标识出的服务器，例如HTTP、FTP、LDAP）或者辅助服务器（例如DNS）收到响应。[62]注意：某些代理服务器在DNS查询超时时会返回400或者500错误。 URI 和 URL 1URI 是统一资源标识符，而 URL 是统一资源定位符]]></content>
-      <tags>
-        <tag>http</tag>
-        <tag>http状态码</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title><![CDATA[2017.3]]></title>
-    <url>%2F2017%2F03%2F16%2F2017.3%2F</url>
-    <content type="text"><![CDATA[git http://www.runoob.com/w3cnote/git-guide.htmljs编辑器 http://www.cnblogs.com/lhb25/p/html5-wysisyg-inline-editor.htmlJavaEE 注解和XMLhttp://blog.csdn.net/qmw19910301/article/details/52712893]]></content>
-      <tags>
-        <tag>other</tag>
       </tags>
   </entry>
 </search>

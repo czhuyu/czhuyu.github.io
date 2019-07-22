@@ -8,8 +8,47 @@
     <atom:link href="/rss2.xml" rel="self" type="application/rss+xml"/>
     
     <description></description>
-    <pubDate>Fri, 28 Jun 2019 03:11:32 GMT</pubDate>
+    <pubDate>Mon, 22 Jul 2019 09:55:26 GMT</pubDate>
     <generator>http://hexo.io/</generator>
+    
+    <item>
+      <title>walk_maze</title>
+      <link>http://yoursite.com/2019/07/22/walk-maze/</link>
+      <guid>http://yoursite.com/2019/07/22/walk-maze/</guid>
+      <pubDate>Mon, 22 Jul 2019 09:33:27 GMT</pubDate>
+      <description>
+      
+        
+        
+          &lt;h2 id=&quot;基于广度优先算法的-迷宫解法&quot;&gt;&lt;a href=&quot;#基于广度优先算法的-迷宫解法&quot; class=&quot;headerlink&quot; title=&quot;基于广度优先算法的 迷宫解法&quot;&gt;&lt;/a&gt;基于广度优先算法的 迷宫解法&lt;/h2&gt;&lt;p&gt;一.输出结果&lt;/p&gt;
+&lt;figure cla
+        
+      
+      </description>
+      
+      <content:encoded><![CDATA[<h2 id="基于广度优先算法的-迷宫解法"><a href="#基于广度优先算法的-迷宫解法" class="headerlink" title="基于广度优先算法的 迷宫解法"></a>基于广度优先算法的 迷宫解法</h2><p>一.输出结果</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"> 图</span><br><span class="line">  0   0   0   0   0</span><br><span class="line">  1   1   1   1   0</span><br><span class="line">  0   0   0   1   0</span><br><span class="line">  0   0   0   1   0</span><br><span class="line">  0   0   0   1   0</span><br><span class="line">解法</span><br><span class="line">  0   1   2   3   4</span><br><span class="line">  0   0   0   0   5</span><br><span class="line">  0   0   0   0   6</span><br><span class="line">  0   0   0   0   7</span><br><span class="line">  0   0   0   0   8</span><br></pre></td></tr></table></figure><p>第一个二维数组为迷宫地图 0代表可以通行 1代表路障</p><p>第二个数组即为迷宫解法</p><p>思路 </p><ol><li>两个二维数组 迷宫图maze 和 到达各点的路径长度mark</li><li>把起点装入一个队列quene</li><li>取出第一个节点为cur节点，从此节点四个方向走到next节点，即横纵坐标四个方向加减，判断每个方向next节点的坐标，越界/为起点/为障碍/已经记录过 则continue，否则记录下此next节点到队列quene中,并记录到next节点的距离为cur节点存储路径值+1，走完四个方向重复此步骤</li><li>当队列为空/到达终点退出。</li></ol><p>二.实现</p><p>1.文件输入variable</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">5 5</span><br><span class="line">0 0 0 0 0</span><br><span class="line">1 1 1 1 0</span><br><span class="line">0 0 0 1 0</span><br><span class="line">0 0 0 1 0</span><br><span class="line">0 0 0 1 0</span><br></pre></td></tr></table></figure><p>2.code</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br></pre></td><td class="code"><pre><span class="line">package main</span><br><span class="line"></span><br><span class="line">import (</span><br><span class="line">&quot;fmt&quot;</span><br><span class="line">&quot;os&quot;</span><br><span class="line">)</span><br><span class="line"></span><br><span class="line">type Point struct &#123;</span><br><span class="line">i, j int</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">func getMap() [][]int &#123;</span><br><span class="line">file, err := os.Open(&quot;./variable&quot;)</span><br><span class="line">if err != nil &#123;</span><br><span class="line">panic(err)</span><br><span class="line">&#125;</span><br><span class="line">var row, col int</span><br><span class="line">fmt.Fscanf(file, &quot;%d %d&quot;, &amp;row, &amp;col)</span><br><span class="line"></span><br><span class="line">maze := make([][]int, row)</span><br><span class="line">for i := range maze &#123;</span><br><span class="line">maze[i] = make([]int, col)</span><br><span class="line">for j := range maze[i] &#123;</span><br><span class="line">fmt.Fscanf(file, &quot;%d&quot;, &amp;maze[i][j])</span><br><span class="line">&#125;</span><br><span class="line">&#125;</span><br><span class="line">return maze</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">func (p Point) OneStep(q Point) Point &#123;</span><br><span class="line">p.i += q.i</span><br><span class="line">p.j += q.j</span><br><span class="line">return p</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">func walkMaze(maze [][]int, start Point, end Point) [][]int &#123;</span><br><span class="line"></span><br><span class="line">direction := [4]Point&#123;&#123;-1, 0&#125;, &#123;0, -1&#125;, &#123;1, 0&#125;, &#123;0, 1&#125;&#125;</span><br><span class="line">var quene []Point</span><br><span class="line">mark := make([][]int, len(maze))</span><br><span class="line">for i := range maze &#123;</span><br><span class="line">mark[i] = make([]int, len(maze[i]))</span><br><span class="line">for j := range maze[i] &#123;</span><br><span class="line">mark[i][j] = 0</span><br><span class="line">&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">//quene 用于保存可以达到的点</span><br><span class="line">quene = append(quene, start)</span><br><span class="line">for &#123;</span><br><span class="line">if len(quene) == 0 &#123;</span><br><span class="line">break</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">//走到第一个点</span><br><span class="line">cur := quene[0]</span><br><span class="line">quene = quene[1:]</span><br><span class="line"></span><br><span class="line">if cur == end &#123;</span><br><span class="line">break</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">for _, point := range direction &#123;</span><br><span class="line">next := cur.OneStep(point)</span><br><span class="line"></span><br><span class="line">//是否越界</span><br><span class="line">if next.i &lt; 0 || next.i &gt;= len(maze) &#123;</span><br><span class="line">continue</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">if next.j &lt; 0 || next.j &gt;= len(maze[cur.i]) &#123;</span><br><span class="line">continue</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">//起点</span><br><span class="line">if next == start &#123;</span><br><span class="line">continue</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">//是否障碍</span><br><span class="line">if maze[next.i][next.j] == 1 &#123;</span><br><span class="line">continue</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">//是否走过该点</span><br><span class="line">if mark[next.i][next.j] != 0 &#123;</span><br><span class="line">continue</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">//把下一个能走的点装进队列</span><br><span class="line">quene = append(quene, next)</span><br><span class="line"></span><br><span class="line">//标记当前点的步数</span><br><span class="line">step := mark[cur.i][cur.j] + 1</span><br><span class="line">mark[next.i][next.j] = step</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line">return mark</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">func main() &#123;</span><br><span class="line">maze := getMap()</span><br><span class="line">route := walkMaze(maze, Point&#123;0, 0&#125;, Point&#123;5, 5&#125;)</span><br><span class="line"></span><br><span class="line">for i := range maze &#123;</span><br><span class="line">for j := range maze[0] &#123;</span><br><span class="line">fmt.Printf(&quot;%4d&quot;, maze[i][j])</span><br><span class="line">&#125;</span><br><span class="line">fmt.Println()</span><br><span class="line">&#125;</span><br><span class="line">fmt.Println()</span><br><span class="line">for i := range route &#123;</span><br><span class="line">for j := range route[0] &#123;</span><br><span class="line">fmt.Printf(&quot;%4d&quot;, route[i][j])</span><br><span class="line">&#125;</span><br><span class="line">fmt.Println()</span><br><span class="line">&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>]]></content:encoded>
+      
+      <comments>http://yoursite.com/2019/07/22/walk-maze/#disqus_thread</comments>
+    </item>
+    
+    <item>
+      <title>sso单点登陆</title>
+      <link>http://yoursite.com/2019/06/29/sso%E5%8D%95%E7%82%B9%E7%99%BB%E9%99%86/</link>
+      <guid>http://yoursite.com/2019/06/29/sso%E5%8D%95%E7%82%B9%E7%99%BB%E9%99%86/</guid>
+      <pubDate>Sat, 29 Jun 2019 15:32:11 GMT</pubDate>
+      <description>
+      
+        
+        
+          &lt;h2 id=&quot;Single-Sign-On-单点登陆&quot;&gt;&lt;a href=&quot;#Single-Sign-On-单点登陆&quot; class=&quot;headerlink&quot; title=&quot;Single Sign On 单点登陆&quot;&gt;&lt;/a&gt;Single Sign On 单点登陆&lt;/h2&gt;&lt;p&gt;对于
+        
+      
+      </description>
+      
+      <content:encoded><![CDATA[<h2 id="Single-Sign-On-单点登陆"><a href="#Single-Sign-On-单点登陆" class="headerlink" title="Single Sign On 单点登陆"></a>Single Sign On 单点登陆</h2><p>对于登陆信息，我们一般会使用session并把是否登陆的信息保存到session里面</p><p>1.一般网站的大概的登陆流程就是这样</p><p>比方说站点是<a href="http://www.sess.com" target="_blank" rel="noopener">www.sess.com</a></p><p>login.php</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">session_start();</span><br><span class="line">$_SESSION[&apos;login&apos;] = true;</span><br></pre></td></tr></table></figure><p>profile.php</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">if(isset($_SESSION[&apos;login&apos;] &amp;&amp; $_SESSION[&apos;login&apos;] == true)&#123;</span><br><span class="line">    echo &apos;登陆了&apos;;</span><br><span class="line">&#125;else&#123;</span><br><span class="line">    echo &apos;没登陆&apos;;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure><p>这中间经历了什么呢？</p><p>当你访问login.php并且登陆成功过后你启动了session，并且往session中保存了login的状态，那么在这次请求的response header里面就会有这样一个东西</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Set-Cookie: PHPSESSID=atdnhrdamp8v5qbfa6gci3mn17; expires=Fri, 28-Jun-2019 19:27:28 GMT; Max-Age=1800; path=/; domain=www.sess.com</span><br></pre></td></tr></table></figure><p>当浏览器收到这样的返回过后就会把PHPSESSIONID保存到本地</p><p>当你再去访问profile.php的时候，request header里面会有这样的一行</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Cookie: PHPSESSID=atdnhrdamp8v5qbfa6gci3mn17</span><br></pre></td></tr></table></figure><p>然后信息就从这里关联上了，php从Cookie传过来的PHPSESSIONID找到对应的session文件，所以取到的内容是登陆状态。</p><p>2.如果是我在account.sess1.com登陆了，那<a href="http://www.sess1.com能拿到一样的登陆信息吗，也就是两个站点共享登陆信息。" target="_blank" rel="noopener">www.sess1.com能拿到一样的登陆信息吗，也就是两个站点共享登陆信息。</a></p><p>答案肯定是可以的</p><p>这里就要利用cookie的顶级域名功能，也就是当我们保存PHPSESSIONID的时候，我们希望这个cookie的domain是.sess1.com</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">session_set_cookie_params(1800 , &apos;/&apos;, &apos;.sess1.com&apos;);</span><br><span class="line">session_start();</span><br></pre></td></tr></table></figure><p>在session_start前面加上这一行，两个站点就都可以使用相同的PHPSESSIONID，从而实现共享登陆状态。</p><p>问题来了</p><p>3.那如果是<a href="http://www.sess1.com和www.sess2.com想要共享登陆信息呢？" target="_blank" rel="noopener">www.sess1.com和www.sess2.com想要共享登陆信息呢？</a></p><p>cookie是不能跨域的，也就是说我在sess1的PHPSESSONID在sess2是不能拿到的</p><p>如何解决呢?</p><p>CAS流程</p>]]></content:encoded>
+      
+      <comments>http://yoursite.com/2019/06/29/sso%E5%8D%95%E7%82%B9%E7%99%BB%E9%99%86/#disqus_thread</comments>
+    </item>
     
     <item>
       <title>leetcode-19</title>
@@ -537,136 +576,22 @@
     </item>
     
     <item>
-      <title>linux安装mysql</title>
-      <link>http://yoursite.com/2017/03/16/Linux%E4%B8%8B%E7%BC%96%E8%AF%91%E5%AE%89%E8%A3%85Mysql/</link>
-      <guid>http://yoursite.com/2017/03/16/Linux%E4%B8%8B%E7%BC%96%E8%AF%91%E5%AE%89%E8%A3%85Mysql/</guid>
+      <title>linux安装nginx</title>
+      <link>http://yoursite.com/2017/03/16/Linux%E4%B8%8B%E5%AE%89%E8%A3%85Nginx/</link>
+      <guid>http://yoursite.com/2017/03/16/Linux%E4%B8%8B%E5%AE%89%E8%A3%85Nginx/</guid>
       <pubDate>Thu, 16 Mar 2017 14:22:56 GMT</pubDate>
       <description>
       
         
         
-          &lt;p&gt;1、mysql   官网下载适合的压缩包，格式为mysql-x.x.xx-linuxxxx.tar.gz&lt;br&gt;2、解压后配置&lt;br&gt;配置帮助  ./configure –help&lt;br&gt;3、groupadd mysql&lt;br&gt;useradd –g mysql mysql&lt;
+          &lt;p&gt;1.到nginx.org下载&lt;br&gt;​    wget &lt;a href=&quot;http://nginx.org/download/nginx-1.10.0.tar.gz&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;http://nginx.org/downl
         
       
       </description>
       
-      <content:encoded><![CDATA[<p>1、mysql   官网下载适合的压缩包，格式为mysql-x.x.xx-linuxxxx.tar.gz<br>2、解压后配置<br>配置帮助  ./configure –help<br>3、groupadd mysql<br>useradd –g mysql mysql<br>cd到mysql的解压目录<br>chown –R mysql .<br>chgrp –R mysql .<br>4、./scripts/mysql_install_db –user=mysql<br>如果提示laibaio.1的相关错误<br>yum install libaioso.1 libaio<br>5、把目录权限还给root<br>chown –R root .<br>chown –R mysql data<br>mkdir /var/run/mysqld<br>chown mysql /var/run/mysqld<br>chgrp mysql /var/run/mysqld<br>6、启动mysql<br>./bin/mysqld_safe –user=mysql &amp;<br>7、连接mysql ./bin/mysql –uroot -p<br>如果报错   建立软连接或者直接将sock文件复制过去<br>建立软连接方法<br>ln /var/lib/mysql/mysql.sock /tmp/mysql.sock<br>8、修改密码<br>update user set Password=password(你想要的密码) where Host=’localhost’ and User=  ‘root  ‘;<br>delete from user where Password=  ‘’;<br>flush privileges;</p>]]></content:encoded>
+      <content:encoded><![CDATA[<p>1.到nginx.org下载<br>​    wget <a href="http://nginx.org/download/nginx-1.10.0.tar.gz" target="_blank" rel="noopener">http://nginx.org/download/nginx-1.10.0.tar.gz</a><br>2.解压压缩包<br>3.环境配置<br>​    cd到解压出来的nginx目录中有configure目录的地方进行环境配置<br>​    ./configure –prefix=/usr/local/nginx<br>​    (1).如果遇到提示缺少pcre库<br>​        到<a href="http://www.pcre.org下载pcre库，if解压到/usr/local/src/pcre-source" target="_blank" rel="noopener">www.pcre.org下载pcre库，if解压到/usr/local/src/pcre-source</a><br>​    (2).1.6版本以后的版本制定pcre源码目录./configure –prefix=/usr/local/nginx<br>​        –with-pcre=/usr/local/src/pcre-source<br>​        之前的版本制定安装目录./configure –prefix=/usr/local/nginx<br>​        –with-pcre=/usr/pcre<br>4.编译安装 make &amp;&amp; make install<br>5.其他</p><p>​    启动 nginx ./sbin/nginx<br>​    重启./sbin/nginx –s reload<br>​    Exception:如果遇到80端口被httpd(Apache)占了<br>​    pkill -9 httpd<br>​    如果无法访问<br>​    检查防火墙设置</p>]]></content:encoded>
       
-      <comments>http://yoursite.com/2017/03/16/Linux%E4%B8%8B%E7%BC%96%E8%AF%91%E5%AE%89%E8%A3%85Mysql/#disqus_thread</comments>
-    </item>
-    
-    <item>
-      <title>leetcode-7</title>
-      <link>http://yoursite.com/2017/03/16/leetcode-7/</link>
-      <guid>http://yoursite.com/2017/03/16/leetcode-7/</guid>
-      <pubDate>Thu, 16 Mar 2017 14:22:56 GMT</pubDate>
-      <description>
-      
-        
-        
-          &lt;p&gt;&lt;/p&gt;&lt;p style=&quot;box-sizing: border-box; font-family: inherit; font-weight: 500; line-height: 1.1; color: inherit; margin-top: 0px; margin-b
-        
-      
-      </description>
-      
-      <content:encoded><![CDATA[<p></p><p style="box-sizing: border-box; font-family: inherit; font-weight: 500; line-height: 1.1; color: inherit; margin-top: 0px; margin-bottom: 10px; font-size: 24px; display: inline-block; margin-right: 0.5em;">7.&nbsp;Reverse Integer</p><p><br></p><pre class="brush:cpp;toolbar:false">func&nbsp;reverse(x&nbsp;int)&nbsp;int&nbsp;{<br>    s&nbsp;:=&nbsp;strconv.Itoa(x)<br>    rs&nbsp;:=&nbsp;&quot;&quot;<br>    j&nbsp;:=&nbsp;0<br>    if&nbsp;x&nbsp;&lt;&nbsp;0&nbsp;{<br>        j&nbsp;=&nbsp;1<br>        rs&nbsp;+=&nbsp;&quot;-&quot;<br>    }<br>    for&nbsp;i&nbsp;:=&nbsp;len(s)&nbsp;-&nbsp;1;&nbsp;i&nbsp;&gt;=&nbsp;j;&nbsp;i–&nbsp;{<br>        rs&nbsp;+=&nbsp;string(s[i])<br>    }<br>    rsi,&nbsp;_&nbsp;:=&nbsp;strconv.Atoi(rs)<br>    if&nbsp;rsi&nbsp;&gt;&nbsp;(1&lt;&lt;31)&nbsp;||&nbsp;rsi&nbsp;&lt;&nbsp;-(1&nbsp;&lt;&lt;&nbsp;31)&nbsp;{<br>        rsi&nbsp;=&nbsp;0<br>    }<br>    return&nbsp;rsi<br><br>}</pre><p><br></p>]]></content:encoded>
-      
-      <comments>http://yoursite.com/2017/03/16/leetcode-7/#disqus_thread</comments>
-    </item>
-    
-    <item>
-      <title>day3</title>
-      <link>http://yoursite.com/2017/03/16/leetcode_bin_tree/</link>
-      <guid>http://yoursite.com/2017/03/16/leetcode_bin_tree/</guid>
-      <pubDate>Thu, 16 Mar 2017 14:22:56 GMT</pubDate>
-      <description>
-      
-        
-        
-          &lt;p&gt;&lt;strong&gt;Binary Tree (Traverse A Tree)&lt;/strong&gt;&lt;br&gt;&lt;/p&gt;&lt;p&gt;&lt;br&gt;&lt;/p&gt;&lt;p&gt;Binary Tree Preorder Traversal&lt;/p&gt;&lt;pre class=&quot;brush:cpp;toolbar:false
-        
-      
-      </description>
-      
-      <content:encoded><![CDATA[<p><strong>Binary Tree (Traverse A Tree)</strong><br></p><p><br></p><p>Binary Tree Preorder Traversal</p><pre class="brush:cpp;toolbar:false">/*<em><br>&nbsp;</em>&nbsp;Definition&nbsp;for&nbsp;a&nbsp;binary&nbsp;tree&nbsp;node.<br>&nbsp;<em>&nbsp;type&nbsp;TreeNode&nbsp;struct&nbsp;{<br>&nbsp;</em>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Val&nbsp;int<br>&nbsp;<em>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Left&nbsp;</em>TreeNode<br>&nbsp;<em>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Right&nbsp;</em>TreeNode<br>&nbsp;<em>&nbsp;}<br>&nbsp;</em>/<br>func&nbsp;preorderTraversal(root&nbsp;<em>TreeNode)&nbsp;[]int&nbsp;{<br>    var&nbsp;arr&nbsp;[]int<br>    if&nbsp;root&nbsp;==&nbsp;nil&nbsp;{<br>        return&nbsp;arr<br>    }<br>    arr&nbsp;=&nbsp;append(arr,&nbsp;root.Val)<br>    arr1&nbsp;:=&nbsp;preorderTraversal(root.Left)<br>    arr&nbsp;=&nbsp;arrmerge(arr,&nbsp;arr1)<br>    arr2&nbsp;:=&nbsp;preorderTraversal(root.Right)<br>    arr&nbsp;=&nbsp;arrmerge(arr,&nbsp;arr2)<br>    return&nbsp;arr<br>}<br><br>func&nbsp;arrmerge(arr&nbsp;[]int,&nbsp;arr1&nbsp;[]int)&nbsp;[]int&nbsp;{<br>​    for&nbsp;_,&nbsp;v&nbsp;:=&nbsp;range&nbsp;arr1&nbsp;{<br>​        arr&nbsp;=&nbsp;append(arr,&nbsp;v)<br>​    }<br>​    return&nbsp;arr<br>}</em></pre><p>Binary Tree Inorder Traversal</p><pre class="brush:cpp;toolbar:false">func&nbsp;inorderTraversal(root&nbsp;TreeNode)&nbsp;[]int&nbsp;{<br>​    var&nbsp;arr&nbsp;[]int<br>​    if&nbsp;root&nbsp;==&nbsp;nil&nbsp;{<br>​        return&nbsp;arr<br>​    }<br>​    arr1&nbsp;:=&nbsp;inorderTraversal(root.Left)<br>​    arr&nbsp;=&nbsp;arrmerge(arr,&nbsp;arr1)<br>​    arr&nbsp;=&nbsp;append(arr,&nbsp;root.Val)<br>​    arr2&nbsp;:=&nbsp;inorderTraversal(root.Right)<br>​    arr&nbsp;=&nbsp;arrmerge(arr,&nbsp;arr2)<br>​    return&nbsp;arr<br>}</pre><p>Binary Tree Postorder Traversal</p><pre class="brush:cpp;toolbar:false">func&nbsp;postorderTraversal(root&nbsp;*TreeNode)&nbsp;[]int&nbsp;{<br>&nbsp;&nbsp;&nbsp;&nbsp;var&nbsp;arr&nbsp;[]int<br>​    if&nbsp;root&nbsp;==&nbsp;nil&nbsp;{<br>​        return&nbsp;arr<br>​    }<br>​    arr1&nbsp;:=&nbsp;postorderTraversal(root.Left)<br>​    arr&nbsp;=&nbsp;arrmerge(arr,&nbsp;arr1)<br>​    arr2&nbsp;:=&nbsp;postorderTraversal(root.Right)<br>​    arr&nbsp;=&nbsp;arrmerge(arr,&nbsp;arr2)<br>&nbsp;&nbsp;&nbsp;&nbsp;arr&nbsp;=&nbsp;append(arr,&nbsp;root.Val)<br>​    return&nbsp;arr<br>}</pre><p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;</p>]]></content:encoded>
-      
-      <comments>http://yoursite.com/2017/03/16/leetcode_bin_tree/#disqus_thread</comments>
-    </item>
-    
-    <item>
-      <title>linux安装php</title>
-      <link>http://yoursite.com/2017/03/16/Linux%E4%B8%8B%E7%BC%96%E8%AF%91%E5%AE%89%E8%A3%85PHP/</link>
-      <guid>http://yoursite.com/2017/03/16/Linux%E4%B8%8B%E7%BC%96%E8%AF%91%E5%AE%89%E8%A3%85PHP/</guid>
-      <pubDate>Thu, 16 Mar 2017 14:22:56 GMT</pubDate>
-      <description>
-      
-        
-        
-          &lt;p&gt;1、&amp;nbsp;&amp;nbsp;安装依赖库&lt;br&gt;&lt;/p&gt;&lt;p&gt;2、&amp;nbsp;&amp;nbsp;yum install gd zlib libxml2 libxml2-devel libjpeg libjpeg-devel libpng libpng-devel&lt;/p&gt;&lt;p&gt;3、&amp;
-        
-      
-      </description>
-      
-      <content:encoded><![CDATA[<p>1、&nbsp;&nbsp;安装依赖库<br></p><p>2、&nbsp;&nbsp;yum install gd zlib libxml2 libxml2-devel libjpeg libjpeg-devel libpng libpng-devel</p><p>3、&nbsp;&nbsp;下载php-5.6.23.tar.bz2，解压</p><p>4、&nbsp;&nbsp;cd到php解压的目录里</p><p>5、&nbsp;&nbsp;配置安装的一些参数</p><p>./configure –prefix=/usr/local/php \</p><p>–with-gd \</p><p>–enable-gd-native-ttf \</p><p>–enable-gd-jis-conv \</p><p>–with-mysql=mysqlnd \</p><p>–enable-mysqlnd \</p><p>–with-pdo-mysql=mysqlnd \</p><p>–enable-fpm\</p><p>–with-openssl</p><p>&nbsp;</p><p>&nbsp;</p><p>Curl &nbsp;&nbsp;&nbsp;</p><p>&nbsp;</p><p>&nbsp;</p><p>./configure –prefix=/usr/local/php7 –with-gd –enable-gd-native-ttf –enable-gd-jis-conv –with-mysql=mysqlnd –enable-mysqlnd –with-pdo-mysql=mysqlnd –enable-fpm –with-openssl –enable-mbstring –enable-tokenizer –enable-zip –with-curl</p><p>&nbsp;</p><p>&nbsp;</p><p>enable-fpm是让php作为独立的进程来运行，占用9000端口</p><p>配置注意</p><p>&nbsp;</p><p>可能会报openssl的错误</p><p>yum install openssl openssl-devel</p><p>&nbsp;</p><p>每个参数后的斜杠前是有空格的，斜杠所起的作用是连接上下两行，没有空格两个参数会连到一起就会报错了</p><p>6、&nbsp;&nbsp;make &amp;&amp;make install</p><p>这个过程中如果使用小内存的服务器可能出现php error，解决办法:</p><p>在配置的最后一行加上–disable-fileinfo</p><p>7、cd /usr/local/php</p><p>cp etc/php-fpm.conf.default etc/php-fpm.conf</p><p>cp /usr/local/src/php-5.5.13/php.ini-development ./lib/php.ini</p><p>7、&nbsp;&nbsp;启动php</p><p>./sbin/php-fpm</p><p>&nbsp;</p><p>&nbsp;</p><p>/usr/local/php7/lib/php/extensions/no-debug-non-zts-20151012</p><p><br></p>]]></content:encoded>
-      
-      <comments>http://yoursite.com/2017/03/16/Linux%E4%B8%8B%E7%BC%96%E8%AF%91%E5%AE%89%E8%A3%85PHP/#disqus_thread</comments>
-    </item>
-    
-    <item>
-      <title>leetcode-2</title>
-      <link>http://yoursite.com/2017/03/16/leetcode-2/</link>
-      <guid>http://yoursite.com/2017/03/16/leetcode-2/</guid>
-      <pubDate>Thu, 16 Mar 2017 14:22:56 GMT</pubDate>
-      <description>
-      
-        
-        
-          &lt;p&gt;&lt;br&gt;&lt;/p&gt;&lt;p style=&quot;box-sizing: border-box; font-family: inherit; font-weight: 500; line-height: 1.1; color: inherit; margin-top: 0px; marg
-        
-      
-      </description>
-      
-      <content:encoded><![CDATA[<p><br></p><p style="box-sizing: border-box; font-family: inherit; font-weight: 500; line-height: 1.1; color: inherit; margin-top: 0px; margin-bottom: 10px; font-size: 24px; display: inline-block; margin-right: 0.5em;">2.&nbsp;Add Two Numbers</p><p style="box-sizing: border-box; margin-top: 0px; margin-bottom: 10px; color: rgb(51, 51, 51); font-family: &quot;Helvetica Neue&quot;, Helvetica, Arial, sans-serif; font-size: 14px; white-space: normal; background-color: rgb(255, 255, 255);">You are given two&nbsp;<span style="box-sizing: border-box; font-weight: 700;">non-empty</span>&nbsp;linked lists representing two non-negative integers. The digits are stored in&nbsp;<span style="box-sizing: border-box; font-weight: 700;">reverse order</span>&nbsp;and each of their nodes contain a single digit. Add the two numbers and return it as a linked list.</p><p style="box-sizing: border-box; margin-top: 0px; margin-bottom: 10px; color: rgb(51, 51, 51); font-family: &quot;Helvetica Neue&quot;, Helvetica, Arial, sans-serif; font-size: 14px; white-space: normal; background-color: rgb(255, 255, 255);">You may assume the two numbers do not contain any leading zero, except the number 0 itself.</p><p style="box-sizing: border-box; margin-top: 0px; margin-bottom: 10px; color: rgb(51, 51, 51); font-family: &quot;Helvetica Neue&quot;, Helvetica, Arial, sans-serif; font-size: 14px; white-space: normal; background-color: rgb(255, 255, 255);"><span style="box-sizing: border-box; font-weight: 700;">Example</span></p><pre style="box-sizing: border-box; overflow: auto; font-family: Menlo, Monaco, Consolas, &quot;Courier New&quot;, monospace; font-size: 13px; padding: 9.5px; margin-top: 0px; margin-bottom: 10px; line-height: 1.42857; color: rgb(51, 51, 51); word-break: break-all; word-wrap: break-word; background-color: rgb(245, 245, 245); border: 1px solid rgb(204, 204, 204); border-radius: 4px;">Input:&nbsp;(2&nbsp;-&gt;&nbsp;4&nbsp;-&gt;&nbsp;3)&nbsp;+&nbsp;(5&nbsp;-&gt;&nbsp;6&nbsp;-&gt;&nbsp;4)Output:&nbsp;7&nbsp;-&gt;&nbsp;0&nbsp;-&gt;&nbsp;8Explanation:&nbsp;342&nbsp;+&nbsp;465&nbsp;=&nbsp;807.</pre><p><br></p><pre class="brush:cpp;toolbar:false">/*<em><br>&nbsp;</em>&nbsp;Definition&nbsp;for&nbsp;singly-linked&nbsp;list.<br>&nbsp;<em>&nbsp;type&nbsp;ListNode&nbsp;struct&nbsp;{<br>&nbsp;</em>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Val&nbsp;int<br>&nbsp;<em>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Next&nbsp;</em>ListNode<br>&nbsp;<em>&nbsp;}<br>&nbsp;</em>/<br>func&nbsp;addTwoNumbers(l1&nbsp;<em>ListNode,&nbsp;l2&nbsp;</em>ListNode)&nbsp;<em>ListNode&nbsp;{<br>&nbsp;&nbsp;&nbsp;&nbsp;i1&nbsp;:=&nbsp;0<br>    i2&nbsp;:=&nbsp;0<br>    p&nbsp;:=&nbsp;l1<br>    j&nbsp;:=&nbsp;0<br>    for&nbsp;{<br>        if&nbsp;p&nbsp;!=&nbsp;nil&nbsp;{<br>            i1&nbsp;+=&nbsp;p.Val&nbsp;</em>&nbsp;int(math.Pow(float64(10),&nbsp;float64(j)))<br>            j++<br>            p&nbsp;=&nbsp;p.Next<br>        }&nbsp;else&nbsp;{<br>            break<br>        }<br>    }<br>    j&nbsp;=&nbsp;0<br>    p&nbsp;=&nbsp;l2<br>    for&nbsp;{<br>        if&nbsp;p&nbsp;!=&nbsp;nil&nbsp;{<br>            i2&nbsp;+=&nbsp;p.Val&nbsp;<em>&nbsp;int(math.Pow(float64(10),&nbsp;float64(j)))<br>            j++<br>            p&nbsp;=&nbsp;p.Next<br>        }&nbsp;else&nbsp;{<br>            break<br>        }<br>    }<br>    revres&nbsp;:=&nbsp;i1&nbsp;+&nbsp;i2<br>&nbsp;&nbsp;&nbsp;&nbsp;<br>&nbsp;&nbsp;&nbsp;&nbsp;fmt.Println(revres)<br>    head&nbsp;:=&nbsp;new(ListNode)<br>    p&nbsp;=&nbsp;head<br>    for&nbsp;{<br>        if&nbsp;revres&nbsp;==&nbsp;0&nbsp;{<br>            break<br>        }&nbsp;else&nbsp;{<br>            p.Val&nbsp;=&nbsp;revres&nbsp;%&nbsp;10&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>            revres&nbsp;=&nbsp;revres&nbsp;/&nbsp;10<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if&nbsp;revres&nbsp;!=&nbsp;0{<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;    &nbsp;&nbsp;&nbsp;&nbsp;node&nbsp;:=&nbsp;new(ListNode)<br>            &nbsp;&nbsp;&nbsp;&nbsp;p.Next&nbsp;=&nbsp;node<br>            &nbsp;&nbsp;&nbsp;&nbsp;p&nbsp;=&nbsp;p.Next&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>        }<br>    }<br>&nbsp;&nbsp;&nbsp;&nbsp;<br>&nbsp;&nbsp;&nbsp;&nbsp;<br>&nbsp;&nbsp;&nbsp;&nbsp;p&nbsp;=&nbsp;l1<br>    for&nbsp;{<br>        if&nbsp;p.Next&nbsp;==&nbsp;nil&nbsp;{<br>            break<br>        }<br>        fmt.Printf(&quot;%d\t&quot;,&nbsp;p.Val)<br>        p&nbsp;=&nbsp;p.Next<br>    }<br>&nbsp;&nbsp;&nbsp;&nbsp;<br>&nbsp;&nbsp;&nbsp;&nbsp;<br>    return&nbsp;head<br>&nbsp;&nbsp;&nbsp;&nbsp;<br>&nbsp;&nbsp;&nbsp;&nbsp;<br>}</em></pre><p>&nbsp; 后面出现了位数很长的用例，所以换成采用数组来暂存单链表</p><pre class="brush:cpp;toolbar:false">func&nbsp;addTwoNumbers(l1&nbsp;ListNode,&nbsp;l2&nbsp;<em>ListNode)&nbsp;</em>ListNode&nbsp;{<br>    var&nbsp;i1&nbsp;[]int<br>    var&nbsp;i2&nbsp;[]int<br>    p&nbsp;:=&nbsp;l1<br>    for&nbsp;{<br>        if&nbsp;p&nbsp;!=&nbsp;nil&nbsp;{<br>            i1&nbsp;=&nbsp;append(i1,&nbsp;p.Val)<br>            p&nbsp;=&nbsp;p.Next<br>        }&nbsp;else&nbsp;{<br>            break<br>        }<br>    }<br>    p&nbsp;=&nbsp;l2<br>    for&nbsp;{<br>        if&nbsp;p&nbsp;!=&nbsp;nil&nbsp;{<br>            i2&nbsp;=&nbsp;append(i2,&nbsp;p.Val)<br>            p&nbsp;=&nbsp;p.Next<br>        }&nbsp;else&nbsp;{<br>            break<br>        }<br>    }<br>    head&nbsp;:=&nbsp;new(ListNode)<br>    p&nbsp;=&nbsp;head<br>    lenthi1&nbsp;:=&nbsp;len(i1)<br>    lenthi2&nbsp;:=&nbsp;len(i2)<br>    if&nbsp;lenthi1&nbsp;!=&nbsp;lenthi2&nbsp;{<br>        if&nbsp;lenthi1&nbsp;&lt;&nbsp;lenthi2&nbsp;{<br>            for&nbsp;i&nbsp;:=&nbsp;0;&nbsp;i&nbsp;&lt;&nbsp;lenthi2-lenthi1;&nbsp;i++&nbsp;{<br>                i1&nbsp;=&nbsp;append(i1,&nbsp;0)<br>            }<br>        }&nbsp;else&nbsp;{<br>            for&nbsp;i&nbsp;:=&nbsp;0;&nbsp;i&nbsp;&lt;&nbsp;lenthi1-lenthi2;&nbsp;i++&nbsp;{<br>                i2&nbsp;=&nbsp;append(i2,&nbsp;0)<br>            }<br>        }<br>    }<br>    lenthi1&nbsp;=&nbsp;len(i1)<br>    lenthi2&nbsp;=&nbsp;len(i2)<br>    flag&nbsp;:=&nbsp;0<br>    for&nbsp;i,&nbsp;_&nbsp;:=&nbsp;range&nbsp;i1&nbsp;{<br>        sum&nbsp;:=&nbsp;i1[i]&nbsp;+&nbsp;i2[i]<br>        if&nbsp;i&nbsp;&lt;&nbsp;lenthi1-1&nbsp;{<br>            if&nbsp;(sum)/10&nbsp;&gt;&nbsp;0&nbsp;{<br>                i1[i+1]&nbsp;+=&nbsp;1<br>            }<br>        }&nbsp;else&nbsp;{<br>            if&nbsp;(sum)/10&nbsp;&gt;&nbsp;0&nbsp;{<br>                flag&nbsp;=&nbsp;1<br>            }<br>        }<br>        p.Val&nbsp;=&nbsp;sum&nbsp;%&nbsp;10<br>        if&nbsp;i&nbsp;&lt;&nbsp;lenthi1-1&nbsp;{<br>            node&nbsp;:=&nbsp;new(ListNode)<br>            p.Next&nbsp;=&nbsp;node<br>            p&nbsp;=&nbsp;p.Next<br>        }<br>    }<br>    if&nbsp;flag&nbsp;==&nbsp;1&nbsp;{<br>        node&nbsp;:=&nbsp;new(ListNode)<br>        node.Val&nbsp;=&nbsp;1<br>        p.Next&nbsp;=&nbsp;node<br>    }<br>    return&nbsp;head<br>}</pre><p><br></p>]]></content:encoded>
-      
-      <comments>http://yoursite.com/2017/03/16/leetcode-2/#disqus_thread</comments>
-    </item>
-    
-    <item>
-      <title>tomcat war</title>
-      <link>http://yoursite.com/2017/03/16/Linux%E4%B8%8B%E5%AE%89%E8%A3%85jdk%20tomcat%20.war%E5%8F%91%E5%B8%83%E9%A1%B9%E7%9B%AE/</link>
-      <guid>http://yoursite.com/2017/03/16/Linux%E4%B8%8B%E5%AE%89%E8%A3%85jdk%20tomcat%20.war%E5%8F%91%E5%B8%83%E9%A1%B9%E7%9B%AE/</guid>
-      <pubDate>Thu, 16 Mar 2017 14:22:56 GMT</pubDate>
-      <description>
-      
-        
-        
-          &lt;p style=&quot;margin: 10px auto; font-family: verdana, Arial, Helvetica, sans-serif; font-size: 14px; line-height: 21px; white-space: normal;&quot;&gt;一
-        
-      
-      </description>
-      
-      <content:encoded><![CDATA[<p style="margin: 10px auto; font-family: verdana, Arial, Helvetica, sans-serif; font-size: 14px; line-height: 21px; white-space: normal;">一、安装JDK　　</p><p style="margin: 10px auto; font-family: verdana, Arial, Helvetica, sans-serif; font-size: 14px; line-height: 21px; white-space: normal;">1.下载jdk，注意下载的时候不要下载成html了，这是个坑。。。</p><p style="margin: 10px auto; font-family: verdana, Arial, Helvetica, sans-serif; font-size: 14px; line-height: 21px; white-space: normal;">2.</p><p style="margin: 10px auto; font-family: verdana, Arial, Helvetica, sans-serif; font-size: 14px; line-height: 21px; white-space: normal;">vim /etc/profile</p><p style="margin: 10px auto; font-family: verdana, Arial, Helvetica, sans-serif; font-size: 14px; line-height: 21px; white-space: normal;">JAVA_HOME=/usr/…/jdk解压后的路径<br>PATH=$PATH:$JAVA_HOME/bin<br>CLASSPATH=.:$JAVA_HOME/lib/jt.jar:$JAVA_HOME/lib/tools.jar<br>export JAVA_HOME PATH CLASSPATH</p><p style="margin: 10px auto; font-family: verdana, Arial, Helvetica, sans-serif; font-size: 14px; line-height: 21px; white-space: normal;">:wq</p><p style="margin: 10px auto; font-family: verdana, Arial, Helvetica, sans-serif; font-size: 14px; line-height: 21px; white-space: normal;">source /etc/profile</p><p style="margin: 10px auto; font-family: verdana, Arial, Helvetica, sans-serif; font-size: 14px; line-height: 21px; white-space: normal;">最后java -version</p><p style="margin: 10px auto; font-family: verdana, Arial, Helvetica, sans-serif; font-size: 14px; line-height: 21px; white-space: normal;">3.下载tomcat，解压进入目录/bin &nbsp; ./startup.sh</p><p style="margin: 10px auto; font-family: verdana, Arial, Helvetica, sans-serif; font-size: 14px; line-height: 21px; white-space: normal;">4.eclipse export 项目为.war格式 选择导出路径 上传到服务器webapps目录下</p><p><br></p>]]></content:encoded>
-      
-      <comments>http://yoursite.com/2017/03/16/Linux%E4%B8%8B%E5%AE%89%E8%A3%85jdk%20tomcat%20.war%E5%8F%91%E5%B8%83%E9%A1%B9%E7%9B%AE/#disqus_thread</comments>
-    </item>
-    
-    <item>
-      <title>lnmp重启</title>
-      <link>http://yoursite.com/2017/03/16/NginxPHPMysql%20%E9%87%8D%E5%90%AF%E7%AD%89%E5%91%BD%E4%BB%A4/</link>
-      <guid>http://yoursite.com/2017/03/16/NginxPHPMysql%20%E9%87%8D%E5%90%AF%E7%AD%89%E5%91%BD%E4%BB%A4/</guid>
-      <pubDate>Thu, 16 Mar 2017 14:22:56 GMT</pubDate>
-      <description>
-      
-        
-        
-          &lt;p&gt;nginx&amp;nbsp;&lt;br&gt;&lt;/p&gt;&lt;p&gt;&amp;nbsp;&amp;nbsp;&lt;/p&gt;&lt;p&gt;start：&amp;nbsp;&lt;/p&gt;&lt;p&gt;/usr/local/nginx/sbin/nginx&amp;nbsp;&lt;/p&gt;&lt;p&gt;&amp;nbsp;&lt;/p&gt;&lt;p&gt;stop：&amp;nbsp;&lt;/p&gt;&lt;p&gt;/usr/l
-        
-      
-      </description>
-      
-      <content:encoded><![CDATA[<p>nginx&nbsp;<br></p><p>&nbsp;&nbsp;</p><p>start：&nbsp;</p><p>/usr/local/nginx/sbin/nginx&nbsp;</p><p>&nbsp;</p><p>stop：&nbsp;</p><p>/usr/local/nginx/sbin/nginx&nbsp;-s&nbsp;stop&nbsp;</p><p>&nbsp;</p><p>reload：&nbsp;</p><p>/usr/local/nginx/sbin/nginx&nbsp;-s&nbsp;reload&nbsp;</p><p>&nbsp;</p><p>#<strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><em>**</em></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong>&nbsp;</p><p>&nbsp;</p><p>#php-fpm(fast-cgi)命令&nbsp;</p><p>&nbsp;&nbsp;</p><p>start：&nbsp;</p><p>/usr/local/php/sbin/php-fpm&nbsp;</p><p>&nbsp;</p><p>stop：&nbsp;</p><p>/bin/ps&nbsp;-ef&nbsp;|&nbsp;grep&nbsp;&#39;php-fpm&#39;&nbsp;|&nbsp;grep&nbsp;-v&nbsp;grep&nbsp;|&nbsp;cut&nbsp;-c&nbsp;9-15&nbsp;|&nbsp;xargs&nbsp;kill&nbsp;-9&nbsp;</p><p>&nbsp;</p><p>&nbsp;</p><p>Linux：PHP&nbsp;5.3.3&nbsp;以上版本的php-fpm的重启</p><p>&nbsp;</p><p>INT,&nbsp;TERM：立刻终止</p><p>QUIT：平滑终止</p><p>USR1：重新打开日志文件</p><p>USR2：平滑重载所有worker进程并重新载入配置和二进制模块</p><p>&nbsp;</p><p>示例：</p><p>1）php-fpm&nbsp;关闭：</p><p>kill&nbsp;-INT&nbsp;<code>cat&amp;nbsp;/usr/local/php/var/run/php-fpm.pid</code></p><p>&nbsp;</p><p>2）php-fpm&nbsp;重启：</p><p>kill&nbsp;-USR2&nbsp;<code>cat&amp;nbsp;/usr/local/php/var/run/php-fpm.pid</code></p><p>&nbsp;</p><p>查看php-fpm进程数：</p><p>ps&nbsp;aux&nbsp;|&nbsp;grep&nbsp;-c&nbsp;php-fpm</p><p>&nbsp;</p><p>#<strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><em>**</em></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong>&nbsp;</p><p>&nbsp;</p><p>#mysql命令&nbsp;</p><p>&nbsp;</p><p>start：&nbsp;</p><p>/etc/init.d/mysqld&nbsp;start&nbsp;</p><p>&nbsp;</p><p>stop：&nbsp;</p><p>/etc/init.d/mysqld&nbsp;stop&nbsp;</p><p>&nbsp;</p><p>restart：&nbsp;</p><p>/etc/init.d/mysqld&nbsp;restart&nbsp;</p><p>&nbsp;</p><p>#<strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><em>**</em></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong>&nbsp;</p><p><br></p>]]></content:encoded>
-      
-      <comments>http://yoursite.com/2017/03/16/NginxPHPMysql%20%E9%87%8D%E5%90%AF%E7%AD%89%E5%91%BD%E4%BB%A4/#disqus_thread</comments>
+      <comments>http://yoursite.com/2017/03/16/Linux%E4%B8%8B%E5%AE%89%E8%A3%85Nginx/#disqus_thread</comments>
     </item>
     
     <item>
@@ -689,22 +614,115 @@
     </item>
     
     <item>
-      <title>leetcode-1</title>
-      <link>http://yoursite.com/2017/03/16/leetcode-1/</link>
-      <guid>http://yoursite.com/2017/03/16/leetcode-1/</guid>
+      <title>linux安装php</title>
+      <link>http://yoursite.com/2017/03/16/Linux%E4%B8%8B%E7%BC%96%E8%AF%91%E5%AE%89%E8%A3%85PHP/</link>
+      <guid>http://yoursite.com/2017/03/16/Linux%E4%B8%8B%E7%BC%96%E8%AF%91%E5%AE%89%E8%A3%85PHP/</guid>
       <pubDate>Thu, 16 Mar 2017 14:22:56 GMT</pubDate>
       <description>
       
         
         
-          &lt;p&gt;&lt;br&gt;&lt;/p&gt;&lt;p style=&quot;box-sizing: border-box; font-family: inherit; font-weight: 500; line-height: 1.1; color: inherit; margin-top: 0px; marg
+          &lt;p&gt;1、&amp;nbsp;&amp;nbsp;安装依赖库&lt;br&gt;&lt;/p&gt;&lt;p&gt;2、&amp;nbsp;&amp;nbsp;yum install gd zlib libxml2 libxml2-devel libjpeg libjpeg-devel libpng libpng-devel&lt;/p&gt;&lt;p&gt;3、&amp;
         
       
       </description>
       
-      <content:encoded><![CDATA[<p><br></p><p style="box-sizing: border-box; font-family: inherit; font-weight: 500; line-height: 1.1; color: inherit; margin-top: 0px; margin-bottom: 10px; font-size: 24px; display: inline-block; margin-right: 0.5em;">1.&nbsp;Two Sum</p><p style="box-sizing: border-box; margin-top: 0px; margin-bottom: 10px; color: rgb(51, 51, 51); font-family: &quot;Helvetica Neue&quot;, Helvetica, Arial, sans-serif; font-size: 14px; white-space: normal; background-color: rgb(255, 255, 255);">Given an array of integers, return&nbsp;<span style="box-sizing: border-box; font-weight: 700;">indices</span>&nbsp;of the two numbers such that they add up to a specific target.</p><p style="box-sizing: border-box; margin-top: 0px; margin-bottom: 10px; color: rgb(51, 51, 51); font-family: &quot;Helvetica Neue&quot;, Helvetica, Arial, sans-serif; font-size: 14px; white-space: normal; background-color: rgb(255, 255, 255);">You may assume that each input would have&nbsp;<span style="box-sizing: border-box; font-weight: 700;"><em style="box-sizing: border-box;">exactly</em></span>&nbsp;one solution, and you may not use the&nbsp;<em style="box-sizing: border-box;">same</em>&nbsp;element twice.</p><p style="box-sizing: border-box; margin-top: 0px; margin-bottom: 10px; color: rgb(51, 51, 51); font-family: &quot;Helvetica Neue&quot;, Helvetica, Arial, sans-serif; font-size: 14px; white-space: normal; background-color: rgb(255, 255, 255);"><span style="box-sizing: border-box; font-weight: 700;">Example:</span><br></p><pre style="box-sizing: border-box; overflow: auto; font-family: Menlo, Monaco, Consolas, &quot;Courier New&quot;, monospace; font-size: 13px; padding: 9.5px; margin-top: 0px; margin-bottom: 10px; line-height: 1.42857; color: rgb(51, 51, 51); word-break: break-all; word-wrap: break-word; background-color: rgb(245, 245, 245); border: 1px solid rgb(204, 204, 204); border-radius: 4px;">Given&nbsp;nums&nbsp;=&nbsp;[2,&nbsp;7,&nbsp;11,&nbsp;15],&nbsp;target&nbsp;=&nbsp;9,<br>Because&nbsp;nums[0]&nbsp;+&nbsp;nums[1]&nbsp;=&nbsp;2&nbsp;+&nbsp;7&nbsp;=&nbsp;9,<br>return&nbsp;[0,&nbsp;1].</pre><pre class="brush:cpp;toolbar:false">func&nbsp;twoSum(nums&nbsp;[]int,&nbsp;target&nbsp;int)&nbsp;[]int&nbsp;{<br>    var&nbsp;arr&nbsp;[]int<br>EXIT:<br>    for&nbsp;i,&nbsp;<em>&nbsp;:=&nbsp;range&nbsp;nums&nbsp;{<br>        for&nbsp;j,&nbsp;</em>&nbsp;:=&nbsp;range&nbsp;nums&nbsp;{<br>            if&nbsp;(nums[i]+nums[j])&nbsp;==&nbsp;target&nbsp;&amp;&amp;&nbsp;i&nbsp;!=&nbsp;j&nbsp;{<br>                arr&nbsp;=&nbsp;append(arr,&nbsp;i)<br>                arr&nbsp;=&nbsp;append(arr,&nbsp;j)<br>                break&nbsp;EXIT<br>            }<br>        }<br>    }<br>    return&nbsp;arr<br>}</pre><p><br></p>]]></content:encoded>
+      <content:encoded><![CDATA[<p>1、&nbsp;&nbsp;安装依赖库<br></p><p>2、&nbsp;&nbsp;yum install gd zlib libxml2 libxml2-devel libjpeg libjpeg-devel libpng libpng-devel</p><p>3、&nbsp;&nbsp;下载php-5.6.23.tar.bz2，解压</p><p>4、&nbsp;&nbsp;cd到php解压的目录里</p><p>5、&nbsp;&nbsp;配置安装的一些参数</p><p>./configure –prefix=/usr/local/php \</p><p>–with-gd \</p><p>–enable-gd-native-ttf \</p><p>–enable-gd-jis-conv \</p><p>–with-mysql=mysqlnd \</p><p>–enable-mysqlnd \</p><p>–with-pdo-mysql=mysqlnd \</p><p>–enable-fpm\</p><p>–with-openssl</p><p>&nbsp;</p><p>&nbsp;</p><p>Curl &nbsp;&nbsp;&nbsp;</p><p>&nbsp;</p><p>&nbsp;</p><p>./configure –prefix=/usr/local/php7 –with-gd –enable-gd-native-ttf –enable-gd-jis-conv –with-mysql=mysqlnd –enable-mysqlnd –with-pdo-mysql=mysqlnd –enable-fpm –with-openssl –enable-mbstring –enable-tokenizer –enable-zip –with-curl</p><p>&nbsp;</p><p>&nbsp;</p><p>enable-fpm是让php作为独立的进程来运行，占用9000端口</p><p>配置注意</p><p>&nbsp;</p><p>可能会报openssl的错误</p><p>yum install openssl openssl-devel</p><p>&nbsp;</p><p>每个参数后的斜杠前是有空格的，斜杠所起的作用是连接上下两行，没有空格两个参数会连到一起就会报错了</p><p>6、&nbsp;&nbsp;make &amp;&amp;make install</p><p>这个过程中如果使用小内存的服务器可能出现php error，解决办法:</p><p>在配置的最后一行加上–disable-fileinfo</p><p>7、cd /usr/local/php</p><p>cp etc/php-fpm.conf.default etc/php-fpm.conf</p><p>cp /usr/local/src/php-5.5.13/php.ini-development ./lib/php.ini</p><p>7、&nbsp;&nbsp;启动php</p><p>./sbin/php-fpm</p><p>&nbsp;</p><p>&nbsp;</p><p>/usr/local/php7/lib/php/extensions/no-debug-non-zts-20151012</p><p><br></p>]]></content:encoded>
       
-      <comments>http://yoursite.com/2017/03/16/leetcode-1/#disqus_thread</comments>
+      <comments>http://yoursite.com/2017/03/16/Linux%E4%B8%8B%E7%BC%96%E8%AF%91%E5%AE%89%E8%A3%85PHP/#disqus_thread</comments>
+    </item>
+    
+    <item>
+      <title>php内置数组排序</title>
+      <link>http://yoursite.com/2017/03/16/php%E5%86%85%E7%BD%AE%E6%95%B0%E7%BB%84%E6%8E%92%E5%BA%8F%E6%96%B9%E6%B3%95/</link>
+      <guid>http://yoursite.com/2017/03/16/php%E5%86%85%E7%BD%AE%E6%95%B0%E7%BB%84%E6%8E%92%E5%BA%8F%E6%96%B9%E6%B3%95/</guid>
+      <pubDate>Thu, 16 Mar 2017 14:22:56 GMT</pubDate>
+      <description>
+      
+      </description>
+      
+      <comments>http://yoursite.com/2017/03/16/php%E5%86%85%E7%BD%AE%E6%95%B0%E7%BB%84%E6%8E%92%E5%BA%8F%E6%96%B9%E6%B3%95/#disqus_thread</comments>
+    </item>
+    
+    <item>
+      <title>linux安装mysql</title>
+      <link>http://yoursite.com/2017/03/16/Linux%E4%B8%8B%E7%BC%96%E8%AF%91%E5%AE%89%E8%A3%85Mysql/</link>
+      <guid>http://yoursite.com/2017/03/16/Linux%E4%B8%8B%E7%BC%96%E8%AF%91%E5%AE%89%E8%A3%85Mysql/</guid>
+      <pubDate>Thu, 16 Mar 2017 14:22:56 GMT</pubDate>
+      <description>
+      
+        
+        
+          &lt;p&gt;1、mysql   官网下载适合的压缩包，格式为mysql-x.x.xx-linuxxxx.tar.gz&lt;br&gt;2、解压后配置&lt;br&gt;配置帮助  ./configure –help&lt;br&gt;3、groupadd mysql&lt;br&gt;useradd –g mysql mysql&lt;
+        
+      
+      </description>
+      
+      <content:encoded><![CDATA[<p>1、mysql   官网下载适合的压缩包，格式为mysql-x.x.xx-linuxxxx.tar.gz<br>2、解压后配置<br>配置帮助  ./configure –help<br>3、groupadd mysql<br>useradd –g mysql mysql<br>cd到mysql的解压目录<br>chown –R mysql .<br>chgrp –R mysql .<br>4、./scripts/mysql_install_db –user=mysql<br>如果提示laibaio.1的相关错误<br>yum install libaioso.1 libaio<br>5、把目录权限还给root<br>chown –R root .<br>chown –R mysql data<br>mkdir /var/run/mysqld<br>chown mysql /var/run/mysqld<br>chgrp mysql /var/run/mysqld<br>6、启动mysql<br>./bin/mysqld_safe –user=mysql &amp;<br>7、连接mysql ./bin/mysql –uroot -p<br>如果报错   建立软连接或者直接将sock文件复制过去<br>建立软连接方法<br>ln /var/lib/mysql/mysql.sock /tmp/mysql.sock<br>8、修改密码<br>update user set Password=password(你想要的密码) where Host=’localhost’ and User=  ‘root  ‘;<br>delete from user where Password=  ‘’;<br>flush privileges;</p>]]></content:encoded>
+      
+      <comments>http://yoursite.com/2017/03/16/Linux%E4%B8%8B%E7%BC%96%E8%AF%91%E5%AE%89%E8%A3%85Mysql/#disqus_thread</comments>
+    </item>
+    
+    <item>
+      <title>2017.3</title>
+      <link>http://yoursite.com/2017/03/16/2017.3/</link>
+      <guid>http://yoursite.com/2017/03/16/2017.3/</guid>
+      <pubDate>Thu, 16 Mar 2017 14:22:56 GMT</pubDate>
+      <description>
+      
+        
+        
+          &lt;p&gt;git &lt;a href=&quot;http://www.runoob.com/w3cnote/git-guide.html&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;http://www.runoob.com/w3cnote/git-guide.html&lt;/a
+        
+      
+      </description>
+      
+      <content:encoded><![CDATA[<p>git <a href="http://www.runoob.com/w3cnote/git-guide.html" target="_blank" rel="noopener">http://www.runoob.com/w3cnote/git-guide.html</a><br>js编辑器 <a href="http://www.cnblogs.com/lhb25/p/html5-wysisyg-inline-editor.html" target="_blank" rel="noopener">http://www.cnblogs.com/lhb25/p/html5-wysisyg-inline-editor.html</a><br>JavaEE 注解和XML<a href="http://blog.csdn.net/qmw19910301/article/details/52712893" target="_blank" rel="noopener">http://blog.csdn.net/qmw19910301/article/details/52712893</a></p>]]></content:encoded>
+      
+      <comments>http://yoursite.com/2017/03/16/2017.3/#disqus_thread</comments>
+    </item>
+    
+    <item>
+      <title>HTTP</title>
+      <link>http://yoursite.com/2017/03/16/HTTP%20OPTIONS/</link>
+      <guid>http://yoursite.com/2017/03/16/HTTP%20OPTIONS/</guid>
+      <pubDate>Thu, 16 Mar 2017 14:22:56 GMT</pubDate>
+      <description>
+      
+        
+        
+          &lt;p&gt;幂等和非幂等&lt;/p&gt;
+&lt;p&gt;执行一次和执行很多次同样的操作是否是一样的&lt;/p&gt;
+&lt;p&gt;GET/PUT/DELETE 幂等&lt;/p&gt;
+&lt;p&gt;POST 非幂等&lt;/p&gt;
+&lt;p&gt;301&lt;/p&gt;
+&lt;figure class=&quot;highlight plain&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;t
+        
+      
+      </description>
+      
+      <content:encoded><![CDATA[<p>幂等和非幂等</p><p>执行一次和执行很多次同样的操作是否是一样的</p><p>GET/PUT/DELETE 幂等</p><p>POST 非幂等</p><p>301</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">301 Move Permanently 是HTTP协议中的一个状态码（Status Code）。可以简单地理解为该资源已经被永久改变了位置[1]，通常会发送HTTP Location来重定向到正确的新位置。</span><br><span class="line"></span><br><span class="line">返回301状态码进行跳转被Google认为是将网站地址由 HTTP 迁移到 HTTPS 的最佳方法。</span><br><span class="line"></span><br><span class="line">被请求的资源已永久移动到新位置，并且将来任何对此资源的引用都应该使用本响应返回的若干个URI之一。如果可能，拥有链接编辑功能的客户端应当自动把请求的地址修改为从服务器反馈回来的地址。[19]除非额外指定，否则这个响应也是可缓存的。</span><br><span class="line">新的永久性的URI应当在响应的Location域中返回。除非这是一个HEAD请求，否则响应的实体中应当包含指向新的URI的超链接及简短说明。</span><br><span class="line">如果这不是一个GET或者HEAD请求，那么浏览器禁止自动进行重定向，除非得到用户的确认，因为请求的条件可能因此发生变化。</span><br><span class="line">注意：对于某些使用HTTP/1.0协议的浏览器，当它们发送的POST请求得到了一个301响应的话，接下来的重定向请求将会变成GET方式。</span><br></pre></td></tr></table></figure><p>302</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">302 Found，原始描述短语为 Moved Temporarily ，是HTTP协议中的一个状态码(Status Code)。可以简单的理解为该资源原本确实存在，但已经被临时改变了位置；换而言之，就是请求的资源暂时驻留在不同的URI下，故而除非特别指定了缓存头部指示，该状态码不可缓存。</span><br><span class="line"></span><br><span class="line">对于服务器，通常会给浏览器发送HTTP Location头部来重定向到新的新位置。</span><br><span class="line"></span><br><span class="line">要求客户端执行临时重定向（原始描述短语为“Moved Temporarily”）。[20]由于这样的重定向是临时的，客户端应当继续向原有地址发送以后的请求。只有在Cache-Control或Expires中进行了指定的情况下，这个响应才是可缓存的。</span><br><span class="line">新的临时性的URI应当在响应的Location域中返回。除非这是一个HEAD请求，否则响应的实体中应当包含指向新的URI的超链接及简短说明。</span><br><span class="line">如果这不是一个GET或者HEAD请求，那么浏览器禁止自动进行重定向，除非得到用户的确认，因为请求的条件可能因此发生变化。</span><br><span class="line">注意：虽然RFC 1945和RFC 2068规范不允许客户端在重定向时改变请求的方法，但是很多现存的浏览器将302响应视作为303响应，并且使用GET方式访问在Location中规定的URI，而无视原先请求的方法。[21]因此状态码303和307被添加了进来，用以明确服务器期待客户端进行何种反应。</span><br></pre></td></tr></table></figure><p>500</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Internal Server Error 通用错误消息，服务器遇到了一个未曾预料的状况，导致了它无法完成对请求的处理。没有给出具体错误信息。</span><br></pre></td></tr></table></figure><p>502</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Bad Gateway 作为网关或者代理工作的服务器尝试执行请求时，从上游服务器接收到无效的响应</span><br></pre></td></tr></table></figure><p>504</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Gateway Timeout 作为网关或者代理工作的服务器尝试执行请求时，未能及时从上游服务器（URI标识出的服务器，例如HTTP、FTP、LDAP）或者辅助服务器（例如DNS）收到响应。[62]</span><br><span class="line">注意：某些代理服务器在DNS查询超时时会返回400或者500错误。</span><br></pre></td></tr></table></figure><p>URI 和 URL</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">URI 是统一资源标识符，而 URL 是统一资源定位符</span><br></pre></td></tr></table></figure>]]></content:encoded>
+      
+      <comments>http://yoursite.com/2017/03/16/HTTP%20OPTIONS/#disqus_thread</comments>
+    </item>
+    
+    <item>
+      <title>git</title>
+      <link>http://yoursite.com/2017/03/16/Github/</link>
+      <guid>http://yoursite.com/2017/03/16/Github/</guid>
+      <pubDate>Thu, 16 Mar 2017 14:22:56 GMT</pubDate>
+      <description>
+      
+        
+        
+          &lt;p&gt;首先有两种使用方式 1.先在git官网上建立一个git仓库，然后git clone到本地&lt;br&gt;&lt;/p&gt;&lt;p&gt;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; 2.直接在本地cd进一个文件夹 git init&lt;br
+        
+      
+      </description>
+      
+      <content:encoded><![CDATA[<p>首先有两种使用方式 1.先在git官网上建立一个git仓库，然后git clone到本地<br></p><p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 2.直接在本地cd进一个文件夹 git init<br></p><p>配置用户名和email</p><p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;git config –global user.name &#39;&#39;</p><p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;git config –global user.email <a href="mailto:xxx@xxx.com" target="_blank" rel="noopener">xxx@xxx.com</a></p><p>简单使用命令 &nbsp;git add .</p><p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; git status</p><p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; git commit -m &quot;The First Upload&quot;<br></p><p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;git push -u origin master</p><p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp;</p><p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br></p><p><br></p>]]></content:encoded>
+      
+      <comments>http://yoursite.com/2017/03/16/Github/#disqus_thread</comments>
     </item>
     
     <item>
@@ -765,34 +783,137 @@
     </item>
     
     <item>
-      <title>linux安装nginx</title>
-      <link>http://yoursite.com/2017/03/16/Linux%E4%B8%8B%E5%AE%89%E8%A3%85Nginx/</link>
-      <guid>http://yoursite.com/2017/03/16/Linux%E4%B8%8B%E5%AE%89%E8%A3%85Nginx/</guid>
+      <title>leetcode-1</title>
+      <link>http://yoursite.com/2017/03/16/leetcode-1/</link>
+      <guid>http://yoursite.com/2017/03/16/leetcode-1/</guid>
       <pubDate>Thu, 16 Mar 2017 14:22:56 GMT</pubDate>
       <description>
       
         
         
-          &lt;p&gt;1.到nginx.org下载&lt;br&gt;​    wget &lt;a href=&quot;http://nginx.org/download/nginx-1.10.0.tar.gz&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;http://nginx.org/downl
+          &lt;p&gt;&lt;br&gt;&lt;/p&gt;&lt;p style=&quot;box-sizing: border-box; font-family: inherit; font-weight: 500; line-height: 1.1; color: inherit; margin-top: 0px; marg
         
       
       </description>
       
-      <content:encoded><![CDATA[<p>1.到nginx.org下载<br>​    wget <a href="http://nginx.org/download/nginx-1.10.0.tar.gz" target="_blank" rel="noopener">http://nginx.org/download/nginx-1.10.0.tar.gz</a><br>2.解压压缩包<br>3.环境配置<br>​    cd到解压出来的nginx目录中有configure目录的地方进行环境配置<br>​    ./configure –prefix=/usr/local/nginx<br>​    (1).如果遇到提示缺少pcre库<br>​        到<a href="http://www.pcre.org下载pcre库，if解压到/usr/local/src/pcre-source" target="_blank" rel="noopener">www.pcre.org下载pcre库，if解压到/usr/local/src/pcre-source</a><br>​    (2).1.6版本以后的版本制定pcre源码目录./configure –prefix=/usr/local/nginx<br>​        –with-pcre=/usr/local/src/pcre-source<br>​        之前的版本制定安装目录./configure –prefix=/usr/local/nginx<br>​        –with-pcre=/usr/pcre<br>4.编译安装 make &amp;&amp; make install<br>5.其他</p><p>​    启动 nginx ./sbin/nginx<br>​    重启./sbin/nginx –s reload<br>​    Exception:如果遇到80端口被httpd(Apache)占了<br>​    pkill -9 httpd<br>​    如果无法访问<br>​    检查防火墙设置</p>]]></content:encoded>
+      <content:encoded><![CDATA[<p><br></p><p style="box-sizing: border-box; font-family: inherit; font-weight: 500; line-height: 1.1; color: inherit; margin-top: 0px; margin-bottom: 10px; font-size: 24px; display: inline-block; margin-right: 0.5em;">1.&nbsp;Two Sum</p><p style="box-sizing: border-box; margin-top: 0px; margin-bottom: 10px; color: rgb(51, 51, 51); font-family: &quot;Helvetica Neue&quot;, Helvetica, Arial, sans-serif; font-size: 14px; white-space: normal; background-color: rgb(255, 255, 255);">Given an array of integers, return&nbsp;<span style="box-sizing: border-box; font-weight: 700;">indices</span>&nbsp;of the two numbers such that they add up to a specific target.</p><p style="box-sizing: border-box; margin-top: 0px; margin-bottom: 10px; color: rgb(51, 51, 51); font-family: &quot;Helvetica Neue&quot;, Helvetica, Arial, sans-serif; font-size: 14px; white-space: normal; background-color: rgb(255, 255, 255);">You may assume that each input would have&nbsp;<span style="box-sizing: border-box; font-weight: 700;"><em style="box-sizing: border-box;">exactly</em></span>&nbsp;one solution, and you may not use the&nbsp;<em style="box-sizing: border-box;">same</em>&nbsp;element twice.</p><p style="box-sizing: border-box; margin-top: 0px; margin-bottom: 10px; color: rgb(51, 51, 51); font-family: &quot;Helvetica Neue&quot;, Helvetica, Arial, sans-serif; font-size: 14px; white-space: normal; background-color: rgb(255, 255, 255);"><span style="box-sizing: border-box; font-weight: 700;">Example:</span><br></p><pre style="box-sizing: border-box; overflow: auto; font-family: Menlo, Monaco, Consolas, &quot;Courier New&quot;, monospace; font-size: 13px; padding: 9.5px; margin-top: 0px; margin-bottom: 10px; line-height: 1.42857; color: rgb(51, 51, 51); word-break: break-all; word-wrap: break-word; background-color: rgb(245, 245, 245); border: 1px solid rgb(204, 204, 204); border-radius: 4px;">Given&nbsp;nums&nbsp;=&nbsp;[2,&nbsp;7,&nbsp;11,&nbsp;15],&nbsp;target&nbsp;=&nbsp;9,<br>Because&nbsp;nums[0]&nbsp;+&nbsp;nums[1]&nbsp;=&nbsp;2&nbsp;+&nbsp;7&nbsp;=&nbsp;9,<br>return&nbsp;[0,&nbsp;1].</pre><pre class="brush:cpp;toolbar:false">func&nbsp;twoSum(nums&nbsp;[]int,&nbsp;target&nbsp;int)&nbsp;[]int&nbsp;{<br>    var&nbsp;arr&nbsp;[]int<br>EXIT:<br>    for&nbsp;i,&nbsp;<em>&nbsp;:=&nbsp;range&nbsp;nums&nbsp;{<br>        for&nbsp;j,&nbsp;</em>&nbsp;:=&nbsp;range&nbsp;nums&nbsp;{<br>            if&nbsp;(nums[i]+nums[j])&nbsp;==&nbsp;target&nbsp;&amp;&amp;&nbsp;i&nbsp;!=&nbsp;j&nbsp;{<br>                arr&nbsp;=&nbsp;append(arr,&nbsp;i)<br>                arr&nbsp;=&nbsp;append(arr,&nbsp;j)<br>                break&nbsp;EXIT<br>            }<br>        }<br>    }<br>    return&nbsp;arr<br>}</pre><p><br></p>]]></content:encoded>
       
-      <comments>http://yoursite.com/2017/03/16/Linux%E4%B8%8B%E5%AE%89%E8%A3%85Nginx/#disqus_thread</comments>
+      <comments>http://yoursite.com/2017/03/16/leetcode-1/#disqus_thread</comments>
     </item>
     
     <item>
-      <title>php内置数组排序</title>
-      <link>http://yoursite.com/2017/03/16/php%E5%86%85%E7%BD%AE%E6%95%B0%E7%BB%84%E6%8E%92%E5%BA%8F%E6%96%B9%E6%B3%95/</link>
-      <guid>http://yoursite.com/2017/03/16/php%E5%86%85%E7%BD%AE%E6%95%B0%E7%BB%84%E6%8E%92%E5%BA%8F%E6%96%B9%E6%B3%95/</guid>
+      <title>安装laravel</title>
+      <link>http://yoursite.com/2017/03/16/%E5%AE%89%E8%A3%85Laravel/</link>
+      <guid>http://yoursite.com/2017/03/16/%E5%AE%89%E8%A3%85Laravel/</guid>
       <pubDate>Thu, 16 Mar 2017 14:22:56 GMT</pubDate>
       <description>
       
+        
+        
+          &lt;p&gt;一、根据官方文档需要安装几个php的扩展 Openssl/PDO/Mbstring/Tokenizer/XML&lt;br&gt;&lt;/p&gt;&lt;p&gt;二、Linux下可以使用Composer来安装Laravel&lt;/p&gt;&lt;p&gt;&amp;nbsp; 1.全局安装Composer&amp;nbsp;&lt;br&gt;&lt;/p
+        
+      
       </description>
       
-      <comments>http://yoursite.com/2017/03/16/php%E5%86%85%E7%BD%AE%E6%95%B0%E7%BB%84%E6%8E%92%E5%BA%8F%E6%96%B9%E6%B3%95/#disqus_thread</comments>
+      <content:encoded><![CDATA[<p>一、根据官方文档需要安装几个php的扩展 Openssl/PDO/Mbstring/Tokenizer/XML<br></p><p>二、Linux下可以使用Composer来安装Laravel</p><p>&nbsp; 1.全局安装Composer&nbsp;<br></p><p>&nbsp;&nbsp;&nbsp;&nbsp;curl -sS <a href="https://getcomposer.org/installer" target="_blank" rel="noopener">https://getcomposer.org/installer</a> | php<br>&nbsp;&nbsp;&nbsp;&nbsp;mv composer.phar /usr/local/bin/composer<br></p><p>&nbsp; &nbsp; &nbsp;解决更新慢的问题<br></p><p>&nbsp;&nbsp;&nbsp;&nbsp;composer config repo.packagist composer <a href="https://packagist.phpcomposer.com" target="_blank" rel="noopener">https://packagist.phpcomposer.com</a></p><p>&nbsp;&nbsp;&nbsp;&nbsp;composer –version查看是否安装成功</p><p>&nbsp; 2.利用Composer安装Laravel<br></p><p>&nbsp;&nbsp;&nbsp;&nbsp;composer global require &quot;laravel/installer&quot;<br></p><p>&nbsp;&nbsp;&nbsp;&nbsp;cd到$Home/.composer/vendor/bin目录下<br></p><p>&nbsp;&nbsp;&nbsp;&nbsp;执行 Laravel new Blog<br></p><p>&nbsp; 3.最后利用php的内置服务器<br></p><p>&nbsp;&nbsp;&nbsp;&nbsp;php artisan serve<br></p><p><br></p><p>一些收获</p><p>&nbsp; &nbsp;1.Linux方面 .tar.gz通过的是源码安装 ./configure –prefix=/usr/local/php 即指定安装路径 卸载的时候只需要删除这个目录下的东西即可</p><p>　　开机自启动</p><p>　　增加环境变量</p><p>&nbsp; &nbsp;2.php 的两种运行方式的php.ini有可能是不同的,也就是会出现你的web上面的phpinfo()和你直接用CLI执行的php -m发现扩展的开启情况是不相同的，这个时候就需要你运行CLI和web的时候所用的php.ini是同一个文件</p><p>&nbsp; &nbsp;3.Laravel</p><p>　　从laraval知道了php有一个内置的服务器。</p><p><br></p>]]></content:encoded>
+      
+      <comments>http://yoursite.com/2017/03/16/%E5%AE%89%E8%A3%85Laravel/#disqus_thread</comments>
+    </item>
+    
+    <item>
+      <title>day3</title>
+      <link>http://yoursite.com/2017/03/16/leetcode_bin_tree/</link>
+      <guid>http://yoursite.com/2017/03/16/leetcode_bin_tree/</guid>
+      <pubDate>Thu, 16 Mar 2017 14:22:56 GMT</pubDate>
+      <description>
+      
+        
+        
+          &lt;p&gt;&lt;strong&gt;Binary Tree (Traverse A Tree)&lt;/strong&gt;&lt;br&gt;&lt;/p&gt;&lt;p&gt;&lt;br&gt;&lt;/p&gt;&lt;p&gt;Binary Tree Preorder Traversal&lt;/p&gt;&lt;pre class=&quot;brush:cpp;toolbar:false
+        
+      
+      </description>
+      
+      <content:encoded><![CDATA[<p><strong>Binary Tree (Traverse A Tree)</strong><br></p><p><br></p><p>Binary Tree Preorder Traversal</p><pre class="brush:cpp;toolbar:false">/*<em><br>&nbsp;</em>&nbsp;Definition&nbsp;for&nbsp;a&nbsp;binary&nbsp;tree&nbsp;node.<br>&nbsp;<em>&nbsp;type&nbsp;TreeNode&nbsp;struct&nbsp;{<br>&nbsp;</em>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Val&nbsp;int<br>&nbsp;<em>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Left&nbsp;</em>TreeNode<br>&nbsp;<em>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Right&nbsp;</em>TreeNode<br>&nbsp;<em>&nbsp;}<br>&nbsp;</em>/<br>func&nbsp;preorderTraversal(root&nbsp;<em>TreeNode)&nbsp;[]int&nbsp;{<br>    var&nbsp;arr&nbsp;[]int<br>    if&nbsp;root&nbsp;==&nbsp;nil&nbsp;{<br>        return&nbsp;arr<br>    }<br>    arr&nbsp;=&nbsp;append(arr,&nbsp;root.Val)<br>    arr1&nbsp;:=&nbsp;preorderTraversal(root.Left)<br>    arr&nbsp;=&nbsp;arrmerge(arr,&nbsp;arr1)<br>    arr2&nbsp;:=&nbsp;preorderTraversal(root.Right)<br>    arr&nbsp;=&nbsp;arrmerge(arr,&nbsp;arr2)<br>    return&nbsp;arr<br>}<br><br>func&nbsp;arrmerge(arr&nbsp;[]int,&nbsp;arr1&nbsp;[]int)&nbsp;[]int&nbsp;{<br>​    for&nbsp;_,&nbsp;v&nbsp;:=&nbsp;range&nbsp;arr1&nbsp;{<br>​        arr&nbsp;=&nbsp;append(arr,&nbsp;v)<br>​    }<br>​    return&nbsp;arr<br>}</em></pre><p>Binary Tree Inorder Traversal</p><pre class="brush:cpp;toolbar:false">func&nbsp;inorderTraversal(root&nbsp;TreeNode)&nbsp;[]int&nbsp;{<br>​    var&nbsp;arr&nbsp;[]int<br>​    if&nbsp;root&nbsp;==&nbsp;nil&nbsp;{<br>​        return&nbsp;arr<br>​    }<br>​    arr1&nbsp;:=&nbsp;inorderTraversal(root.Left)<br>​    arr&nbsp;=&nbsp;arrmerge(arr,&nbsp;arr1)<br>​    arr&nbsp;=&nbsp;append(arr,&nbsp;root.Val)<br>​    arr2&nbsp;:=&nbsp;inorderTraversal(root.Right)<br>​    arr&nbsp;=&nbsp;arrmerge(arr,&nbsp;arr2)<br>​    return&nbsp;arr<br>}</pre><p>Binary Tree Postorder Traversal</p><pre class="brush:cpp;toolbar:false">func&nbsp;postorderTraversal(root&nbsp;*TreeNode)&nbsp;[]int&nbsp;{<br>&nbsp;&nbsp;&nbsp;&nbsp;var&nbsp;arr&nbsp;[]int<br>​    if&nbsp;root&nbsp;==&nbsp;nil&nbsp;{<br>​        return&nbsp;arr<br>​    }<br>​    arr1&nbsp;:=&nbsp;postorderTraversal(root.Left)<br>​    arr&nbsp;=&nbsp;arrmerge(arr,&nbsp;arr1)<br>​    arr2&nbsp;:=&nbsp;postorderTraversal(root.Right)<br>​    arr&nbsp;=&nbsp;arrmerge(arr,&nbsp;arr2)<br>&nbsp;&nbsp;&nbsp;&nbsp;arr&nbsp;=&nbsp;append(arr,&nbsp;root.Val)<br>​    return&nbsp;arr<br>}</pre><p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;</p>]]></content:encoded>
+      
+      <comments>http://yoursite.com/2017/03/16/leetcode_bin_tree/#disqus_thread</comments>
+    </item>
+    
+    <item>
+      <title>leetcode-7</title>
+      <link>http://yoursite.com/2017/03/16/leetcode-7/</link>
+      <guid>http://yoursite.com/2017/03/16/leetcode-7/</guid>
+      <pubDate>Thu, 16 Mar 2017 14:22:56 GMT</pubDate>
+      <description>
+      
+        
+        
+          &lt;p&gt;&lt;/p&gt;&lt;p style=&quot;box-sizing: border-box; font-family: inherit; font-weight: 500; line-height: 1.1; color: inherit; margin-top: 0px; margin-b
+        
+      
+      </description>
+      
+      <content:encoded><![CDATA[<p></p><p style="box-sizing: border-box; font-family: inherit; font-weight: 500; line-height: 1.1; color: inherit; margin-top: 0px; margin-bottom: 10px; font-size: 24px; display: inline-block; margin-right: 0.5em;">7.&nbsp;Reverse Integer</p><p><br></p><pre class="brush:cpp;toolbar:false">func&nbsp;reverse(x&nbsp;int)&nbsp;int&nbsp;{<br>    s&nbsp;:=&nbsp;strconv.Itoa(x)<br>    rs&nbsp;:=&nbsp;&quot;&quot;<br>    j&nbsp;:=&nbsp;0<br>    if&nbsp;x&nbsp;&lt;&nbsp;0&nbsp;{<br>        j&nbsp;=&nbsp;1<br>        rs&nbsp;+=&nbsp;&quot;-&quot;<br>    }<br>    for&nbsp;i&nbsp;:=&nbsp;len(s)&nbsp;-&nbsp;1;&nbsp;i&nbsp;&gt;=&nbsp;j;&nbsp;i–&nbsp;{<br>        rs&nbsp;+=&nbsp;string(s[i])<br>    }<br>    rsi,&nbsp;_&nbsp;:=&nbsp;strconv.Atoi(rs)<br>    if&nbsp;rsi&nbsp;&gt;&nbsp;(1&lt;&lt;31)&nbsp;||&nbsp;rsi&nbsp;&lt;&nbsp;-(1&nbsp;&lt;&lt;&nbsp;31)&nbsp;{<br>        rsi&nbsp;=&nbsp;0<br>    }<br>    return&nbsp;rsi<br><br>}</pre><p><br></p>]]></content:encoded>
+      
+      <comments>http://yoursite.com/2017/03/16/leetcode-7/#disqus_thread</comments>
+    </item>
+    
+    <item>
+      <title>最长不重复子串</title>
+      <link>http://yoursite.com/2017/03/16/%E8%AE%A1%E7%AE%97%E4%B8%80%E4%B8%AA%E5%AD%97%E7%AC%A6%E4%B8%B2%E4%B8%AD%E6%9C%80%E5%A4%A7%E4%B8%8D%E9%87%8D%E5%A4%8D%E5%AD%90%E4%B8%B2%E9%95%BF%E5%BA%A6/</link>
+      <guid>http://yoursite.com/2017/03/16/%E8%AE%A1%E7%AE%97%E4%B8%80%E4%B8%AA%E5%AD%97%E7%AC%A6%E4%B8%B2%E4%B8%AD%E6%9C%80%E5%A4%A7%E4%B8%8D%E9%87%8D%E5%A4%8D%E5%AD%90%E4%B8%B2%E9%95%BF%E5%BA%A6/</guid>
+      <pubDate>Thu, 16 Mar 2017 14:22:56 GMT</pubDate>
+      <description>
+      
+        
+        
+          &lt;figure class=&quot;highlight go&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;l
+        
+      
+      </description>
+      
+      <content:encoded><![CDATA[<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> main</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> (</span><br><span class="line">   <span class="string">"fmt "</span></span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">maxLen</span><span class="params">(str <span class="keyword">string</span>)</span> <span class="title">int</span></span> &#123;</span><br><span class="line">  start := <span class="number">0</span></span><br><span class="line">  maxlen := <span class="number">0</span></span><br><span class="line">  lastO := <span class="built_in">make</span>(<span class="keyword">map</span>[<span class="keyword">rune</span>]<span class="keyword">int</span>)</span><br><span class="line">  <span class="keyword">for</span> i, v := <span class="keyword">range</span> []<span class="keyword">rune</span>(str) &#123;</span><br><span class="line">      <span class="keyword">if</span> lastI, ok := lastO[v]; ok &#123;</span><br><span class="line">         start = lastI + <span class="number">1</span></span><br><span class="line">      &#125;</span><br><span class="line">      <span class="keyword">if</span> (i-start+<span class="number">1</span> &amp;gt; maxlen) &#123;</span><br><span class="line">         maxlen = i - start + <span class="number">1</span></span><br><span class="line">      &#125;</span><br><span class="line">      lastO[v] = i</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">return</span> maxlen</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">  <span class="comment">//求字符串最大不重复子串长度</span></span><br><span class="line">  <span class="comment">//s:=  "Yes哈哈哈! "</span></span><br><span class="line">  fmt.Println(maxLen( <span class="string">"abcbcdef "</span>))</span><br><span class="line">  fmt.Println(maxLen( <span class="string">"abcdef "</span>))</span><br><span class="line">  fmt.Println(maxLen( <span class="string">"aaaaaaa "</span>))</span><br><span class="line">  fmt.Println(maxLen( <span class="string">"你说什么 "</span>))</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>]]></content:encoded>
+      
+      <comments>http://yoursite.com/2017/03/16/%E8%AE%A1%E7%AE%97%E4%B8%80%E4%B8%AA%E5%AD%97%E7%AC%A6%E4%B8%B2%E4%B8%AD%E6%9C%80%E5%A4%A7%E4%B8%8D%E9%87%8D%E5%A4%8D%E5%AD%90%E4%B8%B2%E9%95%BF%E5%BA%A6/#disqus_thread</comments>
+    </item>
+    
+    <item>
+      <title>正则</title>
+      <link>http://yoursite.com/2017/03/16/%E6%AD%A3%E5%88%99%E3%80%81mb_substr/</link>
+      <guid>http://yoursite.com/2017/03/16/%E6%AD%A3%E5%88%99%E3%80%81mb_substr/</guid>
+      <pubDate>Thu, 16 Mar 2017 14:22:56 GMT</pubDate>
+      <description>
+      
+        
+        
+          &lt;p&gt;&lt;strong&gt;0x1&lt;/strong&gt; 爬虫过程遇到需要截取到&amp;lt;span id=&amp;quot;xhxm&amp;quot;&amp;gt;张三同学&amp;lt;/span&amp;gt;里面同学的名称&lt;br&gt;&lt;/p&gt;&lt;p&gt;&amp;nbsp; 1.正则解决&lt;br&gt;&lt;/p&gt;&lt;p&gt;&amp;nbsp; 2.通过字符串
+        
+      
+      </description>
+      
+      <content:encoded><![CDATA[<p><strong>0x1</strong> 爬虫过程遇到需要截取到&lt;span id=&quot;xhxm&quot;&gt;张三同学&lt;/span&gt;里面同学的名称<br></p><p>&nbsp; 1.正则解决<br></p><p>&nbsp; 2.通过字符串解决<br></p><p><strong>0x2</strong> 通过正则解决</p><p>&nbsp; 1.简单解决</p><p>&nbsp; &lt;span id=&quot;xhxm&quot;&gt;(.<em>)\u540c\u5b66&lt;/span&gt;</em></p><p>&nbsp;<img src="/ueditor/php/upload/image/20170515/1494855697445556.png" title="1494855697445556.png" alt="blob.png"></p><p>&nbsp; 2.零宽断言解决</p><p>&nbsp; &nbsp;&gt;(.)(?=\u540c\u5b66)</p><p>&nbsp;&nbsp;<img src="/ueditor/php/upload/image/20170515/1494856468363010.png" title="1494856468363010.png" alt="blob.png"></p><p>&nbsp; 这里使用零宽度正预测先行断言(?=exp)</p><p>&nbsp; 就是找到匹配之前的内容&nbsp;</p><p>&nbsp; (?&lt;=exp)用来找到匹配之后的东西，称为零宽度正回顾后发断言</p><p><strong>0x3</strong> 通过mb_substr解决 先匹配张三同学,然后截取字符串</p><p>&nbsp; 因为这里的header是gb2312，所以指定mb_substr的编码为gb2312<br></p><p>&nbsp; substr直接处理汉字会造成乱码的问题，可以使用mb_substr指定汉字编码方式gb2312</p><p>&nbsp;<img src="/ueditor/php/upload/image/20170515/1494853756143314.png" title="1494853756143314.png" alt="blob.png"></p><p>&nbsp; 这样就可以截取到到张三<br></p><p><strong>0x4</strong> 这不算完</p><p>&nbsp;<br></p>]]></content:encoded>
+      
+      <comments>http://yoursite.com/2017/03/16/%E6%AD%A3%E5%88%99%E3%80%81mb_substr/#disqus_thread</comments>
+    </item>
+    
+    <item>
+      <title>面试算法题</title>
+      <link>http://yoursite.com/2017/03/16/%E9%9D%A2%E8%AF%95%E7%AE%97%E6%B3%95%E9%A2%98/</link>
+      <guid>http://yoursite.com/2017/03/16/%E9%9D%A2%E8%AF%95%E7%AE%97%E6%B3%95%E9%A2%98/</guid>
+      <pubDate>Thu, 16 Mar 2017 14:22:56 GMT</pubDate>
+      <description>
+      
+        
+        
+          &lt;p&gt;&lt;pre class=&quot;brush:cpp;toolbar:false&quot;&gt;package&amp;nbsp;main&lt;/pre&gt;&lt;/p&gt;
+&lt;p&gt;import&amp;nbsp;(&lt;br&gt;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;quot;fmt&amp;quot;&lt;br&gt;&amp;nbsp;&amp;nbsp;&amp;nb
+        
+      
+      </description>
+      
+      <content:encoded><![CDATA[<p><pre class="brush:cpp;toolbar:false">package&nbsp;main</pre></p><p>import&nbsp;(<br>&nbsp;&nbsp;&nbsp;&quot;fmt&quot;<br>&nbsp;&nbsp;&nbsp;&quot;strconv&quot;<br>&nbsp;&nbsp;&nbsp;&quot;sort&quot;<br>)</p><p>func&nbsp;filter(str&nbsp;string)&nbsp;string{<br>&nbsp;&nbsp;&nbsp;//过滤aabbbbbccc&nbsp;为abc<br>&nbsp;&nbsp;&nbsp;var&nbsp;newArr&nbsp;=&nbsp;make(map[rune]int)<br>&nbsp;&nbsp;&nbsp;s&nbsp;:=&nbsp;&quot;&quot;</p><p>&nbsp;&nbsp;&nbsp;for&nbsp;_,v&nbsp;:=&nbsp;range&nbsp;[]rune(str){<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if&nbsp;newArr[v]&nbsp;==&nbsp;0{<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;newArr[v]&nbsp;=&nbsp;1<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;s&nbsp;+=&nbsp;string(v)<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>&nbsp;&nbsp;&nbsp;}<br>&nbsp;&nbsp;&nbsp;return&nbsp;s<br>}</p><p>func&nbsp;filter2(str&nbsp;string)&nbsp;string{<br>&nbsp;&nbsp;&nbsp;//过滤aaabbbcssss为3a3bc4s<br>&nbsp;&nbsp;&nbsp;var&nbsp;newArr&nbsp;=&nbsp;make(map[rune]int)<br>&nbsp;&nbsp;&nbsp;var&nbsp;sortArr&nbsp;[]string<br>&nbsp;&nbsp;&nbsp;s&nbsp;:=&nbsp;&quot;&quot;</p><p>&nbsp;&nbsp;&nbsp;for&nbsp;_,v&nbsp;:=&nbsp;range&nbsp;[]rune(str){<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;sortArr&nbsp;=&nbsp;append(sortArr,&nbsp;string(v))<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if&nbsp;newArr[v]&nbsp;==&nbsp;0{<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;newArr[v]&nbsp;=&nbsp;1<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}else{<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;newArr[v]&nbsp;+=&nbsp;1<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>&nbsp;&nbsp;&nbsp;}</p><p>&nbsp;&nbsp;&nbsp;sort.Strings(sortArr)</p><p>&nbsp;&nbsp;&nbsp;for&nbsp;i,v&nbsp;:=&nbsp;range&nbsp;newArr{<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if&nbsp;v&nbsp;==&nbsp;1&nbsp;{<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;s&nbsp;+=&nbsp;string(i)<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}else{<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;s&nbsp;+=&nbsp;strconv.Itoa(v)<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;s&nbsp;+=&nbsp;string(i)<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>&nbsp;&nbsp;&nbsp;}<br>&nbsp;&nbsp;&nbsp;return&nbsp;s<br>}</p><p>func&nbsp;main()&nbsp;{<br>&nbsp;&nbsp;&nbsp;fmt.Println(filter2(&quot;aabccddee&quot;))<br>}</p><p>go语言的map用for range遍历是随机的key<br></p><p>所以如果需要顺序遍历则需要先将key排序</p><p></p>]]></content:encoded>
+      
+      <comments>http://yoursite.com/2017/03/16/%E9%9D%A2%E8%AF%95%E7%AE%97%E6%B3%95%E9%A2%98/#disqus_thread</comments>
     </item>
     
     <item>
@@ -834,142 +955,60 @@
     </item>
     
     <item>
-      <title>git</title>
-      <link>http://yoursite.com/2017/03/16/Github/</link>
-      <guid>http://yoursite.com/2017/03/16/Github/</guid>
+      <title>tomcat war</title>
+      <link>http://yoursite.com/2017/03/16/Linux%E4%B8%8B%E5%AE%89%E8%A3%85jdk%20tomcat%20.war%E5%8F%91%E5%B8%83%E9%A1%B9%E7%9B%AE/</link>
+      <guid>http://yoursite.com/2017/03/16/Linux%E4%B8%8B%E5%AE%89%E8%A3%85jdk%20tomcat%20.war%E5%8F%91%E5%B8%83%E9%A1%B9%E7%9B%AE/</guid>
       <pubDate>Thu, 16 Mar 2017 14:22:56 GMT</pubDate>
       <description>
       
         
         
-          &lt;p&gt;首先有两种使用方式 1.先在git官网上建立一个git仓库，然后git clone到本地&lt;br&gt;&lt;/p&gt;&lt;p&gt;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; 2.直接在本地cd进一个文件夹 git init&lt;br
+          &lt;p style=&quot;margin: 10px auto; font-family: verdana, Arial, Helvetica, sans-serif; font-size: 14px; line-height: 21px; white-space: normal;&quot;&gt;一
         
       
       </description>
       
-      <content:encoded><![CDATA[<p>首先有两种使用方式 1.先在git官网上建立一个git仓库，然后git clone到本地<br></p><p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 2.直接在本地cd进一个文件夹 git init<br></p><p>配置用户名和email</p><p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;git config –global user.name &#39;&#39;</p><p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;git config –global user.email <a href="mailto:xxx@xxx.com" target="_blank" rel="noopener">xxx@xxx.com</a></p><p>简单使用命令 &nbsp;git add .</p><p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; git status</p><p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; git commit -m &quot;The First Upload&quot;<br></p><p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;git push -u origin master</p><p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp;</p><p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br></p><p><br></p>]]></content:encoded>
+      <content:encoded><![CDATA[<p style="margin: 10px auto; font-family: verdana, Arial, Helvetica, sans-serif; font-size: 14px; line-height: 21px; white-space: normal;">一、安装JDK　　</p><p style="margin: 10px auto; font-family: verdana, Arial, Helvetica, sans-serif; font-size: 14px; line-height: 21px; white-space: normal;">1.下载jdk，注意下载的时候不要下载成html了，这是个坑。。。</p><p style="margin: 10px auto; font-family: verdana, Arial, Helvetica, sans-serif; font-size: 14px; line-height: 21px; white-space: normal;">2.</p><p style="margin: 10px auto; font-family: verdana, Arial, Helvetica, sans-serif; font-size: 14px; line-height: 21px; white-space: normal;">vim /etc/profile</p><p style="margin: 10px auto; font-family: verdana, Arial, Helvetica, sans-serif; font-size: 14px; line-height: 21px; white-space: normal;">JAVA_HOME=/usr/…/jdk解压后的路径<br>PATH=$PATH:$JAVA_HOME/bin<br>CLASSPATH=.:$JAVA_HOME/lib/jt.jar:$JAVA_HOME/lib/tools.jar<br>export JAVA_HOME PATH CLASSPATH</p><p style="margin: 10px auto; font-family: verdana, Arial, Helvetica, sans-serif; font-size: 14px; line-height: 21px; white-space: normal;">:wq</p><p style="margin: 10px auto; font-family: verdana, Arial, Helvetica, sans-serif; font-size: 14px; line-height: 21px; white-space: normal;">source /etc/profile</p><p style="margin: 10px auto; font-family: verdana, Arial, Helvetica, sans-serif; font-size: 14px; line-height: 21px; white-space: normal;">最后java -version</p><p style="margin: 10px auto; font-family: verdana, Arial, Helvetica, sans-serif; font-size: 14px; line-height: 21px; white-space: normal;">3.下载tomcat，解压进入目录/bin &nbsp; ./startup.sh</p><p style="margin: 10px auto; font-family: verdana, Arial, Helvetica, sans-serif; font-size: 14px; line-height: 21px; white-space: normal;">4.eclipse export 项目为.war格式 选择导出路径 上传到服务器webapps目录下</p><p><br></p>]]></content:encoded>
       
-      <comments>http://yoursite.com/2017/03/16/Github/#disqus_thread</comments>
+      <comments>http://yoursite.com/2017/03/16/Linux%E4%B8%8B%E5%AE%89%E8%A3%85jdk%20tomcat%20.war%E5%8F%91%E5%B8%83%E9%A1%B9%E7%9B%AE/#disqus_thread</comments>
     </item>
     
     <item>
-      <title>安装laravel</title>
-      <link>http://yoursite.com/2017/03/16/%E5%AE%89%E8%A3%85Laravel/</link>
-      <guid>http://yoursite.com/2017/03/16/%E5%AE%89%E8%A3%85Laravel/</guid>
+      <title>lnmp重启</title>
+      <link>http://yoursite.com/2017/03/16/NginxPHPMysql%20%E9%87%8D%E5%90%AF%E7%AD%89%E5%91%BD%E4%BB%A4/</link>
+      <guid>http://yoursite.com/2017/03/16/NginxPHPMysql%20%E9%87%8D%E5%90%AF%E7%AD%89%E5%91%BD%E4%BB%A4/</guid>
       <pubDate>Thu, 16 Mar 2017 14:22:56 GMT</pubDate>
       <description>
       
         
         
-          &lt;p&gt;一、根据官方文档需要安装几个php的扩展 Openssl/PDO/Mbstring/Tokenizer/XML&lt;br&gt;&lt;/p&gt;&lt;p&gt;二、Linux下可以使用Composer来安装Laravel&lt;/p&gt;&lt;p&gt;&amp;nbsp; 1.全局安装Composer&amp;nbsp;&lt;br&gt;&lt;/p
+          &lt;p&gt;nginx&amp;nbsp;&lt;br&gt;&lt;/p&gt;&lt;p&gt;&amp;nbsp;&amp;nbsp;&lt;/p&gt;&lt;p&gt;start：&amp;nbsp;&lt;/p&gt;&lt;p&gt;/usr/local/nginx/sbin/nginx&amp;nbsp;&lt;/p&gt;&lt;p&gt;&amp;nbsp;&lt;/p&gt;&lt;p&gt;stop：&amp;nbsp;&lt;/p&gt;&lt;p&gt;/usr/l
         
       
       </description>
       
-      <content:encoded><![CDATA[<p>一、根据官方文档需要安装几个php的扩展 Openssl/PDO/Mbstring/Tokenizer/XML<br></p><p>二、Linux下可以使用Composer来安装Laravel</p><p>&nbsp; 1.全局安装Composer&nbsp;<br></p><p>&nbsp;&nbsp;&nbsp;&nbsp;curl -sS <a href="https://getcomposer.org/installer" target="_blank" rel="noopener">https://getcomposer.org/installer</a> | php<br>&nbsp;&nbsp;&nbsp;&nbsp;mv composer.phar /usr/local/bin/composer<br></p><p>&nbsp; &nbsp; &nbsp;解决更新慢的问题<br></p><p>&nbsp;&nbsp;&nbsp;&nbsp;composer config repo.packagist composer <a href="https://packagist.phpcomposer.com" target="_blank" rel="noopener">https://packagist.phpcomposer.com</a></p><p>&nbsp;&nbsp;&nbsp;&nbsp;composer –version查看是否安装成功</p><p>&nbsp; 2.利用Composer安装Laravel<br></p><p>&nbsp;&nbsp;&nbsp;&nbsp;composer global require &quot;laravel/installer&quot;<br></p><p>&nbsp;&nbsp;&nbsp;&nbsp;cd到$Home/.composer/vendor/bin目录下<br></p><p>&nbsp;&nbsp;&nbsp;&nbsp;执行 Laravel new Blog<br></p><p>&nbsp; 3.最后利用php的内置服务器<br></p><p>&nbsp;&nbsp;&nbsp;&nbsp;php artisan serve<br></p><p><br></p><p>一些收获</p><p>&nbsp; &nbsp;1.Linux方面 .tar.gz通过的是源码安装 ./configure –prefix=/usr/local/php 即指定安装路径 卸载的时候只需要删除这个目录下的东西即可</p><p>　　开机自启动</p><p>　　增加环境变量</p><p>&nbsp; &nbsp;2.php 的两种运行方式的php.ini有可能是不同的,也就是会出现你的web上面的phpinfo()和你直接用CLI执行的php -m发现扩展的开启情况是不相同的，这个时候就需要你运行CLI和web的时候所用的php.ini是同一个文件</p><p>&nbsp; &nbsp;3.Laravel</p><p>　　从laraval知道了php有一个内置的服务器。</p><p><br></p>]]></content:encoded>
+      <content:encoded><![CDATA[<p>nginx&nbsp;<br></p><p>&nbsp;&nbsp;</p><p>start：&nbsp;</p><p>/usr/local/nginx/sbin/nginx&nbsp;</p><p>&nbsp;</p><p>stop：&nbsp;</p><p>/usr/local/nginx/sbin/nginx&nbsp;-s&nbsp;stop&nbsp;</p><p>&nbsp;</p><p>reload：&nbsp;</p><p>/usr/local/nginx/sbin/nginx&nbsp;-s&nbsp;reload&nbsp;</p><p>&nbsp;</p><p>#<strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><em>**</em></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong>&nbsp;</p><p>&nbsp;</p><p>#php-fpm(fast-cgi)命令&nbsp;</p><p>&nbsp;&nbsp;</p><p>start：&nbsp;</p><p>/usr/local/php/sbin/php-fpm&nbsp;</p><p>&nbsp;</p><p>stop：&nbsp;</p><p>/bin/ps&nbsp;-ef&nbsp;|&nbsp;grep&nbsp;&#39;php-fpm&#39;&nbsp;|&nbsp;grep&nbsp;-v&nbsp;grep&nbsp;|&nbsp;cut&nbsp;-c&nbsp;9-15&nbsp;|&nbsp;xargs&nbsp;kill&nbsp;-9&nbsp;</p><p>&nbsp;</p><p>&nbsp;</p><p>Linux：PHP&nbsp;5.3.3&nbsp;以上版本的php-fpm的重启</p><p>&nbsp;</p><p>INT,&nbsp;TERM：立刻终止</p><p>QUIT：平滑终止</p><p>USR1：重新打开日志文件</p><p>USR2：平滑重载所有worker进程并重新载入配置和二进制模块</p><p>&nbsp;</p><p>示例：</p><p>1）php-fpm&nbsp;关闭：</p><p>kill&nbsp;-INT&nbsp;<code>cat&amp;nbsp;/usr/local/php/var/run/php-fpm.pid</code></p><p>&nbsp;</p><p>2）php-fpm&nbsp;重启：</p><p>kill&nbsp;-USR2&nbsp;<code>cat&amp;nbsp;/usr/local/php/var/run/php-fpm.pid</code></p><p>&nbsp;</p><p>查看php-fpm进程数：</p><p>ps&nbsp;aux&nbsp;|&nbsp;grep&nbsp;-c&nbsp;php-fpm</p><p>&nbsp;</p><p>#<strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><em>**</em></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong>&nbsp;</p><p>&nbsp;</p><p>#mysql命令&nbsp;</p><p>&nbsp;</p><p>start：&nbsp;</p><p>/etc/init.d/mysqld&nbsp;start&nbsp;</p><p>&nbsp;</p><p>stop：&nbsp;</p><p>/etc/init.d/mysqld&nbsp;stop&nbsp;</p><p>&nbsp;</p><p>restart：&nbsp;</p><p>/etc/init.d/mysqld&nbsp;restart&nbsp;</p><p>&nbsp;</p><p>#<strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><em>**</em></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong>&nbsp;</p><p><br></p>]]></content:encoded>
       
-      <comments>http://yoursite.com/2017/03/16/%E5%AE%89%E8%A3%85Laravel/#disqus_thread</comments>
+      <comments>http://yoursite.com/2017/03/16/NginxPHPMysql%20%E9%87%8D%E5%90%AF%E7%AD%89%E5%91%BD%E4%BB%A4/#disqus_thread</comments>
     </item>
     
     <item>
-      <title>正则</title>
-      <link>http://yoursite.com/2017/03/16/%E6%AD%A3%E5%88%99%E3%80%81mb_substr/</link>
-      <guid>http://yoursite.com/2017/03/16/%E6%AD%A3%E5%88%99%E3%80%81mb_substr/</guid>
+      <title>leetcode-2</title>
+      <link>http://yoursite.com/2017/03/16/leetcode-2/</link>
+      <guid>http://yoursite.com/2017/03/16/leetcode-2/</guid>
       <pubDate>Thu, 16 Mar 2017 14:22:56 GMT</pubDate>
       <description>
       
         
         
-          &lt;p&gt;&lt;strong&gt;0x1&lt;/strong&gt; 爬虫过程遇到需要截取到&amp;lt;span id=&amp;quot;xhxm&amp;quot;&amp;gt;张三同学&amp;lt;/span&amp;gt;里面同学的名称&lt;br&gt;&lt;/p&gt;&lt;p&gt;&amp;nbsp; 1.正则解决&lt;br&gt;&lt;/p&gt;&lt;p&gt;&amp;nbsp; 2.通过字符串
+          &lt;p&gt;&lt;br&gt;&lt;/p&gt;&lt;p style=&quot;box-sizing: border-box; font-family: inherit; font-weight: 500; line-height: 1.1; color: inherit; margin-top: 0px; marg
         
       
       </description>
       
-      <content:encoded><![CDATA[<p><strong>0x1</strong> 爬虫过程遇到需要截取到&lt;span id=&quot;xhxm&quot;&gt;张三同学&lt;/span&gt;里面同学的名称<br></p><p>&nbsp; 1.正则解决<br></p><p>&nbsp; 2.通过字符串解决<br></p><p><strong>0x2</strong> 通过正则解决</p><p>&nbsp; 1.简单解决</p><p>&nbsp; &lt;span id=&quot;xhxm&quot;&gt;(.<em>)\u540c\u5b66&lt;/span&gt;</em></p><p>&nbsp;<img src="/ueditor/php/upload/image/20170515/1494855697445556.png" title="1494855697445556.png" alt="blob.png"></p><p>&nbsp; 2.零宽断言解决</p><p>&nbsp; &nbsp;&gt;(.)(?=\u540c\u5b66)</p><p>&nbsp;&nbsp;<img src="/ueditor/php/upload/image/20170515/1494856468363010.png" title="1494856468363010.png" alt="blob.png"></p><p>&nbsp; 这里使用零宽度正预测先行断言(?=exp)</p><p>&nbsp; 就是找到匹配之前的内容&nbsp;</p><p>&nbsp; (?&lt;=exp)用来找到匹配之后的东西，称为零宽度正回顾后发断言</p><p><strong>0x3</strong> 通过mb_substr解决 先匹配张三同学,然后截取字符串</p><p>&nbsp; 因为这里的header是gb2312，所以指定mb_substr的编码为gb2312<br></p><p>&nbsp; substr直接处理汉字会造成乱码的问题，可以使用mb_substr指定汉字编码方式gb2312</p><p>&nbsp;<img src="/ueditor/php/upload/image/20170515/1494853756143314.png" title="1494853756143314.png" alt="blob.png"></p><p>&nbsp; 这样就可以截取到到张三<br></p><p><strong>0x4</strong> 这不算完</p><p>&nbsp;<br></p>]]></content:encoded>
+      <content:encoded><![CDATA[<p><br></p><p style="box-sizing: border-box; font-family: inherit; font-weight: 500; line-height: 1.1; color: inherit; margin-top: 0px; margin-bottom: 10px; font-size: 24px; display: inline-block; margin-right: 0.5em;">2.&nbsp;Add Two Numbers</p><p style="box-sizing: border-box; margin-top: 0px; margin-bottom: 10px; color: rgb(51, 51, 51); font-family: &quot;Helvetica Neue&quot;, Helvetica, Arial, sans-serif; font-size: 14px; white-space: normal; background-color: rgb(255, 255, 255);">You are given two&nbsp;<span style="box-sizing: border-box; font-weight: 700;">non-empty</span>&nbsp;linked lists representing two non-negative integers. The digits are stored in&nbsp;<span style="box-sizing: border-box; font-weight: 700;">reverse order</span>&nbsp;and each of their nodes contain a single digit. Add the two numbers and return it as a linked list.</p><p style="box-sizing: border-box; margin-top: 0px; margin-bottom: 10px; color: rgb(51, 51, 51); font-family: &quot;Helvetica Neue&quot;, Helvetica, Arial, sans-serif; font-size: 14px; white-space: normal; background-color: rgb(255, 255, 255);">You may assume the two numbers do not contain any leading zero, except the number 0 itself.</p><p style="box-sizing: border-box; margin-top: 0px; margin-bottom: 10px; color: rgb(51, 51, 51); font-family: &quot;Helvetica Neue&quot;, Helvetica, Arial, sans-serif; font-size: 14px; white-space: normal; background-color: rgb(255, 255, 255);"><span style="box-sizing: border-box; font-weight: 700;">Example</span></p><pre style="box-sizing: border-box; overflow: auto; font-family: Menlo, Monaco, Consolas, &quot;Courier New&quot;, monospace; font-size: 13px; padding: 9.5px; margin-top: 0px; margin-bottom: 10px; line-height: 1.42857; color: rgb(51, 51, 51); word-break: break-all; word-wrap: break-word; background-color: rgb(245, 245, 245); border: 1px solid rgb(204, 204, 204); border-radius: 4px;">Input:&nbsp;(2&nbsp;-&gt;&nbsp;4&nbsp;-&gt;&nbsp;3)&nbsp;+&nbsp;(5&nbsp;-&gt;&nbsp;6&nbsp;-&gt;&nbsp;4)Output:&nbsp;7&nbsp;-&gt;&nbsp;0&nbsp;-&gt;&nbsp;8Explanation:&nbsp;342&nbsp;+&nbsp;465&nbsp;=&nbsp;807.</pre><p><br></p><pre class="brush:cpp;toolbar:false">/*<em><br>&nbsp;</em>&nbsp;Definition&nbsp;for&nbsp;singly-linked&nbsp;list.<br>&nbsp;<em>&nbsp;type&nbsp;ListNode&nbsp;struct&nbsp;{<br>&nbsp;</em>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Val&nbsp;int<br>&nbsp;<em>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Next&nbsp;</em>ListNode<br>&nbsp;<em>&nbsp;}<br>&nbsp;</em>/<br>func&nbsp;addTwoNumbers(l1&nbsp;<em>ListNode,&nbsp;l2&nbsp;</em>ListNode)&nbsp;<em>ListNode&nbsp;{<br>&nbsp;&nbsp;&nbsp;&nbsp;i1&nbsp;:=&nbsp;0<br>    i2&nbsp;:=&nbsp;0<br>    p&nbsp;:=&nbsp;l1<br>    j&nbsp;:=&nbsp;0<br>    for&nbsp;{<br>        if&nbsp;p&nbsp;!=&nbsp;nil&nbsp;{<br>            i1&nbsp;+=&nbsp;p.Val&nbsp;</em>&nbsp;int(math.Pow(float64(10),&nbsp;float64(j)))<br>            j++<br>            p&nbsp;=&nbsp;p.Next<br>        }&nbsp;else&nbsp;{<br>            break<br>        }<br>    }<br>    j&nbsp;=&nbsp;0<br>    p&nbsp;=&nbsp;l2<br>    for&nbsp;{<br>        if&nbsp;p&nbsp;!=&nbsp;nil&nbsp;{<br>            i2&nbsp;+=&nbsp;p.Val&nbsp;<em>&nbsp;int(math.Pow(float64(10),&nbsp;float64(j)))<br>            j++<br>            p&nbsp;=&nbsp;p.Next<br>        }&nbsp;else&nbsp;{<br>            break<br>        }<br>    }<br>    revres&nbsp;:=&nbsp;i1&nbsp;+&nbsp;i2<br>&nbsp;&nbsp;&nbsp;&nbsp;<br>&nbsp;&nbsp;&nbsp;&nbsp;fmt.Println(revres)<br>    head&nbsp;:=&nbsp;new(ListNode)<br>    p&nbsp;=&nbsp;head<br>    for&nbsp;{<br>        if&nbsp;revres&nbsp;==&nbsp;0&nbsp;{<br>            break<br>        }&nbsp;else&nbsp;{<br>            p.Val&nbsp;=&nbsp;revres&nbsp;%&nbsp;10&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>            revres&nbsp;=&nbsp;revres&nbsp;/&nbsp;10<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if&nbsp;revres&nbsp;!=&nbsp;0{<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;    &nbsp;&nbsp;&nbsp;&nbsp;node&nbsp;:=&nbsp;new(ListNode)<br>            &nbsp;&nbsp;&nbsp;&nbsp;p.Next&nbsp;=&nbsp;node<br>            &nbsp;&nbsp;&nbsp;&nbsp;p&nbsp;=&nbsp;p.Next&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>        }<br>    }<br>&nbsp;&nbsp;&nbsp;&nbsp;<br>&nbsp;&nbsp;&nbsp;&nbsp;<br>&nbsp;&nbsp;&nbsp;&nbsp;p&nbsp;=&nbsp;l1<br>    for&nbsp;{<br>        if&nbsp;p.Next&nbsp;==&nbsp;nil&nbsp;{<br>            break<br>        }<br>        fmt.Printf(&quot;%d\t&quot;,&nbsp;p.Val)<br>        p&nbsp;=&nbsp;p.Next<br>    }<br>&nbsp;&nbsp;&nbsp;&nbsp;<br>&nbsp;&nbsp;&nbsp;&nbsp;<br>    return&nbsp;head<br>&nbsp;&nbsp;&nbsp;&nbsp;<br>&nbsp;&nbsp;&nbsp;&nbsp;<br>}</em></pre><p>&nbsp; 后面出现了位数很长的用例，所以换成采用数组来暂存单链表</p><pre class="brush:cpp;toolbar:false">func&nbsp;addTwoNumbers(l1&nbsp;ListNode,&nbsp;l2&nbsp;<em>ListNode)&nbsp;</em>ListNode&nbsp;{<br>    var&nbsp;i1&nbsp;[]int<br>    var&nbsp;i2&nbsp;[]int<br>    p&nbsp;:=&nbsp;l1<br>    for&nbsp;{<br>        if&nbsp;p&nbsp;!=&nbsp;nil&nbsp;{<br>            i1&nbsp;=&nbsp;append(i1,&nbsp;p.Val)<br>            p&nbsp;=&nbsp;p.Next<br>        }&nbsp;else&nbsp;{<br>            break<br>        }<br>    }<br>    p&nbsp;=&nbsp;l2<br>    for&nbsp;{<br>        if&nbsp;p&nbsp;!=&nbsp;nil&nbsp;{<br>            i2&nbsp;=&nbsp;append(i2,&nbsp;p.Val)<br>            p&nbsp;=&nbsp;p.Next<br>        }&nbsp;else&nbsp;{<br>            break<br>        }<br>    }<br>    head&nbsp;:=&nbsp;new(ListNode)<br>    p&nbsp;=&nbsp;head<br>    lenthi1&nbsp;:=&nbsp;len(i1)<br>    lenthi2&nbsp;:=&nbsp;len(i2)<br>    if&nbsp;lenthi1&nbsp;!=&nbsp;lenthi2&nbsp;{<br>        if&nbsp;lenthi1&nbsp;&lt;&nbsp;lenthi2&nbsp;{<br>            for&nbsp;i&nbsp;:=&nbsp;0;&nbsp;i&nbsp;&lt;&nbsp;lenthi2-lenthi1;&nbsp;i++&nbsp;{<br>                i1&nbsp;=&nbsp;append(i1,&nbsp;0)<br>            }<br>        }&nbsp;else&nbsp;{<br>            for&nbsp;i&nbsp;:=&nbsp;0;&nbsp;i&nbsp;&lt;&nbsp;lenthi1-lenthi2;&nbsp;i++&nbsp;{<br>                i2&nbsp;=&nbsp;append(i2,&nbsp;0)<br>            }<br>        }<br>    }<br>    lenthi1&nbsp;=&nbsp;len(i1)<br>    lenthi2&nbsp;=&nbsp;len(i2)<br>    flag&nbsp;:=&nbsp;0<br>    for&nbsp;i,&nbsp;_&nbsp;:=&nbsp;range&nbsp;i1&nbsp;{<br>        sum&nbsp;:=&nbsp;i1[i]&nbsp;+&nbsp;i2[i]<br>        if&nbsp;i&nbsp;&lt;&nbsp;lenthi1-1&nbsp;{<br>            if&nbsp;(sum)/10&nbsp;&gt;&nbsp;0&nbsp;{<br>                i1[i+1]&nbsp;+=&nbsp;1<br>            }<br>        }&nbsp;else&nbsp;{<br>            if&nbsp;(sum)/10&nbsp;&gt;&nbsp;0&nbsp;{<br>                flag&nbsp;=&nbsp;1<br>            }<br>        }<br>        p.Val&nbsp;=&nbsp;sum&nbsp;%&nbsp;10<br>        if&nbsp;i&nbsp;&lt;&nbsp;lenthi1-1&nbsp;{<br>            node&nbsp;:=&nbsp;new(ListNode)<br>            p.Next&nbsp;=&nbsp;node<br>            p&nbsp;=&nbsp;p.Next<br>        }<br>    }<br>    if&nbsp;flag&nbsp;==&nbsp;1&nbsp;{<br>        node&nbsp;:=&nbsp;new(ListNode)<br>        node.Val&nbsp;=&nbsp;1<br>        p.Next&nbsp;=&nbsp;node<br>    }<br>    return&nbsp;head<br>}</pre><p><br></p>]]></content:encoded>
       
-      <comments>http://yoursite.com/2017/03/16/%E6%AD%A3%E5%88%99%E3%80%81mb_substr/#disqus_thread</comments>
-    </item>
-    
-    <item>
-      <title>最长不重复子串</title>
-      <link>http://yoursite.com/2017/03/16/%E8%AE%A1%E7%AE%97%E4%B8%80%E4%B8%AA%E5%AD%97%E7%AC%A6%E4%B8%B2%E4%B8%AD%E6%9C%80%E5%A4%A7%E4%B8%8D%E9%87%8D%E5%A4%8D%E5%AD%90%E4%B8%B2%E9%95%BF%E5%BA%A6/</link>
-      <guid>http://yoursite.com/2017/03/16/%E8%AE%A1%E7%AE%97%E4%B8%80%E4%B8%AA%E5%AD%97%E7%AC%A6%E4%B8%B2%E4%B8%AD%E6%9C%80%E5%A4%A7%E4%B8%8D%E9%87%8D%E5%A4%8D%E5%AD%90%E4%B8%B2%E9%95%BF%E5%BA%A6/</guid>
-      <pubDate>Thu, 16 Mar 2017 14:22:56 GMT</pubDate>
-      <description>
-      
-        
-        
-          &lt;figure class=&quot;highlight go&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;l
-        
-      
-      </description>
-      
-      <content:encoded><![CDATA[<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> main</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> (</span><br><span class="line">   <span class="string">"fmt "</span></span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">maxLen</span><span class="params">(str <span class="keyword">string</span>)</span> <span class="title">int</span></span> &#123;</span><br><span class="line">  start := <span class="number">0</span></span><br><span class="line">  maxlen := <span class="number">0</span></span><br><span class="line">  lastO := <span class="built_in">make</span>(<span class="keyword">map</span>[<span class="keyword">rune</span>]<span class="keyword">int</span>)</span><br><span class="line">  <span class="keyword">for</span> i, v := <span class="keyword">range</span> []<span class="keyword">rune</span>(str) &#123;</span><br><span class="line">      <span class="keyword">if</span> lastI, ok := lastO[v]; ok &#123;</span><br><span class="line">         start = lastI + <span class="number">1</span></span><br><span class="line">      &#125;</span><br><span class="line">      <span class="keyword">if</span> (i-start+<span class="number">1</span> &amp;gt; maxlen) &#123;</span><br><span class="line">         maxlen = i - start + <span class="number">1</span></span><br><span class="line">      &#125;</span><br><span class="line">      lastO[v] = i</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">return</span> maxlen</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">  <span class="comment">//求字符串最大不重复子串长度</span></span><br><span class="line">  <span class="comment">//s:=  "Yes哈哈哈! "</span></span><br><span class="line">  fmt.Println(maxLen( <span class="string">"abcbcdef "</span>))</span><br><span class="line">  fmt.Println(maxLen( <span class="string">"abcdef "</span>))</span><br><span class="line">  fmt.Println(maxLen( <span class="string">"aaaaaaa "</span>))</span><br><span class="line">  fmt.Println(maxLen( <span class="string">"你说什么 "</span>))</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>]]></content:encoded>
-      
-      <comments>http://yoursite.com/2017/03/16/%E8%AE%A1%E7%AE%97%E4%B8%80%E4%B8%AA%E5%AD%97%E7%AC%A6%E4%B8%B2%E4%B8%AD%E6%9C%80%E5%A4%A7%E4%B8%8D%E9%87%8D%E5%A4%8D%E5%AD%90%E4%B8%B2%E9%95%BF%E5%BA%A6/#disqus_thread</comments>
-    </item>
-    
-    <item>
-      <title>面试算法题</title>
-      <link>http://yoursite.com/2017/03/16/%E9%9D%A2%E8%AF%95%E7%AE%97%E6%B3%95%E9%A2%98/</link>
-      <guid>http://yoursite.com/2017/03/16/%E9%9D%A2%E8%AF%95%E7%AE%97%E6%B3%95%E9%A2%98/</guid>
-      <pubDate>Thu, 16 Mar 2017 14:22:56 GMT</pubDate>
-      <description>
-      
-        
-        
-          &lt;p&gt;&lt;pre class=&quot;brush:cpp;toolbar:false&quot;&gt;package&amp;nbsp;main&lt;/pre&gt;&lt;/p&gt;
-&lt;p&gt;import&amp;nbsp;(&lt;br&gt;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;quot;fmt&amp;quot;&lt;br&gt;&amp;nbsp;&amp;nbsp;&amp;nb
-        
-      
-      </description>
-      
-      <content:encoded><![CDATA[<p><pre class="brush:cpp;toolbar:false">package&nbsp;main</pre></p><p>import&nbsp;(<br>&nbsp;&nbsp;&nbsp;&quot;fmt&quot;<br>&nbsp;&nbsp;&nbsp;&quot;strconv&quot;<br>&nbsp;&nbsp;&nbsp;&quot;sort&quot;<br>)</p><p>func&nbsp;filter(str&nbsp;string)&nbsp;string{<br>&nbsp;&nbsp;&nbsp;//过滤aabbbbbccc&nbsp;为abc<br>&nbsp;&nbsp;&nbsp;var&nbsp;newArr&nbsp;=&nbsp;make(map[rune]int)<br>&nbsp;&nbsp;&nbsp;s&nbsp;:=&nbsp;&quot;&quot;</p><p>&nbsp;&nbsp;&nbsp;for&nbsp;_,v&nbsp;:=&nbsp;range&nbsp;[]rune(str){<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if&nbsp;newArr[v]&nbsp;==&nbsp;0{<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;newArr[v]&nbsp;=&nbsp;1<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;s&nbsp;+=&nbsp;string(v)<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>&nbsp;&nbsp;&nbsp;}<br>&nbsp;&nbsp;&nbsp;return&nbsp;s<br>}</p><p>func&nbsp;filter2(str&nbsp;string)&nbsp;string{<br>&nbsp;&nbsp;&nbsp;//过滤aaabbbcssss为3a3bc4s<br>&nbsp;&nbsp;&nbsp;var&nbsp;newArr&nbsp;=&nbsp;make(map[rune]int)<br>&nbsp;&nbsp;&nbsp;var&nbsp;sortArr&nbsp;[]string<br>&nbsp;&nbsp;&nbsp;s&nbsp;:=&nbsp;&quot;&quot;</p><p>&nbsp;&nbsp;&nbsp;for&nbsp;_,v&nbsp;:=&nbsp;range&nbsp;[]rune(str){<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;sortArr&nbsp;=&nbsp;append(sortArr,&nbsp;string(v))<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if&nbsp;newArr[v]&nbsp;==&nbsp;0{<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;newArr[v]&nbsp;=&nbsp;1<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}else{<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;newArr[v]&nbsp;+=&nbsp;1<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>&nbsp;&nbsp;&nbsp;}</p><p>&nbsp;&nbsp;&nbsp;sort.Strings(sortArr)</p><p>&nbsp;&nbsp;&nbsp;for&nbsp;i,v&nbsp;:=&nbsp;range&nbsp;newArr{<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if&nbsp;v&nbsp;==&nbsp;1&nbsp;{<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;s&nbsp;+=&nbsp;string(i)<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}else{<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;s&nbsp;+=&nbsp;strconv.Itoa(v)<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;s&nbsp;+=&nbsp;string(i)<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>&nbsp;&nbsp;&nbsp;}<br>&nbsp;&nbsp;&nbsp;return&nbsp;s<br>}</p><p>func&nbsp;main()&nbsp;{<br>&nbsp;&nbsp;&nbsp;fmt.Println(filter2(&quot;aabccddee&quot;))<br>}</p><p>go语言的map用for range遍历是随机的key<br></p><p>所以如果需要顺序遍历则需要先将key排序</p><p></p>]]></content:encoded>
-      
-      <comments>http://yoursite.com/2017/03/16/%E9%9D%A2%E8%AF%95%E7%AE%97%E6%B3%95%E9%A2%98/#disqus_thread</comments>
-    </item>
-    
-    <item>
-      <title>HTTP</title>
-      <link>http://yoursite.com/2017/03/16/HTTP%20OPTIONS/</link>
-      <guid>http://yoursite.com/2017/03/16/HTTP%20OPTIONS/</guid>
-      <pubDate>Thu, 16 Mar 2017 14:22:56 GMT</pubDate>
-      <description>
-      
-        
-        
-          &lt;p&gt;幂等和非幂等&lt;/p&gt;
-&lt;p&gt;执行一次和执行很多次同样的操作是否是一样的&lt;/p&gt;
-&lt;p&gt;GET/PUT/DELETE 幂等&lt;/p&gt;
-&lt;p&gt;POST 非幂等&lt;/p&gt;
-&lt;p&gt;301&lt;/p&gt;
-&lt;figure class=&quot;highlight plain&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;t
-        
-      
-      </description>
-      
-      <content:encoded><![CDATA[<p>幂等和非幂等</p><p>执行一次和执行很多次同样的操作是否是一样的</p><p>GET/PUT/DELETE 幂等</p><p>POST 非幂等</p><p>301</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">301 Move Permanently 是HTTP协议中的一个状态码（Status Code）。可以简单地理解为该资源已经被永久改变了位置[1]，通常会发送HTTP Location来重定向到正确的新位置。</span><br><span class="line"></span><br><span class="line">返回301状态码进行跳转被Google认为是将网站地址由 HTTP 迁移到 HTTPS 的最佳方法。</span><br><span class="line"></span><br><span class="line">被请求的资源已永久移动到新位置，并且将来任何对此资源的引用都应该使用本响应返回的若干个URI之一。如果可能，拥有链接编辑功能的客户端应当自动把请求的地址修改为从服务器反馈回来的地址。[19]除非额外指定，否则这个响应也是可缓存的。</span><br><span class="line">新的永久性的URI应当在响应的Location域中返回。除非这是一个HEAD请求，否则响应的实体中应当包含指向新的URI的超链接及简短说明。</span><br><span class="line">如果这不是一个GET或者HEAD请求，那么浏览器禁止自动进行重定向，除非得到用户的确认，因为请求的条件可能因此发生变化。</span><br><span class="line">注意：对于某些使用HTTP/1.0协议的浏览器，当它们发送的POST请求得到了一个301响应的话，接下来的重定向请求将会变成GET方式。</span><br></pre></td></tr></table></figure><p>302</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">302 Found，原始描述短语为 Moved Temporarily ，是HTTP协议中的一个状态码(Status Code)。可以简单的理解为该资源原本确实存在，但已经被临时改变了位置；换而言之，就是请求的资源暂时驻留在不同的URI下，故而除非特别指定了缓存头部指示，该状态码不可缓存。</span><br><span class="line"></span><br><span class="line">对于服务器，通常会给浏览器发送HTTP Location头部来重定向到新的新位置。</span><br><span class="line"></span><br><span class="line">要求客户端执行临时重定向（原始描述短语为“Moved Temporarily”）。[20]由于这样的重定向是临时的，客户端应当继续向原有地址发送以后的请求。只有在Cache-Control或Expires中进行了指定的情况下，这个响应才是可缓存的。</span><br><span class="line">新的临时性的URI应当在响应的Location域中返回。除非这是一个HEAD请求，否则响应的实体中应当包含指向新的URI的超链接及简短说明。</span><br><span class="line">如果这不是一个GET或者HEAD请求，那么浏览器禁止自动进行重定向，除非得到用户的确认，因为请求的条件可能因此发生变化。</span><br><span class="line">注意：虽然RFC 1945和RFC 2068规范不允许客户端在重定向时改变请求的方法，但是很多现存的浏览器将302响应视作为303响应，并且使用GET方式访问在Location中规定的URI，而无视原先请求的方法。[21]因此状态码303和307被添加了进来，用以明确服务器期待客户端进行何种反应。</span><br></pre></td></tr></table></figure><p>500</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Internal Server Error 通用错误消息，服务器遇到了一个未曾预料的状况，导致了它无法完成对请求的处理。没有给出具体错误信息。</span><br></pre></td></tr></table></figure><p>502</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Bad Gateway 作为网关或者代理工作的服务器尝试执行请求时，从上游服务器接收到无效的响应</span><br></pre></td></tr></table></figure><p>504</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Gateway Timeout 作为网关或者代理工作的服务器尝试执行请求时，未能及时从上游服务器（URI标识出的服务器，例如HTTP、FTP、LDAP）或者辅助服务器（例如DNS）收到响应。[62]</span><br><span class="line">注意：某些代理服务器在DNS查询超时时会返回400或者500错误。</span><br></pre></td></tr></table></figure><p>URI 和 URL</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">URI 是统一资源标识符，而 URL 是统一资源定位符</span><br></pre></td></tr></table></figure>]]></content:encoded>
-      
-      <comments>http://yoursite.com/2017/03/16/HTTP%20OPTIONS/#disqus_thread</comments>
-    </item>
-    
-    <item>
-      <title>2017.3</title>
-      <link>http://yoursite.com/2017/03/16/2017.3/</link>
-      <guid>http://yoursite.com/2017/03/16/2017.3/</guid>
-      <pubDate>Thu, 16 Mar 2017 14:22:56 GMT</pubDate>
-      <description>
-      
-        
-        
-          &lt;p&gt;git &lt;a href=&quot;http://www.runoob.com/w3cnote/git-guide.html&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;http://www.runoob.com/w3cnote/git-guide.html&lt;/a
-        
-      
-      </description>
-      
-      <content:encoded><![CDATA[<p>git <a href="http://www.runoob.com/w3cnote/git-guide.html" target="_blank" rel="noopener">http://www.runoob.com/w3cnote/git-guide.html</a><br>js编辑器 <a href="http://www.cnblogs.com/lhb25/p/html5-wysisyg-inline-editor.html" target="_blank" rel="noopener">http://www.cnblogs.com/lhb25/p/html5-wysisyg-inline-editor.html</a><br>JavaEE 注解和XML<a href="http://blog.csdn.net/qmw19910301/article/details/52712893" target="_blank" rel="noopener">http://blog.csdn.net/qmw19910301/article/details/52712893</a></p>]]></content:encoded>
-      
-      <comments>http://yoursite.com/2017/03/16/2017.3/#disqus_thread</comments>
+      <comments>http://yoursite.com/2017/03/16/leetcode-2/#disqus_thread</comments>
     </item>
     
   </channel>
